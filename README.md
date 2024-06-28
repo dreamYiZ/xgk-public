@@ -1,3 +1,9 @@
+## 项目说明
+
+这是一个大屏可视化低代码平台项目
+
+
+##  Intro
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`c3`](https://developers.cloudflare.com/pages/get-started/c3).
 
 ## Getting Started
