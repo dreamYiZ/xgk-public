@@ -1,6 +1,14 @@
-function subRender() {
+import { SUB_TYPE } from "./util/util";
+
+function subRender(sub) {
+    if (sub.type === SUB_TYPE.TEXT) {
+        return <div>
+            {sub.content}
+        </div>
+    }
+
     return <div>
-        Hi!
+        TYPE NOT FOUND!
     </div>
 }
 

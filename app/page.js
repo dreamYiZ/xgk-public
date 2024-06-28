@@ -5,6 +5,7 @@ import Box from './cpnt/box';
 import { createBox } from './store/useBo';
 import useBoxStore from './store/useBo';
 import subRender from "./subRender.js";
+import { createBoxPayload, createSubPayload } from "./util/util";
 
 export default function Home() {
   const addBox = useBoxStore((state) => state.add);
@@ -12,15 +13,7 @@ export default function Home() {
   const emptyBox = useBoxStore((state) => state.empty);
 
   useEffect(() => {
-    const newBox = createBox({
-      position: 'absolute',
-      zIndex: 1,
-      groupId: 'group1',
-      width: '100px',
-      height: '100px',
-      opacity: 0.5,
-      sub: [],
-    });
+    const newBox = createBox(createBoxPayload(createSubPayload()));
 
     addBox(newBox);
 
@@ -31,10 +24,9 @@ export default function Home() {
 
   const renderBoxArr = () => {
 
-    console.log('boxArr', boxArr);
     return <>
       {boxArr.map((box, index) => {
-        return <Box key={index}>
+        return <Box key={box.boxid}>
           {subRender(box.sub)}
         </Box>
       })}
