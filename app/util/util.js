@@ -12,6 +12,8 @@ export const createBoxPayload = (sub) => ({
     groupId: 'group1',
     width: '100px',
     height: '100px',
+    x: 0,
+    y: 0,
     opacity: 1,
     sub: sub,
 });

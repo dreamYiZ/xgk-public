@@ -11,22 +11,25 @@ export default function Home() {
   const addBox = useBoxStore((state) => state.add);
   const boxArr = useBoxStore((state) => state.boxArr);
   const emptyBox = useBoxStore((state) => state.empty);
+  const isEmpty = useBoxStore((state) => state.isEmpty);
 
   useEffect(() => {
-    const newBox = createBox(createBoxPayload(createSubPayload()));
-
-    addBox(newBox);
+    if (isEmpty()) {
+      console.log('createBox');
+      const newBox = createBox(createBoxPayload(createSubPayload()));
+      addBox(newBox);
+    }
 
     return () => {
-      emptyBox();
+      // emptyBox();
     }
-  }, [addBox]);
+  }, [addBox, isEmpty]);
 
   const renderBoxArr = () => {
 
     return <>
       {boxArr.map((box, index) => {
-        return <Box key={box.boxid}>
+        return <Box {...box} key={box.boxid}>
           {subRender(box.sub)}
         </Box>
       })}
