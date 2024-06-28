@@ -2,6 +2,21 @@
 
 这是一个大屏可视化低代码平台项目
 
+## Todo
+
+* [X] 文字
+* [X] 移动
+* [ ] 图表组件
+* [ ] 背景图
+
+* [ ] 尺寸定义
+
+* [ ] 组件动画
+
+* [ ] 图片组件
+
+* [ ] 按钮组件
+
 
 ##  Intro
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`c3`](https://developers.cloudflare.com/pages/get-started/c3).
