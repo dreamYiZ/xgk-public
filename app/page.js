@@ -12,6 +12,7 @@ export default function Home() {
   const boxArr = useBoxStore((state) => state.boxArr);
   const emptyBox = useBoxStore((state) => state.empty);
   const isEmpty = useBoxStore((state) => state.isEmpty);
+  const shouldEmpty = false;
 
   useEffect(() => {
     if (isEmpty()) {
@@ -21,7 +22,7 @@ export default function Home() {
     }
 
     return () => {
-      // emptyBox();
+      shouldEmpty && emptyBox();
     }
   }, [addBox, isEmpty]);
 
