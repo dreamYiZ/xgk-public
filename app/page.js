@@ -5,6 +5,7 @@ import Box from './cpnt/box';
 import { createBox } from './store/useBo';
 import useBoxStore from './store/useBo';
 import subRender from "./subRender.js";
+import useGlobalStore from './store/useGlobal';
 import { createBoxPayload, createSubPayload } from "./util/util";
 
 export default function Home() {
@@ -12,6 +13,7 @@ export default function Home() {
   const boxArr = useBoxStore((state) => state.boxArr);
   const emptyBox = useBoxStore((state) => state.empty);
   const isEmpty = useBoxStore((state) => state.isEmpty);
+  const {}= useGlobalStore();
   const shouldEmpty = false;
 
   useEffect(() => {
@@ -27,7 +29,7 @@ export default function Home() {
   }, [addBox, isEmpty]);
 
   const renderBoxArr = () => {
-
+    console.log('boxArr', boxArr);
     return <>
       {boxArr.map((box, index) => {
         return <Box {...box} key={box.boxid}>

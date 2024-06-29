@@ -22,7 +22,7 @@ const useBoxStore = create(persist(
       }
     },
     changeById: (id, changes) => set((state) => ({
-      boxArr: state.boxArr.map((box) => box.id === id ? { ...box, ...changes } : box)
+      boxArr: state.boxArr.map((box) => box.boxid === id ? { ...box, ...changes } : box)
     })),
   }),
   {
@@ -36,8 +36,9 @@ export default useBoxStore;
 
 
 
-const createBox = ({ position, zIndex, groupId, width, height, opacity, sub, x, y }) => {
+const createBox = ({ boxid, position, zIndex, groupId, width, height, opacity, sub, x, y }) => {
   return {
+    boxid,
     position,
     zIndex,
     groupId,

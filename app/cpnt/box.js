@@ -5,7 +5,7 @@ import useBoxStore from '../store/useBo';
 function Box({ boxid, width, height, position, opacity, children, groupid, x, y }) {
     const boxRef = useRef(null);
     const changeBoxById = useBoxStore((state) => state.changeById);
-
+    console.log('boxid', boxid);
     useEffect(() => {
         const boxElement = boxRef.current;
         let offsetX = 0;
