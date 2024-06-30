@@ -1,18 +1,23 @@
 import { useRef, useEffect } from 'react';
 import classes from "./box.module.sass";
 import useBoxStore from '../store/useBo';
+import ppplog from "ppplog";
+import useGlobalStore, { MODE } from '../store/useGlobal';
 
-function Box({ boxid, width, height, position, opacity, children, groupid, x, y }) {
+function Box({ boxid, width, height, position, opacity, children, groupid, x, y, mainRef }) {
     const boxRef = useRef(null);
     const changeBoxById = useBoxStore((state) => state.changeById);
-    console.log('boxid', boxid);
+    const { mode } = useGlobalStore();
+    ppplog('boxid', boxid);
     useEffect(() => {
         const boxElement = boxRef.current;
+        const mainElement = mainRef.current;
         let offsetX = 0;
         let offsetY = 0;
 
         const onMouseDown = (e) => {
-            console.log('mouseDown');
+            if (mode !== MODE.EDIT) return;
+            ppplog('mouseDown');
             offsetX = e.clientX - boxElement.getBoundingClientRect().left;
             offsetY = e.clientY - boxElement.getBoundingClientRect().top;
             document.addEventListener('mousemove', onMouseMove);
@@ -20,9 +25,19 @@ function Box({ boxid, width, height, position, opacity, children, groupid, x, y 
         };
 
         const onMouseMove = (e) => {
-            console.log('mouseMove');
-            const newX = `${e.clientX - offsetX}px`;
-            const newY = `${e.clientY - offsetY}px`;
+            ppplog('mouseMove');
+            let newX = e.clientX - offsetX - mainElement.getBoundingClientRect().left;
+            let newY = e.clientY - offsetY - mainElement.getBoundingClientRect().top;
+
+            // 边界检查
+            if (newX < 0) newX = 0;
+            if (newY < 0) newY = 0;
+            if (newX + boxElement.offsetWidth > mainElement.offsetWidth) newX = mainElement.offsetWidth - boxElement.offsetWidth;
+            if (newY + boxElement.offsetHeight > mainElement.offsetHeight) newY = mainElement.offsetHeight - boxElement.offsetHeight;
+
+            newX = `${newX}px`;
+            newY = `${newY}px`;
+
             boxElement.style.left = newX;
             boxElement.style.top = newY;
             changeBoxById(boxid, { x: newX, y: newY });
@@ -40,7 +55,7 @@ function Box({ boxid, width, height, position, opacity, children, groupid, x, y 
             document.removeEventListener('mousemove', onMouseMove);
             document.removeEventListener('mouseup', onMouseUp);
         };
-    }, [boxid, changeBoxById]);
+    }, [boxid, changeBoxById, mode]);
 
     const boxStyle = {
         width: width,

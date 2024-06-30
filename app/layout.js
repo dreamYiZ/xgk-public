@@ -5,6 +5,14 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import Framework from "./framework"
+import ppplog from "ppplog";
+
+
+
+if (process.env.NODE_ENV === 'production') {
+  ppplog.disableppplog();
+}
+
 
 const inter = Inter({ subsets: ["latin"] });
 

@@ -1,6 +1,7 @@
 import { SUB_TYPE } from "./subType";
 import { v4 as uuidv4 } from 'uuid';
-
+import ppplog from "ppplog";
+export { p } from "./cfg"
 
 
 
@@ -18,7 +19,7 @@ export const createBoxPayload = (sub) => ({
     sub: sub,
 });
 
-console.log('SUB_TYPE', SUB_TYPE);
+ppplog('SUB_TYPE', SUB_TYPE);
 export const createSubPayload = () => ({
     type: SUB_TYPE.TEXT,
     fontSize: '25px',
@@ -32,4 +33,4 @@ export const createSubPayload = () => ({
 
 
 
-export { SUB_TYPE }
+export { SUB_TYPE, ppplog }
