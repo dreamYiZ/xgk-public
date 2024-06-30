@@ -2621,10 +2621,10 @@ postcss@8.4.31:
     picocolors "^1.0.0"
     source-map-js "^1.0.2"
 
-ppplog@^1.1.2:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/ppplog/-/ppplog-1.1.2.tgz#2b160f17853f8ccc903706bce696fd941ce46365"
-  integrity sha512-7SQW2ngo6a/eW5wn5h2AgLv1rlVBOg9WoeQd3eWGch0ph9J54kQJwakBgns8apzfvmS3/YXHFNeNBM1s73vY0Q==
+ppplog@^1.1.6:
+  version "1.1.6"
+  resolved "https://registry.yarnpkg.com/ppplog/-/ppplog-1.1.6.tgz#90746350e71c4644b69b9d5cddb14a7536b8e3e8"
+  integrity sha512-6NmYauU6/AtOKNvKZr0j7XOMe0IndYXshZpqMi1tp/UnwBIat0YU/5gmIqP2YJ+JiFqS05iMHE3gwkMBDQozbg==
 
 pretty-ms@7.0.1:
   version "7.0.1"

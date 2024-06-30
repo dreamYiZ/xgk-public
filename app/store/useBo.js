@@ -12,7 +12,8 @@ const useBoxStore = create(persist(
       }
       return { boxArr: [...state.boxArr, box] };
     }),
-    delById: (id) => set((state) => ({ boxArr: state.boxArr.filter((box) => box.id !== id) })),
+    delById: (boxid) => set((state) => ({ boxArr: state.boxArr.filter((box) => box.boxid !== boxid) })),
+
     empty: () => set(() => ({ boxArr: [] })),
     isEmpty: (state) => {
       if (Array.isArray(get().boxArr)) {
@@ -26,7 +27,7 @@ const useBoxStore = create(persist(
       boxArr: state.boxArr.map((box) => box.boxid === id ? { ...box, ...changes } : box)
     })),
     setActiveBoxId: (id) => set(() => ({ activeBoxId: id })),  // Add this line
-    clearActiveId: (id) => set(() => ({ activeBoxId: null })), // Remove this line
+    clearActiveId: () => set(() => ({ activeBoxId: null })), // Remove this line
 
   }),
   {

@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useMemo } from 'react';  // Import useMemo
 import classes from "./box.module.sass";
 import useBoxStore from '../store/useBo';
 import ppplog from "ppplog";
@@ -8,11 +8,12 @@ import zIndex from '@mui/material/styles/zIndex';
 function Box({ boxid, width, height, position, opacity, children, groupid, x, y, mainRef, ...other }) {
   const boxRef = useRef(null);
   const changeBoxById = useBoxStore((state) => state.changeById);
+  const setActiveBoxId = useBoxStore((state) => state.setActiveBoxId);  // Access the 'setActiveBoxId' function
   const { mode } = useGlobalStore();
 
   const activeBoxId = useBoxStore((state) => state.activeBoxId);  // Access the 'activeBoxId' state
 
-  ppplog('boxid', boxid);
+
   useEffect(() => {
     const boxElement = boxRef.current;
     const mainElement = mainRef.current;
@@ -21,6 +22,7 @@ function Box({ boxid, width, height, position, opacity, children, groupid, x, y,
 
     const onMouseDown = (e) => {
       if (mode !== MODE.EDIT) return;
+      setActiveBoxId(boxid);  // Set this box as the active box
       ppplog('mouseDown');
       offsetX = e.clientX - boxElement.getBoundingClientRect().left;
       offsetY = e.clientY - boxElement.getBoundingClientRect().top;
@@ -61,7 +63,7 @@ function Box({ boxid, width, height, position, opacity, children, groupid, x, y,
     };
   }, [boxid, changeBoxById, mode]);
 
-  const boxStyle = {
+  const boxStyle = useMemo(() => ({
     width: width,
     height: height,
     position: position,
@@ -69,8 +71,9 @@ function Box({ boxid, width, height, position, opacity, children, groupid, x, y,
     left: x,
     top: y,
     zIndex: zIndex,
-    border: activeBoxId === boxid ? '2px dashed #7CB9E8' : 'none',  // Add this line
-  };
+    outline: activeBoxId === boxid ? '2px dashed #7CB9E8' : 'none',  // Changed 'border' to 'outline'
+  }), [width, height, position, opacity, x, y, zIndex, activeBoxId, boxid]);  // Add
+
 
   return <div id={boxid} ref={boxRef} style={boxStyle} className={classes.box}>{children}</div>;
 

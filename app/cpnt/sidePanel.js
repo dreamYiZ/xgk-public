@@ -9,9 +9,12 @@ import EditPage from "./editPage";
 import EditBox from "./editBox";
 import EditMarket from "./editMarket";
 import { Button } from '@mui/material';
+import useBoxStore from '../store/useBo';
+import ppplog from 'ppplog';
 
 function SidePanel() {
   const { mode, setMode, screenWidth, screenHeight, setScreenWidth, setScreenHeight, tab: tabValue, setTabValue, setBg } = useGlobalStore();
+  const { clearActiveId } = useBoxStore();
   const fileInput = useRef(null);
 
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
@@ -91,9 +94,14 @@ function SidePanel() {
   };
 
 
+  const handelClearActiveId = () => {
+    clearActiveId();
+  }
 
   return (
     <div className={classes['side-panel-view']}>
+      <Button variant="outlined" color="primary" onClick={handelClearActiveId}>取消选择</Button>
+      <br />
       <FormControl component="fieldset" className={classes.oneLine} row>
         <FormLabel component="legend">模式</FormLabel>
         <RadioGroup row aria-label="mode" name="mode" value={mode} onChange={handleChange} className={classes['radio-group']}>
@@ -119,10 +127,10 @@ function SidePanel() {
           <br />
 
           <Button variant="contained" component="label">
-            Upload File
+            上传文件
             <input ref={fileInput} type="file" hidden onChange={handleFileChange} />
           </Button>
-          <Button onClick={handleUploadClick}>Submit</Button>
+          <Button onClick={handleUploadClick}>确定</Button>
           <br />
 
           {preview && (preview.startsWith('blob:') ? <img style={{ width: "100px", height: "60px" }} src={preview} alt="Preview" /> : <p>{preview}</p>)}

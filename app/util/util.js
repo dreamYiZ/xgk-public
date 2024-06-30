@@ -53,4 +53,5 @@ export const createMarketTemplates = () => {
   return []
 }
 
+export { ANIMATE_TYPES_DISPLAY, ANIMATE_TYPES } from "./animateType";
 export { SUB_TYPE, ppplog }

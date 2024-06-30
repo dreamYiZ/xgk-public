@@ -5,7 +5,8 @@ import useGlobalStore from './store/useGlobal';
 import { MODE } from './store/useGlobal';
 import { useEffect } from "react";
 import useBoxStore from './store/useBo';
-
+import { usePathname } from 'next/navigation'
+import { ppplog } from "./util/util";
 
 function Framework({ children }) {
   const { mode } = useGlobalStore();
@@ -26,6 +27,18 @@ function Framework({ children }) {
       clearActiveId();
     }
   }, [mode]);
+
+
+  const pathname = usePathname()
+
+  ppplog('currentPath', pathname);  // 打印当前URL路径
+
+  // Check if pathname starts with '/m'
+  if (pathname.startsWith('/m')) {
+    return <div className={classes['management']}>
+      {children}
+    </div>;
+  }
 
   return (
     <div className={classes['framework']}>
