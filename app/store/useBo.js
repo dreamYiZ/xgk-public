@@ -26,6 +26,7 @@ const useBoxStore = create(persist(
       boxArr: state.boxArr.map((box) => box.boxid === id ? { ...box, ...changes } : box)
     })),
     setActiveBoxId: (id) => set(() => ({ activeBoxId: id })),  // Add this line
+    clearActiveId: (id) => set(() => ({ activeBoxId: null })), // Remove this line
 
   }),
   {

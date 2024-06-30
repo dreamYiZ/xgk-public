@@ -2,23 +2,24 @@ import create from 'zustand'
 import { persist } from 'zustand/middleware'
 const packageJson = require('../../package.json');
 
-const BG_TYPE = {
-    IMAGE: 'image',
-    VIDEO: 'video',
+export const BG_TYPE = {
+  IMAGE: 'image',
+  VIDEO: 'video',
 }
 
 export const MODE = {
-    EDIT: 'edit',
-    DISPLAY: 'display',
-    TEST: 'test',
-    LOADING: 'loading',
-    INIT: 'init',
+  EDIT: 'edit',
+  DISPLAY: 'display',
+  TEST: 'test',
+  LOADING: 'loading',
+  INIT: 'init',
 }
 
 const useGlobalStore = create(persist(
   (set, get) => ({
     bg: {
-      type: BG_TYPE.IMAGE
+      type: BG_TYPE.IMAGE,
+      filename: null,
     },
     mode: MODE.INIT,
     version: process.env.NEXT_PUBLIC_VERSION,
@@ -34,7 +35,8 @@ const useGlobalStore = create(persist(
     setModeToDisplay: () => set(() => ({ mode: MODE.DISPLAY })),
     setModeToTest: () => set(() => ({ mode: MODE.TEST })),
     hideWhenDisplaying: () => get().mode !== MODE.DISPLAY,
-    showWhenEditing: () => get().mode === MODE.EDIT
+    showWhenEditing: () => get().mode === MODE.EDIT,
+    setBg: (_bg) => set(() => ({ bg: _bg })),  // Add this line
   }),
   {
     name: 'global-storage',

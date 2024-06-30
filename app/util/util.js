@@ -12,7 +12,7 @@ export const createBoxPayload = (sub) => ({
   zIndex: 1,
   groupId: 'group1',
   width: '100px',
-  height: '100px',
+  height: '30px',
   x: 0,
   y: 0,
   opacity: 1,

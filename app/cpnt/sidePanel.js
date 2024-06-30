@@ -1,18 +1,18 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { Radio, RadioGroup, FormControlLabel, FormControl, FormLabel, TextField, Tabs, Tab, Box } from '@mui/material';
 import classes from "./sidePanel.module.sass"
 import useGlobalStore from '../store/useGlobal';
-import { MODE } from '../store/useGlobal';
+import { MODE, BG_TYPE } from '../store/useGlobal';
 import { Snackbar } from '@mui/material';
 import Alert from '@mui/material/Alert';
 import EditPage from "./editPage";
 import EditBox from "./editBox";
 import EditMarket from "./editMarket";
-
+import { Button } from '@mui/material';
 
 function SidePanel() {
-  const { mode, setMode, screenWidth, screenHeight, setScreenWidth, setScreenHeight, tab: tabValue, setTabValue } = useGlobalStore();
-
+  const { mode, setMode, screenWidth, screenHeight, setScreenWidth, setScreenHeight, tab: tabValue, setTabValue, setBg } = useGlobalStore();
+  const fileInput = useRef(null);
 
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState('');
@@ -44,9 +44,53 @@ function SidePanel() {
   };
 
 
-  const handleTabChange = (event, newValue) => {
-    setTabValue(newValue);  // 更新当前选中的标签页
+
+
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [preview, setPreview] = useState(null);
+
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+
+    // Reset the preview
+    setPreview(null);
+
+    // Create a preview
+    const file = event.target.files[0];
+    if (file) {
+      if (file.type.startsWith('image/')) {
+        // If it's an image, create an object URL and use it as a preview
+        setPreview(URL.createObjectURL(file));
+      } else if (file.type.startsWith('video/')) {
+        // If it's a video, just display the file name
+        setPreview(file.name);
+      }
+    }
   };
+
+
+  const handleUploadClick = async () => {
+    const formData = new FormData();
+    formData.append("file", fileInput?.current?.files?.[0]);
+
+    const response = await fetch("/api/uploadImage", {
+      method: "POST",
+      body: formData,
+    });
+    const result = await response.json();
+
+    if (result.status === "success") {
+      // If the upload was successful, update the 'bg' state
+      setBg({
+        type: selectedFile.type.startsWith('image/') ? BG_TYPE.IMAGE : BG_TYPE.VIDEO,
+        filename: selectedFile.name,
+      });
+    } else {
+      console.error(result.error);
+    }
+  };
+
+
 
   return (
     <div className={classes['side-panel-view']}>
@@ -72,6 +116,17 @@ function SidePanel() {
           <br />
           <TextField label="屏幕高度" value={screenHeight} onChange={handleHeightChange} />
           <br />
+          <br />
+
+          <Button variant="contained" component="label">
+            Upload File
+            <input ref={fileInput} type="file" hidden onChange={handleFileChange} />
+          </Button>
+          <Button onClick={handleUploadClick}>Submit</Button>
+          <br />
+
+          {preview && (preview.startsWith('blob:') ? <img style={{ width: "100px", height: "60px" }} src={preview} alt="Preview" /> : <p>{preview}</p>)}
+
           <EditPage />
         </Box>
 

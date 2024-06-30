@@ -9,6 +9,9 @@ function Box({ boxid, width, height, position, opacity, children, groupid, x, y,
   const boxRef = useRef(null);
   const changeBoxById = useBoxStore((state) => state.changeById);
   const { mode } = useGlobalStore();
+
+  const activeBoxId = useBoxStore((state) => state.activeBoxId);  // Access the 'activeBoxId' state
+
   ppplog('boxid', boxid);
   useEffect(() => {
     const boxElement = boxRef.current;
@@ -66,9 +69,11 @@ function Box({ boxid, width, height, position, opacity, children, groupid, x, y,
     left: x,
     top: y,
     zIndex: zIndex,
+    border: activeBoxId === boxid ? '2px dashed #7CB9E8' : 'none',  // Add this line
   };
 
   return <div ref={boxRef} style={boxStyle} className={classes.box}>{children}</div>;
+
 }
 
 export default Box;
