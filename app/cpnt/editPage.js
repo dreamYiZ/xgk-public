@@ -21,6 +21,7 @@ function EditPage() {
   };
 
   return (
+    <div style={{ overflowY: 'auto', maxHeight: 'calc(100vh - 370px)' }}>
     <List>
       {boxArr.map((box) => (
         <ListItem key={box.boxid} >
@@ -36,6 +37,7 @@ function EditPage() {
         </ListItem>
       ))}
     </List>
+    </div>
   );
 }
 

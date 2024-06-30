@@ -72,7 +72,7 @@ function Box({ boxid, width, height, position, opacity, children, groupid, x, y,
     border: activeBoxId === boxid ? '2px dashed #7CB9E8' : 'none',  // Add this line
   };
 
-  return <div ref={boxRef} style={boxStyle} className={classes.box}>{children}</div>;
+  return <div id={boxid} ref={boxRef} style={boxStyle} className={classes.box}>{children}</div>;
 
 }
 

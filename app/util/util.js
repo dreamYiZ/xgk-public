@@ -19,12 +19,13 @@ export const createBoxPayload = (sub) => ({
   sub: sub,
 });
 
-ppplog('SUB_TYPE', SUB_TYPE);
+
 export const createSubPayload = () => ({
   type: SUB_TYPE.TEXT,
   fontSize: '25px',
   fontWeight: 900,
-  content: "Hello, world"
+  content: "Hello, world",
+  color: '#FFFFFF',
 });
 
 

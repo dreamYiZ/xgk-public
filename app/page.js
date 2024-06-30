@@ -85,7 +85,7 @@ export default function Home() {
   };  // Set the background of the <main> element based on the 'bg' state
 
   return (
-    <main ref={mainRef} style={mainStyle} className={styles.main}>
+    <main id="main-id-to-render-box-arr" ref={mainRef} style={mainStyle} className={styles.main}>
       {renderBoxArr()}
     </main>)
 

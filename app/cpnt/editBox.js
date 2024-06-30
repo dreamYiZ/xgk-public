@@ -4,6 +4,7 @@ import ppplog from "ppplog";
 import EditSub from "./editSub";
 import { TextField, Button } from '@mui/material';
 import EditTabContainer from "./editTabContainer";
+import Box from '@mui/material/Box';
 
 function EditBox() {
   const boxArr = useBoxStore((state) => state.boxArr);  // Access the 'boxArr' state
@@ -23,6 +24,37 @@ function EditBox() {
   const handleCenterClick = () => {
     changeById(activeBoxId, { x: screenWidth / 2, y: screenHeight / 2 });
   };
+
+  const handleFocusClick = () => {
+    ppplog('聚焦')
+    const mainElement = document.getElementById('framework-to-put-main-render-box');  // 使用 id 来获取元素
+    if (mainElement && activeBox) {
+      ppplog('聚焦2')
+
+      let { x, y, height } = activeBox;
+      // 移除 'px' 并转换为数字
+      x = Number(x.replace('px', ''));
+      y = Number(y.replace('px', ''));
+      height = Number(height.replace('px', ''));
+
+      ppplog(x, y, screenWidth, screenHeight, x - screenWidth / 2, y - screenHeight / 2)
+      mainElement.scrollTo(x - screenWidth / 2, y - screenHeight / 2 + height / 2);  // 调整 y 值
+    }
+  };
+
+
+  const handleAutoSizeClick = () => {
+    const boxElement = document.getElementById(activeBox.boxid);
+    if (boxElement) {
+      const contentElement = boxElement.firstChild;
+      if (contentElement) {
+        const { width, height } = contentElement.getBoundingClientRect();
+        changeById(activeBoxId, { width: `${width}px`, height: `${height}px` });
+      }
+    }
+  };
+
+
 
   return (
     <EditTabContainer>
@@ -55,16 +87,30 @@ function EditBox() {
           <br />
           <br />
 
-          <Button variant="contained" color="primary" onClick={handleCenterClick}>
-            居中
-          </Button>
+          <Box display="flex" alignItems="center">  {/* 设置为 flex 布局 */}
+            <Box mr={2}>  {/* 添加右边距 */}
+              <Button variant="contained" color="primary" onClick={handleCenterClick}>
+                居中
+              </Button>
+            </Box>
+            <Box mr={2}>  {/* 添加右边距 */}
+              <Button variant="contained" color="secondary" onClick={handleFocusClick}>
+                聚焦
+              </Button>
+            </Box>
+            <Button variant="contained" color="success" onClick={handleAutoSizeClick}>  {/* 修改颜色为 'success' */}
+              自动尺寸
+            </Button>
+          </Box>
+
 
           <EditSub sub={activeBox.sub} activeBox={activeBox} />
         </>
       ) : (
         <p>No active box selected.</p>
-      )}
-    </EditTabContainer>
+      )
+      }
+    </EditTabContainer >
   );
 
 }

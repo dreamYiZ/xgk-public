@@ -29,7 +29,7 @@ function Framework({ children }) {
 
   return (
     <div className={classes['framework']}>
-      <div className={pageContentClass} style={pageContentStyle}>
+      <div id="framework-to-put-main-render-box" className={pageContentClass} style={pageContentStyle}>
         {children}
       </div>
       <div className={controlPanelClass}>

@@ -28,11 +28,7 @@ export default function RootLayout({ children }) {
       <body className={inter.className}>
         <Framework>
           {children}
-
         </Framework>
-
-
-
       </body>
     </html>
   );
