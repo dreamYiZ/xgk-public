@@ -4,6 +4,7 @@ import { persist } from 'zustand/middleware'
 const useBoxStore = create(persist(
   (set, get) => ({
     boxArr: [],
+    activeBoxId: null,  // Add this line
     setBoxArr: (_boxArr) => set((state) => ({ boxArr: _boxArr })),
     add: (box) => set((state) => {
       if (!Array.isArray(state.boxArr)) {
@@ -24,12 +25,14 @@ const useBoxStore = create(persist(
     changeById: (id, changes) => set((state) => ({
       boxArr: state.boxArr.map((box) => box.boxid === id ? { ...box, ...changes } : box)
     })),
+    setActiveBoxId: (id) => set(() => ({ activeBoxId: id })),  // Add this line
+
   }),
   {
     name: 'box-storage', // unique name
     getStorage: () => localStorage, // (optional) by default the 'localStorage' is used
   }
-))
+));
 
 export default useBoxStore;
 

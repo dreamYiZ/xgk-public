@@ -6,7 +6,7 @@ import { createBox } from './store/useBo';
 import useBoxStore from './store/useBo';
 import subRender from "./subRender.js";
 import useGlobalStore from './store/useGlobal';
-import { createBoxPayload, createSubPayload } from "./util/util";
+import { createBoxText } from "./util/util";
 import ppplog from "ppplog";
 
 export default function Home() {
@@ -21,7 +21,7 @@ export default function Home() {
   useEffect(() => {
     if (isEmpty()) {
       ppplog('createBox');
-      const newBox = createBox(createBoxPayload(createSubPayload()));
+      const newBox = createBox(createBoxText());
       addBox(newBox);
     }
 
