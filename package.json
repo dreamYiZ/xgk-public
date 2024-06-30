@@ -3,8 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "cross-env NEXT_PUBLIC_VERSION=$npm_package_version next dev",
+    "build": "cross-env NEXT_PUBLIC_VERSION=$npm_package_version next build",
+    "build:nv": "next build",
     "start": "next start",
     "lint": "next lint",
     "pages:build": "npx @cloudflare/next-on-pages",
@@ -27,6 +28,7 @@
   "devDependencies": {
     "@cloudflare/next-on-pages": "^1.11.3",
     "@cloudflare/workers-types": "^4.20240614.0",
+    "cross-env": "^7.0.3",
     "vercel": "^34.2.7",
     "wrangler": "^3.60.3"
   }
