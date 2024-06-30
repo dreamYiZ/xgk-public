@@ -3,6 +3,9 @@ import { revalidatePath } from "next/cache";
 import fs from 'fs';
 import path from 'path';
 
+export const runtime = 'edge';
+
+
 export async function POST(req, res) {
 
   try {
