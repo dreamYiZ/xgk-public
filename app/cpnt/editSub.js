@@ -27,7 +27,7 @@ function EditSub() {
   }
 
   return <div>
-    TYPE NOT FOUND!
+    TYPE NOT FOUND!{`[${sub?.type}]`}
   </div>
 }
 
