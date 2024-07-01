@@ -7,11 +7,16 @@ import { HexColorPicker } from 'react-colorful';  // 引入颜色选择器
 import { ANIMATE_TIME_FUNCTION_TYPES_DISPLAY, ANIMATE_TIME_FUNCTION_TYPES, ANIMATE_TYPES, ANIMATE_TYPES_DISPLAY } from "../util/util";
 import { useState, useMemo, useEffect } from 'react';
 import { Box } from '@mui/system';  // 引入 Box 组件
+import ChooseImage from "./chooseImage";
+import useGlobalStore from '../store/useGlobal';
+import ppplog from "ppplog";
 
 function EditSubImage() {
 
   const boxArr = useBoxStore((state) => state.boxArr);  // Access the 'boxArr' state
   const activeBoxId = useBoxStore((state) => state.activeBoxId);  // Access the 'activeBoxId' state
+  const { openSelectImage,
+  } = useGlobalStore();  // Access the 'activeBoxId' state
 
   // Find the active box in the 'boxArr' array
   const activeBox = useMemo(() => boxArr.find((box) => box.boxid === activeBoxId), [boxArr, activeBoxId]);
@@ -24,6 +29,7 @@ function EditSubImage() {
   const [animationInterval, setAnimationInterval] = useState(sub?.animationInterval || 0);  // 添加动画间隔状态
   const [animationTimingFunction, setAnimationTimingFunction] = useState(sub?.animationTimingFunction || ANIMATE_TIME_FUNCTION_TYPES.LINEAR);
   const [imageUrl, setImageUrl] = useState(sub?.url || '');
+  const [showSelectImage, setShowSelectImage] = useState(false);  // Add a state for showing
 
   const changeById = useBoxStore(state => state.changeById);
 
@@ -71,6 +77,20 @@ function EditSubImage() {
   }, [sub, activeBoxId]);
 
 
+
+  const selectImage = () => {
+    setShowSelectImage(true);
+  }
+
+
+  const handleChoose = ({ image }) => {
+    ppplog('handleChoose-edit', image);
+    setImageUrl(image);
+
+    setShowSelectImage(false); //
+
+  }
+
   return (
     <div>
       <br />
@@ -87,7 +107,11 @@ function EditSubImage() {
             上传图片
           </Button>
         </label>
+        <Button  component="span" onClick={selectImage}>
+          选择图片
+        </Button>
       </Box>
+
       {imageUrl && <img src={imageUrl} alt="预览" style={{ maxWidth: '100%' }} />}
       <br />
       <Box display="flex" alignItems="center">
@@ -130,8 +154,13 @@ function EditSubImage() {
       <br />
 
       <Button variant="contained" color="primary" onClick={handleSave}>保存</Button>
+      <ChooseImage handleChoose={handleChoose} show={showSelectImage} handleClose={()=>{
+        setShowSelectImage(false);
+      }} />
+
     </div>
   );
 }
 
 export default EditSubImage;
+

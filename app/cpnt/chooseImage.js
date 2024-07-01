@@ -6,10 +6,12 @@ import Drawer from '@mui/material/Drawer';
 import ppplog from "ppplog";
 
 export default function ChooseImage({
-  handleChoose
+  handleChoose,
+  show,
+  handleClose
 }) {
   const [images, setImages] = useState([]);
-  const { showSelectImage, openSelectImage, closeSelectImage } = useGlobalStore();
+
 
   useEffect(() => {
     // Fetch the images from the API
@@ -26,7 +28,7 @@ export default function ChooseImage({
           console.error(response.error);
         }
       });
-  }, [showSelectImage]);
+  }, []);
 
   const handleSelect = (image) => {
     handleChoose && handleChoose({ image })
@@ -34,11 +36,11 @@ export default function ChooseImage({
 
   return (
     <div>
-      {showSelectImage && (
+      {show && (
         <Drawer
           anchor="right"
-          open={showSelectImage}
-          onClose={closeSelectImage}
+          open={show}
+          onClose={handleClose}
         >
           <Box sx={{ width: 600, padding: 2, display: 'flex', flexWrap: 'wrap' }}>  {/* Add flex layout */}
             {images.map((image) => (

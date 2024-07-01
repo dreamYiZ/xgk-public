@@ -24,12 +24,12 @@ function SidePanel() {
     openSelectImage,
 
   } = useGlobalStore();
-  const { clearActiveId } = useBoxStore();
+  const { clearActiveId, activeBoxId } = useBoxStore();
   const fileInput = useRef(null);
 
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState('');
-
+  const [showSelectImage, setShowSelectImage] = useState(false);  // Add a state for showing
 
 
   const handleChange = (event) => {
@@ -120,7 +120,7 @@ function SidePanel() {
 
   const selectImage = () => {
 
-    openSelectImage();
+    setShowSelectImage(true);
   }
 
 
@@ -131,12 +131,15 @@ function SidePanel() {
       type: BG_TYPE.IMAGE,
       filename: `${image}`,
     });
+
+    setShowSelectImage(false);
+
   }
 
   return (
     <div className={classes['side-panel-view']}>
       <Box display="flex" justifyContent="space-between" mb={2}>
-        <Button variant="outlined" color="primary" onClick={handelClearActiveId}>取消选择</Button>
+        {activeBoxId && <Button variant="outlined" color="primary" onClick={handelClearActiveId}>取消选择</Button>}
         <IconButton onClick={handleOpenSettings}>  {/* 添加一个 IconButton 来打开设置面板 */}
           <SettingsIcon />
         </IconButton>
@@ -202,7 +205,9 @@ function SidePanel() {
         </Alert>
       </Snackbar>
       <Setting />  {/* 设置面板 */}
-      <ChooseImage handleChoose={handleChoose} />
+      <ChooseImage handleChoose={handleChoose} show={showSelectImage} handleClose={() => {
+        setShowSelectImage(false);
+      }} />
     </div>
   );
 }
