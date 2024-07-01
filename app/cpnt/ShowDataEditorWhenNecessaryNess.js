@@ -1,6 +1,9 @@
 import React from 'react';
 import Button from '@mui/material/Button';
 import Drawer from '@mui/material/Drawer';
+import useBoxStore from '../store/useBo';
+import { useState, useMemo, useEffect } from 'react';
+
 
 export default function ShowDataEditorWhenNecessaryNess() {
   const [isOpen, setIsOpen] = React.useState(false);
