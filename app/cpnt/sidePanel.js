@@ -124,6 +124,15 @@ function SidePanel() {
   }
 
 
+  const handleChoose = ({ image }) => {
+    ppplog('handleChoose', image);
+
+    setBg({
+      type: BG_TYPE.IMAGE,
+      filename: `${image}`,
+    });
+  }
+
   return (
     <div className={classes['side-panel-view']}>
       <Box display="flex" justifyContent="space-between" mb={2}>
@@ -140,50 +149,52 @@ function SidePanel() {
           <FormControlLabel value={MODE.TEST} control={<Radio />} label="测试" />
           <FormControlLabel value={MODE.DISPLAY} control={<Radio />} label="展示" />
         </RadioGroup>
-        <br />
 
-        <Tabs value={tabValue} onChange={(event, newValue) => setTabValue(newValue)} aria-label="simple tabs example">
-          <Tab label="页面" />
-          <Tab label="组件" />
-          <Tab label="市场" />
-        </Tabs>
-
-        <Box style={{ display: tabValue === 0 ? 'block' : 'none' }}>
-          <br />
-          <TextField label="屏幕宽度" value={screenWidth} onChange={handleWidthChange} />
-          <br />
-          <br />
-          <TextField label="屏幕高度" value={screenHeight} onChange={handleHeightChange} />
-          <br />
-          <br />
-
-          <Button variant="contained" component="label">
-            上传文件
-            <input ref={fileInput} type="file" hidden onChange={handleFileChange} />
-          </Button>
-          <Button color="success" onClick={selectImage}>选择图片</Button>
-          <Button onClick={handleUploadClick}>确定</Button>
-          <br />
-          <br />
-
-          {preview && (preview.startsWith('blob:') ? <img style={{ width: "100px", height: "60px" }} src={preview} alt="Preview" /> : <p>{preview}</p>)}
-
-          <EditPage />
-        </Box>
-
-        <Box style={{ display: tabValue === 1 ? 'block' : 'none' }}>
-
-
-          <EditBox />
-        </Box>
-
-        <Box style={{ display: tabValue === 2 ? 'block' : 'none' }}>
-          {/* 市场标签页的内容 */}
-
-          <EditMarket />
-        </Box>
 
       </FormControl>
+      <br />
+
+      <Tabs value={tabValue} onChange={(event, newValue) => setTabValue(newValue)} aria-label="simple tabs example">
+        <Tab label="页面" />
+        <Tab label="组件" />
+        <Tab label="市场" />
+      </Tabs>
+
+      <Box style={{ display: tabValue === 0 ? 'block' : 'none' }}>
+        <br />
+        <TextField label="屏幕宽度" value={screenWidth} onChange={handleWidthChange} />
+        <br />
+        <br />
+        <TextField label="屏幕高度" value={screenHeight} onChange={handleHeightChange} />
+        <br />
+        <br />
+
+        <Button variant="contained" component="label">
+          上传文件
+          <input ref={fileInput} type="file" hidden onChange={handleFileChange} />
+        </Button>
+        <Button color="success" onClick={selectImage}>选择图片</Button>
+        <Button onClick={handleUploadClick}>确定</Button>
+        <br />
+        <br />
+
+        {preview && (preview.startsWith('blob:') ? <img style={{ width: "100px", height: "60px" }} src={preview} alt="Preview" /> : <p>{preview}</p>)}
+
+        <EditPage />
+      </Box>
+
+      <Box style={{ display: tabValue === 1 ? 'block' : 'none' }}>
+
+
+        <EditBox />
+      </Box>
+
+      <Box style={{ display: tabValue === 2 ? 'block' : 'none' }}>
+        {/* 市场标签页的内容 */}
+
+        <EditMarket />
+      </Box>
+
 
       <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={() => setOpenSnackbar(false)}>
         <Alert onClose={() => setOpenSnackbar(false)} severity="error" sx={{ width: '100%' }}>
@@ -191,7 +202,7 @@ function SidePanel() {
         </Alert>
       </Snackbar>
       <Setting />  {/* 设置面板 */}
-      <ChooseImage />
+      <ChooseImage handleChoose={handleChoose} />
     </div>
   );
 }
