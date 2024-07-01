@@ -1,46 +1,37 @@
-import { useState, useEffect, useMemo } from 'react';  // 引入 useMemo
-import {ANIMATE_TYPES, ppplog} from "../util/util";
+import { useState, useEffect, useMemo } from 'react';
+import { ANIMATE_TYPES, ppplog } from "../util/util";
+
+// Define a constant for the conversion factor
+const MS_PER_S = 1000;
 
 function RenderAnimateContainer({ children, animation, animationDuration, animationInterval, animationTimingFunction }) {
   const [activeAnimation, setActiveAnimation] = useState(animation);
-  const [lastAnimationTime, setLastAnimationTime] = useState(Date.now());
 
   useEffect(() => {
-    let animationTimeoutId;
-    let intervalId;
+    let tidAnimateStop;
+    let tidAnimateStart
 
-    ppplog('useEffect-animation', )
-    if (animationInterval !== 0) {
-      // Set a timeout to remove the animation after its duration
-      animationTimeoutId = setTimeout(() => {
-        setActiveAnimation('');
-        setLastAnimationTime(Date.now());
-      }, animationDuration * 1000);  // Convert to milliseconds
+    if (+animationInterval !== 0) {
+      let funcAnimateTimeout = () => {
+        tidAnimateStop = setTimeout(() => {
+          setActiveAnimation('');
+        }, (+animationDuration) * MS_PER_S)
 
-      // Set an interval to add the animation after the specified interval
-      intervalId = setInterval(() => {
-        const currentTime = Date.now();
-        if (currentTime - lastAnimationTime >= animationInterval * 1000) {  // Convert to milliseconds
+        tidAnimateStart = setTimeout(() => {
           setActiveAnimation(animation);
-          clearTimeout(animationTimeoutId);
-          animationTimeoutId = setTimeout(() => {
-            setActiveAnimation('');
-            setLastAnimationTime(Date.now());
-          }, animationDuration * 1000);  // Convert to milliseconds
-        }
-      }, 1000);  // Check every second
+          funcAnimateTimeout();
+        }, (+animationDuration + +animationInterval) * MS_PER_S)
+      }
+
+      funcAnimateTimeout();
     }
 
-    // Clean up the timeout and interval on unmount
     return () => {
-      if (animationTimeoutId) {
-        clearTimeout(animationTimeoutId);
-      }
-      if (intervalId) {
-        clearInterval(intervalId);
-      }
-    };
-  }, [animation, animationDuration, animationInterval, lastAnimationTime]);
+      clearTimeout(tidAnimateStop);
+      clearTimeout(tidAnimateStart);
+    }
+  }, [animation, animationDuration, animationInterval])  // Add dependencies
+
 
   // 使用 useMemo 来优化 animationName 的计算
   const animationName = useMemo(() => {
@@ -58,12 +49,14 @@ function RenderAnimateContainer({ children, animation, animationDuration, animat
     }
   }, [activeAnimation]);  // 只在 activeAnimation 改变时重新计算
 
-  const style = {
-    animationDuration: `${animationDuration}s`,
-    animationIterationCount: 'infinite',
-    animationTimingFunction: `${animationTimingFunction}`,
-    animationName: animationName,
-  };
+  const style = useMemo(() => {
+    return {
+      animationDuration: `${animationDuration}s`,
+      animationIterationCount: 'infinite',
+      animationTimingFunction: `${animationTimingFunction}`,
+      animationName: animationName,
+    }
+  }, [animationName]);
 
   return <div style={style}>{children}</div>;
 }
