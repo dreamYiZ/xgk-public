@@ -2,7 +2,7 @@ import { useState, useCallback, useLayoutEffect, useEffect } from "react";
 import ppplog from "ppplog";
 
 function useAnimateNumber(
-  oneNumber: number,
+  oneNumber: any,
   animationDuration: number,
   animationInterval = 10,
   fps = 4

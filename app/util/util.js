@@ -66,7 +66,7 @@ export const createMarketTemplates = () => {
 }
 
 
-const handleFullscreen = () => {
+export const handleFullscreen = () => {
   if (document.documentElement.requestFullscreen) {
     document.documentElement.requestFullscreen();
   } else if (document.documentElement.mozRequestFullScreen) { /* Firefox */
