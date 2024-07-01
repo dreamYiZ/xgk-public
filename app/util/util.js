@@ -55,9 +55,51 @@ export const createMarketList = () => {
 };
 
 
+export const createBoxPieChart = () => {
+  return { ...createBoxPayload(), width: '100px', height: '100px', sub: {
+
+  } }
+
+
+}
+export const createBoxBarChart = () => {
+  return { ...createBoxPayload(), width: '100px', height: '100px', sub: {
+
+  } }
+
+
+}
+export const createBoxLineChart = () => {
+  return { ...createBoxPayload(), width: '100px', height: '100px', sub: {
+
+  } }
+
+
+}
+export const createBoxDoughnutChart = () => {
+  return { ...createBoxPayload(), width: '100px', height: '100px', sub: {
+
+  } }
+
+
+}
+export const createBoxStackingChart = () => {
+  return { ...createBoxPayload(), width: '100px', height: '100px', sub: {
+
+  } }
+
+
+}
+
 export const MAP_TYPE_FACTORY = {
   [SUB_TYPE.TEXT]: createBoxText,
-  [SUB_TYPE.IMAGE]: createBoxImage
+  [SUB_TYPE.IMAGE]: createBoxImage,
+  [SUB_TYPE.PIE_CHART]: createBoxPieChart,
+  [SUB_TYPE.BAR_CHART]: createBoxBarChart,
+  [SUB_TYPE.LINE_CHART]: createBoxLineChart,
+  [SUB_TYPE.DOUGHNUT_CHART]: createBoxDoughnutChart,
+  [SUB_TYPE.STACKING_CHART]: createBoxStackingChart,
+
 };
 
 
