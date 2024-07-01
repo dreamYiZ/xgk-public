@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
-import fs from 'fs';
-import path from 'path';
+import fs from "node:fs/promises";
+
 
 export const runtime = 'edge';
 
