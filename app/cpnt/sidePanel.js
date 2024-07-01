@@ -14,12 +14,14 @@ import ppplog from 'ppplog';
 import { handleFullscreen } from "../util/util";
 import SettingsIcon from '@mui/icons-material/Settings';  // 引入 SettingsIcon 图标
 import Setting from "./setting";
+import ChooseImage from "./chooseImage";
 
 function SidePanel() {
-  const { mode, setMode, screenWidth, screenHeight, setScreenWidth, setScreenHeight, tab: tabValue, setTabValue, setBg,
-
+  const { mode, setMode, screenWidth, screenHeight, setScreenWidth,
+    setScreenHeight, tab: tabValue, setTabValue, setBg,
     openSetting,
     closeSetting,
+    openSelectImage,
 
   } = useGlobalStore();
   const { clearActiveId } = useBoxStore();
@@ -116,6 +118,10 @@ function SidePanel() {
     closeSetting();
   };
 
+  const selectImage = () => {
+
+    openSelectImage();
+  }
 
 
   return (
@@ -155,6 +161,7 @@ function SidePanel() {
             上传文件
             <input ref={fileInput} type="file" hidden onChange={handleFileChange} />
           </Button>
+          <Button color="success" onClick={selectImage}>选择图片</Button>
           <Button onClick={handleUploadClick}>确定</Button>
           <br />
           <br />
@@ -184,6 +191,7 @@ function SidePanel() {
         </Alert>
       </Snackbar>
       <Setting />  {/* 设置面板 */}
+      <ChooseImage />
     </div>
   );
 }

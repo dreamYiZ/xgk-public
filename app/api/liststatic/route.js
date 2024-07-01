@@ -3,19 +3,12 @@
 import { NextResponse } from "next/server";
 import promises from "node:fs/promises";
 
-
-// Your code...
-
-
 export async function POST(req, res) {
-
   try {
+    const directoryPath = './public/static';
 
-    const directoryPath = './public/upload';
-
-    // Use the promise version of fs.readdir
+    // Use the promise version of readdir
     const files = await promises.readdir(directoryPath);
-
 
     // Filter out non-image files
     // const imageFiles = files.filter(file => file.endsWith('.jpg'));

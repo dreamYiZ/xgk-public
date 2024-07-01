@@ -28,8 +28,23 @@ function M_IMAGE() {
   }, []);
 
   const handleDelete = (image) => {
-    // Add your delete logic here
-    console.log(`Delete ${image}`);
+    // Send a request to the server to delete the image
+    fetch('/api/deleteimage', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ image }),
+    })
+      .then(res => res.json())
+      .then(response => {
+        if (response.status === 'success') {
+          // Remove the image from the state
+          setImages(images.filter(img => img !== image));
+        } else {
+          console.error(response.error);
+        }
+      });
   };
 
   const isImage = (filename) => {
