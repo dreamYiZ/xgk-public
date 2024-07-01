@@ -8,10 +8,10 @@ const MAP_SUB_RENDER = {
 }
 
 
-function subRender(sub) {
+function subRender(sub, box) {
   const Component = MAP_SUB_RENDER[sub.type];
   if (Component) {
-    return <Component {...sub} />
+    return <Component {...sub} box={box} />
   }
 
   return <div>

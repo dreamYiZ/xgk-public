@@ -1,10 +1,12 @@
 import { SUB_TYPE } from "../util/util";
 import useBoxStore from '../store/useBo';
 import EditSubText from "./editSubText";
+import EditSubImage from "./editSubImage";
 import { useState, useMemo } from 'react';
 
 const MAP_SUB_EDIT = {
-  [SUB_TYPE.TEXT]: EditSubText
+  [SUB_TYPE.TEXT]: EditSubText,
+  [SUB_TYPE.IMAGE]: EditSubImage
 }
 
 function EditSub() {

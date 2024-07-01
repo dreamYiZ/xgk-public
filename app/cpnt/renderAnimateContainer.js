@@ -1,10 +1,11 @@
 import { ANIMATE_TYPES } from "../util/util";
 
-function RenderAnimateContainer({ children, animation, animationDuration, animationInterval }) {
+function RenderAnimateContainer({ children, animation, animationDuration, animationInterval, animationTimingFunction }) {
   const style = {
     animationDuration: `${animationDuration}s`,
     animationIterationCount: 'infinite',
     animationDelay: `${animationInterval}s`,
+    animationTimingFunction: `${animationTimingFunction}`,
   };
 
   switch (animation) {

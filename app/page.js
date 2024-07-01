@@ -72,7 +72,7 @@ export default function Home() {
     return <>
       {boxArr.map((box, index) => {
         return <Box {...box} key={box.boxid} mainRef={mainRef}>
-          {subRender(box.sub)}
+          {subRender(box.sub, box)}
         </Box>
       })}
     </>
