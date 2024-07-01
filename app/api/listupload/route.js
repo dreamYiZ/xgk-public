@@ -1,9 +1,12 @@
+"use server"
 import { NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
-import fs from "node:fs/promises";
+import fs from 'fs';  // Use 'fs/promises' for promise-based operations
+
+// Your code...
 
 
-export const runtime = 'edge';
+
 
 
 export async function POST(req, res) {
