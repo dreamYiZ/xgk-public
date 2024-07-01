@@ -5,10 +5,10 @@ import SidePanel from "./sidePanel";
 import React, { useEffect, useState } from 'react';
 import { MODE } from '../store/useGlobal';
 import { Dialog, DialogTitle, DialogContent, TextField, DialogActions, Button } from '@mui/material';
-import { p as sp } from "../util/util";
+import { p as sp, generateLicense } from "../util/util";
 
 function ControlView(config) {
-  const { mode, setMode, version, hideWhenDisplaying, showWhenEditing } = useGlobalStore();
+  const { mode, setMode, version, hideWhenDisplaying, showWhenEditing, license } = useGlobalStore();
 
   const [keyPressCount, setKeyPressCount] = useState(0);
   const [lastKey, setLastKey] = useState(null);
@@ -55,6 +55,36 @@ function ControlView(config) {
       alert('Incorrect password');
     }
   };
+
+
+  useEffect(() => {
+    // Call the POST endpoint when the component mounts
+    if (license) {
+      fetch('/api/gp', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ password: license }) // Send license as password
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.status === 'success') {
+            return;
+          } else {
+            ppplog('generateLicense1')
+            generateLicense();
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          generateLicense();
+        });
+    }
+
+  }, [license]);
+
+
 
   return <div>
 

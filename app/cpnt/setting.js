@@ -4,9 +4,10 @@ import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
 import useGlobalStore from '../store/useGlobal';
 import Divider from '@mui/material/Divider';
+import TextField from '@mui/material/TextField';
 
 export default function Setting() {
-  const { isOpenSetting, openSetting, closeSetting } = useGlobalStore();
+  const { isOpenSetting, openSetting, closeSetting, setLicense, license } = useGlobalStore();
 
   const downloadConfig = () => {
     const config = JSON.stringify(localStorage, null, 2);
@@ -20,7 +21,7 @@ export default function Setting() {
   const uploadConfig = (event) => {
     const file = event.target.files[0];
     const reader = new FileReader();
-    reader.onload = function(event) {
+    reader.onload = function (event) {
       const config = JSON.parse(event.target.result);
       for (let key in config) {
         localStorage.setItem(key, config[key]);
@@ -34,6 +35,9 @@ export default function Setting() {
     localStorage.clear();
   };
 
+  const handleLicenseChange = (event) => {
+    setLicense(event.target.value);
+  };
 
   return (
     <div>
@@ -42,7 +46,7 @@ export default function Setting() {
         open={isOpenSetting}
         onClose={closeSetting}
       >
-        <Box sx={{ width: 200, padding: 2 }}>
+        <Box sx={{ width: 350, padding: 2 }}>
           <Button onClick={downloadConfig}>下载配置</Button>
           <Button variant="contained" component="label">
             上传配置
@@ -55,7 +59,23 @@ export default function Setting() {
 
         <Button onClick={clearLocalStorage}>Initialize System</Button>
 
+        <Divider />
+
+
+        <Box sx={{ padding: 2 }}>
+          <TextField
+            label="License"
+            value={license}
+            onChange={handleLicenseChange}
+            fullWidth
+            multiline
+          />
+        </Box>
+
+
       </Drawer>
+
+
     </div>
   );
 }

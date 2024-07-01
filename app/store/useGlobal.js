@@ -26,6 +26,7 @@ const useGlobalStore = create(persist(
     screenWidth: '',
     screenHeight: '',
     tab: 0,
+    license: '',
     setMode: (_mode) => set(() => ({ mode: _mode })),
     setScreenWidth: (_width) => set(() => ({ screenWidth: _width })),
     setScreenHeight: (_height) => set(() => ({ screenHeight: _height })),
@@ -39,6 +40,7 @@ const useGlobalStore = create(persist(
     setBg: (_bg) => set(() => ({ bg: _bg })),
     openSetting: () => set(() => ({ isOpenSetting: true })),
     closeSetting: () => set(() => ({ isOpenSetting: false })),
+    setLicense: (license) => set(() => ({ license: license })),
   }),
   {
     name: 'global-storage',

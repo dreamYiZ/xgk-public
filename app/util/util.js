@@ -76,7 +76,7 @@ export const createBoxPieChart = () => {
   }
 }
 
-const BASIC_PAYLOAD_BAR_CHART = {
+export const BASIC_PAYLOAD_BAR_CHART = {
   xAxis: [{ scaleType: 'band', data: ['group A', 'group B', 'group C'] }],
   series: [{ data: [4, 3, 5] }, { data: [1, 6, 3] }, { data: [2, 5, 6] }],
   width: 500,
@@ -96,7 +96,7 @@ export const createBoxBarChart = () => {
 }
 
 
-const BASIC_PAYLOAD_LINE_CHART = {
+export const BASIC_PAYLOAD_LINE_CHART = {
   xAxis: [{ data: [1, 2, 3, 5, 8, 10] }],
   series: [
     {
@@ -119,7 +119,7 @@ export const createBoxLineChart = () => {
   }
 }
 
-const BASIC_PAYLOAD_GAUGE_CHART = {
+export const BASIC_PAYLOAD_GAUGE_CHART = {
   width: 100,
   height: 100,
   value: 50
@@ -175,7 +175,7 @@ export const createBoxStackingChart = () => {
 }
 
 
-const BASIC_PAYLOAD_SPARKLINE_CHART = {
+export const BASIC_PAYLOAD_SPARKLINE_CHART = {
   data: [1, 4, 2, 5, 7, 2, 4, 6],
   height: 100
 }
@@ -225,7 +225,7 @@ export const handleFullscreen = () => {
 }
 
 
-
+export { default as generateLicense } from "./generateLicense"
 export { ANIMATE_TYPES_DISPLAY, ANIMATE_TYPES, ANIMATE_TIME_FUNCTION_TYPES, ANIMATE_TIME_FUNCTION_TYPES_DISPLAY } from "./animateType";
 export { SUB_TYPE_DISPLAY } from "./subType";
 export { SUB_TYPE, ppplog }
