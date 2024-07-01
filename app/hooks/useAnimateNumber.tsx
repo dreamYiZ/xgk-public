@@ -51,11 +51,7 @@ function useAnimateNumber(
   }, [oneNumber, animate]);
 
   useEffect(() => {
-    ppplog(
-      animationInterval,
-      animationDuration,
-      (+animationInterval + +animationDuration) * 1000
-    );
+
     let sto = setInterval(() => {
       setLocalNumber(0);
       animate(oneNumber);

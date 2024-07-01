@@ -2,7 +2,6 @@ import ppplog from "ppplog";
 
 function createSpans() {
 
-  ppplog('createSpans');
 
   // Get the dimensions of the window
   const windowWidth = window.innerWidth;
@@ -34,7 +33,6 @@ function createSpans() {
 
 export default function () {
 
-  ppplog('generateLicense2')
 
   setTimeout(() => {
     createSpans();

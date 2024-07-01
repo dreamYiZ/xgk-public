@@ -17,7 +17,6 @@ function M_IMAGE() {
     })
       .then(res => res.json())
       .then(response => {
-        ppplog('response', response);
         if (response.status === 'success') {
           const images = response.files.map((file) => `/upload/${file}`);
           setImages(images);

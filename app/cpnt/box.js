@@ -23,7 +23,6 @@ function Box({ boxid, width, height, position, opacity, children, groupid, x, y,
     const onMouseDown = (e) => {
       if (mode !== MODE.EDIT) return;
       setActiveBoxId(boxid);  // Set this box as the active box
-      ppplog('mouseDown');
       offsetX = e.clientX - boxElement.getBoundingClientRect().left;
       offsetY = e.clientY - boxElement.getBoundingClientRect().top;
       document.addEventListener('mousemove', onMouseMove);
@@ -31,7 +30,6 @@ function Box({ boxid, width, height, position, opacity, children, groupid, x, y,
     };
 
     const onMouseMove = (e) => {
-      ppplog('mouseMove');
       let newX = e.clientX - offsetX - mainElement.getBoundingClientRect().left;
       let newY = e.clientY - offsetY - mainElement.getBoundingClientRect().top;
 

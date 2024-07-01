@@ -31,7 +31,6 @@ function Framework({ children }) {
 
   const pathname = usePathname()
 
-  ppplog('currentPath', pathname);  // 打印当前URL路径
 
   // Check if pathname starts with '/m'
   if (pathname.startsWith('/m')) {

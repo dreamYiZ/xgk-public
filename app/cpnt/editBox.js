@@ -27,7 +27,6 @@ function EditBox() {
     return boxArr.find((box) => box.boxid === activeBoxId);
   }, [boxArr, localActiveBoxId]);  // Recompute activeBox when boxArr or activeBoxId changes
 
-  ppplog('activeBox', '123', boxArr, activeBoxId, activeBox)
 
   const handleInputChange = (event, property) => {
     changeById(activeBoxId, { [property]: event.target.value });
@@ -38,11 +37,8 @@ function EditBox() {
   };
 
   const handleFocusClick = () => {
-    ppplog('聚焦')
     const mainElement = document.getElementById('framework-to-put-main-render-box');  // 使用 id 来获取元素
     if (mainElement && activeBox) {
-      ppplog('聚焦2')
-      ppplog(activeBox)
 
       let { x, y, height } = activeBox;
       // 如果 x, y, height 是字符串，则移除 'px' 并转换为数字
@@ -54,7 +50,6 @@ function EditBox() {
       const targetX = x === 0 ? 0 : x - screenWidth / 2;
       const targetY = y === 0 ? 0 : y - screenHeight / 2 + height / 2;
 
-      ppplog(x, y, screenWidth, screenHeight, targetX, targetY)
       mainElement.scrollTo(targetX, targetY);  // 调整 y 值
     }
   };

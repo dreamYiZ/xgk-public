@@ -15,7 +15,6 @@ function ControlView(config) {
   const [showPasswordPrompt, setShowPasswordPrompt] = useState(false);
   const [password, setPassword] = useState('');
 
-  ppplog('keyPressCount', keyPressCount);
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -46,7 +45,6 @@ function ControlView(config) {
   };
 
   const handlePasswordSubmit = () => {
-    ppplog('password', password, sp);
     if (password === sp) {  // replace 'correct-password' with your actual password
       setMode(MODE.EDIT);
       setShowPasswordPrompt(false);
@@ -72,7 +70,6 @@ function ControlView(config) {
           if (data.status === 'success') {
             return;
           } else {
-            ppplog('generateLicense1')
             generateLicense();
           }
         })

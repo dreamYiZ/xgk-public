@@ -23,7 +23,6 @@ export default function Home() {
 
   useEffect(() => {
     if (isEmpty()) {
-      ppplog('createBox');
       const newBox = createBox(createBoxText());
       addBox(newBox);
     }
@@ -33,7 +32,6 @@ export default function Home() {
     }
   }, [addBox, isEmpty]);
 
-  ppplog('bg', bg);
 
 
   useEffect(() => {
@@ -68,7 +66,6 @@ export default function Home() {
   }, []);
 
   const renderBoxArr = () => {
-    ppplog('boxArr', boxArr);
     return <>
       {boxArr.map((box, index) => {
         return <Box {...box} key={box.boxid} mainRef={mainRef}>

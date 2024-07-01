@@ -34,7 +34,6 @@ function EditSubImage() {
   const changeById = useBoxStore(state => state.changeById);
 
 
-  console.log('EditSubImage Render', activeBoxId);
 
 
 
@@ -84,7 +83,6 @@ function EditSubImage() {
 
 
   const handleChoose = ({ image }) => {
-    ppplog('handleChoose-edit', image);
     setImageUrl(image);
 
     setShowSelectImage(false); //

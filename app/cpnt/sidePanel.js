@@ -125,7 +125,6 @@ function SidePanel() {
 
 
   const handleChoose = ({ image }) => {
-    ppplog('handleChoose', image);
 
     setBg({
       type: BG_TYPE.IMAGE,

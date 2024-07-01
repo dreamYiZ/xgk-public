@@ -24,7 +24,6 @@ function generatePassword(secret) {
 // 从环境变量中获取secret
 const secret = process.env.XGK_SECRET;
 const password = generatePassword(secret);
-ppplog('vcx', password, secret);
 
 
 

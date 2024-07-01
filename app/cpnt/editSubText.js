@@ -31,7 +31,6 @@ function EditSubText() {
   const changeById = useBoxStore(state => state.changeById);
 
 
-  console.log('EditSubText Render', activeBoxId);
   const handleSave = () => {
     if (sub) {  // Check if 'sub' exists before saving
       changeById(activeBox.boxid, {

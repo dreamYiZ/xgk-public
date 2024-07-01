@@ -22,7 +22,6 @@ export default function ChooseImage({
       .then(response => {
         if (response.status === 'success') {
           const images = response.files.map((file) => `/static/${file}`);
-          ppplog('images', images)
           setImages(images);
         } else {
           console.error(response.error);
