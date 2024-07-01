@@ -26,6 +26,7 @@ const useGlobalStore = create(persist(
     screenWidth: '',
     screenHeight: '',
     tab: 0,  // Add this line
+    isOpenSetting: false,
     setMode: (_mode) => set(() => ({ mode: _mode })),
     setScreenWidth: (_width) => set(() => ({ screenWidth: _width })),
     setScreenHeight: (_height) => set(() => ({ screenHeight: _height })),
@@ -37,6 +38,8 @@ const useGlobalStore = create(persist(
     hideWhenDisplaying: () => get().mode !== MODE.DISPLAY,
     showWhenEditing: () => get().mode === MODE.EDIT,
     setBg: (_bg) => set(() => ({ bg: _bg })),  // Add this line
+    openSetting: () => set(() => ({ isOpenSetting: true })),  // Open the settings
+    closeSetting: () => set(() => ({ isOpenSetting: false })),  // Close the settings
   }),
   {
     name: 'global-storage',

@@ -6,6 +6,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { HexColorPicker } from 'react-colorful';  // 引入颜色选择器
 import { ANIMATE_TIME_FUNCTION_TYPES_DISPLAY, ANIMATE_TIME_FUNCTION_TYPES, ANIMATE_TYPES, ANIMATE_TYPES_DISPLAY } from "../util/util";
 import { useState, useMemo, useEffect } from 'react';
+import { Box } from '@mui/system';  // 引入 Box 组件
 
 
 function EditSubText() {
@@ -66,36 +67,37 @@ function EditSubText() {
   return (
     <div>
       <br />
-      <TextField label="Font Size (px)" value={fontSize} onChange={e => setFontSize(e.target.value)} />
+      <TextField label="字体大小 (px)" value={fontSize} onChange={e => setFontSize(e.target.value)} />
       <br />
       <br />
-      <TextField label="Font Weight" value={fontWeight} onChange={e => setFontWeight(e.target.value)} />
+      <TextField label="字体粗细" value={fontWeight} onChange={e => setFontWeight(e.target.value)} />
       <br />
       <br />
-      <TextField label="Content" value={content} onChange={e => setContent(e.target.value)} />
+      <TextField label="内容" value={content} onChange={e => setContent(e.target.value)} />
       <br />
       <br />
       <div>
-        <label>Color</label>
+        <label>颜色</label>
         <HexColorPicker color={color} onChange={setColor} />
         <TextField value={color} onChange={e => setColor(e.target.value)} />
       </div>
       <br />
       <br />
-      <div>
-        <label>动画</label>
-        <Select
-          value={animation}
-          onChange={e => setAnimation(e.target.value)}
-          renderValue={(value) => ANIMATE_TYPES_DISPLAY[value] || value}  // Use the display name from 'ANIMATE_TYPES_DISPLAY' if it exists, otherwise use the original value
-        >
-          {Object.entries(ANIMATE_TYPES).map(([key, value]) => (
-            <MenuItem key={key} value={value}>{ANIMATE_TYPES_DISPLAY[key]}</MenuItem>
-          ))}
-          {(!ANIMATE_TYPES.value && animation) && <MenuItem key={animation} value={animation}>{animation}</MenuItem>}
-        </Select>
-
-      </div>
+      <Box display="flex" alignItems="center">
+    <Box mr={2}>  {/* 添加右边距 */}
+      <label>动画</label>
+    </Box>
+    <Select
+      value={animation}
+      onChange={e => setAnimation(e.target.value)}
+      renderValue={(value) => ANIMATE_TYPES_DISPLAY[value] || value}  // Use the display name from 'ANIMATE_TYPES_DISPLAY' if it exists, otherwise use the original value
+    >
+      {Object.entries(ANIMATE_TYPES).map(([key, value]) => (
+        <MenuItem key={key} value={value}>{ANIMATE_TYPES_DISPLAY[key]}</MenuItem>
+      ))}
+      {(!ANIMATE_TYPES.value && animation) && <MenuItem key={animation} value={animation}>{animation}</MenuItem>}
+    </Select>
+  </Box>
       <br />
       <br />
       <TextField label="动画时长" value={animationDuration} onChange={e => setAnimationDuration(e.target.value)} />
@@ -104,18 +106,20 @@ function EditSubText() {
       <TextField label="动画间隔" value={animationInterval} onChange={e => setAnimationInterval(e.target.value)} />
       <br />
       <br />
-      <div>
-        <label>动画时间函数</label>
-        <Select
-          value={animationTimingFunction}
-          onChange={e => setAnimationTimingFunction(e.target.value)}
-          renderValue={(value) => ANIMATE_TIME_FUNCTION_TYPES_DISPLAY[value] || value}
-        >
-          {Object.entries(ANIMATE_TIME_FUNCTION_TYPES).map(([key, value]) => (
-            <MenuItem key={key} value={value}>{ANIMATE_TIME_FUNCTION_TYPES_DISPLAY[value]}</MenuItem>
-          ))}
-        </Select>
-      </div>
+      <Box display="flex" alignItems="center">
+    <Box mr={2}>  {/* 添加右边距 */}
+      <label>动画时间函数</label>
+    </Box>
+    <Select
+      value={animationTimingFunction}
+      onChange={e => setAnimationTimingFunction(e.target.value)}
+      renderValue={(value) => ANIMATE_TIME_FUNCTION_TYPES_DISPLAY[value] || value}
+    >
+      {Object.entries(ANIMATE_TIME_FUNCTION_TYPES).map(([key, value]) => (
+        <MenuItem key={key} value={value}>{ANIMATE_TIME_FUNCTION_TYPES_DISPLAY[value]}</MenuItem>
+      ))}
+    </Select>
+  </Box>
       <br />
 
       <Button variant="contained" color="primary" onClick={handleSave}>保存</Button>

@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Radio, RadioGroup, FormControlLabel, FormControl, FormLabel, TextField, Tabs, Tab, Box } from '@mui/material';
+import { Radio, RadioGroup, FormControlLabel, FormControl, FormLabel, TextField, Tabs, Tab, Box, IconButton } from '@mui/material';
 import classes from "./sidePanel.module.sass"
 import useGlobalStore from '../store/useGlobal';
 import { MODE, BG_TYPE } from '../store/useGlobal';
@@ -12,9 +12,16 @@ import { Button } from '@mui/material';
 import useBoxStore from '../store/useBo';
 import ppplog from 'ppplog';
 import { handleFullscreen } from "../util/util";
+import SettingsIcon from '@mui/icons-material/Settings';  // 引入 SettingsIcon 图标
+import Setting from "./setting";
 
 function SidePanel() {
-  const { mode, setMode, screenWidth, screenHeight, setScreenWidth, setScreenHeight, tab: tabValue, setTabValue, setBg } = useGlobalStore();
+  const { mode, setMode, screenWidth, screenHeight, setScreenWidth, setScreenHeight, tab: tabValue, setTabValue, setBg,
+
+    openSetting,
+    closeSetting,
+
+  } = useGlobalStore();
   const { clearActiveId } = useBoxStore();
   const fileInput = useRef(null);
 
@@ -87,7 +94,7 @@ function SidePanel() {
       // If the upload was successful, update the 'bg' state
       setBg({
         type: selectedFile.type.startsWith('image/') ? BG_TYPE.IMAGE : BG_TYPE.VIDEO,
-        filename: selectedFile.name,
+        filename: `/upload/${selectedFile.name}`,
       });
     } else {
       console.error(result.error);
@@ -101,11 +108,23 @@ function SidePanel() {
 
 
 
+  const handleOpenSettings = () => {
+    openSetting();
+  };
+
+  const handleCloseSettings = () => {
+    closeSetting();
+  };
+
+
 
   return (
     <div className={classes['side-panel-view']}>
       <Box display="flex" justifyContent="space-between" mb={2}>
         <Button variant="outlined" color="primary" onClick={handelClearActiveId}>取消选择</Button>
+        <IconButton onClick={handleOpenSettings}>  {/* 添加一个 IconButton 来打开设置面板 */}
+          <SettingsIcon />
+        </IconButton>
         <Button variant="outlined" color="primary" onClick={handleFullscreen}>全屏</Button>
       </Box>
       <FormControl component="fieldset" className={classes.oneLine} row>
@@ -138,6 +157,7 @@ function SidePanel() {
           </Button>
           <Button onClick={handleUploadClick}>确定</Button>
           <br />
+          <br />
 
           {preview && (preview.startsWith('blob:') ? <img style={{ width: "100px", height: "60px" }} src={preview} alt="Preview" /> : <p>{preview}</p>)}
 
@@ -163,7 +183,7 @@ function SidePanel() {
           {errorMessage}
         </Alert>
       </Snackbar>
-
+      <Setting />  {/* 设置面板 */}
     </div>
   );
 }

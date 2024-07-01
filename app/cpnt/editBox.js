@@ -87,23 +87,23 @@ function EditBox() {
           <br />
           <br />
 
-          <TextField label="Z-Index" value={activeBox.zIndex} onChange={(event) => handleInputChange(event, 'zIndex')} />
+          <TextField label="Z-层级" value={activeBox.zIndex} onChange={(event) => handleInputChange(event, 'zIndex')} />
           <br />
           <br />
 
-          <TextField label="Width" value={activeBox.width} onChange={(event) => handleInputChange(event, 'width')} />
+          <TextField label="宽度" value={activeBox.width} onChange={(event) => handleInputChange(event, 'width')} />
           <br />
           <br />
-          <TextField label="Height" value={activeBox.height} onChange={(event) => handleInputChange(event, 'height')} />
+          <TextField label="高度" value={activeBox.height} onChange={(event) => handleInputChange(event, 'height')} />
           <br />
           <br />
-          <TextField label="Opacity" value={activeBox.opacity} onChange={(event) => handleInputChange(event, 'opacity')} />
+          <TextField label="透明度" value={activeBox.opacity} onChange={(event) => handleInputChange(event, 'opacity')} />
           <br />
           <br />
-          <TextField label="X" value={activeBox.x} onChange={(event) => handleInputChange(event, 'x')} />
+          <TextField label="x-横坐标" value={activeBox.x} onChange={(event) => handleInputChange(event, 'x')} />
           <br />
           <br />
-          <TextField label="Y" value={activeBox.y} onChange={(event) => handleInputChange(event, 'y')} />
+          <TextField label="y-纵坐标" value={activeBox.y} onChange={(event) => handleInputChange(event, 'y')} />
           <br />
           <br />
 
@@ -120,7 +120,7 @@ function EditBox() {
             </Box>
             <Box mr={2}>  {/* 添加右边距 */}
               <Button variant="contained" color="success" onClick={handleAutoSizeClick}>  {/* 修改颜色为 'success' */}
-                自动尺寸
+                自尺寸
               </Button>
             </Box>
 

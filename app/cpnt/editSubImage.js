@@ -84,14 +84,16 @@ function EditSubImage() {
         />
         <label htmlFor="contained-button-file">
           <Button variant="contained" component="span">
-            Upload Image
+            上传图片
           </Button>
         </label>
       </Box>
-      {imageUrl && <img src={imageUrl} alt="Preview" style={{ maxWidth: '100%' }} />}
+      {imageUrl && <img src={imageUrl} alt="预览" style={{ maxWidth: '100%' }} />}
       <br />
-      <div>
-        <label>动画</label>
+      <Box display="flex" alignItems="center">
+        <Box mr={2}>  {/* 添加右边距 */}
+          <label>动画</label>
+        </Box>
         <Select
           value={animation}
           onChange={e => setAnimation(e.target.value)}
@@ -102,8 +104,7 @@ function EditSubImage() {
           ))}
           {(!ANIMATE_TYPES.value && animation) && <MenuItem key={animation} value={animation}>{animation}</MenuItem>}
         </Select>
-
-      </div>
+      </Box>
       <br />
       <br />
       <TextField label="动画时长" value={animationDuration} onChange={e => setAnimationDuration(e.target.value)} />
@@ -112,8 +113,10 @@ function EditSubImage() {
       <TextField label="动画间隔" value={animationInterval} onChange={e => setAnimationInterval(e.target.value)} />
       <br />
       <br />
-      <div>
-        <label>动画时间函数</label>
+      <Box display="flex" alignItems="center">
+        <Box mr={2}>  {/* 添加右边距 */}
+          <label>动画时间函数</label>
+        </Box>
         <Select
           value={animationTimingFunction}
           onChange={e => setAnimationTimingFunction(e.target.value)}
@@ -123,7 +126,7 @@ function EditSubImage() {
             <MenuItem key={key} value={value}>{ANIMATE_TIME_FUNCTION_TYPES_DISPLAY[value]}</MenuItem>
           ))}
         </Select>
-      </div>
+      </Box>
       <br />
 
       <Button variant="contained" color="primary" onClick={handleSave}>保存</Button>

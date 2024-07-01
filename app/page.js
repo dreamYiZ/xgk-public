@@ -81,7 +81,7 @@ export default function Home() {
   const mainStyle = {
     width: `${screenWidth}px`,
     height: `${screenHeight}px`,
-    background: bg.type === BG_TYPE.IMAGE ? `url(/upload/${bg.filename}) no-repeat center center / cover` : '',
+    background: bg.type === BG_TYPE.IMAGE ? `url(${bg.filename}) no-repeat center center / cover` : '',
   };  // Set the background of the <main> element based on the 'bg' state
 
   return (
