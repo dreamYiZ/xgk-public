@@ -1,12 +1,6 @@
-import { useState } from 'react';
-import useBoxStore from '../store/useBo';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import { HexColorPicker } from 'react-colorful';  // 引入颜色选择器
 import { ANIMATE_TYPES, ANIMATE_TYPES_DISPLAY } from "../util/util";
 import RenderAnimateContainer from './renderAnimateContainer';
+import useAnimateNumber from './../hooks/useAnimateNumber';
 
 function SubRenderText(sub) {
   const style = {
@@ -15,6 +9,18 @@ function SubRenderText(sub) {
     color: sub.color,
   };
 
+  // Check if 'sub.content' is a number or a numeric string
+  const isNumeric = !isNaN(parseFloat(sub.content)) && isFinite(sub.content);
+
+  // Use 'useAnimateNumber' hook
+  const [animatedNumber] = useAnimateNumber(
+    isNumeric && sub.animation === ANIMATE_TYPES.NUMBER_GROWING
+      ? parseFloat(sub.content)
+      : sub.content,
+    sub.animationDuration,
+    sub.animationInterval
+  );
+
   return (
     <RenderAnimateContainer
       animation={sub.animation}
@@ -22,7 +28,7 @@ function SubRenderText(sub) {
       animationInterval={sub.animationInterval}
     >
       <div style={style}>
-        {sub.content}
+        {isNumeric&&sub.animation === ANIMATE_TYPES.NUMBER_GROWING ? animatedNumber : sub.content}
       </div>
     </RenderAnimateContainer>
   );

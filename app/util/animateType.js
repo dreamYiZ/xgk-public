@@ -1,4 +1,5 @@
 export const ANIMATE_TYPES = {
+  NONE: 'NONE',
   NUMBER_GROWING: 'NUMBER_GROWING',
   BLINKING: 'BLINKING',  // 闪烁
   FADE_IN_OUT: 'FADE_IN_OUT',  // 淡入淡出
@@ -8,9 +9,27 @@ export const ANIMATE_TYPES = {
 
 
 export const ANIMATE_TYPES_DISPLAY = {
+  [ANIMATE_TYPES.NONE]: '无动画',
   [ANIMATE_TYPES.NUMBER_GROWING]: '增长',
   [ANIMATE_TYPES.SCALE]: '缩放',
   [ANIMATE_TYPES.BLINKING]: '闪烁',
   [ANIMATE_TYPES.FADE_IN_OUT]: '淡入淡出',
   [ANIMATE_TYPES.ROTATING]: '旋转',
 }
+
+
+export const ANIMATE_TIME_FUNCTION_TYPES = {
+  LINEAR: 'linear',
+  EASE: 'ease',
+  EASE_IN: 'ease-in',
+  EASE_OUT: 'ease-out',
+  EASE_IN_OUT: 'ease-in-out',
+};
+
+export const ANIMATE_TIME_FUNCTION_TYPES_DISPLAY = {
+  [ANIMATE_TIME_FUNCTION_TYPES.LINEAR]: '匀速',
+  [ANIMATE_TIME_FUNCTION_TYPES.EASE]: '缓快缓',
+  [ANIMATE_TIME_FUNCTION_TYPES.EASE_IN]: '缓入',
+  [ANIMATE_TIME_FUNCTION_TYPES.EASE_OUT]: '缓出',
+  [ANIMATE_TIME_FUNCTION_TYPES.EASE_IN_OUT]: '缓入缓出',
+};

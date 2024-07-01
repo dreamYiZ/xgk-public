@@ -20,6 +20,7 @@ function RenderAnimateContainer({ children, animation, animationDuration, animat
     case ANIMATE_TYPES.ROTATING:
       style.animationName = 'rotating';
       break;
+
     default:
       break;
   }

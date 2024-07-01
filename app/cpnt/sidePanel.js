@@ -11,6 +11,7 @@ import EditMarket from "./editMarket";
 import { Button } from '@mui/material';
 import useBoxStore from '../store/useBo';
 import ppplog from 'ppplog';
+import { handleFullscreen } from "../util/util";
 
 function SidePanel() {
   const { mode, setMode, screenWidth, screenHeight, setScreenWidth, setScreenHeight, tab: tabValue, setTabValue, setBg } = useGlobalStore();
@@ -98,10 +99,15 @@ function SidePanel() {
     clearActiveId();
   }
 
+
+
+
   return (
     <div className={classes['side-panel-view']}>
-      <Button variant="outlined" color="primary" onClick={handelClearActiveId}>取消选择</Button>
-      <br />
+      <Box display="flex" justifyContent="space-between" mb={2}>
+        <Button variant="outlined" color="primary" onClick={handelClearActiveId}>取消选择</Button>
+        <Button variant="outlined" color="primary" onClick={handleFullscreen}>全屏</Button>
+      </Box>
       <FormControl component="fieldset" className={classes.oneLine} row>
         <FormLabel component="legend">模式</FormLabel>
         <RadioGroup row aria-label="mode" name="mode" value={mode} onChange={handleChange} className={classes['radio-group']}>
