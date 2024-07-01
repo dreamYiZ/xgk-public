@@ -34,6 +34,17 @@ export const createBoxText = () => {
   return createBoxPayload(createSubPayload())
 }
 
+export const createSubImagePayload = () => {
+  return {
+    type: SUB_TYPE.IMAGE,
+    url: 'next.svg'
+  }
+}
+
+export const createBoxImage = () => {
+  return { ...createBoxPayload(), sub: createSubImagePayload(), width: '100px', height: '100px' }
+}
+
 export const createMarketList = () => {
   return Object.entries(SUB_TYPE).map(([type, value]) => {
     return {
@@ -45,7 +56,8 @@ export const createMarketList = () => {
 
 
 export const MAP_TYPE_FACTORY = {
-  [SUB_TYPE.TEXT]: createBoxText
+  [SUB_TYPE.TEXT]: createBoxText,
+  [SUB_TYPE.IMAGE]: createBoxImage
 };
 
 
@@ -69,4 +81,5 @@ const handleFullscreen = () => {
 
 
 export { ANIMATE_TYPES_DISPLAY, ANIMATE_TYPES, ANIMATE_TIME_FUNCTION_TYPES, ANIMATE_TIME_FUNCTION_TYPES_DISPLAY } from "./animateType";
+export { SUB_TYPE_DISPLAY } from "./subType";
 export { SUB_TYPE, ppplog }

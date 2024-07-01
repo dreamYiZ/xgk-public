@@ -1,8 +1,10 @@
 import { SUB_TYPE } from "./util/util";
 import SubRenderText from "./cpnt/subRenderText";
+import SubRenderImage from "./cpnt/subRenderImage";
 
 const MAP_SUB_RENDER = {
-  [SUB_TYPE.TEXT]: SubRenderText
+  [SUB_TYPE.TEXT]: SubRenderText,
+  [SUB_TYPE.IMAGE]: SubRenderImage
 }
 
 

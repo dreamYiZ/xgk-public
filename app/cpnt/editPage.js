@@ -3,7 +3,7 @@ import { List, ListItem, ListItemText } from '@mui/material';
 import { IconButton } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import useGlobalStore from '../store/useGlobal';
-
+import { SUB_TYPE_DISPLAY } from "../util/util";
 
 function EditPage() {
   const boxArr = useBoxStore((state) => state.boxArr);  // Access the 'boxArr' state
@@ -22,21 +22,21 @@ function EditPage() {
 
   return (
     <div style={{ overflowY: 'auto', maxHeight: 'calc(100vh - 420px)' }}>
-    <List>
-      {boxArr.map((box) => (
-        <ListItem key={box.boxid} >
-          <ListItemText
-            primary={`节点${box?.sub?.type}: ${box.boxid}`}
-            style={{ color: box.boxid === activeBoxId ? '#7CB9E8' : 'black', cursor: 'pointer' }}
-            onClick={() => handleItemClick(box.boxid)}
-          />
-          <IconButton onClick={() => handleEditClick(box.boxid)}>
-            <EditIcon style={{ cursor: 'pointer' }} />
-          </IconButton>
+      <List>
+        {boxArr.map((box) => (
+          <ListItem key={box.boxid} >
+            <ListItemText
+              primary={`${SUB_TYPE_DISPLAY[box?.sub?.type]}: ${box.boxid}`}
+              style={{ color: box.boxid === activeBoxId ? '#7CB9E8' : 'black', cursor: 'pointer' }}
+              onClick={() => handleItemClick(box.boxid)}
+            />
+            <IconButton onClick={() => handleEditClick(box.boxid)}>
+              <EditIcon style={{ cursor: 'pointer' }} />
+            </IconButton>
 
-        </ListItem>
-      ))}
-    </List>
+          </ListItem>
+        ))}
+      </List>
     </div>
   );
 }
