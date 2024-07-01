@@ -8,7 +8,8 @@ import { ANIMATE_TIME_FUNCTION_TYPES_DISPLAY, ANIMATE_TIME_FUNCTION_TYPES, ANIMA
 import { useState, useMemo, useEffect } from 'react';
 import { Box } from '@mui/system';
 import Divider from '@mui/material/Divider';
-import {SUB_TYPE} from "../util/util";
+import { SUB_TYPE } from "../util/util";
+import ShowDataEditorWhenNecessaryNess from "./ShowDataEditorWhenNecessaryNess"
 
 function EditSubMuiChartPie() {
   const boxArr = useBoxStore((state) => state.boxArr);
@@ -16,6 +17,8 @@ function EditSubMuiChartPie() {
   const activeBox = useMemo(() => boxArr.find((box) => box.boxid === activeBoxId), [boxArr, activeBoxId]);
   const sub = useMemo(() => activeBox?.sub, [activeBox, activeBoxId]);
   const changeById = useBoxStore(state => state.changeById);
+
+
 
 
 
@@ -81,7 +84,7 @@ function EditSubMuiChartPie() {
       />
       <br />
       <br />
-
+      <ShowDataEditorWhenNecessaryNess />
       <br />
       <Button variant="contained" color="primary" onClick={handleSave}>保存</Button>
       <br />
