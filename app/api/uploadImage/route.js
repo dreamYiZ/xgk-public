@@ -1,9 +1,9 @@
-
+"use server"
 import { NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
+import fs from "node:fs/promises";
 
 
-export const runtime = 'edge';
 
 export async function POST(req) {
   try {
@@ -12,9 +12,6 @@ export async function POST(req) {
     const file = formData.get("file");
     const arrayBuffer = await file.arrayBuffer();
     const buffer = new Uint8Array(arrayBuffer);
-
-    "use server"
-    const fs = require('fs')
 
 
     // Ensure the 'upload' directory exists
