@@ -15,7 +15,7 @@ function subRender(sub, box) {
   }
 
   return <div>
-    TYPE NOT FOUND!
+    TYPE NOT FOUND!{`${sub.type}`}
   </div>
 }
 
