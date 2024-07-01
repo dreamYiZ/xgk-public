@@ -203,7 +203,6 @@ export const MAP_TYPE_FACTORY = {
   [SUB_TYPE.GAUGE_CHART]: createBoxGaugeChart,
   [SUB_TYPE.STACKING_CHART]: createBoxStackingChart,
   [SUB_TYPE.SPARKLINE_CHART]: createBoxSparklineChart,
-
 };
 
 
