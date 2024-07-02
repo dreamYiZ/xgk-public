@@ -9,4 +9,4 @@ cp package.json ../bibi-f-n/
 cp package-lock.json ../bibi-f-n/
 cp yarn.lock ../bibi-f-n/
 cp next.config.mjs ../bibi-f-n/
-cp next.config.mjs ../bibi-f-n/
+cp .env.local ../bibi-f-n/

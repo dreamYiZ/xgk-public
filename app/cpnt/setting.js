@@ -5,9 +5,17 @@ import Button from '@mui/material/Button';
 import useGlobalStore from '../store/useGlobal';
 import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import ppplog from "ppplog";
+import Typography from '@mui/material/Typography';
 
 export default function Setting() {
-  const { isOpenSetting, openSetting, closeSetting, setLicense, license } = useGlobalStore();
+  const { isOpenSetting, openSetting, closeSetting, setLicense, license,
+    themePaletteMode, setThemePaletteMode } = useGlobalStore();
+
+  ppplog('themePaletteMode', themePaletteMode)
 
   const downloadConfig = () => {
     const config = JSON.stringify(localStorage, null, 2);
@@ -39,6 +47,14 @@ export default function Setting() {
     setLicense(event.target.value);
   };
 
+
+
+  const handleThemeChange = (event) => {
+    ppplog('event.target.value', event.target.value)
+    setThemePaletteMode(event.target.value);
+  };
+
+
   return (
     <div>
       <Drawer
@@ -59,6 +75,24 @@ export default function Setting() {
 
         <Button onClick={clearLocalStorage}>Initialize System</Button>
 
+
+        <Divider />
+
+
+        <Box sx={{ padding: 2 }}>
+          <Typography variant="h6">主题模式</Typography>
+          <RadioGroup
+            aria-label="theme"
+            name="theme"
+            value={themePaletteMode}
+            onChange={handleThemeChange}
+          >
+            <FormControlLabel value="light" control={<Radio />} label="Light" />
+            <FormControlLabel value="dark" control={<Radio />} label="Dark" />
+          </RadioGroup>
+        </Box>
+
+
         <Divider />
 
 
@@ -71,11 +105,7 @@ export default function Setting() {
             multiline
           />
         </Box>
-
-
       </Drawer>
-
-
     </div>
   );
 }
