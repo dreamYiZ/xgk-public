@@ -2,10 +2,11 @@ import { SUB_TYPE } from "../util/util";
 import useBoxStore from '../store/useBo';
 import EditSubText from "./editSubText";
 import EditSubImage from "./editSubImage";
-import EditSubMuiChart from "./editSubMuiChart"
 import EditSubMuiChartGauge from "./editSubMuiChartGauge"
 import EditSubMuiChartPie from "./editSubMuiChartPie"
 import { useMemo } from 'react';
+import EditSubMuiChart from "./EditSubMuiChart"
+
 
 const MAP_SUB_EDIT = {
   [SUB_TYPE.TEXT]: EditSubText,

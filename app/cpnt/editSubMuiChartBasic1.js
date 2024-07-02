@@ -8,26 +8,18 @@ import { ANIMATE_TIME_FUNCTION_TYPES_DISPLAY, ANIMATE_TIME_FUNCTION_TYPES, ANIMA
 import { useState, useMemo, useEffect } from 'react';
 import { Box } from '@mui/system';
 import Divider from '@mui/material/Divider';
-import { SUB_TYPE } from "../util/util";
-import ShowDataEditorWhenNecessaryNess from "./ShowDataEditorWhenNecessaryNess"
+import {SUB_TYPE} from "../util/util";
 
-function EditSubMuiChartBar() {
+function EditSubMuiChart() {
   const boxArr = useBoxStore((state) => state.boxArr);
   const activeBoxId = useBoxStore((state) => state.activeBoxId);
   const activeBox = useMemo(() => boxArr.find((box) => box.boxid === activeBoxId), [boxArr, activeBoxId]);
   const sub = useMemo(() => activeBox?.sub, [activeBox, activeBoxId]);
   const changeById = useBoxStore(state => state.changeById);
 
-
-
-
-
-
-
   // Use local state for width and height
   const [width, setWidth] = useState(sub?.width);
   const [height, setHeight] = useState(sub?.height);
-
 
   const handleSave = () => {
     if (sub) {
@@ -41,7 +33,6 @@ function EditSubMuiChartBar() {
     }
   };
 
-
   const handleWidthChange = (event) => {
     setWidth(event.target.value);
   };
@@ -50,7 +41,6 @@ function EditSubMuiChartBar() {
     setHeight(event.target.value);
   };
 
-
   useEffect(() => {
     if (sub) {
       setWidth(sub.width);
@@ -58,12 +48,11 @@ function EditSubMuiChartBar() {
     }
   }, [sub, activeBoxId]);
 
-
   return (
     <div>
       <br />
       <TextField
-        label="宽度"
+        label="Width"
         value={width}
         onChange={handleWidthChange}
         type="number"
@@ -74,7 +63,7 @@ function EditSubMuiChartBar() {
       <br />
       <br />
       <TextField
-        label="高度"
+        label="Height"
         value={height}
         onChange={handleHeightChange}
         type="number"
@@ -82,17 +71,16 @@ function EditSubMuiChartBar() {
           shrink: true,
         }}
       />
+
       <br />
       <br />
-      <ShowDataEditorWhenNecessaryNess />
       <br />
       <Button variant="contained" color="primary" onClick={handleSave}>保存</Button>
       <br />
       <br />
       <Divider />
-
     </div>
   );
 }
 
-export default EditSubMuiChartBar;
+export default EditSubMuiChart;

@@ -26,9 +26,12 @@ export default function ShowDataEditorWhenNecessaryNess() {
   };
 
   useEffect(() => {
+    ppplog('useEffect-sub')
     if (sub) {
       if (sub?.series && Array.isArray(sub.series)) {
-        setSeries(sub.series)
+        if(!series){
+          setSeries(sub.series)
+        }
       }
     }
   }, [sub])
@@ -83,7 +86,6 @@ export default function ShowDataEditorWhenNecessaryNess() {
           {/* 在这里添加你的内容 */}
           <div>
             <Button onClick={saveChange}>保存</Button>
-            <Button onClick={toggleDrawer(false)}>关闭Drawer</Button>
           </div>
         </Box>
       </Drawer>

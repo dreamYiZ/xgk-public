@@ -14,6 +14,7 @@ import {
   GridRowEditStopReasons,
 } from '@mui/x-data-grid';
 import ppplog from "ppplog";
+import { v4 as uuidv4 } from 'uuid';
 
 
 
@@ -22,6 +23,7 @@ export default function SeriesRecordEdit({ seriesRecord, onUpdate }) {
   const [rowModesModel, setRowModesModel] = React.useState({});
 
   ppplog('rows', rows);
+  ppplog('rowModesModel', rowModesModel);
 
   // 动态生成columns
   const columns = React.useMemo(() => {
@@ -30,7 +32,7 @@ export default function SeriesRecordEdit({ seriesRecord, onUpdate }) {
         ...Object.keys(rows[0]).map((key) => ({
           field: key,
           headerName: key.charAt(0).toUpperCase() + key.slice(1), // 将字段名的首字母大写作为列名
-          editable: true, // 允许编辑
+          editable: key !== 'id', // 如果字段是ID，则不允许编辑
         })),
         {
           field: 'actions',
@@ -87,7 +89,7 @@ export default function SeriesRecordEdit({ seriesRecord, onUpdate }) {
     ppplog('handleRowUpdate')
     const updatedRows = rows.map((row) => {
       ppplog('id', row, params)
-      if(row){
+      if (row) {
         if (row.id === params.id) {
           return params;
         }
@@ -95,6 +97,7 @@ export default function SeriesRecordEdit({ seriesRecord, onUpdate }) {
 
       return row;
     });
+    ppplog('3updatedRows', updatedRows)
     setRows(updatedRows);
     onUpdate(updatedRows); // 更新父组件的数据
   }, [rows, onUpdate]);
@@ -113,7 +116,9 @@ export default function SeriesRecordEdit({ seriesRecord, onUpdate }) {
 
 
   const handleDeleteClick = (id) => () => {
-    setRows(rows.filter((row) => row.id !== id));
+    const updatedRows = rows.filter((row) => row.id !== id);
+    setRows(updatedRows);
+    onUpdate(updatedRows); // 更新父组件的数据
   };
 
   const handleCancelClick = (id) => () => {
@@ -128,9 +133,15 @@ export default function SeriesRecordEdit({ seriesRecord, onUpdate }) {
     }
   };
 
-  const handleProcessRowUpdateError = (e)=>{
-    console.error('handleProcessRowUpdateError: ',e);
+  const handleProcessRowUpdateError = (e) => {
+    console.error('handleProcessRowUpdateError: ', e);
   }
+
+  const handleRowEditStop = (params, event) => {
+    if (params.reason === GridRowEditStopReasons.rowFocusOut) {
+      event.defaultMuiPrevented = true;
+    }
+  };
 
   return (
     <Box sx={{ padding: 2 }}>
@@ -139,6 +150,7 @@ export default function SeriesRecordEdit({ seriesRecord, onUpdate }) {
         columns={columns}
         editMode="row"
         rowModesModel={rowModesModel}
+        onRowEditStop={handleRowEditStop}
         processRowUpdate={handleRowUpdate}
         onProcessRowUpdateError={handleProcessRowUpdateError}
         slots={{
@@ -157,7 +169,7 @@ function EditToolbar(props) {
   const { setRows, setRowModesModel } = props;
 
   const handleClick = () => {
-    const id = randomId();
+    const id = Date.now(); // 使用当前时间戳作为唯一ID
     setRows((oldRows) => [...oldRows, { id, name: '', age: '', isNew: true }]);
     setRowModesModel((oldModel) => ({
       ...oldModel,
@@ -165,10 +177,11 @@ function EditToolbar(props) {
     }));
   };
 
+
   return (
     <GridToolbarContainer>
       <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
-        Add record
+        添加记录
       </Button>
     </GridToolbarContainer>
   );
