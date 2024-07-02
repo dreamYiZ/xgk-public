@@ -6,9 +6,10 @@ import useBoxStore from '../store/useBo';
 import { useState, useMemo, useEffect } from 'react';
 import SeriesRecordEdit from "./SeriesRecordEdit";
 import ppplog from "ppplog";
+import ShowDataEditorWhenNecessaryNessLayout from "./ChartEditorLayout";
+import ChartColorEdit from "./ChartColorEdit";
 
 export default function ShowDataEditorWhenNecessaryNess() {
-  const [isOpen, setIsOpen] = React.useState(false);
 
   const boxArr = useBoxStore((state) => state.boxArr);
   const activeBoxId = useBoxStore((state) => state.activeBoxId);
@@ -17,21 +18,21 @@ export default function ShowDataEditorWhenNecessaryNess() {
   const changeById = useBoxStore(state => state.changeById);
 
   const [series, setSeries] = useState(null);
+  const [colorArray, setColorArray] = useState([]);
 
-  const toggleDrawer = (open) => (event) => {
-    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-      return;
-    }
-    setIsOpen(open);
-  };
+
 
   useEffect(() => {
     ppplog('useEffect-sub')
     if (sub) {
       if (sub?.series && Array.isArray(sub.series)) {
-        if(!series){
+        if (!series) {
           setSeries(sub.series)
         }
+      }
+
+      if(sub.color && Array.isArray(sub.color)) {
+        setColorArray(sub.color);
       }
     }
   }, [sub])
@@ -59,36 +60,50 @@ export default function ShowDataEditorWhenNecessaryNess() {
   const saveChange = () => {
     ppplog('series', series)
 
+
+
     if (sub) {
+      let newSub = {
+        ...sub,
+        series
+      }
+      ppplog('colorArray 1', colorArray)
+
+      if (colorArray && Array.isArray(colorArray) && colorArray.length) {
+        ppplog('newSub colorArray', colorArray)
+
+        newSub.color = colorArray;
+      }
+
+      ppplog('newSub', newSub)
+
       changeById(activeBox.boxid, {
         ...activeBox,
-        sub: {
-          ...sub,
-          series
-        },
+        sub: newSub,
       });
     }
   }
 
+  if (!series) {
+    return null;
+  }
+
 
   return (
-    <div>
-      <Button color="info" variant="outlined" onClick={toggleDrawer(true)}>编辑数据</Button>
-      <Drawer anchor="right" open={isOpen} onClose={toggleDrawer(false)} >
-        <Box sx={{ width: 650, padding: 2 }}>
-          <Box>
-            {series.map((seriesRecord, idx) => {
+    <ShowDataEditorWhenNecessaryNessLayout saveChange={saveChange} >
 
-              return <SeriesRecordEdit seriesRecord={seriesRecord} key={idx} onUpdate={(updatedRecord) => handleUpdate(idx, updatedRecord)} />
-            })}
-          </Box>
+      <Box>
+        {series.map((seriesRecord, idx) => {
 
-          {/* 在这里添加你的内容 */}
-          <div>
-            <Button onClick={saveChange}>保存</Button>
-          </div>
-        </Box>
-      </Drawer>
-    </div>
+          return <SeriesRecordEdit seriesRecord={seriesRecord} key={idx} onUpdate={(updatedRecord) => handleUpdate(idx, updatedRecord)} />
+        })}
+
+
+        <ChartColorEdit colorArray={colorArray} setColorArray={setColorArray} />
+
+      </Box>
+
+
+    </ShowDataEditorWhenNecessaryNessLayout>
   );
 }

@@ -15,7 +15,7 @@ import {
 } from '@mui/x-data-grid';
 import ppplog from "ppplog";
 import { v4 as uuidv4 } from 'uuid';
-
+import RefreshIcon from '@mui/icons-material/Refresh';
 
 
 export default function SeriesRecordEdit({ seriesRecord, onUpdate }) {
@@ -157,7 +157,7 @@ export default function SeriesRecordEdit({ seriesRecord, onUpdate }) {
           toolbar: EditToolbar,
         }}
         slotProps={{
-          toolbar: { setRows, setRowModesModel },
+          toolbar: { setRows, setRowModesModel, onUpdate },
         }}
       />
     </Box>
@@ -166,7 +166,7 @@ export default function SeriesRecordEdit({ seriesRecord, onUpdate }) {
 
 
 function EditToolbar(props) {
-  const { setRows, setRowModesModel } = props;
+  const { setRows, setRowModesModel, onUpdate } = props;
 
   const handleClick = () => {
     const id = Date.now(); // 使用当前时间戳作为唯一ID
@@ -177,12 +177,25 @@ function EditToolbar(props) {
     }));
   };
 
+  const handleRefreshId = () => {
+    setRows((oldRows) => {
+      const updatedRows = oldRows.map((row, index) => ({ ...row, id: index }));
+
+      onUpdate(updatedRows); // 更新父组件的数据
+      return updatedRows;
+    })
+
+  };
+
 
   return (
     <GridToolbarContainer>
       <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
         添加记录
       </Button>
+      <Button variant="outlined" color="secondary" startIcon={<RefreshIcon />} onClick={handleRefreshId}>
+  刷新ID
+</Button>
     </GridToolbarContainer>
   );
 }
