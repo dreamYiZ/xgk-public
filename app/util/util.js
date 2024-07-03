@@ -63,15 +63,23 @@ export const BASIC_SERIES_PIE_CHART = [
       { id: 1, value: 15, label: 'series B' },
       { id: 2, value: 20, label: 'series C' },
     ],
+    innerRadius: 30,
+    outerRadius: 100,
+    paddingAngle: 5,
+    cornerRadius: 5,
+    startAngle: -90,
+    endAngle: 180,
+    cx: 150,
+    cy: 150,
   },
 ]
 export const createBoxPieChart = () => {
   return {
-    ...createBoxPayload(), width: '400px', height: '200px', sub: {
+    ...createBoxPayload(), width: '500px', height: '300px', sub: {
       type: SUB_TYPE.PIE_CHART,
       series: BASIC_SERIES_PIE_CHART,
-      width: 400,
-      height: 200,
+      width: 500,
+      height: 300,
     }
   }
 }
@@ -231,24 +239,24 @@ export const DATA_TYPE = {
   SERIES_NO_DATA: 'SERIES_NO_DATA',
 }
 
-export const getSeriesDataType = (seriesRecord)=>{
-  if(!seriesRecord){
+export const getSeriesDataType = (seriesRecord) => {
+  if (!seriesRecord) {
     return DATA_TYPE.NONE
   }
 
-  if(!seriesRecord.data){
+  if (!seriesRecord.data) {
     return DATA_TYPE.SERIES_NO_DATA
   }
 
-  if(!seriesRecord.data[0]){
+  if (!seriesRecord.data[0]) {
     return DATA_TYPE.SERIES_DATA_EMPTY
   }
 
-  if(typeof seriesRecord.data[0] === 'number'){
+  if (typeof seriesRecord.data[0] === 'number') {
     return DATA_TYPE.SERIES_DATA_NUMERIC
   }
 
-  if(typeof seriesRecord.data[0] === 'object'){
+  if (typeof seriesRecord.data[0] === 'object') {
     return DATA_TYPE.SERIES_DATA_OBJECT
   }
 }
