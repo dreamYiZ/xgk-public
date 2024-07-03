@@ -8,6 +8,8 @@ import SeriesRecordEdit from "./SeriesRecordEdit";
 import ppplog from "ppplog";
 import ShowDataEditorWhenNecessaryNessLayout from "./ChartEditorLayout";
 import ChartColorEdit from "./ChartColorEdit";
+import ChartLabelEdit from "./ChartLabelEdit";
+import { BASIC_PAYLOAD_BAR_CHART } from "../util/util";
 
 export default function EditChartPayload() {
 
@@ -21,19 +23,29 @@ export default function EditChartPayload() {
   const [colorArray, setColorArray] = useState([]);
   const [isOpen, setIsOpen] = React.useState(false);
 
+  const [barLabels, setBarLabels] = useState([]);
+
 
 
   useEffect(() => {
     ppplog('useEffect-sub')
     if (sub) {
       if (sub?.series && Array.isArray(sub.series)) {
-        if (!series) {
-          setSeries(sub.series)
+        let _colorArray = [];
+        sub.series.forEach(element => {
+          if (element.color) {
+            _colorArray.push(element.color);
+          }
+        });
+        if (_colorArray.length) {
+          setColorArray(_colorArray);
         }
+        setSeries(sub.series);
       }
 
-      if (sub.color && Array.isArray(sub.color)) {
-        setColorArray(sub.color);
+      if (sub.xAxis && sub.xAxis.length && sub.xAxis[0].data
+        && Array.isArray(sub.xAxis[0].data)) {
+        setBarLabels(sub.xAxis[0].data);
       }
     }
   }, [sub])
@@ -61,8 +73,6 @@ export default function EditChartPayload() {
   const saveChange = () => {
     ppplog('series', series)
 
-
-
     if (sub) {
       let newSub = {
         ...sub,
@@ -73,7 +83,17 @@ export default function EditChartPayload() {
       if (colorArray && Array.isArray(colorArray) && colorArray.length) {
         ppplog('newSub colorArray', colorArray)
 
-        newSub.color = colorArray;
+        newSub.series = newSub.series.map((s, idx) => {
+          if (colorArray[idx]) {
+            s.color = colorArray[idx];
+          }
+          return s;
+        });
+
+        // Save barLabels to newSub
+        if (newSub.xAxis && newSub.xAxis.length) {
+          newSub.xAxis[0].data = barLabels;
+        }
       }
 
       ppplog('newSub', newSub)
@@ -83,6 +103,12 @@ export default function EditChartPayload() {
         sub: newSub,
       });
     }
+  }
+
+  const addNewBarSeriesFromBasic = () => {
+    setSeries(preSeries => {
+      return [...preSeries, BASIC_PAYLOAD_BAR_CHART.series[0]]
+    })
   }
 
   if (!series) {
@@ -97,17 +123,23 @@ export default function EditChartPayload() {
 
       <Box>
         {series.map((seriesRecord, idx) => {
-
-          return <SeriesRecordEdit seriesRecord={seriesRecord} key={idx} onUpdate={(updatedRecord) => handleUpdate(idx, updatedRecord)}
-
-          />
+          return <SeriesRecordEdit seriesRecord={seriesRecord} key={idx} onUpdate={(updatedRecord) => handleUpdate(idx, updatedRecord)} />
         })}
+      <Box my={2}>
 
+        <Button variant="contained" color="primary" onClick={addNewBarSeriesFromBasic}>
+          添加新的系列
+        </Button>
+        </Box>
 
-        {/* <ChartColorEdit colorArray={colorArray} setColorArray={setColorArray} /> */}
+        <ChartColorEdit colorArray={colorArray} setColorArray={setColorArray} />
+
+        <ChartLabelEdit
+          barLabels={barLabels}
+          setBarLabels={setBarLabels}
+        />
 
       </Box>
-
 
     </ShowDataEditorWhenNecessaryNessLayout>
   );

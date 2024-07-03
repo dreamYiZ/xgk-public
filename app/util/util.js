@@ -86,7 +86,7 @@ export const createBoxPieChart = () => {
 
 export const BASIC_PAYLOAD_BAR_CHART = {
   xAxis: [{ scaleType: 'band', data: ['group A', 'group B', 'group C'] }],
-  series: [{ data: [4, 3, 5] }, { data: [1, 6, 3] }, { data: [2, 5, 6] }],
+  series: [{ data: [4, 3, 5], color: 'red' }, { data: [1, 6, 3], color: 'green' }, { data: [2, 5, 6], color: 'yellow' }],
   width: 500,
   height: 300
 }
