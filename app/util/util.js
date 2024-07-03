@@ -261,6 +261,14 @@ export const getSeriesDataType = (seriesRecord) => {
   }
 }
 
+export const parseFontSize = (fontSize) => {
+  if (typeof fontSize === 'string') {
+    return parseFloat(fontSize.replace('px', ''));
+  }
+  return fontSize;
+};
+
+
 export { default as generateLicense } from "./generateLicense"
 export { ANIMATE_TYPES_DISPLAY, ANIMATE_TYPES, ANIMATE_TIME_FUNCTION_TYPES, ANIMATE_TIME_FUNCTION_TYPES_DISPLAY } from "./animateType";
 export { SUB_TYPE_DISPLAY } from "./subType";
