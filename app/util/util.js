@@ -192,7 +192,7 @@ export const createBoxSparklineChart = () => {
   return {
     ...createBoxPayload(),
     width: '400px',
-    height: '120',
+    height: '120px',
     sub: {
       type: SUB_TYPE.SPARKLINE_CHART,
       ...BASIC_PAYLOAD_SPARKLINE_CHART

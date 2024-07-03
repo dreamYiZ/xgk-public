@@ -30,23 +30,12 @@ export default function EditChartPayload() {
   useEffect(() => {
     ppplog('useEffect-sub')
     if (sub) {
-      if (sub?.series && Array.isArray(sub.series)) {
-        let _colorArray = [];
-        sub.series.forEach(element => {
-          if (element.color) {
-            _colorArray.push(element.color);
-          }
-        });
-        if (_colorArray.length) {
-          setColorArray(_colorArray);
-        }
-        setSeries(sub.series);
-      }
 
-      if (sub.xAxis && sub.xAxis.length && sub.xAxis[0].data
-        && Array.isArray(sub.xAxis[0].data)) {
-        setBarLabels(sub.xAxis[0].data);
-      }
+      setSeries([
+        {data: sub.data}
+      ]);
+
+
     }
   }, [sub])
 
@@ -76,27 +65,27 @@ export default function EditChartPayload() {
     if (sub) {
       let newSub = {
         ...sub,
-        series
+        data: series[0].data
       }
       ppplog('colorArray 1', colorArray)
 
-      if (colorArray && Array.isArray(colorArray)) {
-        ppplog('newSub colorArray', colorArray)
+      // if (colorArray && Array.isArray(colorArray)) {
+      //   ppplog('newSub colorArray', colorArray)
 
-        newSub.series = newSub.series.map((s, idx) => {
-          if (colorArray[idx]) {
-            s.color = colorArray[idx];
-          }
-          return s;
-        });
+      //   newSub.series = newSub.series.map((s, idx) => {
+      //     if (colorArray[idx]) {
+      //       s.color = colorArray[idx];
+      //     }
+      //     return s;
+      //   });
 
-      }
+      // }
 
 
       // Save barLabels to newSub
-      if (newSub.xAxis && newSub.xAxis.length) {
-        newSub.xAxis[0].data = barLabels;
-      }
+      // if (newSub.xAxis && newSub.xAxis.length) {
+      //   newSub.xAxis[0].data = barLabels;
+      // }
 
       ppplog('newSub', newSub)
 
@@ -131,12 +120,12 @@ export default function EditChartPayload() {
         </Button> */}
         </Box>
 
-        <ChartColorEdit colorArray={colorArray} setColorArray={setColorArray} />
+        {/* <ChartColorEdit colorArray={colorArray} setColorArray={setColorArray} /> */}
 
-        <ChartLabelEdit
+        {/* <ChartLabelEdit
           barLabels={barLabels}
           setBarLabels={setBarLabels}
-        />
+        /> */}
 
       </Box>
 

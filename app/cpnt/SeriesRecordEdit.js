@@ -81,17 +81,6 @@ export default function SeriesRecordEdit({ seriesRecord, onUpdate: onUpdateFromP
       let _columns = [];
       const firstRow = rows[0];
 
-      // if (typeof firstRow === 'number') {
-      //   // If rows is an array of numbers, generate a single column for the numbers
-      //   _columns = [
-      //     {
-      //       field: 'value',
-      //       headerName: 'Value',
-      //       editable: false,
-      //     },
-      //   ];
-
-      // }
 
       if (typeof firstRow === 'object') {
         _columns = Object.keys(rows[0]).map((key) => (
