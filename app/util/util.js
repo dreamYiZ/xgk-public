@@ -173,8 +173,8 @@ export const BASIC_PAYLOAD_STACKING_CHART = {
 export const createBoxStackingChart = () => {
   return {
     ...createBoxPayload(),
-    width: '400px',
-    height: '200px',
+    width: '600px',
+    height: '300px',
     sub: {
       type: SUB_TYPE.STACKING_CHART,
       ...BASIC_PAYLOAD_STACKING_CHART
