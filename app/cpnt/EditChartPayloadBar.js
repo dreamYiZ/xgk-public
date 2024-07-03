@@ -19,6 +19,7 @@ export default function EditChartPayload() {
 
   const [series, setSeries] = useState(null);
   const [colorArray, setColorArray] = useState([]);
+  const [isOpen, setIsOpen] = React.useState(false);
 
 
 
@@ -31,7 +32,7 @@ export default function EditChartPayload() {
         }
       }
 
-      if(sub.color && Array.isArray(sub.color)) {
+      if (sub.color && Array.isArray(sub.color)) {
         setColorArray(sub.color);
       }
     }
@@ -90,16 +91,20 @@ export default function EditChartPayload() {
 
 
   return (
-    <ShowDataEditorWhenNecessaryNessLayout saveChange={saveChange} >
+    <ShowDataEditorWhenNecessaryNessLayout saveChange={saveChange}
+      isOpen={isOpen}
+      setIsOpen={setIsOpen}>
 
       <Box>
         {series.map((seriesRecord, idx) => {
 
-          return <SeriesRecordEdit seriesRecord={seriesRecord} key={idx} onUpdate={(updatedRecord) => handleUpdate(idx, updatedRecord)} />
+          return <SeriesRecordEdit seriesRecord={seriesRecord} key={idx} onUpdate={(updatedRecord) => handleUpdate(idx, updatedRecord)}
+
+          />
         })}
 
 
-        <ChartColorEdit colorArray={colorArray} setColorArray={setColorArray} />
+        {/* <ChartColorEdit colorArray={colorArray} setColorArray={setColorArray} /> */}
 
       </Box>
 

@@ -223,6 +223,35 @@ export const handleFullscreen = () => {
   }
 }
 
+export const DATA_TYPE = {
+  NONE: 'NONE',
+  SERIES_DATA_OBJECT: 'SERIES_DATA_OBJECT',
+  SERIES_DATA_NUMERIC: 'SERIES_DATA_NUMERIC',
+  SERIES_DATA_EMPTY: 'SERIES_DATA_EMPTY',
+  SERIES_NO_DATA: 'SERIES_NO_DATA',
+}
+
+export const getSeriesDataType = (seriesRecord)=>{
+  if(!seriesRecord){
+    return DATA_TYPE.NONE
+  }
+
+  if(!seriesRecord.data){
+    return DATA_TYPE.SERIES_NO_DATA
+  }
+
+  if(!seriesRecord.data[0]){
+    return DATA_TYPE.SERIES_DATA_EMPTY
+  }
+
+  if(typeof seriesRecord.data[0] === 'number'){
+    return DATA_TYPE.SERIES_DATA_NUMERIC
+  }
+
+  if(typeof seriesRecord.data[0] === 'object'){
+    return DATA_TYPE.SERIES_DATA_OBJECT
+  }
+}
 
 export { default as generateLicense } from "./generateLicense"
 export { ANIMATE_TYPES_DISPLAY, ANIMATE_TYPES, ANIMATE_TIME_FUNCTION_TYPES, ANIMATE_TIME_FUNCTION_TYPES_DISPLAY } from "./animateType";
