@@ -1,4 +1,6 @@
 import useBoxStore from '../store/useBo';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Select from '@mui/material/Select';
@@ -53,6 +55,93 @@ export default function () {
   }, [sub, activeBoxId]);
 
 
+
+
+
+  // ...
+
+  // Add a new state for the checkbox
+  const [plotType, setPlotType] = useState(sub?.plotType === 'bar');
+
+  // Add new states for the checkboxes
+  const [area, setArea] = useState(sub?.area === true);
+  const [curve, setCurve] = useState(sub?.curve === 'natural');
+
+  // Modify the handlePlotTypeChange function
+  const handlePlotTypeChange = (event) => {
+    setPlotType(event.target.checked);
+    if (event.target.checked) {
+      setArea(!event.target.checked);
+      setCurve(!event.target.checked);
+    }
+    if (event.target.checked) {
+      const { area,
+        curve, ...restSub } = sub;
+      changeById(activeBox.boxid, {
+        sub: {
+          ...restSub,
+          plotType: 'bar',
+        },
+      });
+    } else {
+      const { plotType, ...restSub } = sub;
+      changeById(activeBox.boxid, {
+        sub: restSub,
+      });
+    }
+  };
+
+  // Modify the handleAreaChange function
+  const handleAreaChange = (event) => {
+    setArea(event.target.checked);
+    if (event.target.checked) {
+      setPlotType(!event.target.checked);
+      setCurve(!event.target.checked);
+    }
+
+    if (event.target.checked) {
+      const { plotType,
+        curve, ...restSub } = sub;
+      changeById(activeBox.boxid, {
+        sub: {
+          ...restSub,
+          area: true,
+        },
+      });
+    } else {
+      const { area, ...restSub } = sub;
+      changeById(activeBox.boxid, {
+        sub: restSub,
+      });
+    }
+  };
+
+  // Modify the handleCurveChange function
+  const handleCurveChange = (event) => {
+    setCurve(event.target.checked);
+    if (event.target.checked) {
+      setPlotType(!event.target.checked);
+      setArea(!event.target.checked);
+    }
+
+    if (event.target.checked) {
+      changeById(activeBox.boxid, {
+        sub: {
+          ...sub,
+          curve: 'natural',
+          area: true,
+          plotType: false,
+        },
+      });
+    } else {
+      const { curve, ...restSub } = sub;
+      changeById(activeBox.boxid, {
+        sub: restSub,
+      });
+    }
+  };
+
+
   return (
     <div>
       <br />
@@ -76,7 +165,38 @@ export default function () {
           shrink: true,
         }}
       />
+
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={plotType}
+            onChange={handlePlotTypeChange}
+          />
+        }
+        label="柱状图类型"
+      />
+
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={area}
+            onChange={handleAreaChange}
+          />
+        }
+        label="区域"
+      />
+
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={curve}
+            onChange={handleCurveChange}
+          />
+        }
+        label="曲线"
+      />
       <br />
+
       <br />
 
       <EditChartPayloadSparkLine />
