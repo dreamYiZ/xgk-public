@@ -17,6 +17,7 @@ export const MODE = {
 
 const useGlobalStore = create(persist(
   (set, get) => ({
+    scaleToFill: false,
     themePaletteMode: 'dark',
     bg: {
       type: BG_TYPE.IMAGE,
@@ -43,6 +44,7 @@ const useGlobalStore = create(persist(
     closeSetting: () => set(() => ({ isOpenSetting: false })),
     setLicense: (license) => set(() => ({ license: license })),
     setThemePaletteMode: (_themePaletteMode) => set(() => ({ themePaletteMode: _themePaletteMode })),
+    toggleScaleToFill: () => set((state) => ({ scaleToFill: !state.scaleToFill }))
   }),
   {
     name: 'global-storage',

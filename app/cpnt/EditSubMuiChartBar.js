@@ -18,12 +18,6 @@ export default function () {
   const sub = useMemo(() => activeBox?.sub, [activeBox, activeBoxId]);
   const changeById = useBoxStore(state => state.changeById);
 
-
-
-
-
-
-
   // Use local state for width and height
   const [width, setWidth] = useState(sub?.width);
   const [height, setHeight] = useState(sub?.height);
