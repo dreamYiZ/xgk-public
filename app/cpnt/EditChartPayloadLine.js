@@ -6,7 +6,7 @@ import useBoxStore from '../store/useBo';
 import { useState, useMemo, useEffect } from 'react';
 import SeriesRecordEdit from "./SeriesRecordEdit";
 import ppplog from "ppplog";
-import ShowDataEditorWhenNecessaryNessLayout from "./ChartEditorLayout";
+import ChartEditorLayout from "./ChartEditorLayout";
 import ChartColorEdit from "./ChartColorEdit";
 import ChartLabelEdit from "./ChartLabelEdit";
 import { BASIC_PAYLOAD_BAR_CHART } from "../util/util";
@@ -89,7 +89,9 @@ export default function EditChartPayload() {
           }
           return s;
         });
+
       }
+
 
       // Save barLabels to newSub
       if (newSub.xAxis && newSub.xAxis.length) {
@@ -117,7 +119,7 @@ export default function EditChartPayload() {
 
 
   return (
-    <ShowDataEditorWhenNecessaryNessLayout saveChange={saveChange}
+    <ChartEditorLayout saveChange={saveChange}
       isOpen={isOpen}
       setIsOpen={setIsOpen}>
 
@@ -127,9 +129,9 @@ export default function EditChartPayload() {
         })}
         <Box my={2}>
 
-          <Button variant="contained" color="primary" onClick={addNewBarSeriesFromBasic}>
-            添加新的系列
-          </Button>
+          {/* <Button variant="contained" color="primary" onClick={addNewBarSeriesFromBasic}>
+          添加新的系列
+        </Button> */}
         </Box>
 
         <ChartColorEdit colorArray={colorArray} setColorArray={setColorArray} />
@@ -141,6 +143,6 @@ export default function EditChartPayload() {
 
       </Box>
 
-    </ShowDataEditorWhenNecessaryNessLayout>
+    </ChartEditorLayout>
   );
 }

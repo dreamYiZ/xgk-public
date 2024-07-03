@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Drawer from '@mui/material/Drawer';
 
-export default function ShowDataEditorWhenNecessaryNess({ children, saveChange,
+export default function ChartEditorLayout({ children, saveChange,
   isOpen,
   setIsOpen
 }) {
