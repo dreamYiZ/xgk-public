@@ -10,6 +10,7 @@ import { Box } from '@mui/system';
 import Divider from '@mui/material/Divider';
 import { SUB_TYPE } from "../util/util";
 import ShowDataEditorWhenNecessaryNess from "./ShowDataEditorWhenNecessaryNess"
+import React from "react";
 
 function EditSubMuiChartPie() {
   const boxArr = useBoxStore((state) => state.boxArr);
@@ -18,6 +19,8 @@ function EditSubMuiChartPie() {
   const sub = useMemo(() => activeBox?.sub, [activeBox, activeBoxId]);
   const changeById = useBoxStore(state => state.changeById);
 
+
+  const [isOpen, setIsOpen] = React.useState(false);
 
 
 
@@ -84,7 +87,10 @@ function EditSubMuiChartPie() {
       />
       <br />
       <br />
-      <ShowDataEditorWhenNecessaryNess />
+      <ShowDataEditorWhenNecessaryNess
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+      />
       <br />
       <Button variant="contained" color="primary" onClick={handleSave}>保存</Button>
       <br />

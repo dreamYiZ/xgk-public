@@ -9,8 +9,7 @@ import ppplog from "ppplog";
 import ShowDataEditorWhenNecessaryNessLayout from "./ChartEditorLayout";
 import ChartColorEdit from "./ChartColorEdit";
 
-export default function ShowDataEditorWhenNecessaryNess({ isOpen
-  , setIsOpen }) {
+export default function EditChartPayload() {
 
   const boxArr = useBoxStore((state) => state.boxArr);
   const activeBoxId = useBoxStore((state) => state.activeBoxId);
@@ -27,10 +26,12 @@ export default function ShowDataEditorWhenNecessaryNess({ isOpen
     ppplog('useEffect-sub')
     if (sub) {
       if (sub?.series && Array.isArray(sub.series)) {
+        if (!series) {
           setSeries(sub.series)
+        }
       }
 
-      if (sub.color && Array.isArray(sub.color)) {
+      if(sub.color && Array.isArray(sub.color)) {
         setColorArray(sub.color);
       }
     }
@@ -89,10 +90,7 @@ export default function ShowDataEditorWhenNecessaryNess({ isOpen
 
 
   return (
-    <ShowDataEditorWhenNecessaryNessLayout saveChange={saveChange}
-      isOpen={isOpen}
-      setIsOpen={setIsOpen}
-    >
+    <ShowDataEditorWhenNecessaryNessLayout saveChange={saveChange} >
 
       <Box>
         {series.map((seriesRecord, idx) => {

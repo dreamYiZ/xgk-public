@@ -3,8 +3,10 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Drawer from '@mui/material/Drawer';
 
-export default function ShowDataEditorWhenNecessaryNess({ children, saveChange }) {
-  const [isOpen, setIsOpen] = React.useState(false);
+export default function ShowDataEditorWhenNecessaryNess({ children, saveChange,
+  isOpen,
+  setIsOpen
+}) {
   const toggleDrawer = (open) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
       return;
