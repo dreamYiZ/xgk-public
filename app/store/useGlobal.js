@@ -43,7 +43,6 @@ const useGlobalStore = create(persist(
     closeSetting: () => set(() => ({ isOpenSetting: false })),
     setLicense: (license) => set(() => ({ license: license })),
     setThemePaletteMode: (_themePaletteMode) => set(() => ({ themePaletteMode: _themePaletteMode })),
-
   }),
   {
     name: 'global-storage',
