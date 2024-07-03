@@ -16,11 +16,13 @@ import {
 import ppplog from "ppplog";
 import { v4 as uuidv4 } from 'uuid';
 import RefreshIcon from '@mui/icons-material/Refresh';
-import { DATA_TYPE, getSeriesDataType } from "../util/util";
+import {MAP_TYPE_FACTORY, DATA_TYPE, getSeriesDataType, SUB_TYPE } from "../util/util";
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
+import { useActiveSub } from '../store/useActiveSub'; // import the custom hook
 
-export default function SeriesRecordEdit({ seriesRecord, onUpdate: onUpdateFromProps, }) {
+
+export default function SeriesRecordEdit({ seriesRecord, onUpdate: onUpdateFromProps }) {
 
 
   const [open, setOpen] = React.useState(false);
@@ -242,9 +244,27 @@ export default function SeriesRecordEdit({ seriesRecord, onUpdate: onUpdateFromP
 function EditToolbar(props) {
   const { setRows, setRowModesModel, onUpdate } = props;
 
+  const { activeSub } = useActiveSub();
+
   const handleClick = () => {
     const id = Date.now(); // 使用当前时间戳作为唯一ID
-    setRows((oldRows) => [...oldRows, { id, name: '', age: '', isNew: true }]);
+    setRows((oldRows) => {
+
+      if (oldRows.length === 0) {
+        if (activeSub?.type === SUB_TYPE.PIE_CHART) {
+          const firstRow = {...MAP_TYPE_FACTORY[activeSub.type]().sub.series[0].data[0], id}
+          return [firstRow]
+        }
+
+        if (activeSub?.type === SUB_TYPE.BAR_CHART) {
+          return [{ id, value: 123 }]
+        }
+
+        return []
+      }
+
+      return [...oldRows, { id }]
+    });
     setRowModesModel((oldModel) => ({
       ...oldModel,
       [id]: { mode: GridRowModes.Edit, fieldToFocus: 'name' },

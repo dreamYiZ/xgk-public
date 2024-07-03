@@ -10,13 +10,15 @@ import ShowDataEditorWhenNecessaryNessLayout from "./ChartEditorLayout";
 import ChartColorEdit from "./ChartColorEdit";
 import EditPieShape from "./EditPieShape";
 
-export default function ShowDataEditorWhenNecessaryNess({ isOpen
+export default function ShowDataEditorWhenNecessaryNess({  isOpen
   , setIsOpen }) {
 
   const boxArr = useBoxStore((state) => state.boxArr);
   const activeBoxId = useBoxStore((state) => state.activeBoxId);
   const activeBox = useMemo(() => boxArr.find((box) => box.boxid === activeBoxId), [boxArr, activeBoxId]);
   const sub = useMemo(() => activeBox?.sub, [activeBox, activeBoxId]);
+
+
   const changeById = useBoxStore(state => state.changeById);
   const [shape, setShape] = useState({});
 
