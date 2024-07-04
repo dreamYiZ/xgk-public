@@ -324,6 +324,33 @@ export const parseFontSize = (fontSize) => {
 };
 
 
+
+export const addWindowErrorHandler = () => {
+  window.onerror = function () {
+    // 创建一个按钮
+    var btn = document.createElement("button");
+    btn.innerHTML = "清除localStorage";
+    btn.onclick = function () {
+      // 清除localStorage
+      localStorage.clear();
+      alert("localStorage已清除");
+    };
+
+    // 设置按钮样式，使其显示在页面中心
+    btn.style.position = 'fixed';
+    btn.style.top = '50%';
+    btn.style.left = '50%';
+    btn.style.transform = 'translate(-50%, -50%)';
+    btn.style.padding = '10px 20px';
+    btn.style.fontSize = '20px';
+
+    // 将按钮添加到body中
+    document.body.appendChild(btn);
+  };
+}
+
+
+
 export { loadInitConfig } from "./init";
 export { default as generateLicense } from "./generateLicense"
 export { ANIMATE_TYPES_DISPLAY, ANIMATE_TYPES, ANIMATE_TIME_FUNCTION_TYPES, ANIMATE_TIME_FUNCTION_TYPES_DISPLAY } from "./animateType";
