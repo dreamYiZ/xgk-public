@@ -63,22 +63,30 @@ export const BASIC_SERIES_PIE_CHART = [
       { id: 1, value: 15, label: 'series B' },
       { id: 2, value: 20, label: 'series C' },
     ],
+    innerRadius: 30,
+    outerRadius: 100,
+    paddingAngle: 5,
+    cornerRadius: 5,
+    startAngle: -90,
+    endAngle: 180,
+    cx: 150,
+    cy: 150,
   },
 ]
 export const createBoxPieChart = () => {
   return {
-    ...createBoxPayload(), width: '400px', height: '200px', sub: {
+    ...createBoxPayload(), width: '500px', height: '300px', sub: {
       type: SUB_TYPE.PIE_CHART,
       series: BASIC_SERIES_PIE_CHART,
-      width: 400,
-      height: 200,
+      width: 500,
+      height: 300,
     }
   }
 }
 
 export const BASIC_PAYLOAD_BAR_CHART = {
   xAxis: [{ scaleType: 'band', data: ['group A', 'group B', 'group C'] }],
-  series: [{ data: [4, 3, 5] }, { data: [1, 6, 3] }, { data: [2, 5, 6] }],
+  series: [{ data: [4, 3, 5], color: 'red' }, { data: [1, 6, 3], color: 'green' }, { data: [2, 5, 6], color: 'yellow' }],
   width: 500,
   height: 300
 }
@@ -165,8 +173,8 @@ export const BASIC_PAYLOAD_STACKING_CHART = {
 export const createBoxStackingChart = () => {
   return {
     ...createBoxPayload(),
-    width: '400px',
-    height: '200px',
+    width: '600px',
+    height: '300px',
     sub: {
       type: SUB_TYPE.STACKING_CHART,
       ...BASIC_PAYLOAD_STACKING_CHART
@@ -184,7 +192,7 @@ export const createBoxSparklineChart = () => {
   return {
     ...createBoxPayload(),
     width: '400px',
-    height: '120',
+    height: '120px',
     sub: {
       type: SUB_TYPE.SPARKLINE_CHART,
       ...BASIC_PAYLOAD_SPARKLINE_CHART
@@ -223,7 +231,45 @@ export const handleFullscreen = () => {
   }
 }
 
+export const DATA_TYPE = {
+  NONE: 'NONE',
+  SERIES_DATA_OBJECT: 'SERIES_DATA_OBJECT',
+  SERIES_DATA_NUMERIC: 'SERIES_DATA_NUMERIC',
+  SERIES_DATA_EMPTY: 'SERIES_DATA_EMPTY',
+  SERIES_NO_DATA: 'SERIES_NO_DATA',
+}
 
+export const getSeriesDataType = (seriesRecord) => {
+  if (!seriesRecord) {
+    return DATA_TYPE.NONE
+  }
+
+  if (!seriesRecord.data) {
+    return DATA_TYPE.SERIES_NO_DATA
+  }
+
+  if (!seriesRecord.data[0]) {
+    return DATA_TYPE.SERIES_DATA_EMPTY
+  }
+
+  if (typeof seriesRecord.data[0] === 'number') {
+    return DATA_TYPE.SERIES_DATA_NUMERIC
+  }
+
+  if (typeof seriesRecord.data[0] === 'object') {
+    return DATA_TYPE.SERIES_DATA_OBJECT
+  }
+}
+
+export const parseFontSize = (fontSize) => {
+  if (typeof fontSize === 'string') {
+    return parseFloat(fontSize.replace('px', ''));
+  }
+  return fontSize;
+};
+
+
+export { loadInitConfig } from "./init";
 export { default as generateLicense } from "./generateLicense"
 export { ANIMATE_TYPES_DISPLAY, ANIMATE_TYPES, ANIMATE_TIME_FUNCTION_TYPES, ANIMATE_TIME_FUNCTION_TYPES_DISPLAY } from "./animateType";
 export { SUB_TYPE_DISPLAY } from "./subType";

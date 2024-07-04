@@ -6,24 +6,24 @@ import useBoxStore from '../store/useBo';
 import { useState, useMemo, useEffect } from 'react';
 import SeriesRecordEdit from "./SeriesRecordEdit";
 import ppplog from "ppplog";
-import ShowDataEditorWhenNecessaryNessLayout from "./ChartEditorLayout";
+import ChartEditorLayout from "./ChartEditorLayout";
 import ChartColorEdit from "./ChartColorEdit";
-import EditPieShape from "./EditPieShape";
+import ChartLabelEdit from "./ChartLabelEdit";
+import { BASIC_PAYLOAD_BAR_CHART } from "../util/util";
 
-export default function ShowDataEditorWhenNecessaryNess({  isOpen
-  , setIsOpen }) {
+export default function EditChartPayload() {
 
   const boxArr = useBoxStore((state) => state.boxArr);
   const activeBoxId = useBoxStore((state) => state.activeBoxId);
   const activeBox = useMemo(() => boxArr.find((box) => box.boxid === activeBoxId), [boxArr, activeBoxId]);
   const sub = useMemo(() => activeBox?.sub, [activeBox, activeBoxId]);
-
-
   const changeById = useBoxStore(state => state.changeById);
-  const [shape, setShape] = useState({});
 
   const [series, setSeries] = useState(null);
   const [colorArray, setColorArray] = useState([]);
+  const [isOpen, setIsOpen] = React.useState(false);
+
+  const [barLabels, setBarLabels] = useState([]);
 
 
 
@@ -31,25 +31,21 @@ export default function ShowDataEditorWhenNecessaryNess({  isOpen
     ppplog('useEffect-sub')
     if (sub) {
       if (sub?.series && Array.isArray(sub.series)) {
-        setSeries(sub.series)
-
-        if (sub.series.length) {
-          setShape({
-            innerRadius: sub.series[0].innerRadius,
-            outerRadius: sub.series[0].outerRadius,
-            paddingAngle: sub.series[0].paddingAngle,
-            cornerRadius: sub.series[0].cornerRadius,
-            startAngle: sub.series[0].startAngle,
-            endAngle: sub.series[0].endAngle,
-            cx: sub.series[0].cx,
-            cy: sub.series[0].cy,
-          })
-
+        let _colorArray = [];
+        sub.series.forEach(element => {
+          if (element.color) {
+            _colorArray.push(element.color);
+          }
+        });
+        if (_colorArray.length) {
+          setColorArray(_colorArray);
         }
+        setSeries(sub.series);
       }
 
-      if (sub.color && Array.isArray(sub.color)) {
-        setColorArray(sub.color);
+      if (sub.xAxis && sub.xAxis.length && sub.xAxis[0].data
+        && Array.isArray(sub.xAxis[0].data)) {
+        setBarLabels(sub.xAxis[0].data);
       }
     }
   }, [sub])
@@ -77,24 +73,29 @@ export default function ShowDataEditorWhenNecessaryNess({  isOpen
   const saveChange = () => {
     ppplog('series', series)
 
-
-
     if (sub) {
       let newSub = {
         ...sub,
         series
       }
-
-      newSub.series = newSub.series.map(s => {
-        s = { ...s, ...shape }
-        return s;
-      })
       ppplog('colorArray 1', colorArray)
 
-      if (colorArray && Array.isArray(colorArray) && colorArray.length) {
+      if (colorArray && Array.isArray(colorArray)) {
         ppplog('newSub colorArray', colorArray)
 
-        newSub.color = colorArray;
+        newSub.series = newSub.series.map((s, idx) => {
+          if (colorArray[idx]) {
+            s.color = colorArray[idx];
+          }
+          return s;
+        });
+
+      }
+
+
+      // Save barLabels to newSub
+      if (newSub.xAxis && newSub.xAxis.length) {
+        newSub.xAxis[0].data = barLabels;
       }
 
       ppplog('newSub', newSub)
@@ -106,54 +107,39 @@ export default function ShowDataEditorWhenNecessaryNess({  isOpen
     }
   }
 
-
-  const submitShape = (_shape) => {
-    let __shape = {};
-
-    // List of fields to check in _shape
-    const fields = ['innerRadius', 'outerRadius', 'paddingAngle', 'cornerRadius', 'startAngle', 'endAngle', 'cx', 'cy'];
-
-    // Iterate over each field
-    fields.forEach(field => {
-      // Check if the field in _shape is a number or can be converted to a number
-      if (!isNaN(Number(_shape[field]))) {
-        // If it is, assign it to __shape as a number
-        __shape[field] = Number(_shape[field]);
-      }
-    });
-
-    // Call setShape with __shape
-    setShape(__shape);
+  const addNewBarSeriesFromBasic = () => {
+    setSeries(preSeries => {
+      return [...preSeries, BASIC_PAYLOAD_BAR_CHART.series[0]]
+    })
   }
-
-  if (!series) {
-    return null;
-  }
-
 
 
 
   return (
-    <ShowDataEditorWhenNecessaryNessLayout saveChange={saveChange}
+    <ChartEditorLayout saveChange={saveChange}
       isOpen={isOpen}
-      setIsOpen={setIsOpen}
-    >
+      setIsOpen={setIsOpen}>
 
       <Box>
         {series.map((seriesRecord, idx) => {
-
           return <SeriesRecordEdit seriesRecord={seriesRecord} key={idx} onUpdate={(updatedRecord) => handleUpdate(idx, updatedRecord)} />
         })}
+        <Box my={2}>
 
+          {/* <Button variant="contained" color="primary" onClick={addNewBarSeriesFromBasic}>
+          添加新的系列
+        </Button> */}
+        </Box>
 
         <ChartColorEdit colorArray={colorArray} setColorArray={setColorArray} />
 
-
-        <EditPieShape shape={shape} submitShape={submitShape} />
+        <ChartLabelEdit
+          barLabels={barLabels}
+          setBarLabels={setBarLabels}
+        />
 
       </Box>
 
-
-    </ShowDataEditorWhenNecessaryNessLayout>
+    </ChartEditorLayout>
   );
 }

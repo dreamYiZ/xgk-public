@@ -9,7 +9,7 @@ import { useState, useMemo, useEffect } from 'react';
 import { Box } from '@mui/system';
 import Divider from '@mui/material/Divider';
 import { SUB_TYPE } from "../util/util";
-import EditChartPayloadBar from "./EditChartPayloadBar"
+import EditChartPayloadSTACKING from "./EditChartPayloadSTACKING"
 
 export default function () {
   const boxArr = useBoxStore((state) => state.boxArr);
@@ -78,7 +78,7 @@ export default function () {
       />
       <br />
       <br />
-      <EditChartPayloadBar />
+      <EditChartPayloadSTACKING />
       <br />
       <Button variant="contained" color="primary" onClick={handleSave}>保存</Button>
       <br />

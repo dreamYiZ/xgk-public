@@ -16,10 +16,60 @@ import {
 import ppplog from "ppplog";
 import { v4 as uuidv4 } from 'uuid';
 import RefreshIcon from '@mui/icons-material/Refresh';
+import {MAP_TYPE_FACTORY, DATA_TYPE, getSeriesDataType, SUB_TYPE } from "../util/util";
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+import { useActiveSub } from '../store/useActiveSub'; // import the custom hook
 
 
-export default function SeriesRecordEdit({ seriesRecord, onUpdate }) {
-  const [rows, setRows] = React.useState(seriesRecord.data);
+export default function SeriesRecordEdit({ seriesRecord, onUpdate: onUpdateFromProps }) {
+
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+
+  ppplog('seriesRecord', seriesRecord)
+  let dataType = getSeriesDataType(seriesRecord)
+  let readyRows = seriesRecord.data
+
+  if (dataType === DATA_TYPE.SERIES_DATA_NUMERIC) {
+    readyRows = readyRows.map((el, idx) => ({
+      id: idx,
+      value: el
+    }))
+  }
+
+  const onUpdate = (newRows) => {
+
+    if (dataType === DATA_TYPE.SERIES_DATA_NUMERIC) {
+      let _newRows = newRows.map(el => Number(el.value))
+
+      if (!_newRows.every(el => typeof el === 'number')) {
+
+        return
+      }
+      onUpdateFromProps(_newRows)
+      return
+    }
+
+    if (dataType === DATA_TYPE.SERIES_DATA_OBJECT) {
+      onUpdateFromProps(newRows)
+      return
+    }
+
+    onUpdateFromProps(newRows)
+  }
+
+
+  const [rows, setRows] = React.useState(readyRows);
   const [rowModesModel, setRowModesModel] = React.useState({});
 
   ppplog('rows', rows);
@@ -28,12 +78,21 @@ export default function SeriesRecordEdit({ seriesRecord, onUpdate }) {
   // 动态生成columns
   const columns = React.useMemo(() => {
     if (rows.length > 0) {
+      let _columns = [];
+      const firstRow = rows[0];
+
+
+      if (typeof firstRow === 'object') {
+        _columns = Object.keys(rows[0]).map((key) => (
+          {
+            field: key,
+            headerName: key.charAt(0).toUpperCase() + key.slice(1), // 将字段名的首字母大写作为列名
+            editable: key !== 'id', // 如果字段是ID，则不允许编辑
+          }))
+      }
+
       return [
-        ...Object.keys(rows[0]).map((key) => ({
-          field: key,
-          headerName: key.charAt(0).toUpperCase() + key.slice(1), // 将字段名的首字母大写作为列名
-          editable: key !== 'id', // 如果字段是ID，则不允许编辑
-        })),
+        ..._columns,
         {
           field: 'actions',
           type: 'actions',
@@ -160,6 +219,12 @@ export default function SeriesRecordEdit({ seriesRecord, onUpdate }) {
           toolbar: { setRows, setRowModesModel, onUpdate },
         }}
       />
+
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <MuiAlert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+          Error: Unable to convert value to number.
+        </MuiAlert>
+      </Snackbar>
     </Box>
   );
 }
@@ -168,9 +233,27 @@ export default function SeriesRecordEdit({ seriesRecord, onUpdate }) {
 function EditToolbar(props) {
   const { setRows, setRowModesModel, onUpdate } = props;
 
+  const { activeSub } = useActiveSub();
+
   const handleClick = () => {
     const id = Date.now(); // 使用当前时间戳作为唯一ID
-    setRows((oldRows) => [...oldRows, { id, name: '', age: '', isNew: true }]);
+    setRows((oldRows) => {
+
+      if (oldRows.length === 0) {
+        if (activeSub?.type === SUB_TYPE.PIE_CHART) {
+          const firstRow = {...MAP_TYPE_FACTORY[activeSub.type]().sub.series[0].data[0], id}
+          return [firstRow]
+        }
+
+        if (activeSub?.type === SUB_TYPE.BAR_CHART) {
+          return [{ id, value: 123 }]
+        }
+
+        return []
+      }
+
+      return [...oldRows, { id }]
+    });
     setRowModesModel((oldModel) => ({
       ...oldModel,
       [id]: { mode: GridRowModes.Edit, fieldToFocus: 'name' },
@@ -194,8 +277,9 @@ function EditToolbar(props) {
         添加记录
       </Button>
       <Button variant="outlined" color="secondary" startIcon={<RefreshIcon />} onClick={handleRefreshId}>
-  刷新ID
-</Button>
+        刷新ID
+      </Button>
+
     </GridToolbarContainer>
   );
 }

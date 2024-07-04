@@ -2,11 +2,14 @@ import { SUB_TYPE } from "../util/util";
 import useBoxStore from '../store/useBo';
 import EditSubText from "./editSubText";
 import EditSubImage from "./editSubImage";
-import EditSubMuiChartGauge from "./editSubMuiChartGauge"
-import EditSubMuiChartPie from "./editSubMuiChartPie"
+import EditSubMuiChartGauge from "./editSubMuiChartGauge";
+import EditSubMuiChartPie from "./editSubMuiChartPie";
 import { useMemo } from 'react';
-import EditSubMuiChart from "./EditSubMuiChart"
-import EditSubMuiChartBar from "./EditSubMuiChartBar"
+import EditSubMuiChart from "./EditSubMuiChart";
+import EditSubMuiChartBar from "./EditSubMuiChartBar";
+import EditSubMuiChartLine from "./EditSubMuiChartLine";
+import EditSubMuiChartSTACKING from "./EditSubMuiChartSTACKING";
+import EditSubMuiChartSparkLine from "./EditSubMuiChartSparkLine";
 
 
 const MAP_SUB_EDIT = {
@@ -14,11 +17,12 @@ const MAP_SUB_EDIT = {
   [SUB_TYPE.IMAGE]: EditSubImage,
   [SUB_TYPE.PIE_CHART]: EditSubMuiChartPie,
   [SUB_TYPE.GAUGE_CHART]: EditSubMuiChartGauge,
-
   [SUB_TYPE.BAR_CHART]: EditSubMuiChartBar,
-  [SUB_TYPE.LINE_CHART]: EditSubMuiChart,
-  [SUB_TYPE.STACKING_CHART]: EditSubMuiChart,
-  [SUB_TYPE.SPARKLINE_CHART]: EditSubMuiChart,
+  [SUB_TYPE.LINE_CHART]: EditSubMuiChartLine,
+  [SUB_TYPE.STACKING_CHART]: EditSubMuiChartSTACKING,
+  [SUB_TYPE.SPARKLINE_CHART]: EditSubMuiChartSparkLine,
+
+
 }
 
 function EditSub() {

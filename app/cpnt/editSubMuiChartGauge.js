@@ -8,7 +8,9 @@ import { ANIMATE_TIME_FUNCTION_TYPES_DISPLAY, ANIMATE_TIME_FUNCTION_TYPES, ANIMA
 import { useState, useMemo, useEffect } from 'react';
 import { Box } from '@mui/system';
 import Divider from '@mui/material/Divider';
-import {SUB_TYPE} from "../util/util";
+import { SUB_TYPE, parseFontSize } from "../util/util";
+import ColorLensIcon from '@mui/icons-material/ColorLens';
+import IconButton from '@mui/material/IconButton';
 
 function EditSubMuiChartGuage() {
   const boxArr = useBoxStore((state) => state.boxArr);
@@ -19,8 +21,9 @@ function EditSubMuiChartGuage() {
 
   const [value, setValue] = useState(sub?.value || BASIC_PAYLOAD_GAUGE_CHART.value);
 
-
-
+  const [color, setColor] = useState(sub?.color || '#52b202');
+  const [fontSize, setFontSize] = useState(parseFontSize(sub?.fontSize) || 40);
+  const [isColorPickerOpen, setIsColorPickerOpen] = useState(false);
   // Use local state for width and height
   const [width, setWidth] = useState(sub?.width);
   const [height, setHeight] = useState(sub?.height);
@@ -33,7 +36,9 @@ function EditSubMuiChartGuage() {
           ...sub,
           width: width,
           height: height,
-          value: value,  // Save the value
+          value: value,
+          color: color,  // Save the color
+          fontSize: `${fontSize}px`,
         },
       });
     }
@@ -52,11 +57,21 @@ function EditSubMuiChartGuage() {
   };
 
 
+  const handleColorChange = (newColor) => {
+    setColor(newColor);
+  };
+
+  const handleFontSizeChange = (event) => {
+    setFontSize(event.target.value);
+  };
+
   useEffect(() => {
     if (sub) {
       setWidth(sub.width);
       setHeight(sub.height);
-      setValue(sub.value || BASIC_PAYLOAD_GAUGE_CHART.value);  // Update the value state when 'sub' changes
+      setValue(sub.value || BASIC_PAYLOAD_GAUGE_CHART.value);
+      setColor(sub.color || '#52b202');  // Update the color state when 'sub' changes
+      setFontSize(parseFontSize(sub.fontSize) || 40);
     }
   }, [sub, activeBoxId]);
 
@@ -90,6 +105,34 @@ function EditSubMuiChartGuage() {
         label="数值"
         value={value}
         onChange={handleValueChange}
+        type="number"
+        InputLabelProps={{
+          shrink: true,
+        }}
+      />
+      <br />
+      <br />
+      <Box >
+        <TextField
+          label="颜色"
+          value={color}
+          onChange={(e) => handleColorChange(e.target.value)}
+          type="text"
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
+        <IconButton onClick={() => setIsColorPickerOpen(!isColorPickerOpen)}>
+          <ColorLensIcon />
+        </IconButton>
+        {isColorPickerOpen && <HexColorPicker color={color} onChange={handleColorChange} />}
+      </Box>
+      <br />
+      <br />
+      <TextField
+        label="字体大小"
+        value={fontSize}
+        onChange={handleFontSizeChange}
         type="number"
         InputLabelProps={{
           shrink: true,

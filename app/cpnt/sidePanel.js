@@ -135,6 +135,26 @@ function SidePanel() {
 
   }
 
+
+  // Add a new state for the image URL
+  const [imageUrl, setImageUrl] = useState('');
+
+  // Add a function to handle the image URL input change
+  const handleImageUrlChange = (event) => {
+    setImageUrl(event.target.value);
+  };
+
+  // Add a function to handle the confirm button click
+  const handleConfirmClick = () => {
+    if (imageUrl) {
+      setBg({
+        type: BG_TYPE.IMAGE,
+        filename: imageUrl,
+      });
+    }
+  };
+
+
   return (
     <div className={classes['side-panel-view']}>
       <Box display="flex" justifyContent="space-between" mb={2}>
@@ -178,7 +198,15 @@ function SidePanel() {
         <Button color="success" onClick={selectImage}>选择图片</Button>
         <Button onClick={handleUploadClick}>确定</Button>
         <br />
+
+
         <br />
+        <Box>
+          <TextField label="输入图片地址" value={imageUrl} onChange={handleImageUrlChange} />
+          <Button onClick={handleConfirmClick}>确定</Button>
+
+        </Box>
+
 
         {preview && (preview.startsWith('blob:') ? <img style={{ width: "100px", height: "60px" }} src={preview} alt="Preview" /> : <p>{preview}</p>)}
 

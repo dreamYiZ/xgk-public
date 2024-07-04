@@ -8,6 +8,11 @@ export default function SubRenderBarChart({ box, ...sub }) {
     <ChartMuiTheme>
 
       <BarChart
+        sx={{
+          "& .MuiChartsAxis-tickLabel tspan": {
+            fontSize: "1.4em"
+          }
+        }}
         xAxis={sub?.xAxis || BASIC_PAYLOAD_BAR_CHART.xAxis}
         series={sub?.series || BASIC_PAYLOAD_BAR_CHART.series}
         width={sub?.width || BASIC_PAYLOAD_BAR_CHART.width}
