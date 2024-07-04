@@ -3,18 +3,25 @@ import classes from "./layout.module.sass";
 import ControlView from "./cpnt/controlView.js"
 import useGlobalStore from './store/useGlobal';
 import { MODE } from './store/useGlobal';
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import useBoxStore from './store/useBo';
 import { usePathname } from 'next/navigation';
 
 import { ppplog } from "./util/util";
 
 function Framework({ children }) {
+  const [isClient, setIsClient] = useState(false)
+
   const { mode, scaleToFill } = useGlobalStore();
   const { clearActiveId } = useBoxStore();  // Access the 'boxArr' state
 
   // todo: when scaleToFill=true and mode!== MODE.EDIT, make this [<div id="framework-to-put-main-render-box" className={pageContentClass} style={pageContentStyle}>]
   // overflow hidden
+
+
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
 
   // 根据 'mode' 的值动态地添加类名
   const controlPanelClass = `${classes['control-panel']} ${mode === MODE.EDIT ? 'control-panel-editing' : ''}`;
@@ -47,6 +54,10 @@ function Framework({ children }) {
     return <div className={classes['management']}>
       {children}
     </div>;
+  }
+
+  if (!isClient) {
+    return '';
   }
 
   return (

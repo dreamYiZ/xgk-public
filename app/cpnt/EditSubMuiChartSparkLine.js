@@ -30,8 +30,8 @@ export default function () {
       changeById(activeBox.boxid, {
         sub: {
           ...sub,
-          width: width,
-          height: height,
+          width: Number(width),
+          height: Number(height),
         },
       });
     }

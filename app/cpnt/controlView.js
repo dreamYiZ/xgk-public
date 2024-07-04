@@ -77,6 +77,9 @@ function ControlView(config) {
           console.error('Error:', error);
           generateLicense();
         });
+    } else{
+      generateLicense();
+
     }
 
   }, [license]);
