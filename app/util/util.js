@@ -269,6 +269,7 @@ export const parseFontSize = (fontSize) => {
 };
 
 
+export { loadInitConfig } from "./init";
 export { default as generateLicense } from "./generateLicense"
 export { ANIMATE_TYPES_DISPLAY, ANIMATE_TYPES, ANIMATE_TIME_FUNCTION_TYPES, ANIMATE_TIME_FUNCTION_TYPES_DISPLAY } from "./animateType";
 export { SUB_TYPE_DISPLAY } from "./subType";

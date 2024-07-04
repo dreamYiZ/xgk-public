@@ -5,7 +5,7 @@ import SidePanel from "./sidePanel";
 import React, { useEffect, useState } from 'react';
 import { MODE } from '../store/useGlobal';
 import { Dialog, DialogTitle, DialogContent, TextField, DialogActions, Button } from '@mui/material';
-import { p as sp, generateLicense } from "../util/util";
+import { p as sp, generateLicense, loadInitConfig } from "../util/util";
 
 function ControlView(config) {
   const { mode, setMode, version, hideWhenDisplaying, showWhenEditing, license } = useGlobalStore();
@@ -91,6 +91,7 @@ function ControlView(config) {
     </div>}
 
     {hideWhenDisplaying() && <div className={classes.vinfo}>
+      {mode === MODE.INIT && <Button onClick={() => { loadInitConfig() }}>加载配置</Button>}
       {`MODE:${mode}, VERSION:${version}`}
     </div>}
 
