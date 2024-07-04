@@ -5,7 +5,6 @@ import EditSubImage from "./editSubImage";
 import EditSubMuiChartGauge from "./editSubMuiChartGauge";
 import EditSubMuiChartPie from "./editSubMuiChartPie";
 import { useMemo } from 'react';
-import EditSubMuiChart from "./EditSubMuiChart";
 import EditSubMuiChartBar from "./EditSubMuiChartBar";
 import EditSubMuiChartLine from "./EditSubMuiChartLine";
 import EditSubMuiChartSTACKING from "./EditSubMuiChartSTACKING";
