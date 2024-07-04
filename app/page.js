@@ -1,5 +1,5 @@
 "use client"
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styles from './page.module.sass';
 import Box from './cpnt/box';
 import { createBox } from './store/useBo';
@@ -9,7 +9,14 @@ import useGlobalStore, { BG_TYPE } from './store/useGlobal';
 import { createBoxText } from "./util/util";
 import ppplog from "ppplog";
 
+import dynamic from 'next/dynamic';
+
+const BoxNoSSR = dynamic(() => import('./cpnt/box'), { ssr: false });
+
+
 export default function Home() {
+
+  const [isClient, setIsClient] = useState(false)
   const addBox = useBoxStore((state) => state.add);
   const boxArr = useBoxStore((state) => state.boxArr);
   const emptyBox = useBoxStore((state) => state.empty);
@@ -20,6 +27,13 @@ export default function Home() {
   const mainRef = useRef(null);  // 新增一个 ref 来引用 <main> 元素
   const { screenWidth, screenHeight } = useGlobalStore();  // 获取 'screenWidth' 和 'screenHeight' 状态
   const shouldEmpty = false;
+
+
+
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
+
 
   useEffect(() => {
     if (isEmpty()) {
@@ -68,9 +82,9 @@ export default function Home() {
   const renderBoxArr = () => {
     return <>
       {boxArr.map((box, index) => {
-        return <Box {...box} key={box.boxid} mainRef={mainRef}>
+        return <BoxNoSSR {...box} key={box.boxid} mainRef={mainRef}>
           {subRender(box.sub, box)}
-        </Box>
+        </BoxNoSSR>
       })}
     </>
   }
@@ -81,9 +95,15 @@ export default function Home() {
     background: bg.type === BG_TYPE.IMAGE ? `url(${bg.filename}) no-repeat center center / cover` : '',
   };  // Set the background of the <main> element based on the 'bg' state
 
+
+  if(!isClient){
+    return '';
+  }
   return (
-    <main id="main-id-to-render-box-arr" ref={mainRef} style={mainStyle} className={styles.main}>
-      {renderBoxArr()}
+    <main id="main-id-to-render-box-arr" ref={mainRef} style={mainStyle} className={styles.main} suppressHydrationWarning>
+      <div>
+        {renderBoxArr()}
+      </div>
     </main>)
 
 

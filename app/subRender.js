@@ -7,6 +7,7 @@ import SubRenderLineChart from './cpnt/subRenderLineChart'
 import SubRenderGaugeChart from './cpnt/subRenderGaugeChart'
 import SubRenderStackingChart from './cpnt/subRenderStackingChart'
 import SubRenderSparklineChart from './cpnt/subRenderSparklineChart'
+import SubRenderEcharts from './cpnt/subRenderEcharts'
 
 
 const MAP_SUB_RENDER = {
@@ -18,6 +19,7 @@ const MAP_SUB_RENDER = {
   [SUB_TYPE.GAUGE_CHART]: SubRenderGaugeChart,
   [SUB_TYPE.STACKING_CHART]: SubRenderStackingChart,
   [SUB_TYPE.SPARKLINE_CHART]: SubRenderSparklineChart,
+  [SUB_TYPE.ECHART_CHART]: SubRenderEcharts,
 }
 
 

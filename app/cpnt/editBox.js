@@ -6,6 +6,7 @@ import { TextField, Button } from '@mui/material';
 import EditTabContainer from "./editTabContainer";
 import Box from '@mui/material/Box';
 import { useState, useEffect, useMemo } from "react";
+import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 
 function EditBox() {
   const boxArr = useBoxStore((state) => state.boxArr);  // Access the 'boxArr' state
@@ -65,11 +66,27 @@ function EditBox() {
     }
   };
 
-  const handleDeleteClick = () => {
-    if (window.confirm('确定要删除此元素吗?')) {
-      delById(activeBoxId);  // Delete the active box
-    }
+
+
+  const [open, setOpen] = useState(false);  // 新增状态变量
+
+  const handleClickOpen = () => {
+    setOpen(true);
   };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleDeleteClick = () => {
+    handleClickOpen();  // 打开弹窗
+  };
+
+  const handleConfirmDelete = () => {
+    delById(activeBoxId);  // 删除元素
+    handleClose();  // 关闭弹窗
+  };
+
 
 
   return (
@@ -125,9 +142,28 @@ function EditBox() {
           <EditSub />
 
           <br />
-          <Button variant="contained" color="error" onClick={handleDeleteClick}>  {/* 修改颜色为 'error' */}
+          <Button variant="contained" color="error" onClick={handleDeleteClick}>
             删除
           </Button>
+          <Dialog
+            open={open}
+            onClose={handleClose}
+          >
+            <DialogTitle>{"删除元素"}</DialogTitle>
+            <DialogContent>
+              <DialogContentText>
+                确定要删除此元素吗?
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose}>
+                取消
+              </Button>
+              <Button onClick={handleConfirmDelete} color="error">
+                确定
+              </Button>
+            </DialogActions>
+          </Dialog>
         </>
       ) : (
         <p>No active box selected.</p>

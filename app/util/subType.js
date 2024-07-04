@@ -7,6 +7,7 @@ export const SUB_TYPE = {
   GAUGE_CHART: 'gauge_chart',
   STACKING_CHART: 'stacking_chart',
   SPARKLINE_CHART: 'sparkline_chart',
+  ECHART_CHART: 'echart_chart',
 }
 
 export const SUB_TYPE_DISPLAY = {
@@ -18,4 +19,5 @@ export const SUB_TYPE_DISPLAY = {
   [SUB_TYPE.GAUGE_CHART]: '环形图',
   [SUB_TYPE.STACKING_CHART]: '柱堆图',
   [SUB_TYPE.SPARKLINE_CHART]: '折线图',
+  [SUB_TYPE.ECHART_CHART]: '一茶特',
 }

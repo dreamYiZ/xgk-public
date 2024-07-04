@@ -1,3 +1,4 @@
+"use client"
 import { useRef, useEffect, useMemo } from 'react';  // Import useMemo
 import classes from "./box.module.sass";
 import useBoxStore from '../store/useBo';

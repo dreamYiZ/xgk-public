@@ -34,15 +34,16 @@ function EditSubMuiChartGuage() {
       changeById(activeBox.boxid, {
         sub: {
           ...sub,
-          width: width,
-          height: height,
+          width: Number(width),  // Convert width to number
+          height: Number(height),  // Convert height to number
           value: value,
-          color: color,  // Save the color
+          color: color,
           fontSize: `${fontSize}px`,
         },
       });
     }
   };
+
 
   const handleValueChange = (event) => {
     setValue(event.target.value);
