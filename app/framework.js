@@ -6,22 +6,33 @@ import { MODE } from './store/useGlobal';
 import { useEffect, useMemo, useState } from "react";
 import useBoxStore from './store/useBo';
 import { usePathname } from 'next/navigation';
+import { addWindowErrorHandler } from "./util/util";
 
 import { ppplog } from "./util/util";
 
 function Framework({ children }) {
   const [isClient, setIsClient] = useState(false)
+  const [isManagePage, setIsManagePage] = useState(false);  // 新增的状态
 
   const { mode, scaleToFill } = useGlobalStore();
   const { clearActiveId } = useBoxStore();  // Access the 'boxArr' state
 
-  // todo: when scaleToFill=true and mode!== MODE.EDIT, make this [<div id="framework-to-put-main-render-box" className={pageContentClass} style={pageContentStyle}>]
-  // overflow hidden
-
+  useEffect(() => {
+    addWindowErrorHandler();
+    return () => {
+      window.onerror = null;  // 在组件卸载时删除错误处理器
+    };
+  },[])
 
   useEffect(() => {
     setIsClient(true)
   }, [])
+
+  const pathname = usePathname()
+
+  useEffect(() => {
+    setIsManagePage(pathname.startsWith('/m'));  // 更新isManagePage状态
+  }, [pathname]);
 
   // 根据 'mode' 的值动态地添加类名
   const controlPanelClass = `${classes['control-panel']} ${mode === MODE.EDIT ? 'control-panel-editing' : ''}`;
@@ -38,19 +49,13 @@ function Framework({ children }) {
     }
   }, [mode, scaleToFill]);
 
-
   useEffect(() => {
     if (mode !== MODE.EDIT) {
       clearActiveId();
     }
   }, [mode]);
 
-
-  const pathname = usePathname()
-
-
-  // Check if pathname starts with '/m'
-  if (pathname.startsWith('/m')) {
+  if (isManagePage) {
     return <div className={classes['management']}>
       {children}
     </div>;
@@ -73,3 +78,4 @@ function Framework({ children }) {
 }
 
 export default Framework;
+
