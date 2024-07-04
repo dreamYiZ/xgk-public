@@ -243,10 +243,12 @@ export const BASIC_PAYLOAD_ECHART = {
 export const createBoxECharts = () => {
   return {
     ...createBoxPayload(),
-    width: '400px',
-    height: '120px',
+    width: '600px',
+    height: '420px',
     sub: {
       type: SUB_TYPE.ECHART_CHART,
+      width: 600,
+      height: 420,
       ...BASIC_PAYLOAD_ECHART
     }
   }

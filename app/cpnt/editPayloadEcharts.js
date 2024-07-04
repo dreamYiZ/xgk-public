@@ -24,18 +24,44 @@ export default function EditChartPayload() {
   const changeById = useBoxStore(state => state.changeById);
 
   const [isOpen, setIsOpen] = React.useState(false);
-  const [option, setOption] = useState(JSON.stringify(sub.option, null, 2));
+  const [_option, setOption] = useState(JSON.stringify(sub.option, null, 2));
 
   const saveChange = () => {
     if (sub) {
       changeById(activeBox.boxid, {
         sub: {
           ...sub,
-          option: JSON.parse(option),
+          option: JSON.parse(_option),
         },
       });
     }
   }
+
+  const handleParse = () => {
+    try {
+      // Execute the code in the option string\
+      ppplog('_option 1', _option)
+      let option;
+      eval(_option);
+      let parseOption = option;
+      // After eval, the variable option should be defined in this scope
+      // Assign its value to sub.option
+      ppplog('_option', _option, parseOption)
+      if (sub && typeof parseOption === 'object') {
+
+        setOption(JSON.stringify(parseOption));
+        changeById(activeBox.boxid, {
+          sub: {
+            ...sub,
+            option: parseOption,
+          },
+        });
+      }
+    } catch (error) {
+      console.error('Failed to parse JSON:', error);
+    }
+  }
+
 
   return (
     <ChartEditorLayout saveChange={saveChange}
@@ -47,7 +73,7 @@ export default function EditChartPayload() {
           <AceEditor
             mode="json"
             theme="monokai"
-            value={option}
+            value={_option}
             onChange={setOption}
             name="UNIQUE_ID_OF_DIV"
             editorProps={{ $blockScrolling: true }}
@@ -64,6 +90,9 @@ export default function EditChartPayload() {
               tabSize: 2,
             }}
           />
+          <Box my={2}>
+            <Button variant="contained" color="primary" onClick={handleParse}>解析JSON</Button>
+          </Box>
         </Box>
       </Box>
 
