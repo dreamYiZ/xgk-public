@@ -326,6 +326,7 @@ export const parseFontSize = (fontSize) => {
 
 
 export const addWindowErrorHandler = () => {
+  return false;
   window.onerror = function () {
     // 创建一个按钮
     var btn = document.createElement("button");

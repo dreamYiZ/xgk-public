@@ -17,12 +17,12 @@ function Framework({ children }) {
   const { mode, scaleToFill } = useGlobalStore();
   const { clearActiveId } = useBoxStore();  // Access the 'boxArr' state
 
-  useEffect(() => {
-    addWindowErrorHandler();
-    return () => {
-      window.onerror = null;  // 在组件卸载时删除错误处理器
-    };
-  },[])
+  // useEffect(() => {
+  //   addWindowErrorHandler();
+  //   return () => {
+  //     window.onerror = null;  // 在组件卸载时删除错误处理器
+  //   };
+  // },[])
 
   useEffect(() => {
     setIsClient(true)
