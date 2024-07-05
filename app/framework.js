@@ -7,7 +7,7 @@ import { useEffect, useMemo, useState } from "react";
 import useBoxStore from './store/useBo';
 import { usePathname } from 'next/navigation';
 import { addWindowErrorHandler } from "./util/util";
-
+import ErrorBoundary from './cpnt/errorBoundary';
 import { ppplog } from "./util/util";
 
 function Framework({ children }) {
@@ -66,14 +66,16 @@ function Framework({ children }) {
   }
 
   return (
-    <div className={classes['framework']}>
-      <div id="framework-to-put-main-render-box" className={pageContentClass} style={pageContentStyle}>
-        {children}
+    <ErrorBoundary>
+      <div className={classes['framework']}>
+        <div id="framework-to-put-main-render-box" className={pageContentClass} style={pageContentStyle}>
+          {children}
+        </div>
+        <div className={controlPanelClass}>
+          <ControlView />
+        </div>
       </div>
-      <div className={controlPanelClass}>
-        <ControlView />
-      </div>
-    </div>
+    </ErrorBoundary>
   );
 }
 
