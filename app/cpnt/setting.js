@@ -15,7 +15,7 @@ export default function Setting() {
   const { isOpenSetting, openSetting, closeSetting, setLicense, license,
     themePaletteMode, setThemePaletteMode } = useGlobalStore();
 
-  ppplog('themePaletteMode', themePaletteMode)
+
 
   const downloadConfig = () => {
     const config = JSON.stringify(localStorage, null, 2);
@@ -50,7 +50,7 @@ export default function Setting() {
 
 
   const handleThemeChange = (event) => {
-    ppplog('event.target.value', event.target.value)
+
     setThemePaletteMode(event.target.value);
   };
 

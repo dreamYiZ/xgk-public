@@ -26,7 +26,7 @@ export default function ChartColorEdit({ colorArray, setColorArray }) {
 
   const handleAddColor = () => {
     if (editIndex !== null) {
-      ppplog(111, editIndex, colorArray)
+
       setColorArray(colorArray.map((color, index) => index === editIndex ? inputColor : color));
       setEditIndex(null);
     } else if (!colorArray.includes(inputColor)) {

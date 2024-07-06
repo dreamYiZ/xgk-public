@@ -9,9 +9,7 @@ import ppplog from "ppplog";
 
 
 
-if (process.env.NODE_ENV === 'production') {
-  ppplog.disableppplog();
-}
+ppplog.disableppplog();
 
 
 const inter = Inter({ subsets: ["latin"] });

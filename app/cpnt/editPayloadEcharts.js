@@ -40,13 +40,13 @@ export default function EditChartPayload() {
   const handleParse = () => {
     try {
       // Execute the code in the option string\
-      ppplog('_option 1', _option)
+
       let option;
       eval(_option);
       let parseOption = option;
       // After eval, the variable option should be defined in this scope
       // Assign its value to sub.option
-      ppplog('_option', _option, parseOption)
+
       if (sub && typeof parseOption === 'object') {
 
         setOption(JSON.stringify(parseOption));

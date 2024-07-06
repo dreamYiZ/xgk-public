@@ -58,7 +58,7 @@ export default function EditChartPayload() {
   // handleUpdate函数在父组件中定义
   function handleUpdate(index, updatedRecord) {
 
-    ppplog('handleUpdate', index, updatedRecord);
+     ;
     // 使用函数形式的setState，因为我们依赖于旧状态
     setSeries(oldSeries => {
       // 创建新数组以保持不变性
@@ -71,17 +71,17 @@ export default function EditChartPayload() {
 
 
   const saveChange = () => {
-    ppplog('series', series)
+
 
     if (sub) {
       let newSub = {
         ...sub,
         series
       }
-      ppplog('colorArray 1', colorArray)
+
 
       if (colorArray && Array.isArray(colorArray)) {
-        ppplog('newSub colorArray', colorArray)
+
 
         newSub.series = newSub.series.map((s, idx) => {
           if (colorArray[idx]) {
@@ -96,7 +96,7 @@ export default function EditChartPayload() {
         newSub.xAxis[0].data = barLabels;
       }
 
-      ppplog('newSub', newSub)
+
 
       changeById(activeBox.boxid, {
         ...activeBox,
