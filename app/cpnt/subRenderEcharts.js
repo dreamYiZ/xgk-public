@@ -7,7 +7,7 @@ import ppplog from "ppplog";
 
 export default function ({ box, ...sub }) {
 
-  ppplog('subecharts', sub)
+
   if(!sub?.option){
     return `Not Options`;
   }

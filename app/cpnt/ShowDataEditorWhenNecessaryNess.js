@@ -62,7 +62,7 @@ export default function ShowDataEditorWhenNecessaryNess({  isOpen
   // handleUpdate函数在父组件中定义
   function handleUpdate(index, updatedRecord) {
 
-    ppplog('handleUpdate', index, updatedRecord);
+     ;
     // 使用函数形式的setState，因为我们依赖于旧状态
     setSeries(oldSeries => {
       // 创建新数组以保持不变性
@@ -75,7 +75,7 @@ export default function ShowDataEditorWhenNecessaryNess({  isOpen
 
 
   const saveChange = () => {
-    ppplog('series', series)
+
 
 
 
@@ -89,15 +89,15 @@ export default function ShowDataEditorWhenNecessaryNess({  isOpen
         s = { ...s, ...shape }
         return s;
       })
-      ppplog('colorArray 1', colorArray)
+
 
       if (colorArray && Array.isArray(colorArray) && colorArray.length) {
-        ppplog('newSub colorArray', colorArray)
+
 
         newSub.color = colorArray;
       }
 
-      ppplog('newSub', newSub)
+
 
       changeById(activeBox.boxid, {
         ...activeBox,

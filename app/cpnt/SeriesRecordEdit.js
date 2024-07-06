@@ -36,7 +36,7 @@ export default function SeriesRecordEdit({ seriesRecord, onUpdate: onUpdateFromP
   };
 
 
-  ppplog('seriesRecord', seriesRecord)
+
   let dataType = getSeriesDataType(seriesRecord)
   let readyRows = seriesRecord.data
 
@@ -72,8 +72,8 @@ export default function SeriesRecordEdit({ seriesRecord, onUpdate: onUpdateFromP
   const [rows, setRows] = React.useState(readyRows);
   const [rowModesModel, setRowModesModel] = React.useState({});
 
-  ppplog('rows', rows);
-  ppplog('rowModesModel', rowModesModel);
+   ;
+   ;
 
   // 动态生成columns
   const columns = React.useMemo(() => {
@@ -147,7 +147,7 @@ export default function SeriesRecordEdit({ seriesRecord, onUpdate: onUpdateFromP
   const handleRowUpdate = React.useCallback((params) => {
     ppplog('handleRowUpdate')
     const updatedRows = rows.map((row) => {
-      ppplog('id', row, params)
+
       if (row) {
         if (row.id === params.id) {
           return params;
@@ -156,7 +156,7 @@ export default function SeriesRecordEdit({ seriesRecord, onUpdate: onUpdateFromP
 
       return row;
     });
-    ppplog('3updatedRows', updatedRows)
+
     setRows(updatedRows);
     onUpdate(updatedRows); // 更新父组件的数据
   }, [rows, onUpdate]);
