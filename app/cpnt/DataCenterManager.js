@@ -42,6 +42,7 @@ export default function () {
 
   const handleClearApi = () => {
     setApi('');  // 清除 api 状态
+    gSetApi('');
   };
 
   const handleSubmitApi = () => {
