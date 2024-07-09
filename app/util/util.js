@@ -352,8 +352,45 @@ export const addWindowErrorHandler = () => {
 
 
 
+export const getSubById = (boxArr, boxid) => {
+  return boxArr.find(i => i.boxid === boxid)?.sub
+}
+
+export const validApiUrl = (url) => {
+  // 检查 url 是否是一个字符串
+  if (typeof url !== 'string') {
+    return false;
+  }
+
+  // 检查 url 是否有长度
+  if (url.length === 0) {
+    return false;
+  }
+
+  // 检查 url 是否包含 "http" 或 "https"
+  if (!url.startsWith('http://') && !url.startsWith('https://')) {
+    return false;
+  }
+
+  // 如果所有的检查都通过了，返回 true
+  return true;
+};
+
+export const combineBoxAndSubArr = (boxArr, mergedBoxArr) => {
+  return boxArr.map(
+    preBox => {
+      return {
+        ...preBox,
+        sub: getSubById(mergedBoxArr, preBox.boxid)
+      }
+    }
+  )
+}
+
+
 export { loadInitConfig } from "./init";
 export { default as generateLicense } from "./generateLicense"
 export { ANIMATE_TYPES_DISPLAY, ANIMATE_TYPES, ANIMATE_TIME_FUNCTION_TYPES, ANIMATE_TIME_FUNCTION_TYPES_DISPLAY } from "./animateType";
 export { SUB_TYPE_DISPLAY } from "./subType";
 export { SUB_TYPE, ppplog }
+export { mergeSub } from "./mergeSub";

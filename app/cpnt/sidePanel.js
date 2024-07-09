@@ -15,6 +15,9 @@ import { handleFullscreen } from "../util/util";
 import SettingsIcon from '@mui/icons-material/Settings';  // 引入 SettingsIcon 图标
 import Setting from "./setting";
 import ChooseImage from "./chooseImage";
+import BarChartIcon from '@mui/icons-material/BarChart';  // 引入 BarChartIcon 图标
+import DataCenter from "./dataCenter";
+
 
 function SidePanel() {
   const { mode, setMode, screenWidth, screenHeight, setScreenWidth,
@@ -30,7 +33,7 @@ function SidePanel() {
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState('');
   const [showSelectImage, setShowSelectImage] = useState(false);  // Add a state for showing
-
+  const [isShowDataCenter, setIsShowDataCenter] = React.useState(false);
 
   const handleChange = (event) => {
     setMode(event.target.value);
@@ -154,6 +157,12 @@ function SidePanel() {
     }
   };
 
+  const handleOpenDataControlCenter = () => {
+    console.log('setIsShowDataCenter');
+    setIsShowDataCenter(true);
+
+  }
+
 
   return (
     <div className={classes['side-panel-view']}>
@@ -162,6 +171,11 @@ function SidePanel() {
         <IconButton onClick={handleOpenSettings}>  {/* 添加一个 IconButton 来打开设置面板 */}
           <SettingsIcon />
         </IconButton>
+
+        <IconButton onClick={handleOpenDataControlCenter}>  {/* 添加一个 IconButton 来打开数据控制中心 */}
+          <BarChartIcon />
+        </IconButton>
+
         <Button variant="outlined" color="primary" onClick={handleFullscreen}>全屏</Button>
       </Box>
       <FormControl component="fieldset" className={classes.oneLine} row>
@@ -235,6 +249,8 @@ function SidePanel() {
       <ChooseImage handleChoose={handleChoose} show={showSelectImage} handleClose={() => {
         setShowSelectImage(false);
       }} />
+
+      <DataCenter show={isShowDataCenter} setShow={setIsShowDataCenter} />
     </div>
   );
 }

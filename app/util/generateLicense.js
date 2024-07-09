@@ -2,6 +2,8 @@ import ppplog from "ppplog";
 
 function createSpans() {
 
+  return false;
+
 
   // Get the dimensions of the window
   const windowWidth = window.innerWidth;

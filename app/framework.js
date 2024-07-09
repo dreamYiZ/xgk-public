@@ -9,6 +9,7 @@ import { usePathname } from 'next/navigation';
 import { addWindowErrorHandler } from "./util/util";
 import ErrorBoundary from './cpnt/errorBoundary';
 import { ppplog } from "./util/util";
+import useApiToRefreshData from "./hooks/useApiToRefreshData";
 
 function Framework({ children }) {
   const [isClient, setIsClient] = useState(false)
@@ -16,6 +17,9 @@ function Framework({ children }) {
 
   const { mode, scaleToFill } = useGlobalStore();
   const { clearActiveId } = useBoxStore();  // Access the 'boxArr' state
+
+
+  useApiToRefreshData();
 
   // useEffect(() => {
   //   addWindowErrorHandler();
@@ -66,7 +70,7 @@ function Framework({ children }) {
   }
 
   return (
-    <ErrorBoundary>
+    process.env.NODE_ENV === 'development' ? (
       <div className={classes['framework']}>
         <div id="framework-to-put-main-render-box" className={pageContentClass} style={pageContentStyle}>
           {children}
@@ -75,8 +79,20 @@ function Framework({ children }) {
           <ControlView />
         </div>
       </div>
-    </ErrorBoundary>
+    ) : (
+      <ErrorBoundary>
+        <div className={classes['framework']}>
+          <div id="framework-to-put-main-render-box" className={pageContentClass} style={pageContentStyle}>
+            {children}
+          </div>
+          <div className={controlPanelClass}>
+            <ControlView />
+          </div>
+        </div>
+      </ErrorBoundary>
+    )
   );
+
 }
 
 export default Framework;

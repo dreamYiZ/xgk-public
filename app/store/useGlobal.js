@@ -19,6 +19,7 @@ const useGlobalStore = create(persist(
   (set, get) => ({
     scaleToFill: false,
     themePaletteMode: 'dark',
+    api: '',
     bg: {
       type: BG_TYPE.IMAGE,
       filename: null,
@@ -44,7 +45,8 @@ const useGlobalStore = create(persist(
     closeSetting: () => set(() => ({ isOpenSetting: false })),
     setLicense: (license) => set(() => ({ license: license })),
     setThemePaletteMode: (_themePaletteMode) => set(() => ({ themePaletteMode: _themePaletteMode })),
-    toggleScaleToFill: () => set((state) => ({ scaleToFill: !state.scaleToFill }))
+    toggleScaleToFill: () => set((state) => ({ scaleToFill: !state.scaleToFill })),
+    setApi: (api) => set(() => ({ api: api })),
   }),
   {
     name: 'global-storage',
