@@ -2,12 +2,13 @@ import { SUB_TYPE } from "./util/util";
 import SubRenderText from "./cpnt/subRenderText";
 import SubRenderImage from "./cpnt/subRenderImage";
 import SubRenderPieChart from "./cpnt/subRenderPieChart";
-import SubRenderBarChart from './cpnt/subRenderBarChart'
-import SubRenderLineChart from './cpnt/subRenderLineChart'
-import SubRenderGaugeChart from './cpnt/subRenderGaugeChart'
-import SubRenderStackingChart from './cpnt/subRenderStackingChart'
-import SubRenderSparklineChart from './cpnt/subRenderSparklineChart'
-import SubRenderEcharts from './cpnt/subRenderEcharts'
+import SubRenderBarChart from './cpnt/subRenderBarChart';
+import SubRenderLineChart from './cpnt/subRenderLineChart';
+import SubRenderGaugeChart from './cpnt/subRenderGaugeChart';
+import SubRenderStackingChart from './cpnt/subRenderStackingChart';
+import SubRenderSparklineChart from './cpnt/subRenderSparklineChart';
+import SubRenderEcharts from './cpnt/subRenderEcharts';
+import SubRenderSprite from "./cpnt/SubRenderSprite";
 
 
 const MAP_SUB_RENDER = {
@@ -20,6 +21,7 @@ const MAP_SUB_RENDER = {
   [SUB_TYPE.STACKING_CHART]: SubRenderStackingChart,
   [SUB_TYPE.SPARKLINE_CHART]: SubRenderSparklineChart,
   [SUB_TYPE.ECHART_CHART]: SubRenderEcharts,
+  [SUB_TYPE.SPRITE]: SubRenderSprite,
 }
 
 

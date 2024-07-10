@@ -25,7 +25,7 @@ export default function Home() {
 
   const isEmpty = useBoxStore((state) => state.isEmpty);
   const mainRef = useRef(null);  // 新增一个 ref 来引用 <main> 元素
-  const { screenWidth, screenHeight } = useGlobalStore();  // 获取 'screenWidth' 和 'screenHeight' 状态
+  const { showWhenEditing, screenWidth, screenHeight } = useGlobalStore();  // 获取 'screenWidth' 和 'screenHeight' 状态
   const shouldEmpty = false;
 
 
@@ -96,14 +96,14 @@ export default function Home() {
   };  // Set the background of the <main> element based on the 'bg' state
 
 
-  if(!isClient){
+  if (!isClient) {
     return '';
   }
   return (
     <main id="main-id-to-render-box-arr" ref={mainRef} style={mainStyle} className={styles.main} suppressHydrationWarning>
-      <div style={{width:"100%", height:"100%"}}>
+      <div style={{ width: "100%", height: "100%" }}>
         {renderBoxArr()}
-        <MouseXY />
+        {showWhenEditing && <MouseXY />}
       </div>
     </main>)
 

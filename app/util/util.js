@@ -37,7 +37,7 @@ export const createBoxText = () => {
 export const createSubImagePayload = () => {
   return {
     type: SUB_TYPE.IMAGE,
-    url: 'next.svg'
+    url: '/next.svg'
   }
 }
 
@@ -254,7 +254,52 @@ export const createBoxECharts = () => {
   }
 }
 
+export const SPRINT_STATUS = {
+  INITIAL: 'initial',
+  RUNNING: 'running',
+  IDLE: 'idle',
+  STARTING: 'starting',
+  STOP: 'stop',
+}
 
+const BASIC_PAYLOAD_SPRINT = {
+  status: SPRINT_STATUS.INITIAL,
+  urlMap: {
+    [SPRINT_STATUS.INITIAL]: null,
+    [SPRINT_STATUS.STARTING]: null,
+    [SPRINT_STATUS.RUNNING]: '/sprite.png',
+    [SPRINT_STATUS.IDLE]: null,
+    [SPRINT_STATUS.STOP]: null,
+  },
+  speedMap: {
+    [SPRINT_STATUS.INITIAL]: null,
+    [SPRINT_STATUS.STARTING]: null,
+    [SPRINT_STATUS.RUNNING]: 3000,
+    [SPRINT_STATUS.IDLE]: null,
+    [SPRINT_STATUS.STOP]: null,
+  },
+  sizeMap: {
+    [SPRINT_STATUS.INITIAL]: null,
+    [SPRINT_STATUS.STARTING]: null,
+    [SPRINT_STATUS.RUNNING]: { width: 73.07, height: 75 },
+    [SPRINT_STATUS.IDLE]: null,
+    [SPRINT_STATUS.STOP]: null,
+  },
+}
+
+export const createSprite = () => {
+  return {
+    ...createBoxPayload(),
+    width: '75px',
+    height: '75px',
+    sub: {
+      type: SUB_TYPE.SPRITE,
+      width: 75,
+      height: 75,
+      ...BASIC_PAYLOAD_SPRINT
+    }
+  }
+}
 
 export const MAP_TYPE_FACTORY = {
   [SUB_TYPE.TEXT]: createBoxText,
@@ -266,6 +311,7 @@ export const MAP_TYPE_FACTORY = {
   [SUB_TYPE.STACKING_CHART]: createBoxStackingChart,
   [SUB_TYPE.SPARKLINE_CHART]: createBoxSparklineChart,
   [SUB_TYPE.ECHART_CHART]: createBoxECharts,
+  [SUB_TYPE.SPRITE]: createSprite,
 };
 
 
@@ -385,6 +431,16 @@ export const combineBoxAndSubArr = (boxArr, mergedBoxArr) => {
       }
     }
   )
+}
+
+export const pxToNumber = (pxValue) => {
+  if (typeof pxValue === 'number') {
+    return pxValue.toNumber();
+  }
+  if (typeof pxValue === 'string') {
+    return parseFloat(pxValue.replace('px', ''));
+  }
+  return pxValue
 }
 
 

@@ -10,6 +10,7 @@ import EditSubMuiChartLine from "./EditSubMuiChartLine";
 import EditSubMuiChartSTACKING from "./EditSubMuiChartSTACKING";
 import EditSubMuiChartSparkLine from "./EditSubMuiChartSparkLine";
 import EditSubEcharts from "./editSubEcharts";
+import EditSubSprite from "./EditSubSprite"
 
 
 const MAP_SUB_EDIT = {
@@ -21,8 +22,8 @@ const MAP_SUB_EDIT = {
   [SUB_TYPE.LINE_CHART]: EditSubMuiChartLine,
   [SUB_TYPE.STACKING_CHART]: EditSubMuiChartSTACKING,
   [SUB_TYPE.SPARKLINE_CHART]: EditSubMuiChartSparkLine,
-
   [SUB_TYPE.ECHART_CHART]: EditSubEcharts,
+  [SUB_TYPE.SPRITE]: EditSubSprite,
 
 
 }

@@ -14,7 +14,7 @@ function Framework({ children }) {
   const [isClient, setIsClient] = useState(false)
   const [isManagePage, setIsManagePage] = useState(false);  // 新增的状态
 
-  const { mode, scaleToFill } = useGlobalStore();
+  const { mode, scaleToFill, showWhenEditing } = useGlobalStore();
   const { clearActiveId } = useBoxStore();  // Access the 'boxArr' state
 
 
@@ -75,7 +75,7 @@ function Framework({ children }) {
           {children}
         </div>
         <div className={controlPanelClass}>
-          <ControlView />
+          {showWhenEditing && <ControlView />}
         </div>
       </div>
     ) : (
@@ -85,7 +85,7 @@ function Framework({ children }) {
             {children}
           </div>
           <div className={controlPanelClass}>
-            <ControlView />
+            {showWhenEditing && <ControlView />}
           </div>
         </div>
       </ErrorBoundary>
