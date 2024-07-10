@@ -7,6 +7,7 @@ import EditTabContainer from "./editTabContainer";
 import Box from '@mui/material/Box';
 import { useState, useEffect, useMemo } from "react";
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import { FRAMEWORK_ID_SELECTOR } from "../util/util";
 
 function EditBox() {
   const boxArr = useBoxStore((state) => state.boxArr);  // Access the 'boxArr' state
@@ -38,7 +39,7 @@ function EditBox() {
   };
 
   const handleFocusClick = () => {
-    const mainElement = document.getElementById('framework-to-put-main-render-box');  // 使用 id 来获取元素
+    const mainElement = document.getElementById(FRAMEWORK_ID_SELECTOR);  // 使用 id 来获取元素
     if (mainElement && activeBox) {
 
       let { x, y, height } = activeBox;

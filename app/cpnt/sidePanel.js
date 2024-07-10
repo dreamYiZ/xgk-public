@@ -158,7 +158,6 @@ function SidePanel() {
   };
 
   const handleOpenDataControlCenter = () => {
-    console.log('setIsShowDataCenter');
     setIsShowDataCenter(true);
 
   }

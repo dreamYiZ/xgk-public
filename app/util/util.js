@@ -1,7 +1,7 @@
 import { SUB_TYPE, SUB_TYPE_DISPLAY, } from "./subType";
 import { v4 as uuidv4 } from 'uuid';
 import ppplog from "ppplog";
-export { p } from "./cfg"
+export { p, FRAMEWORK_ID, FRAMEWORK_ID_SELECTOR } from "./cfg"
 
 
 

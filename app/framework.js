@@ -6,9 +6,8 @@ import { MODE } from './store/useGlobal';
 import { useEffect, useMemo, useState } from "react";
 import useBoxStore from './store/useBo';
 import { usePathname } from 'next/navigation';
-import { addWindowErrorHandler } from "./util/util";
+import { FRAMEWORK_ID, addWindowErrorHandler } from "./util/util";
 import ErrorBoundary from './cpnt/errorBoundary';
-import { ppplog } from "./util/util";
 import useApiToRefreshData from "./hooks/useApiToRefreshData";
 
 function Framework({ children }) {
@@ -72,7 +71,7 @@ function Framework({ children }) {
   return (
     process.env.NODE_ENV === 'development' ? (
       <div className={classes['framework']}>
-        <div id="framework-to-put-main-render-box" className={pageContentClass} style={pageContentStyle}>
+        <div id={`${FRAMEWORK_ID}`} className={pageContentClass} style={pageContentStyle}>
           {children}
         </div>
         <div className={controlPanelClass}>
@@ -82,7 +81,7 @@ function Framework({ children }) {
     ) : (
       <ErrorBoundary>
         <div className={classes['framework']}>
-          <div id="framework-to-put-main-render-box" className={pageContentClass} style={pageContentStyle}>
+          <div id={`${FRAMEWORK_ID}`} className={pageContentClass} style={pageContentStyle}>
             {children}
           </div>
           <div className={controlPanelClass}>

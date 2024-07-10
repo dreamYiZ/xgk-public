@@ -7,7 +7,7 @@ import useBoxStore from './store/useBo';
 import subRender from "./subRender.js";
 import useGlobalStore, { BG_TYPE } from './store/useGlobal';
 import { createBoxText } from "./util/util";
-import ppplog from "ppplog";
+import MouseXY from "./cpnt/mouseXY";
 
 import dynamic from 'next/dynamic';
 
@@ -101,8 +101,9 @@ export default function Home() {
   }
   return (
     <main id="main-id-to-render-box-arr" ref={mainRef} style={mainStyle} className={styles.main} suppressHydrationWarning>
-      <div>
+      <div style={{width:"100%", height:"100%"}}>
         {renderBoxArr()}
+        <MouseXY />
       </div>
     </main>)
 

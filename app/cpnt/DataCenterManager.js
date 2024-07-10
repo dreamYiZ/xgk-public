@@ -21,7 +21,6 @@ export default function () {
   const [option, setOption] = useState('');  // 新增的状态和处理函数
 
   useEffect(() => {
-    console.log('boxArr 22', boxArr);
     if (Array.isArray(boxArr) && boxArr.length) {
       let _idSubArr = boxArr.map(
         box => {
@@ -80,7 +79,6 @@ export default function () {
   };
 
   const saveChange = () => {
-    console.log('saveChange');
     try {
       let parsedBoxArr = JSON.parse(option)
 
