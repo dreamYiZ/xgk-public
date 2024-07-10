@@ -86,12 +86,17 @@ export default function () {
 
       setBoxArr(boxArr.map(
         preBox => {
-          return {
-            ...preBox,
-            sub: getSubById(parsedBoxArr, preBox.boxid)
+          const gotSub = getSubById(parsedBoxArr, preBox.boxid);
+          if (gotSub) {
+            return {
+              ...preBox,
+              sub: getSubById(parsedBoxArr, preBox.boxid)
+            }
           }
+          return null
+
         }
-      ))
+      ).filter(Boolean))
     } catch (e) {
       console.error(e);
     }
