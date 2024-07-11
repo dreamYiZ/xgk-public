@@ -9,26 +9,25 @@ import { useCallback, useState, useMemo, useEffect } from 'react';
 import { Box } from '@mui/system';  // 引入 Box 组件
 import { useDropzone } from 'react-dropzone';
 import { Typography } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import ColorLensIcon from '@mui/icons-material/ColorLens';
 
 
 
 export default function () {
-
-  const boxArr = useBoxStore((state) => state.boxArr);  // Access the 'boxArr' state
-  const activeBoxId = useBoxStore((state) => state.activeBoxId);  // Access the 'activeBoxId' state
-
-  // Find the active box in the 'boxArr' array
+  const boxArr = useBoxStore((state) => state.boxArr);
+  const activeBoxId = useBoxStore((state) => state.activeBoxId);
   const activeBox = useMemo(() => boxArr.find((box) => box.boxid === activeBoxId), [boxArr, activeBoxId]);
   const sub = useMemo(() => activeBox?.sub, [activeBox, activeBoxId]);
 
-  // Check if 'sub' exists before accessing its properties
   const [fontSize, setFontSize] = useState(sub?.fontSize.replace('px', '') || '');
   const [color, setColor] = useState(sub?.color || '');
+  const [isColorPickerOpen, setIsColorPickerOpen] = useState(false);
 
   const changeById = useBoxStore(state => state.changeById);
 
   const handleSave = () => {
-    if (sub) {  // Check if 'sub' exists before saving
+    if (sub) {
       changeById(activeBox.boxid, {
         sub: {
           ...sub,
@@ -39,16 +38,12 @@ export default function () {
     }
   };
 
-
   useEffect(() => {
     if (sub) {
       setFontSize(sub.fontSize.replace('px', '') || '');
       setColor(sub.color || '');
     }
   }, [sub, activeBoxId]);
-
-
-
 
   return (
     <Box my={2}>
@@ -58,8 +53,12 @@ export default function () {
       <Box mb={2}>
         <div>
           <label>颜色</label>
-          <HexColorPicker color={color} onChange={setColor} />
+          <br />
           <TextField value={color} onChange={e => setColor(e.target.value)} />
+          <IconButton onClick={() => setIsColorPickerOpen(!isColorPickerOpen)}>
+            <ColorLensIcon />
+          </IconButton>
+          {isColorPickerOpen && <HexColorPicker color={color} onChange={setColor} />}
         </div>
       </Box>
       <Box>
