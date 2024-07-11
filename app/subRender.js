@@ -23,6 +23,7 @@ const MAP_SUB_RENDER = {
   [SUB_TYPE.SPARKLINE_CHART]: SubRenderSparklineChart,
   [SUB_TYPE.ECHART_CHART]: SubRenderEcharts,
   [SUB_TYPE.SPRITE]: SubRenderSprite,
+  [SUB_TYPE.SPRITE_B]: SubRenderSprite,
   [SUB_TYPE.TIME]: SubRenderTime,
 }
 

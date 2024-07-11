@@ -4,12 +4,13 @@ import Button from '@mui/material/Button';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { HexColorPicker } from 'react-colorful';  // 引入颜色选择器
-import { canToBeNumber, pxToNumber, SPRINT_STATUS } from "../util/util";
+import { canToBeNumber, pxToNumber, SPRINT_STATUS, SUB_TYPE } from "../util/util";
 import { useState, useMemo, useEffect } from 'react';
 import { Box } from '@mui/system';  // 引入 Box 组件
 import ChooseImage from "./chooseImage";
 import useGlobalStore from '../store/useGlobal';
 import ppplog from "ppplog";
+import EditSubSpriteComplex from "./EditSubSpriteComplex";
 
 
 export default function () {
@@ -38,6 +39,8 @@ export default function () {
   const [spriteWidth, setSpriteWidth] = useState();
   const [spriteHeight, setSpriteHeight] = useState();
   const [spriteSpeed, setSpriteSpeed] = useState(1000);
+
+  const [isComplex, setIsComplex] = useState(false);
 
 
 
@@ -106,7 +109,13 @@ export default function () {
       }
 
     }
-  }, [sub, activeBoxId, currentStatus]);
+  }, [sub?.activeBoxId, sub?.currentStatus]);
+
+  useEffect(() => {
+    if (sub?.type === SUB_TYPE.SPRITE_B) {
+      setIsComplex(true);
+    }
+  }, [sub?.type])
 
 
 
@@ -125,6 +134,8 @@ export default function () {
   return (
     <div>
       <Box sx={{ my: 2 }} />
+
+      <EditSubSpriteComplex />
       <Box sx={{ my: 2 }}>
         <input
           accept="image/*"

@@ -25,6 +25,7 @@ const MAP_SUB_EDIT = {
   [SUB_TYPE.SPARKLINE_CHART]: EditSubMuiChartSparkLine,
   [SUB_TYPE.ECHART_CHART]: EditSubEcharts,
   [SUB_TYPE.SPRITE]: EditSubSprite,
+  [SUB_TYPE.SPRITE_B]: EditSubSprite,
   [SUB_TYPE.TIME]: EditSubTime,
 
 
