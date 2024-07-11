@@ -24,6 +24,7 @@ const useGlobalStore = create(persist(
       type: BG_TYPE.IMAGE,
       filename: null,
     },
+    bgVideo: null,
     mode: MODE.INIT,
     version: process.env.NEXT_PUBLIC_VERSION,
     screenWidth: 1920,
@@ -47,6 +48,7 @@ const useGlobalStore = create(persist(
     setThemePaletteMode: (_themePaletteMode) => set(() => ({ themePaletteMode: _themePaletteMode })),
     toggleScaleToFill: () => set((state) => ({ scaleToFill: !state.scaleToFill })),
     setApi: (api) => set(() => ({ api: api })),
+    setBgVideo: (bgVideo) => set(() => ({ bgVideo: bgVideo })),
   }),
   {
     name: 'global-storage',

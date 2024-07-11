@@ -6,7 +6,7 @@ import { createBox } from './store/useBo';
 import useBoxStore from './store/useBo';
 import subRender from "./subRender.js";
 import useGlobalStore, { BG_TYPE } from './store/useGlobal';
-import { createBoxText } from "./util/util";
+import { createBoxText, Bideo } from "./util/util";
 import MouseXY from "./cpnt/mouseXY";
 
 import dynamic from 'next/dynamic';
@@ -25,10 +25,12 @@ export default function Home() {
 
   const isEmpty = useBoxStore((state) => state.isEmpty);
   const mainRef = useRef(null);  // 新增一个 ref 来引用 <main> 元素
-  const { showWhenEditing, screenWidth, screenHeight } = useGlobalStore();  // 获取 'screenWidth' 和 'screenHeight' 状态
+  const { showWhenEditing, screenWidth, screenHeight, bgVideo } = useGlobalStore();  // 获取 'screenWidth' 和 'screenHeight' 状态
   const shouldEmpty = false;
 
+  const [showVideoBg, setShowVideoBg] = useState(false);
 
+  console.log('bgVideo', bgVideo);
 
   useEffect(() => {
     setIsClient(true)
@@ -49,35 +51,37 @@ export default function Home() {
 
 
   useEffect(() => {
-    // TODO: Video BG
-    return () => { };
-    var bv = new Bideo();
-    bv.init({
-      videoEl: document.querySelector("#background_video"),
+    if (isClient && bgVideo) {
+      var bv = new Bideo();
+      bv.init({
+        videoEl: document.querySelector("#background_video"),
 
-      container: document.querySelector("body"),
+        container: document.querySelector("body"),
 
-      resize: true,
+        resize: true,
 
-      isMobile: window.matchMedia("(max-width: 768px)").matches,
+        isMobile: window.matchMedia("(max-width: 768px)").matches,
 
-      src: [
-        {
-          src: VideoFullv,
-          type: "video/mp4",
+        src: [
+          {
+            src: bgVideo,
+            type: "video/mp4",
+          },
+        ],
+
+        onLoad: function () {
+          setShowVideoBg(true);
+
+          if (document.querySelector("#video_cover")) {
+            // @ts-ignore-enable
+            document.querySelector("#video_cover").style.display = "none";
+            // @ts-ignore-disable
+          }
         },
-      ],
+      });
+    }
 
-      onLoad: function () {
-        if (document.querySelector("#video_cover")) {
-          // @ts-ignore-enable
-          document.querySelector("#video_cover").style.display = "none";
-          // @ts-ignore-disable
-        }
-      },
-    });
-    // }
-  }, []);
+  }, [bgVideo, isClient]);
 
   const renderBoxArr = () => {
     return <>
@@ -92,16 +96,20 @@ export default function Home() {
   const mainStyle = {
     width: `${screenWidth}px`,
     height: `${screenHeight}px`,
-    background: bg.type === BG_TYPE.IMAGE ? `url(${bg.filename}) no-repeat center center / cover` : '',
+    backgroundImage: bg.type === BG_TYPE.IMAGE ? `url(${bg.filename})` : '',
+    backgroundSize: '100% 100%',
+    backgroundRepeat: 'no-repeat',
   };  // Set the background of the <main> element based on the 'bg' state
 
 
   if (!isClient) {
     return '';
   }
+
   return (
     <main id="main-id-to-render-box-arr" ref={mainRef} style={mainStyle} className={styles.main} suppressHydrationWarning>
-      <div style={{ width: "100%", height: "100%" }}>
+      <video id="background_video" className={styles.background_video} loop muted style={{ width: '100%', height: '100%', display: `${showVideoBg ? 'block' : 'none'}` }}></video>
+      <div style={{ width: "100%", height: "100%" }} >
         {renderBoxArr()}
         {showWhenEditing && <MouseXY />}
       </div>

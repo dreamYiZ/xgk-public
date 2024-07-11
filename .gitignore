@@ -39,4 +39,5 @@ next-env.d.ts
 .wrangler
 .dev.vars
 
-# public/upload/
+public/upload/
+

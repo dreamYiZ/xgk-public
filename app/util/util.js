@@ -302,18 +302,22 @@ export const createSprite = () => {
   }
 }
 
-export const MAP_TYPE_FACTORY = {
-  [SUB_TYPE.TEXT]: createBoxText,
-  [SUB_TYPE.IMAGE]: createBoxImage,
-  [SUB_TYPE.PIE_CHART]: createBoxPieChart,
-  [SUB_TYPE.BAR_CHART]: createBoxBarChart,
-  [SUB_TYPE.LINE_CHART]: createBoxLineChart,
-  [SUB_TYPE.GAUGE_CHART]: createBoxGaugeChart,
-  [SUB_TYPE.STACKING_CHART]: createBoxStackingChart,
-  [SUB_TYPE.SPARKLINE_CHART]: createBoxSparklineChart,
-  [SUB_TYPE.ECHART_CHART]: createBoxECharts,
-  [SUB_TYPE.SPRITE]: createSprite,
-};
+
+export const BASIC_PAYLOAD_TIME = {
+  fontSize: '26',
+}
+
+export const createTime = () => {
+  return {
+    width: '200px',
+    height: '75px',
+    sub: {
+      type: SUB_TYPE.TIME,
+      ...BASIC_PAYLOAD_TIME
+    }
+  }
+}
+
 
 
 export const createMarketTemplates = () => {
@@ -457,3 +461,21 @@ export { ANIMATE_TYPES_DISPLAY, ANIMATE_TYPES, ANIMATE_TIME_FUNCTION_TYPES, ANIM
 export { SUB_TYPE_DISPLAY } from "./subType";
 export { SUB_TYPE, ppplog }
 export { mergeSub } from "./mergeSub";
+export { default as Bideo } from "./bbv";
+
+
+
+
+export const MAP_TYPE_FACTORY = {
+  [SUB_TYPE.TEXT]: createBoxText,
+  [SUB_TYPE.IMAGE]: createBoxImage,
+  [SUB_TYPE.PIE_CHART]: createBoxPieChart,
+  [SUB_TYPE.BAR_CHART]: createBoxBarChart,
+  [SUB_TYPE.LINE_CHART]: createBoxLineChart,
+  [SUB_TYPE.GAUGE_CHART]: createBoxGaugeChart,
+  [SUB_TYPE.STACKING_CHART]: createBoxStackingChart,
+  [SUB_TYPE.SPARKLINE_CHART]: createBoxSparklineChart,
+  [SUB_TYPE.ECHART_CHART]: createBoxECharts,
+  [SUB_TYPE.SPRITE]: createSprite,
+  [SUB_TYPE.TIME]: createTime,
+};

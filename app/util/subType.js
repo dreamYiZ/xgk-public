@@ -9,6 +9,7 @@ export const SUB_TYPE = {
   SPARKLINE_CHART: 'sparkline_chart',
   ECHART_CHART: 'echart_chart',
   SPRITE: 'sprite',
+  TIME: 'time',
 }
 
 export const SUB_TYPE_DISPLAY = {
@@ -22,4 +23,5 @@ export const SUB_TYPE_DISPLAY = {
   [SUB_TYPE.SPARKLINE_CHART]: '折线图',
   [SUB_TYPE.ECHART_CHART]: '一茶特',
   [SUB_TYPE.SPRITE]: '雪碧图',
+  [SUB_TYPE.TIME]: '时间',
 }

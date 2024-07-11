@@ -17,6 +17,13 @@ import Setting from "./setting";
 import ChooseImage from "./chooseImage";
 import BarChartIcon from '@mui/icons-material/BarChart';  // 引入 BarChartIcon 图标
 import DataCenter from "./dataCenter";
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import Typography from '@mui/material/Typography';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+
 
 
 function SidePanel() {
@@ -25,6 +32,7 @@ function SidePanel() {
     openSetting,
     closeSetting,
     openSelectImage,
+    setBgVideo
 
   } = useGlobalStore();
   const { clearActiveId, activeBoxId } = useBoxStore();
@@ -58,6 +66,15 @@ function SidePanel() {
       setOpenSnackbar(true);
     }
   };
+
+  const handleResetBgClick = () => {
+    setBgVideo(null);
+    setBg({
+      type: BG_TYPE.IMAGE,
+      filename: null,
+    })
+
+  }
 
 
 
@@ -96,11 +113,21 @@ function SidePanel() {
     const result = await response.json();
 
     if (result.status === "success") {
+      console.log('selectedFile.type', selectedFile.type);
+
       // If the upload was successful, update the 'bg' state
-      setBg({
-        type: selectedFile.type.startsWith('image/') ? BG_TYPE.IMAGE : BG_TYPE.VIDEO,
-        filename: `/upload/${selectedFile.name}`,
-      });
+      if (selectedFile.type.startsWith('image/')) {
+        setBg({
+          type: selectedFile.type.startsWith('image/') ? BG_TYPE.IMAGE : BG_TYPE.VIDEO,
+          filename: `/upload/${selectedFile.name}`,
+        });
+      }
+      if (selectedFile.type.startsWith('video/')) {
+        setBgVideo(
+          `/upload/${selectedFile.name}`
+        );
+      }
+
     } else {
       console.error(result.error);
     }
@@ -128,15 +155,17 @@ function SidePanel() {
 
 
   const handleChoose = ({ image }) => {
-
-    setBg({
-      type: BG_TYPE.IMAGE,
-      filename: `${image}`,
-    });
-
+    if (image.endsWith('.mp4')) {
+      setBgVideo(image);
+    } else {
+      setBg({
+        type: BG_TYPE.IMAGE,
+        filename: `${image}`,
+      });
+    }
     setShowSelectImage(false);
-
   }
+
 
 
   // Add a new state for the image URL
@@ -196,32 +225,49 @@ function SidePanel() {
       </Tabs>
 
       <Box style={{ display: tabValue === 0 ? 'block' : 'none' }}>
-        <br />
-        <TextField label="屏幕宽度" value={screenWidth} onChange={handleWidthChange} />
-        <br />
-        <br />
-        <TextField label="屏幕高度" value={screenHeight} onChange={handleHeightChange} />
-        <br />
-        <br />
+        <Accordion>
+          <AccordionSummary
+            expandIcon={<ArrowDownwardIcon />}
+            aria-controls="panel1-content"
+            id="panel1-header"
+          >
+            <Typography>编辑页面</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <br />
+            <TextField label="屏幕宽度" value={screenWidth} onChange={handleWidthChange} />
+            <br />
+            <br />
+            <TextField label="屏幕高度" value={screenHeight} onChange={handleHeightChange} />
+            <br />
+            <br />
 
-        <Button variant="contained" component="label">
-          上传文件
-          <input ref={fileInput} type="file" hidden onChange={handleFileChange} />
-        </Button>
-        <Button color="success" onClick={selectImage}>选择图片</Button>
-        <Button onClick={handleUploadClick}>确定</Button>
-        <br />
+            <Button variant="contained" component="label">
+              上传文件
+              <input ref={fileInput} type="file" hidden onChange={handleFileChange} />
+            </Button>
+            <Button color="success" onClick={selectImage}>选择图片</Button>
+            <Button onClick={handleUploadClick}>确定</Button>
+            <br />
 
 
-        <br />
-        <Box>
-          <TextField label="输入图片地址" value={imageUrl} onChange={handleImageUrlChange} />
-          <Button onClick={handleConfirmClick}>确定</Button>
+            <br />
+            <Box>
+              <TextField label="输入图片地址" value={imageUrl} onChange={handleImageUrlChange} />
+              <Button onClick={handleConfirmClick}>确定</Button>
+            </Box>
+            <Box mt={2}>
+              <Button color='warning' variant='outlined' onClick={handleResetBgClick}>重置</Button>
+            </Box>
 
-        </Box>
 
 
-        {preview && (preview.startsWith('blob:') ? <img style={{ width: "100px", height: "60px" }} src={preview} alt="Preview" /> : <p>{preview}</p>)}
+
+            {preview && (preview.startsWith('blob:') ? <img style={{ width: "100px", height: "60px" }} src={preview} alt="Preview" /> : <p>{preview}</p>)}
+
+
+          </AccordionDetails>
+        </Accordion>
 
         <EditPage />
       </Box>
