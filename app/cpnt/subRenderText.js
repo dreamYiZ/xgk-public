@@ -37,7 +37,7 @@ function SubRenderText(sub) {
 
 
 
-
+  // only woff2 font support test
   useEffect(() => {
     if (sub.font !== null && sub.font !== '') {
       console.log('sub.font', sub.font);
