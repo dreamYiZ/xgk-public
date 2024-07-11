@@ -10,6 +10,7 @@ export const SUB_TYPE = {
   ECHART_CHART: 'echart_chart',
   SPRITE: 'sprite',
   TIME: 'time',
+  // MARQUEE: 'Marquee',
 }
 
 export const SUB_TYPE_DISPLAY = {
@@ -24,4 +25,5 @@ export const SUB_TYPE_DISPLAY = {
   [SUB_TYPE.ECHART_CHART]: '一茶特',
   [SUB_TYPE.SPRITE]: '雪碧图',
   [SUB_TYPE.TIME]: '时间',
+  // [SUB_TYPE.MARQUEE]: '跑马灯',
 }

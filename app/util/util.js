@@ -325,6 +325,22 @@ export const createTime = () => {
   }
 }
 
+// export const BASIC_PAYLOAD_MARQUEE ={
+
+// }
+
+// export const createMarquee = () => {
+//   return {
+//     ...createBoxPayload(),
+//     width: '380px',
+//     height: '30px',
+//     sub: {
+//       type: SUB_TYPE.MARQUEE,
+//       ...BASIC_PAYLOAD_MARQUEE
+//     }
+//   }
+// }
+
 
 
 export const createMarketTemplates = () => {
@@ -485,4 +501,5 @@ export const MAP_TYPE_FACTORY = {
   [SUB_TYPE.ECHART_CHART]: createBoxECharts,
   [SUB_TYPE.SPRITE]: createSprite,
   [SUB_TYPE.TIME]: createTime,
+  // [SUB_TYPE.MARQUEE]: createMarquee,
 };
