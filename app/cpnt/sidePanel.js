@@ -113,7 +113,6 @@ function SidePanel() {
     const result = await response.json();
 
     if (result.status === "success") {
-      console.log('selectedFile.type', selectedFile.type);
 
       // If the upload was successful, update the 'bg' state
       if (selectedFile.type.startsWith('image/')) {

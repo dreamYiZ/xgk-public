@@ -28,7 +28,6 @@ export default function (
       // 当图片加载完成后
       img.onload = () => {
 
-        // console.log('img.onload', img, img.width, img.height);
         // 获取图片的宽度和高度
         if (img.width) {
           setSourceWidth(img.width);
@@ -87,14 +86,7 @@ function Sprite({
 
       const animateSprite = () => {
 
-        // console.log('props:',
-        //   spriteImageUrl,
-        //   spriteWidth,
-        //   spriteHeight,
-        //   sourceWidth,
-        //   sourceHeight,
-        //   spriteSpeed
-        // );
+
 
 
         const framesPerRow = sourceWidth / spriteWidth;
@@ -110,10 +102,8 @@ function Sprite({
 
           const nextX = -nextIndex * spriteWidth % sourceWidth;
           const nextY = -Math.floor(nextIndex / framesPerRow) * spriteHeight;
-          // console.log('nextX:', nextX, 'nextY:', nextY);
           return { x: nextX, y: nextY };
         });
-        // console.log('spriteSpeed', spriteSpeed);
         setTimeout(animateSprite, spriteSpeed); // Call setTimeout again to repeat the animation
       };
 

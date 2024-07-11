@@ -74,7 +74,7 @@ function Box({ boxid, width, height, position, opacity, children, groupid, x, y,
   }), [width, height, position, opacity, x, y, zIndex, activeBoxId, boxid]);  // Add
 
 
-  return <div id={boxid} ref={boxRef} style={boxStyle} className={classes.box}>{children}</div>;
+  return <div id={boxid} ref={boxRef} style={boxStyle} className={`${classes.box} ${classes.disableSelection}`}>{children}</div>;
 
 }
 

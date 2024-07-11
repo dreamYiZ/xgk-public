@@ -40,7 +40,6 @@ function SubRenderText(sub) {
   // only woff2 font support test
   useEffect(() => {
     if (sub.font !== null && sub.font !== '') {
-      console.log('sub.font', sub.font);
       setFontFace(`
       @font-face {
         font-family: "${sub.font.split('.')[0]}";

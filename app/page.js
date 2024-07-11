@@ -30,7 +30,6 @@ export default function Home() {
 
   const [showVideoBg, setShowVideoBg] = useState(false);
 
-  console.log('bgVideo', bgVideo);
 
   useEffect(() => {
     setIsClient(true)
@@ -109,7 +108,7 @@ export default function Home() {
   return (
     <main id="main-id-to-render-box-arr" ref={mainRef} style={mainStyle} className={styles.main} suppressHydrationWarning>
       <video id="background_video" className={styles.background_video} loop muted style={{ width: '100%', height: '100%', display: `${showVideoBg ? 'block' : 'none'}` }}></video>
-      <div style={{ width: "100%", height: "100%" }} >
+      <div style={{ width: '100%', height: '100%' }}>
         {renderBoxArr()}
         {showWhenEditing && <MouseXY />}
       </div>

@@ -19,7 +19,6 @@ export default function DataCenter({ show, setShow }) {
 
 
   useEffect(() => {
-    console.log('boxArr', boxArr);
   }, [boxArr])
 
   return (

@@ -9,6 +9,7 @@ import SubRenderStackingChart from './cpnt/subRenderStackingChart';
 import SubRenderSparklineChart from './cpnt/subRenderSparklineChart';
 import SubRenderEcharts from './cpnt/subRenderEcharts';
 import SubRenderSprite from "./cpnt/SubRenderSprite";
+import SubRenderTime from "./cpnt/SubRenderTime";
 
 
 const MAP_SUB_RENDER = {
@@ -22,6 +23,7 @@ const MAP_SUB_RENDER = {
   [SUB_TYPE.SPARKLINE_CHART]: SubRenderSparklineChart,
   [SUB_TYPE.ECHART_CHART]: SubRenderEcharts,
   [SUB_TYPE.SPRITE]: SubRenderSprite,
+  [SUB_TYPE.TIME]: SubRenderTime,
 }
 
 

@@ -39,7 +39,8 @@ function EditBox() {
   };
 
   const handleFocusClick = () => {
-    const mainElement = document.getElementById(FRAMEWORK_ID_SELECTOR);  // 使用 id 来获取元素
+    const mainElement = document.querySelector(FRAMEWORK_ID_SELECTOR);  // 使用 id 来获取元素
+
     if (mainElement && activeBox) {
 
       let { x, y, height } = activeBox;

@@ -303,14 +303,21 @@ export const createSprite = () => {
 }
 
 
+export const TIME_TYPE = {
+  YYYY_MM_DD_HH_MM_SS: 'YYYY_MM_DD_HH_MM_SS'
+}
+
 export const BASIC_PAYLOAD_TIME = {
   fontSize: '26',
+  timeType: TIME_TYPE.YYYY_MM_DD_HH_MM_SS,
+  color: '#FFFFFF',
 }
 
 export const createTime = () => {
   return {
-    width: '200px',
-    height: '75px',
+    ...createBoxPayload(),
+    width: '360px',
+    height: '30px',
     sub: {
       type: SUB_TYPE.TIME,
       ...BASIC_PAYLOAD_TIME

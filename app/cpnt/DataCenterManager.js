@@ -53,7 +53,6 @@ export default function () {
 
   const doMergeChange = (preBoxArr, newBoxArr) => {
     let mergedBoxArr = mergeSub(preBoxArr, newBoxArr);
-    console.log('mergedBoxArr', mergedBoxArr);
     setOption(JSON.stringify(mergedBoxArr, null, 2));
     setBoxArr(
       boxArr.map(
