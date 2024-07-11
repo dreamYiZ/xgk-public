@@ -1,6 +1,6 @@
 {
   "name": "xgk",
-  "version": "0.1.1",
+  "version": "0.1.6",
   "private": true,
   "scripts": {
     "dev": "cross-env NEXT_PUBLIC_VERSION=$npm_package_version next dev",
