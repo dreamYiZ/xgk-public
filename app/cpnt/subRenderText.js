@@ -13,7 +13,7 @@ function SubRenderText(sub) {
   };
 
   if (sub.font) {
-    style.fontFamily = sub.font.split('.')[0];
+    style.fontFamily = sub?.font?.split('.')[0];
   }
 
   const [customFont, setCustomFont] = useState();
@@ -42,8 +42,8 @@ function SubRenderText(sub) {
     if (sub.font !== null && sub.font !== '') {
       setFontFace(`
       @font-face {
-        font-family: "${sub.font.split('.')[0]}";
-        src: url("font/${sub.font}") format("${sub.font.split('.')[1]}");
+        font-family: "${sub?.font?.split('.')[0]}";
+        src: url("font/${sub.font}") format("${sub?.font?.split('.')[1]}");
       }
     `);
     }
