@@ -125,7 +125,7 @@ export default function () {
 
   return (
     <div>
-      <br />
+      <Box sx={{ my: 2 }} />
       <Box sx={{ my: 2 }}>
         <input
           accept="image/*"
@@ -145,9 +145,9 @@ export default function () {
       </Box>
 
       {imageUrl && <img src={imageUrl} alt="预览" style={{ maxWidth: '100%' }} />}
-      <br />
+      <Box sx={{ my: 2 }} />
 
-      <br />
+      <Box sx={{ my: 2 }} />
 
       <TextField
         label="宽度"
@@ -164,9 +164,9 @@ export default function () {
         error={error.spriteWidth}
         helperText={error.spriteWidth ? "只能输入数字" : ""}
       />
-      <br />
+      <Box sx={{ my: 2 }} />
 
-      <br />
+      <Box sx={{ my: 2 }} />
       <TextField
         label="高度"
         value={spriteHeight}
@@ -182,9 +182,9 @@ export default function () {
         error={error.spriteHeight}
         helperText={error.spriteHeight ? "只能输入数字" : ""}
       />
-      <br />
+      <Box sx={{ my: 2 }} />
 
-      <br />
+      <Box sx={{ my: 2 }} />
       <TextField
         label="速度"
         value={spriteSpeed}
@@ -200,8 +200,8 @@ export default function () {
         error={error.spriteSpeed}
         helperText={error.spriteSpeed ? "只能输入数字" : ""}
       />
-      <br />
-      <br />
+      <Box sx={{ my: 2 }} />
+      <Box sx={{ my: 2 }} />
 
       <Button variant="contained" color="primary" onClick={handleSave}>保存</Button>
       <ChooseImage handleChoose={handleChoose} show={showSelectImage} handleClose={() => {
@@ -211,6 +211,3 @@ export default function () {
     </div>
   );
 }
-
-
-
