@@ -26,6 +26,7 @@ export const createSubPayload = () => ({
   fontWeight: 900,
   content: "Hello, world",
   color: '#FFFFFF',
+  font: null,
 });
 
 
