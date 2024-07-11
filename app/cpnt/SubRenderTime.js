@@ -13,6 +13,8 @@ export default function (
 
   const [timeString, setTimeString] = useState('');
 
+
+
   useEffect(() => {
 
     if (sub.timeType) {
@@ -33,7 +35,7 @@ export default function (
 
     setSubStyle(_subStyle);
 
-  }, [])
+  }, [sub?.color, sub?.fontSize, sub?.timeType])
 
 
   useEffect(() => {

@@ -316,7 +316,7 @@ export const BASIC_PAYLOAD_TIME = {
 export const createTime = () => {
   return {
     ...createBoxPayload(),
-    width: '360px',
+    width: '380px',
     height: '30px',
     sub: {
       type: SUB_TYPE.TIME,
