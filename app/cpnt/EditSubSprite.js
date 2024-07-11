@@ -50,7 +50,6 @@ export default function () {
         if (canToBeNumber(fieldValue)) {
           return true;
         }
-        // todo： use mui show error message "只能输入数字"
         return false;
 
       })) {
