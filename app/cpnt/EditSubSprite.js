@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { HexColorPicker } from 'react-colorful';  // 引入颜色选择器
-import { SPRINT_STATUS, ANIMATE_TIME_FUNCTION_TYPES_DISPLAY, ANIMATE_TIME_FUNCTION_TYPES, ANIMATE_TYPES, ANIMATE_TYPES_DISPLAY } from "../util/util";
+import { canToBeNumber, pxToNumber, SPRINT_STATUS } from "../util/util";
 import { useState, useMemo, useEffect } from 'react';
 import { Box } from '@mui/system';  // 引入 Box 组件
 import ChooseImage from "./chooseImage";
@@ -29,6 +29,8 @@ export default function () {
   const [showSelectImage, setShowSelectImage] = useState(false);  // Add a state for showing
 
   const changeById = useBoxStore(state => state.changeById);
+  // Add state for error messages
+  const [error, setError] = useState({ spriteWidth: false, spriteHeight: false, spriteSpeed: false });
 
 
   const [currentStatus, setCurrentStatus] = useState([SPRINT_STATUS.RUNNING])
@@ -43,15 +45,35 @@ export default function () {
 
   const handleSave = () => {
     if (sub) {
-      changeById(activeBox.boxid, {
-        sub: {
-          ...sub,
 
-          url: imageUrl,  // Save the image URL
-        },
-      });
+      if ([spriteWidth, spriteHeight, spriteSpeed].every((fieldValue) => {
+        if (canToBeNumber(fieldValue)) {
+          return true;
+        }
+        // todo： use mui show error message "只能输入数字"
+        return false;
+
+      })) {
+        changeById(activeBox.boxid, {
+          sub: {
+            ...sub,
+            url: imageUrl,  // Save the image URL
+            sizeMap: {
+              ...sub.sizeMap,
+              [currentStatus]: { width: pxToNumber(spriteWidth), height: pxToNumber(spriteHeight) },  // Save the spriteWidth and spriteHeight
+            },
+            speedMap: {
+              ...sub.speedMap,
+              [currentStatus]: pxToNumber(spriteSpeed),  // Save the spriteSpeed
+            },
+          },
+        });
+      }
+
     }
   };
+
+
   // Handle file input change
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -75,22 +97,6 @@ export default function () {
         setSpriteWidth(sub.sizeMap[currentStatus].width);
         setSpriteHeight(sub.sizeMap[currentStatus].height);
         setSpriteSpeed(sub.speedMap[currentStatus]);
-        // 创建一个新的 Image 对象
-        const img = new Image();
-        // 设置图片的 URL
-        img.src = sub.urlMap[currentStatus];
-        // 当图片加载完成后
-        img.onload = () => {
-
-          console.log('img.onload', img, img.width, img.height);
-          // 获取图片的宽度和高度
-          if (img.width) {
-            setSourceWidth(img.width);
-          }
-          if (img.height) {
-            setSourceHeight(img.height);
-          }
-        };
 
 
       } else {
@@ -141,6 +147,60 @@ export default function () {
       {imageUrl && <img src={imageUrl} alt="预览" style={{ maxWidth: '100%' }} />}
       <br />
 
+      <br />
+
+      <TextField
+        label="宽度"
+        value={spriteWidth}
+        onChange={(e) => {
+          const value = e.target.value;
+          if (canToBeNumber(value)) {
+            setSpriteWidth(value);
+            setError(prev => ({ ...prev, spriteWidth: false }));
+          } else {
+            setError(prev => ({ ...prev, spriteWidth: true }));
+          }
+        }}
+        error={error.spriteWidth}
+        helperText={error.spriteWidth ? "只能输入数字" : ""}
+      />
+      <br />
+
+      <br />
+      <TextField
+        label="高度"
+        value={spriteHeight}
+        onChange={(e) => {
+          const value = e.target.value;
+          if (canToBeNumber(value)) {
+            setSpriteHeight(value);
+            setError(prev => ({ ...prev, spriteHeight: false }));
+          } else {
+            setError(prev => ({ ...prev, spriteHeight: true }));
+          }
+        }}
+        error={error.spriteHeight}
+        helperText={error.spriteHeight ? "只能输入数字" : ""}
+      />
+      <br />
+
+      <br />
+      <TextField
+        label="速度"
+        value={spriteSpeed}
+        onChange={(e) => {
+          const value = e.target.value;
+          if (canToBeNumber(value)) {
+            setSpriteSpeed(value);
+            setError(prev => ({ ...prev, spriteSpeed: false }));
+          } else {
+            setError(prev => ({ ...prev, spriteSpeed: true }));
+          }
+        }}
+        error={error.spriteSpeed}
+        helperText={error.spriteSpeed ? "只能输入数字" : ""}
+      />
+      <br />
       <br />
 
       <Button variant="contained" color="primary" onClick={handleSave}>保存</Button>

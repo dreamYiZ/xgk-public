@@ -435,13 +435,19 @@ export const combineBoxAndSubArr = (boxArr, mergedBoxArr) => {
 
 export const pxToNumber = (pxValue) => {
   if (typeof pxValue === 'number') {
-    return pxValue.toNumber();
+    return pxValue;
   }
   if (typeof pxValue === 'string') {
     return parseFloat(pxValue.replace('px', ''));
   }
   return pxValue
 }
+
+export const canToBeNumber = (stringOrNumber) => {
+  const number = parseFloat(stringOrNumber);
+  // Check if the string representation of the parsed number is the same as the original string
+  return !isNaN(number) && number.toString() === stringOrNumber.toString();
+};
 
 
 export { loadInitConfig } from "./init";
