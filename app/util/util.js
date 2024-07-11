@@ -302,6 +302,20 @@ export const createSprite = () => {
   }
 }
 
+export const createSpriteB = () => {
+  return {
+    ...createBoxPayload(),
+    width: '75px',
+    height: '75px',
+    sub: {
+      type: SUB_TYPE.SPRITE_B,
+      width: 75,
+      height: 75,
+      ...BASIC_PAYLOAD_SPRINT
+    }
+  }
+}
+
 
 export const TIME_TYPE = {
   YYYY_MM_DD_HH_MM_SS: 'YYYY_MM_DD_HH_MM_SS'
@@ -485,7 +499,7 @@ export { SUB_TYPE_DISPLAY } from "./subType";
 export { SUB_TYPE, ppplog }
 export { mergeSub } from "./mergeSub";
 export { default as Bideo } from "./bbv";
-
+export { CMD } from "./command";
 
 
 
@@ -501,5 +515,6 @@ export const MAP_TYPE_FACTORY = {
   [SUB_TYPE.ECHART_CHART]: createBoxECharts,
   [SUB_TYPE.SPRITE]: createSprite,
   [SUB_TYPE.TIME]: createTime,
+  [SUB_TYPE.SPRITE_B]: createSpriteB,
   // [SUB_TYPE.MARQUEE]: createMarquee,
 };
