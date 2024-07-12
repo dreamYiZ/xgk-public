@@ -13,6 +13,7 @@ export default function (
   const [spriteSpeed, setSpriteSpeed] = useState(1000);
   const [sourceWidth, setSourceWidth] = useState();
   const [sourceHeight, setSourceHeight] = useState();
+  const [spriteFrame, setSpriteFrame] = useState(10);
 
 
   useEffect(() => {
@@ -21,6 +22,7 @@ export default function (
       setSpriteWidth(sub.sizeMap[currentStatus]?.width ?? 75)
       setSpriteHeight(sub.sizeMap[currentStatus]?.height ?? 75)
       setSpriteSpeed(sub.speedMap[currentStatus])
+      setSpriteFrame(sub.frameMap[currentStatus] ?? 10);
       // 创建一个新的 Image 对象
       const img = new Image();
       // 设置图片的 URL
@@ -65,6 +67,7 @@ export default function (
       sourceWidth={sourceWidth}
       sourceHeight={sourceHeight}
       spriteSpeed={spriteSpeed}
+      spriteFrame={spriteFrame}
     />
   </div>
 }
@@ -79,18 +82,21 @@ function Sprite({
   sourceWidth,
   sourceHeight,
   spriteSpeed,
+  spriteFrame,
 }) {
 
 
   const [backgroundPosition, setBackgroundPosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
+    let timeoutId = null;
     if (spriteImageUrl &&
       spriteWidth &&
       spriteHeight &&
       sourceWidth &&
       sourceHeight &&
       spriteSpeed) {
+
 
       const animateSprite = () => {
 
@@ -108,15 +114,19 @@ function Sprite({
             return { x: 0, y: 0 };
           }
 
+          if (nextIndex >= spriteFrame) {
+            return { x: 0, y: 0 };
+          }
+
           const nextX = -nextIndex * spriteWidth % sourceWidth;
           const nextY = -Math.floor(nextIndex / framesPerRow) * spriteHeight;
           return { x: nextX, y: nextY };
         });
-        setTimeout(animateSprite, spriteSpeed); // Call setTimeout again to repeat the animation
+        timeoutId = setTimeout(animateSprite, spriteSpeed); // Call setTimeout again to repeat the animation
       };
 
       animateSprite(); // Start the animation
-      return () => clearTimeout(animateSprite); // Clear the timeout when the component unmounts
+      return () => clearTimeout(timeoutId); // Clear the timeout when the component unmounts
     }
     return () => { }
   }, [
@@ -126,6 +136,7 @@ function Sprite({
     sourceWidth,
     sourceHeight,
     spriteSpeed,
+    spriteFrame,
   ]);
 
 

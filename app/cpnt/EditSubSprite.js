@@ -34,7 +34,7 @@ export default function () {
   const [error, setError] = useState({ spriteWidth: false, spriteHeight: false, spriteSpeed: false });
 
 
-  const [currentStatus, setCurrentStatus] = useState([SPRINT_STATUS.RUNNING])
+  const [currentStatus, setCurrentStatus] = useState(SPRINT_STATUS.RUNNING)
   const [spriteImageUrl, setSpriteImageUrl] = useState();
   const [spriteWidth, setSpriteWidth] = useState();
   const [spriteHeight, setSpriteHeight] = useState();
@@ -55,13 +55,18 @@ export default function () {
           return true;
         }
         return false;
-
       })) {
+
+        console.log('savechangeById', enabledStatus);
         changeById(activeBox.boxid, {
           sub: {
-            enabled: enabledStatus,
             ...sub,
-            url: imageUrl,  // Save the image URL
+            enabled: [...enabledStatus],
+            // url: imageUrl,  // Save the image URL
+            urlMap: {
+              ...sub.urlMap,
+              [currentStatus]: imageUrl
+            },
             sizeMap: {
               ...sub.sizeMap,
               [currentStatus]: { width: pxToNumber(spriteWidth), height: pxToNumber(spriteHeight) },  // Save the spriteWidth and spriteHeight
@@ -70,6 +75,7 @@ export default function () {
               ...sub.speedMap,
               [currentStatus]: pxToNumber(spriteSpeed),  // Save the spriteSpeed
             },
+            status: currentStatus,
           },
         });
       }
@@ -95,7 +101,8 @@ export default function () {
   useEffect(() => {
     if (sub) {
 
-      if (currentStatus) {
+      if (sub.status) {
+        // console.log('currentStatus-set', currentStatus);
         setImageUrl(sub.urlMap[currentStatus]);
         setSpriteImageUrl(sub.urlMap[currentStatus]);
         setSpriteWidth(sub.sizeMap[currentStatus].width);
@@ -111,16 +118,28 @@ export default function () {
       }
 
     }
-  }, [sub?.activeBoxId, sub?.currentStatus]);
+  }, [sub?.activeBoxId]);
+
+
+  useEffect(() => {
+    console.log('currentStatus5', currentStatus);
+    setImageUrl(sub.urlMap[currentStatus]);
+    setSpriteImageUrl(sub.urlMap[currentStatus]);
+    setSpriteWidth(sub.sizeMap[currentStatus]?.width || 10);
+    setSpriteHeight(sub.sizeMap[currentStatus]?.height ?? 10);
+    setSpriteSpeed(sub.speedMap[currentStatus]);
+  }, [currentStatus])
 
   useEffect(() => {
     if (sub?.type === SUB_TYPE.SPRITE_B) {
       setIsComplex(true);
+      console.log('sub.enabled', sub.enabled);
+
       setEnabledStatus(sub.enabled)
     }
   }, [sub?.type])
 
-
+  console.log('sub', sub);
 
   const selectImage = () => {
     setShowSelectImage(true);

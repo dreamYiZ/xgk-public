@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Box, Checkbox, FormControlLabel, Radio, RadioGroup } from '@mui/material';
 import { SPRINT_STATUS, SPRINT_STATUS_DISPLAY } from "../util/util";
 
@@ -8,34 +8,65 @@ export default function ({
   enabledStatus,
   currentStatus,
 }) {
+
+  console.log('enabledStatus,currentStatus', enabledStatus,
+    currentStatus);
   const [checked, setChecked] = useState({
-    INITIAL: false,
-    RUNNING: false,
-    IDLE: false,
-    STARTING: false,
-    STOP: false,
+    [SPRINT_STATUS.INITIAL]: false,
+    [SPRINT_STATUS.RUNNING]: false,
+    [SPRINT_STATUS.IDLE]: false,
+    [SPRINT_STATUS.STARTING]: false,
+    [SPRINT_STATUS.STOP]: false,
   });
 
   const [selectedValue, setSelectedValue] = useState('INITIAL');
 
+  const updateEnabledStatus = (newChecked) => {
+    let checkedStatus = Object.keys(newChecked).filter(e => newChecked[e]);
+    console.log('checkedStatus2', checkedStatus);
+    setEnabledStatus(checkedStatus);
+  }
+
   const handleCheckboxChange = (event) => {
-    setChecked({ ...checked, [event.target.name]: event.target.checked });
+    const newChecked = { ...checked, [event.target.name]: event.target.checked }
+    setChecked(newChecked);
+    updateEnabledStatus(newChecked)
+    // setEnabledStatus([ ...enabledStatus, [event.target.name]: event.target.checked ]);
+    // setTimeout(() => updateEnabledStatus(), 500);
   };
 
   const handleRadioChange = (event) => {
     setSelectedValue(event.target.value);
+    setCurrentStatus(event.target.value);
   };
+
+  useEffect(() => {
+    let _checked = { ...checked };
+    enabledStatus.forEach(e => {
+      _checked[e] = true;
+    })
+    setChecked(_checked);
+  }, [enabledStatus]);
+
+  useEffect(() => {
+    console.log('currentStatus-10', currentStatus);
+    setSelectedValue(currentStatus);
+  }, [currentStatus])
+
+
+
+  console.log('selectedValue-10', selectedValue);
 
   return (
     <Box sx={{ my: 2 }}>
       {Object.keys(SPRINT_STATUS).map((status) => (
         <FormControlLabel
-          key={status}
+          key={SPRINT_STATUS[status]}
           control={
             <Checkbox
-              checked={checked[status]}
+              checked={checked[SPRINT_STATUS[status]]}
               onChange={handleCheckboxChange}
-              name={status}
+              name={SPRINT_STATUS[status]}
             />
           }
           label={SPRINT_STATUS_DISPLAY[status]}  // Use Chinese labels
@@ -48,8 +79,8 @@ export default function ({
       >
         {Object.keys(SPRINT_STATUS).map((status) => (
           <FormControlLabel
-            key={status}
-            value={status}
+            key={SPRINT_STATUS[status]}
+            value={SPRINT_STATUS[status]}
             control={<Radio />}
             label={SPRINT_STATUS_DISPLAY[status]}  // Use Chinese labels
           />
@@ -58,9 +89,3 @@ export default function ({
     </Box>
   );
 }
-
-
-在radio变化的时候，调用setCurrentStatus
-在check变化的时候，调用setEnabledStatus
-在挂载的时候，将获取到的enabledStatus,
-currentStatus,展示在check和radio中

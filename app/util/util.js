@@ -275,26 +275,33 @@ const BASIC_PAYLOAD_SPRINT = {
   status: SPRINT_STATUS.RUNNING,
   enabled: [SPRINT_STATUS.RUNNING],
   urlMap: {
-    [SPRINT_STATUS.INITIAL]: null,
-    [SPRINT_STATUS.STARTING]: null,
+    [SPRINT_STATUS.INITIAL]: '/sprite3.png',
     [SPRINT_STATUS.RUNNING]: '/sprite.png',
-    [SPRINT_STATUS.IDLE]: null,
+    [SPRINT_STATUS.IDLE]: '/sprite2.jpeg',
+    [SPRINT_STATUS.STARTING]: null,
     [SPRINT_STATUS.STOP]: null,
   },
   speedMap: {
-    [SPRINT_STATUS.INITIAL]: null,
-    [SPRINT_STATUS.STARTING]: null,
+    [SPRINT_STATUS.INITIAL]: 1000,
     [SPRINT_STATUS.RUNNING]: 3000,
-    [SPRINT_STATUS.IDLE]: null,
+    [SPRINT_STATUS.IDLE]: 2000,
+    [SPRINT_STATUS.STARTING]: null,
     [SPRINT_STATUS.STOP]: null,
   },
   sizeMap: {
-    [SPRINT_STATUS.INITIAL]: null,
-    [SPRINT_STATUS.STARTING]: null,
+    [SPRINT_STATUS.INITIAL]: { width: 91.6, height: 94.6 },
     [SPRINT_STATUS.RUNNING]: { width: 73.07, height: 75 },
-    [SPRINT_STATUS.IDLE]: null,
+    [SPRINT_STATUS.IDLE]: { width: 52, height: 46 },
+    [SPRINT_STATUS.STARTING]: null,
     [SPRINT_STATUS.STOP]: null,
   },
+  frameMap: {
+    [SPRINT_STATUS.INITIAL]: 32,
+    [SPRINT_STATUS.RUNNING]: 202,
+    [SPRINT_STATUS.IDLE]: 20,
+    [SPRINT_STATUS.STARTING]: null,
+    [SPRINT_STATUS.STOP]: null,
+  }
 }
 
 export const createSprite = () => {
