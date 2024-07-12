@@ -18,8 +18,8 @@ export default function (
   useEffect(() => {
     if (currentStatus) {
       setSpriteImageUrl(sub.urlMap[currentStatus])
-      setSpriteWidth(sub.sizeMap[currentStatus].width)
-      setSpriteHeight(sub.sizeMap[currentStatus].height)
+      setSpriteWidth(sub.sizeMap[currentStatus]?.width ?? 75)
+      setSpriteHeight(sub.sizeMap[currentStatus]?.height ?? 75)
       setSpriteSpeed(sub.speedMap[currentStatus])
       // 创建一个新的 Image 对象
       const img = new Image();
@@ -48,6 +48,14 @@ export default function (
 
 
   }, [currentStatus, sub])
+
+  useEffect(() => {
+    if (sub?.status) {
+      setCurrentStatus(sub.status);
+    }
+  }, [sub?.status])
+
+
 
 
   return <div>

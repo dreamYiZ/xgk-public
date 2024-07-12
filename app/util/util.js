@@ -272,7 +272,8 @@ export const SPRINT_STATUS_DISPLAY = {
 }
 
 const BASIC_PAYLOAD_SPRINT = {
-  status: SPRINT_STATUS.INITIAL,
+  status: SPRINT_STATUS.RUNNING,
+  enabled: [SPRINT_STATUS.RUNNING],
   urlMap: {
     [SPRINT_STATUS.INITIAL]: null,
     [SPRINT_STATUS.STARTING]: null,

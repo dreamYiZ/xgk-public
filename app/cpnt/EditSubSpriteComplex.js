@@ -2,7 +2,12 @@ import React, { useState } from 'react';
 import { Box, Checkbox, FormControlLabel, Radio, RadioGroup } from '@mui/material';
 import { SPRINT_STATUS, SPRINT_STATUS_DISPLAY } from "../util/util";
 
-export default function () {
+export default function ({
+  setCurrentStatus,
+  setEnabledStatus,
+  enabledStatus,
+  currentStatus,
+}) {
   const [checked, setChecked] = useState({
     INITIAL: false,
     RUNNING: false,
@@ -53,3 +58,9 @@ export default function () {
     </Box>
   );
 }
+
+
+在radio变化的时候，调用setCurrentStatus
+在check变化的时候，调用setEnabledStatus
+在挂载的时候，将获取到的enabledStatus,
+currentStatus,展示在check和radio中

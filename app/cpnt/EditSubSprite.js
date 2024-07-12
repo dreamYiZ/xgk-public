@@ -41,6 +41,7 @@ export default function () {
   const [spriteSpeed, setSpriteSpeed] = useState(1000);
 
   const [isComplex, setIsComplex] = useState(false);
+  const [enabledStatus, setEnabledStatus] = useState([]);
 
 
 
@@ -58,6 +59,7 @@ export default function () {
       })) {
         changeById(activeBox.boxid, {
           sub: {
+            enabled: enabledStatus,
             ...sub,
             url: imageUrl,  // Save the image URL
             sizeMap: {
@@ -114,6 +116,7 @@ export default function () {
   useEffect(() => {
     if (sub?.type === SUB_TYPE.SPRITE_B) {
       setIsComplex(true);
+      setEnabledStatus(sub.enabled)
     }
   }, [sub?.type])
 
@@ -135,7 +138,13 @@ export default function () {
     <div>
       <Box sx={{ my: 2 }} />
 
-      <EditSubSpriteComplex />
+      {isComplex && <EditSubSpriteComplex
+        setCurrentStatus={setCurrentStatus}
+        setEnabledStatus={setEnabledStatus}
+        enabledStatus={enabledStatus}
+        currentStatus={currentStatus}
+      />}
+
       <Box sx={{ my: 2 }}>
         <input
           accept="image/*"
