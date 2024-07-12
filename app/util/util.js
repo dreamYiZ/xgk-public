@@ -3,6 +3,10 @@ import { v4 as uuidv4 } from 'uuid';
 export { p, FRAMEWORK_ID, FRAMEWORK_ID_SELECTOR } from "./cfg"
 import { CMD } from "./command";
 import { ppplog } from "./ppppp";
+import {
+  SPRINT_STATUS,
+  SPRINT_STATUS_DISPLAY
+} from "./spriteType";
 
 
 
@@ -256,21 +260,7 @@ export const createBoxECharts = () => {
   }
 }
 
-export const SPRINT_STATUS = {
-  INITIAL: 'initial',
-  RUNNING: 'running',
-  IDLE: 'idle',
-  STARTING: 'starting',
-  STOP: 'stop',
-}
 
-export const SPRINT_STATUS_DISPLAY = {
-  INITIAL: '初始',
-  RUNNING: '运动',
-  IDLE: '等待',
-  STARTING: '开始',
-  STOP: '停止',
-}
 
 const BASIC_PAYLOAD_SPRINT = {
   status: SPRINT_STATUS.RUNNING,
@@ -558,7 +548,9 @@ export { CMD, CMD_DISPLAY, CMD_TIME, CMD_TIME_DISPLAY } from "./command";
 export { xgkConsole } from "./xgk";
 export { ppplog };
 export { throttle, debounce };
-
+export {
+  SPRINT_STATUS, SPRINT_STATUS_DISPLAY
+}
 
 
 export const MAP_TYPE_FACTORY = {

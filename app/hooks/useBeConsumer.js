@@ -1,7 +1,7 @@
 import { useEffect, useCallback } from 'react';
 import useBoxStore from "../store/useBo";
 import useBeStore from "../store/useBe";
-import { ppplog, CMD } from "../util/util";
+import { ppplog, CMD, SPRINT_STATUS } from "../util/util";
 
 
 
@@ -19,23 +19,50 @@ import { ppplog, CMD } from "../util/util";
 // 1720823424462
 
 export default function useBeCustomer() {
-  const { boxArr, setBoxArr } = useBoxStore();
-  const { eventArr, consumeBe } = useBeStore();
+  const { getById, changeById, boxArr, setBoxArr } = useBoxStore();
+  const {
+    eventArr,
+    consumeBe,
+  } = useBeStore();
 
   const consumeEv = useCallback((beItem) => {
     // Implement your event consumption logic here
-    console.log("Consuming event: ", beItem);
+    ppplog("Consuming event: ", beItem);
 
     const {
       cmd, code, target, time
     } = beItem;
 
     if (cmd === CMD.CHANGE_SPRITE_STATE) {
+      const targetBox = getById(target)
 
+      ppplog('targetBox', targetBox)
+
+      const { sub: {
+        enabled, status
+      } } = targetBox;
+
+      // enabled = ['initial', 'running', 'idle']
+      // status =  'running'
+
+      let newStatus = status;
+      if (enabled.length > 1) {
+        const currentIndex = enabled.indexOf(status);
+        newStatus = enabled[(currentIndex + 1) % enabled.length];
+      }
+
+      // Update the status of the targetBox
+      changeById(target, {
+        sub: {
+          ...targetBox.sub,
+          status: newStatus,
+        },
+      });
     }
 
-    // consumeBe(beItem);
-  }, []);
+    consumeBe(beItem);
+  }, [getById, changeById]);
+
 
   const _consumeEvIfGood = useCallback((eventArr) => {
     ppplog(eventArr);
