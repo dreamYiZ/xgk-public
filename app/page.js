@@ -6,7 +6,7 @@ import { createBox } from './store/useBo';
 import useBoxStore from './store/useBo';
 import subRender from "./subRender.js";
 import useGlobalStore, { BG_TYPE } from './store/useGlobal';
-import { createBoxText, Bideo, ppplog } from "./util/util";
+import { loadInitConfig, createBoxText, Bideo, ppplog } from "./util/util";
 import MouseXY from "./cpnt/mouseXY";
 import useBeCustomer from "./hooks/useBeConsumer";
 
@@ -108,6 +108,17 @@ export default function Home() {
   // useEffect(() => {
   //   ppplog('boxArr-from-page:', boxArr)
   // }, [])
+
+  ppplog('NEXT_PUBLIC_INIT', process.env.NEXT_PUBLIC_INIT)
+
+  useEffect(() => {
+    if (process.env.NEXT_PUBLIC_INIT &&
+      process.env.NEXT_PUBLIC_INIT === 'AUTO'
+    ) {
+      loadInitConfig();
+    }
+
+  }, []);
 
   if (!isClient) {
     return '';
