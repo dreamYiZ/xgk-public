@@ -28,7 +28,6 @@ export default function EditChartPayload() {
 
 
   useEffect(() => {
-    ppplog('useEffect-sub')
     if (sub) {
       if (sub?.series && Array.isArray(sub.series)) {
         let _colorArray = [];

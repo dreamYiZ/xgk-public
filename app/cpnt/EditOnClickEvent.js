@@ -54,30 +54,24 @@ export default function EditChartPayload() {
     let _availableTargetList = boxArr.filter(box => {
 
       if (!box.sub) {
-        console.log('_availableTargetList-1');
         return false;
       }
 
       if (!box.sub.CMD) {
-        console.log('_availableTargetList-2');
         return false
       }
 
       if (!Array.isArray(box.sub.CMD) || box.sub.CMD.length <= 0) {
-        console.log('_availableTargetList-3');
         return false
       }
 
       if (!box.sub.CMD.includes(_selectedCmd)) {
-        console.log('box.sub.CMD', box.sub.CMD, _selectedCmd);
-        console.log('_availableTargetList-4');
         return false
       }
 
       return true;
     })
 
-    console.log('_availableTargetList', _availableTargetList);
 
     setAvailableTargetList(_availableTargetList);
 
