@@ -6,7 +6,6 @@ export default function (
 
 ) {
 
-  console.log('timeFunction');
 
   const [subStyle, setSubStyle] = useState({});
   const [timeType, setTimeType] = useState(TIME_TYPE.YYYY_MM_DD_HH_MM_SS);
