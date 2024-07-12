@@ -245,7 +245,7 @@ export const createBoxECharts = () => {
   return {
     ...createBoxPayload(),
     width: '600px',
-    height: '420px',
+    height: '400px',
     sub: {
       type: SUB_TYPE.ECHART_CHART,
       width: 600,

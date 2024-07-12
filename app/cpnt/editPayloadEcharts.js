@@ -49,7 +49,7 @@ export default function EditChartPayload() {
 
       if (sub && typeof parseOption === 'object') {
 
-        setOption(JSON.stringify(parseOption));
+        setOption(JSON.stringify(parseOption, null, 2));
         changeById(activeBox.boxid, {
           sub: {
             ...sub,
