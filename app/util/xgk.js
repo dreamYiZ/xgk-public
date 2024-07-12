@@ -9,4 +9,5 @@ ooooooo  ooooo   .oooooo.    oooo    oooo
 o888o  o88888o  \`Y8bood8P'   o888o  o888o
   `);
 
+  console.log('HomePage: https://home.xiaoguike.com/');
 }
