@@ -516,6 +516,7 @@ export { SUB_TYPE, ppplog }
 export { mergeSub } from "./mergeSub";
 export { default as Bideo } from "./bbv";
 export { CMD } from "./command";
+export { xgkConsole } from "./xgk";
 
 
 

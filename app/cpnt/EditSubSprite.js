@@ -57,7 +57,6 @@ export default function () {
         return false;
       })) {
 
-        console.log('savechangeById', enabledStatus);
         changeById(activeBox.boxid, {
           sub: {
             ...sub,
@@ -102,7 +101,6 @@ export default function () {
     if (sub) {
 
       if (sub.status) {
-        // console.log('currentStatus-set', currentStatus);
         setImageUrl(sub.urlMap[currentStatus]);
         setSpriteImageUrl(sub.urlMap[currentStatus]);
         setSpriteWidth(sub.sizeMap[currentStatus].width);
@@ -122,7 +120,6 @@ export default function () {
 
 
   useEffect(() => {
-    console.log('currentStatus5', currentStatus);
     setImageUrl(sub.urlMap[currentStatus]);
     setSpriteImageUrl(sub.urlMap[currentStatus]);
     setSpriteWidth(sub.sizeMap[currentStatus]?.width || 10);
@@ -133,13 +130,11 @@ export default function () {
   useEffect(() => {
     if (sub?.type === SUB_TYPE.SPRITE_B) {
       setIsComplex(true);
-      console.log('sub.enabled', sub.enabled);
 
       setEnabledStatus(sub.enabled)
     }
   }, [sub?.type])
 
-  console.log('sub', sub);
 
   const selectImage = () => {
     setShowSelectImage(true);

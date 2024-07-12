@@ -9,8 +9,7 @@ export default function ({
   currentStatus,
 }) {
 
-  console.log('enabledStatus,currentStatus', enabledStatus,
-    currentStatus);
+
   const [checked, setChecked] = useState({
     [SPRINT_STATUS.INITIAL]: false,
     [SPRINT_STATUS.RUNNING]: false,
@@ -23,7 +22,6 @@ export default function ({
 
   const updateEnabledStatus = (newChecked) => {
     let checkedStatus = Object.keys(newChecked).filter(e => newChecked[e]);
-    console.log('checkedStatus2', checkedStatus);
     setEnabledStatus(checkedStatus);
   }
 
@@ -49,13 +47,11 @@ export default function ({
   }, [enabledStatus]);
 
   useEffect(() => {
-    console.log('currentStatus-10', currentStatus);
     setSelectedValue(currentStatus);
   }, [currentStatus])
 
 
 
-  console.log('selectedValue-10', selectedValue);
 
   return (
     <Box sx={{ my: 2 }}>

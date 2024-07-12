@@ -6,7 +6,7 @@ import { MODE } from './store/useGlobal';
 import { useEffect, useMemo, useState } from "react";
 import useBoxStore from './store/useBo';
 import { usePathname } from 'next/navigation';
-import { FRAMEWORK_ID, addWindowErrorHandler } from "./util/util";
+import { xgkConsole, FRAMEWORK_ID, addWindowErrorHandler } from "./util/util";
 import ErrorBoundary from './cpnt/errorBoundary';
 import useApiToRefreshData from "./hooks/useApiToRefreshData";
 
@@ -64,9 +64,18 @@ function Framework({ children }) {
     </div>;
   }
 
+
+  useEffect(() => {
+    xgkConsole();
+  }, [])
+
+
   if (!isClient) {
     return '';
   }
+
+
+
 
   return (
     process.env.NODE_ENV === 'development' ? (
