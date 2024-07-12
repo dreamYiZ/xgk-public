@@ -15,14 +15,16 @@ const useBoxStore = create(persist(
     delById: (boxid) => set((state) => ({ boxArr: state.boxArr.filter((box) => box.boxid !== boxid) })),
 
     empty: () => set(() => ({ boxArr: [] })),
-    isEmpty: (state) => {
+    isEmpty: () => {
       if (Array.isArray(get().boxArr)) {
         return get().boxArr.length === 0;
       } else {
-        state.empty();
+        state().empty();
         return false;
       }
     },
+    getActiveBox: () => get().boxArr.find((box) => box.boxid === get().activeBoxId),
+    getById: (id) => get().boxArr.find((box) => box.boxid === id),
     changeById: (id, changes) => set((state) => ({
       boxArr: state.boxArr.map((box) => box.boxid === id ? { ...box, ...changes } : box)
     })),

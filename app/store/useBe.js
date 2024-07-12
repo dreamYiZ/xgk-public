@@ -19,6 +19,7 @@ const useEventStore = create((set) => ({
       return x.timestamp - y.timestamp;
     })
   })),
+  consumeBe:  () => set((state) => ({ eventArr: state.eventArr.slice(1) })),
 
 }))
 

@@ -8,6 +8,8 @@ import subRender from "./subRender.js";
 import useGlobalStore, { BG_TYPE } from './store/useGlobal';
 import { createBoxText, Bideo, ppplog } from "./util/util";
 import MouseXY from "./cpnt/mouseXY";
+import useBeCustomer from "./hooks/useBeConsumer";
+
 
 import dynamic from 'next/dynamic';
 
@@ -29,6 +31,8 @@ export default function Home() {
   const shouldEmpty = false;
 
   const [showVideoBg, setShowVideoBg] = useState(false);
+
+  useBeCustomer();
 
 
   useEffect(() => {
