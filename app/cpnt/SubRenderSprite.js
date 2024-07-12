@@ -68,6 +68,7 @@ export default function (
       sourceHeight={sourceHeight}
       spriteSpeed={spriteSpeed}
       spriteFrame={spriteFrame}
+      currentStatus={currentStatus}
     />
   </div>
 }
@@ -83,6 +84,7 @@ function Sprite({
   sourceHeight,
   spriteSpeed,
   spriteFrame,
+  currentStatus,
 }) {
 
 
@@ -137,7 +139,12 @@ function Sprite({
     sourceHeight,
     spriteSpeed,
     spriteFrame,
+
   ]);
+
+  useEffect(() => {
+    setBackgroundPosition({ x: 0, y: 0 });
+  }, [currentStatus])
 
 
   return (
