@@ -5,7 +5,8 @@ import Drawer from '@mui/material/Drawer';
 
 export default function ChartEditorLayout({ children, saveChange,
   isOpen,
-  setIsOpen
+  setIsOpen,
+  buttonText="编辑数据"
 }) {
   const toggleDrawer = (open) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -16,7 +17,7 @@ export default function ChartEditorLayout({ children, saveChange,
 
   return (
     <div>
-      <Button color="info" variant="outlined" onClick={toggleDrawer(true)}>编辑数据</Button>
+      <Button color="info" variant="outlined" onClick={toggleDrawer(true)}>{buttonText}</Button>
       <Drawer anchor="right" open={isOpen} onClose={toggleDrawer(false)} >
         <Box sx={{ width: 650, padding: 2 }}>
           {children}

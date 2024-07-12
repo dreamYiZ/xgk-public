@@ -6,7 +6,7 @@ import { createBox } from './store/useBo';
 import useBoxStore from './store/useBo';
 import subRender from "./subRender.js";
 import useGlobalStore, { BG_TYPE } from './store/useGlobal';
-import { createBoxText, Bideo } from "./util/util";
+import { createBoxText, Bideo, ppplog } from "./util/util";
 import MouseXY from "./cpnt/mouseXY";
 
 import dynamic from 'next/dynamic';
@@ -100,6 +100,10 @@ export default function Home() {
     backgroundRepeat: 'no-repeat',
   };  // Set the background of the <main> element based on the 'bg' state
 
+
+  // useEffect(() => {
+  //   ppplog('boxArr-from-page:', boxArr)
+  // }, [])
 
   if (!isClient) {
     return '';

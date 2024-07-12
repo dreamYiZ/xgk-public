@@ -1,7 +1,8 @@
 import { SUB_TYPE, SUB_TYPE_DISPLAY, } from "./subType";
 import { v4 as uuidv4 } from 'uuid';
-import ppplog from "ppplog";
 export { p, FRAMEWORK_ID, FRAMEWORK_ID_SELECTOR } from "./cfg"
+import { CMD } from "./command";
+import { ppplog } from "./ppppp";
 
 
 
@@ -327,7 +328,8 @@ export const createSpriteB = () => {
       type: SUB_TYPE.SPRITE_B,
       width: 75,
       height: 75,
-      ...BASIC_PAYLOAD_SPRINT
+      ...BASIC_PAYLOAD_SPRINT,
+      CMD: [CMD.CHANGE_SPRITE_STATE]
     }
   }
 }
@@ -507,16 +509,55 @@ export const canToBeNumber = (stringOrNumber) => {
   return !isNaN(number) && number.toString() === stringOrNumber.toString();
 };
 
+// A debounce function that takes a function and a delay as parameters
+function debounce(func, delay) {
+  // A timer variable to track the delay period
+  let timer;
+  // Return a function that takes arguments
+  return function (...args) {
+    // Clear the previous timer if any
+    clearTimeout(timer);
+    // Set a new timer that will execute the function after the delay period
+    timer = setTimeout(() => {
+      // Apply the function with arguments
+      func.apply(this, args);
+    }, delay);
+  };
+}
+
+
+// A throttle function that takes a function and an interval as parameters
+function throttle(func, interval) {
+  // A flag variable to track whether the function is running or not
+  let isRunning = false;
+  // Return a function that takes arguments
+  return function (...args) {
+    // If the function is not running
+    if (!isRunning) {
+      // Set the flag to true
+      isRunning = true;
+      // Apply the function with arguments
+      func.apply(this, args);
+      // Set a timer that will reset the flag after the interval
+      setTimeout(() => {
+        // Set the flag to false
+        isRunning = false;
+      }, interval);
+    }
+  };
+}
 
 export { loadInitConfig } from "./init";
 export { default as generateLicense } from "./generateLicense"
 export { ANIMATE_TYPES_DISPLAY, ANIMATE_TYPES, ANIMATE_TIME_FUNCTION_TYPES, ANIMATE_TIME_FUNCTION_TYPES_DISPLAY } from "./animateType";
 export { SUB_TYPE_DISPLAY } from "./subType";
-export { SUB_TYPE, ppplog }
+export { SUB_TYPE }
 export { mergeSub } from "./mergeSub";
 export { default as Bideo } from "./bbv";
-export { CMD } from "./command";
+export { CMD, CMD_DISPLAY, CMD_TIME, CMD_TIME_DISPLAY } from "./command";
 export { xgkConsole } from "./xgk";
+export { ppplog };
+export { throttle, debounce };
 
 
 

@@ -8,6 +8,8 @@ import Box from '@mui/material/Box';
 import { useState, useEffect, useMemo } from "react";
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import { FRAMEWORK_ID_SELECTOR } from "../util/util";
+import { IconButton } from '@mui/material';
+import FileCopyIcon from '@mui/icons-material/FileCopy';
 
 function EditBox() {
   const boxArr = useBoxStore((state) => state.boxArr);  // Access the 'boxArr' state
@@ -91,13 +93,29 @@ function EditBox() {
 
 
 
+  const handleCopyClick = () => {
+    navigator.clipboard.writeText(activeBox.boxid);
+  };
+
+
   return (
     <EditTabContainer>
       {activeBox ? (
         <>
           <br />
 
-          <TextField label="Box ID" value={activeBox.boxid} onChange={(event) => handleInputChange(event, 'boxid')} />
+          <TextField
+            label="Box ID"
+            value={activeBox.boxid}
+            onChange={(event) => handleInputChange(event, 'boxid')}
+            InputProps={{
+              endAdornment: (
+                <IconButton onClick={handleCopyClick} >
+                  <FileCopyIcon />
+                </IconButton>
+              ),
+            }}
+          />
           <br />
           <br />
 

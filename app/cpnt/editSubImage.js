@@ -75,6 +75,8 @@ function EditSubImage() {
       setAnimationDuration(sub.animationDuration || 0);
       setAnimationInterval(sub.animationInterval || 0);
       setAnimationTimingFunction(sub.animationTimingFunction || ANIMATE_TIME_FUNCTION_TYPES.LINEAR);
+
+
     }
   }, [sub, activeBoxId]);
 
@@ -91,6 +93,9 @@ function EditSubImage() {
     setShowSelectImage(false); //
 
   }
+
+
+
 
   return (
     <div>
@@ -158,6 +163,7 @@ function EditSubImage() {
       <ChooseImage handleChoose={handleChoose} show={showSelectImage} handleClose={() => {
         setShowSelectImage(false);
       }} />
+       <br />
 
       <EditOnClickEvent setShowEditOnClickEvent={setShowEditOnClickEvent} showEditOnClickEvent={showEditOnClickEvent} />
     </div>

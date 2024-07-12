@@ -40,6 +40,7 @@ const useGlobalStore = create(persist(
     setModeToDisplay: () => set(() => ({ mode: MODE.DISPLAY })),
     setModeToTest: () => set(() => ({ mode: MODE.TEST })),
     hideWhenDisplaying: () => get().mode !== MODE.DISPLAY,
+    getIsTestOrDisplay: () => get().mode === MODE.DISPLAY || get().mode === MODE.TEST,
     showWhenEditing: () => get().mode === MODE.EDIT,
     setBg: (_bg) => set(() => ({ bg: _bg })),
     openSetting: () => set(() => ({ isOpenSetting: true })),

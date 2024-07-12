@@ -5,11 +5,6 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import Framework from "./framework"
-import ppplog from "ppplog";
-
-
-
-ppplog.disableppplog();
 
 
 const inter = Inter({ subsets: ["latin"] });
