@@ -35,9 +35,12 @@ export default function App() {
 
 
   useEffect(() => {
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('keydown', handleKeyDown);
-    window.addEventListener('keyup', handleKeyUp);
+    if (showWhenEditing()) {
+
+      window.addEventListener('mousemove', handleMouseMove);
+      window.addEventListener('keydown', handleKeyDown);
+      window.addEventListener('keyup', handleKeyUp);
+    }
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
@@ -48,7 +51,7 @@ export default function App() {
 
   return (
     <>
-      {showWhenEditing && !keyUpHide && show && (
+      {showWhenEditing() && !keyUpHide && show && (
         <div style={{
           position: 'absolute',
           left: `${coords.x - 300 + document.querySelector(FRAMEWORK_ID_SELECTOR).scrollLeft}px`,
