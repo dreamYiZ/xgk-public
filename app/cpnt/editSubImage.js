@@ -9,6 +9,7 @@ import { useState, useMemo, useEffect } from 'react';
 import { Box } from '@mui/system';  // 引入 Box 组件
 import ChooseImage from "./chooseImage";
 import useGlobalStore from '../store/useGlobal';
+import EditOnClickEvent from "./EditOnClickEvent";
 import ppplog from "ppplog";
 
 function EditSubImage() {
@@ -30,6 +31,8 @@ function EditSubImage() {
   const [animationTimingFunction, setAnimationTimingFunction] = useState(sub?.animationTimingFunction || ANIMATE_TIME_FUNCTION_TYPES.LINEAR);
   const [imageUrl, setImageUrl] = useState(sub?.url || '');
   const [showSelectImage, setShowSelectImage] = useState(false);  // Add a state for showing
+
+  const [showEditOnClickEvent, setShowEditOnClickEvent] = useState(false);
 
   const changeById = useBoxStore(state => state.changeById);
 
@@ -105,7 +108,7 @@ function EditSubImage() {
             上传图片
           </Button>
         </label>
-        <Button  component="span" onClick={selectImage}>
+        <Button component="span" onClick={selectImage}>
           选择图片
         </Button>
       </Box>
@@ -152,10 +155,11 @@ function EditSubImage() {
       <br />
 
       <Button variant="contained" color="primary" onClick={handleSave}>保存</Button>
-      <ChooseImage handleChoose={handleChoose} show={showSelectImage} handleClose={()=>{
+      <ChooseImage handleChoose={handleChoose} show={showSelectImage} handleClose={() => {
         setShowSelectImage(false);
       }} />
 
+      <EditOnClickEvent setShowEditOnClickEvent={setShowEditOnClickEvent} showEditOnClickEvent={showEditOnClickEvent} />
     </div>
   );
 }
