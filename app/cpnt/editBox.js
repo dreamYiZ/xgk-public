@@ -119,6 +119,10 @@ function EditBox() {
           <br />
           <br />
 
+          <TextField label="box名" value={activeBox.name} onChange={(event) => handleInputChange(event, 'name')} />
+          <br />
+          <br />
+
           <TextField label="Z-层级" value={activeBox.zIndex} onChange={(event) => handleInputChange(event, 'zIndex')} />
           <br />
           <br />

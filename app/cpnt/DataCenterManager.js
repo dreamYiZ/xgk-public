@@ -26,6 +26,7 @@ export default function () {
         box => {
           return {
             boxid: box.boxid,
+            name: box.name,
             sub: {
               ...box.sub
             }
