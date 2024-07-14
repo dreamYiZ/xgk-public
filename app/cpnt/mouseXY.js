@@ -5,7 +5,6 @@ import { FRAMEWORK_ID_SELECTOR, FRAMEWORK_ID } from "../util/util";
 export default function () {
   const [show, setShow] = useState(false);
   const [coords, setCoords] = useState({ x: 0, y: 0 });
-  const [keyDownTime, setKeyDownTime] = useState(null);
   const [keyPressTimeout, setKeyPressTimeout] = useState(null);
   const [keyUpHide, setKeyUpHide] = useState(true);
 

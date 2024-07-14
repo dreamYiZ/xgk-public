@@ -45,6 +45,7 @@
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "vercel": "^34.2.7",
+    "video.js": "^8.16.1",
     "wrangler": "^3.60.3"
   }
 }

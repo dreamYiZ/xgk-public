@@ -349,6 +349,23 @@ export const createTime = () => {
   }
 }
 
+export const BASIC_PAYLOAD_VIDEO = {
+
+}
+
+export const createBoxVideo = () => {
+  return {
+    ...createBoxPayload(),
+    width: '500px',
+    height: '420px',
+    sub: {
+      type: SUB_TYPE.VIDEO,
+      ...BASIC_PAYLOAD_VIDEO
+    }
+  }
+}
+
+
 // export const BASIC_PAYLOAD_MARQUEE ={
 
 // }
@@ -577,5 +594,6 @@ export const MAP_TYPE_FACTORY = {
   [SUB_TYPE.SPRITE]: createSprite,
   [SUB_TYPE.TIME]: createTime,
   [SUB_TYPE.SPRITE_B]: createSpriteB,
+  [SUB_TYPE.VIDEO]: createBoxVideo,
   // [SUB_TYPE.MARQUEE]: createMarquee,
 };

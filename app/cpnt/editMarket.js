@@ -7,8 +7,9 @@ import AddIcon from '@mui/icons-material/Add';
 import EditTabContainer from "./editTabContainer";
 import { Snackbar } from '@mui/material';
 import Alert from '@mui/material/Alert';
-import DifferenceIcon from '@mui/icons-material/Difference';
 import DragCreate from "./dragCreate";
+import Box from '@mui/material/Box';
+
 
 function EditMarket() {
   const { setTemplates } = useMarket();
@@ -41,21 +42,32 @@ function EditMarket() {
 
   return (
     <EditTabContainer>
-      <br />
-      <TextField label="筛选" value={filter} onChange={(event) => setFilter(event.target.value)} />
-      <List>
-        {marketList.filter(item => item.typeName.includes(filter) || item.type.includes(filter)).map((item) => (
-          <ListItem key={item.type}>
-            <ListItemText primary={`${item.typeName}`} />
+      <Box sx={{ display: "flex", flexDirection: 'column', maxHeight: "calc(-210px + 100vh)"
 
-            <DragCreate marketItem={item} />
 
-            <IconButton onClick={() => addNewBoxByType(item.type)}>
-              <AddIcon />
-            </IconButton>
-          </ListItem>
-        ))}
-      </List>
+       }}>
+
+        <Box>
+          <br />
+          <TextField label="筛选" value={filter} onChange={(event) => setFilter(event.target.value)} />
+        </Box>
+        <Box sx={{ paddingTop: 1 }} />
+
+        <Box sx={{ flex: 1, overflow: 'auto' }}>  <List>
+          {marketList.filter(item => item.typeName.includes(filter) || item.type.includes(filter)).map((item) => (
+            <ListItem key={item.type}>
+              <ListItemText primary={`${item.typeName}`} />
+
+              <DragCreate marketItem={item} />
+
+              <IconButton onClick={() => addNewBoxByType(item.type)}>
+                <AddIcon />
+              </IconButton>
+            </ListItem>
+          ))}
+        </List>
+        </Box>
+      </Box>
       <Snackbar open={open} autoHideDuration={6000} onClose={() => setOpen(false)}>
         <Alert onClose={() => setOpen(false)} severity="error" sx={{ width: '100%' }}>
           没有此组件构造方法
