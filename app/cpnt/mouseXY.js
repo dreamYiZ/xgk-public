@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import useGlobal from "../store/useGlobal";
 import { FRAMEWORK_ID_SELECTOR, FRAMEWORK_ID } from "../util/util";
 
-export default function App() {
+export default function () {
   const [show, setShow] = useState(false);
   const [coords, setCoords] = useState({ x: 0, y: 0 });
   const [keyDownTime, setKeyDownTime] = useState(null);
@@ -47,7 +47,7 @@ export default function App() {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('keyup', handleKeyUp);
     };
-  }, [keyDownTime]);
+  }, []);
 
   return (
     <>
@@ -55,9 +55,9 @@ export default function App() {
         <div style={{
           position: 'absolute',
           left: `${coords.x - 300 + document.querySelector(FRAMEWORK_ID_SELECTOR).scrollLeft}px`,
-          top: `${coords.y}px`
+          top: `${coords.y + document.querySelector(FRAMEWORK_ID_SELECTOR).scrollTop}px`
         }}>
-          ==: {coords.x - 300 + document.querySelector(FRAMEWORK_ID_SELECTOR).scrollLeft}, {coords.y}
+          ==: {coords.x - 300 + document.querySelector(FRAMEWORK_ID_SELECTOR).scrollLeft}, {coords.y + document.querySelector(FRAMEWORK_ID_SELECTOR).scrollTop}
         </div>
       )}
     </>

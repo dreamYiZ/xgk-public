@@ -1,6 +1,6 @@
 import { SUB_TYPE, SUB_TYPE_DISPLAY, } from "./subType";
 import { v4 as uuidv4 } from 'uuid';
-export { p, FRAMEWORK_ID, FRAMEWORK_ID_SELECTOR } from "./cfg"
+import {FRAMEWORK_ID_SELECTOR, FRAMEWORK_ID } from "./cfg";
 import { CMD } from "./command";
 import { ppplog } from "./ppppp";
 import {
@@ -9,6 +9,8 @@ import {
 } from "./spriteType";
 
 
+
+export { p, FRAMEWORK_ID, FRAMEWORK_ID_SELECTOR } from "./cfg"
 
 
 export const createBoxPayload = (sub) => ({
@@ -536,6 +538,15 @@ function throttle(func, interval) {
     }
   };
 }
+
+export const getRelativePosX = (x) => {
+  return x - 300 + document.querySelector(FRAMEWORK_ID_SELECTOR).scrollLeft
+
+}
+export const getRelativePosY = (y) => {
+  return y + document.querySelector(FRAMEWORK_ID_SELECTOR).scrollTop
+}
+
 
 export { loadInitConfig } from "./init";
 export { default as generateLicense } from "./generateLicense"

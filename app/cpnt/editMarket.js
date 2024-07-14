@@ -7,7 +7,8 @@ import AddIcon from '@mui/icons-material/Add';
 import EditTabContainer from "./editTabContainer";
 import { Snackbar } from '@mui/material';
 import Alert from '@mui/material/Alert';
-
+import DifferenceIcon from '@mui/icons-material/Difference';
+import DragCreate from "./dragCreate";
 
 function EditMarket() {
   const { setTemplates } = useMarket();
@@ -36,6 +37,8 @@ function EditMarket() {
   };
 
 
+
+
   return (
     <EditTabContainer>
       <br />
@@ -44,6 +47,9 @@ function EditMarket() {
         {marketList.filter(item => item.typeName.includes(filter) || item.type.includes(filter)).map((item) => (
           <ListItem key={item.type}>
             <ListItemText primary={`${item.typeName}`} />
+
+            <DragCreate marketItem={item} />
+
             <IconButton onClick={() => addNewBoxByType(item.type)}>
               <AddIcon />
             </IconButton>

@@ -27,7 +27,6 @@ export default function useBeCustomer() {
 
   const consumeEv = useCallback((beItem) => {
     // Implement your event consumption logic here
-    ppplog("Consuming event: ", beItem);
 
     const {
       cmd, code, target, time
@@ -36,7 +35,6 @@ export default function useBeCustomer() {
     if (cmd === CMD.CHANGE_SPRITE_STATE) {
       const targetBox = getById(target)
 
-      ppplog('targetBox', targetBox)
 
       const { sub: {
         enabled, status
@@ -65,7 +63,6 @@ export default function useBeCustomer() {
 
 
   const _consumeEvIfGood = useCallback((eventArr) => {
-    ppplog(eventArr);
 
     // Take the first event from the array
     const firstEvent = eventArr[0];
