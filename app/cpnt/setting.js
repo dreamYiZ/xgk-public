@@ -73,7 +73,7 @@ export default function Setting() {
         <Divider />
 
 
-        <Button onClick={clearLocalStorage}>Initialize System</Button>
+        <Button onClick={clearLocalStorage}>初始化系统</Button>
 
 
         <Divider />
@@ -87,8 +87,8 @@ export default function Setting() {
             value={themePaletteMode}
             onChange={handleThemeChange}
           >
-            <FormControlLabel value="light" control={<Radio />} label="Light" />
-            <FormControlLabel value="dark" control={<Radio />} label="Dark" />
+            <FormControlLabel value="light" control={<Radio />} label="明亮" />
+            <FormControlLabel value="dark" control={<Radio />} label="暗黑" />
           </RadioGroup>
         </Box>
 

@@ -190,7 +190,7 @@ function EditBox() {
           </Dialog>
         </>
       ) : (
-        <p>No active box selected.</p>
+        <p style={{opacity: .6}}>没有选中的组件.</p>
       )
       }
     </EditTabContainer >
