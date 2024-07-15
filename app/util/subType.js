@@ -12,7 +12,7 @@ export const SUB_TYPE = {
   SPRITE_B: 'sprite_B',
   TIME: 'time',
   VIDEO: 'video',
-  // MARQUEE: 'Marquee',
+  MARQUEE: 'Marquee',
 }
 
 export const SUB_TYPE_DISPLAY = {
@@ -29,5 +29,5 @@ export const SUB_TYPE_DISPLAY = {
   [SUB_TYPE.TIME]: '时间',
   [SUB_TYPE.SPRITE_B]: '复杂雪碧图',
   [SUB_TYPE.VIDEO]: '视频',
-  // [SUB_TYPE.MARQUEE]: '跑马灯',
+  [SUB_TYPE.MARQUEE]: '跑马灯',
 }

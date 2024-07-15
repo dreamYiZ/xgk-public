@@ -379,21 +379,24 @@ export const createBoxVideo = () => {
 }
 
 
-// export const BASIC_PAYLOAD_MARQUEE ={
 
-// }
 
-// export const createMarquee = () => {
-//   return {
-//     ...createBoxPayload(),
-//     width: '380px',
-//     height: '30px',
-//     sub: {
-//       type: SUB_TYPE.MARQUEE,
-//       ...BASIC_PAYLOAD_MARQUEE
-//     }
-//   }
-// }
+
+export const BASIC_PAYLOAD_MARQUEE ={
+  data: []
+}
+
+export const createMarquee = () => {
+  return {
+    ...createBoxPayload(),
+    width: '600px',
+    height: '500px',
+    sub: {
+      type: SUB_TYPE.MARQUEE,
+      ...BASIC_PAYLOAD_MARQUEE
+    }
+  }
+}
 
 
 
@@ -608,5 +611,5 @@ export const MAP_TYPE_FACTORY = {
   [SUB_TYPE.TIME]: createTime,
   [SUB_TYPE.SPRITE_B]: createSpriteB,
   [SUB_TYPE.VIDEO]: createBoxVideo,
-  // [SUB_TYPE.MARQUEE]: createMarquee,
+  [SUB_TYPE.MARQUEE]: createMarquee,
 };

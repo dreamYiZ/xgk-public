@@ -13,6 +13,7 @@ import EditSubEcharts from "./editSubEcharts";
 import EditSubSprite from "./EditSubSprite"
 import EditSubTime from "./EditSubTime"
 import EditSubVideo from "./EditSubVideo"
+import EditSubMarquee from "./EditSubMarquee"
 
 
 const MAP_SUB_EDIT = {
@@ -29,6 +30,7 @@ const MAP_SUB_EDIT = {
   [SUB_TYPE.SPRITE_B]: EditSubSprite,
   [SUB_TYPE.TIME]: EditSubTime,
   [SUB_TYPE.VIDEO]: EditSubVideo,
+  [SUB_TYPE.MARQUEE]: EditSubMarquee,
 }
 
 function EditSub() {
