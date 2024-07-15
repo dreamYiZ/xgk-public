@@ -404,6 +404,26 @@ export const createMarquee = () => {
 }
 
 
+export const BASIC_PAYLOAD_TABLE = {
+  data: [],
+  color: '#000000',
+  fontSize: 26,
+  time: 16,
+}
+
+export const createBoxTable = () => {
+  return {
+    ...createBoxPayload(),
+    width: '500px',
+    height: '400px',
+    sub: {
+      type: SUB_TYPE.TABLE,
+      ...BASIC_PAYLOAD_TABLE
+    }
+  }
+}
+
+
 
 export const createMarketTemplates = () => {
   return []
@@ -627,4 +647,5 @@ export const MAP_TYPE_FACTORY = {
   [SUB_TYPE.SPRITE_B]: createSpriteB,
   [SUB_TYPE.VIDEO]: createBoxVideo,
   [SUB_TYPE.MARQUEE]: createMarquee,
+  [SUB_TYPE.TABLE]: createBoxTable,
 };
