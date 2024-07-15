@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Radio, RadioGroup, FormControlLabel, FormControl, FormLabel, TextField, Tabs, Tab, Box, IconButton } from '@mui/material';
 import classes from "./sidePanel.module.sass"
 import useGlobalStore from '../store/useGlobal';
@@ -32,8 +32,9 @@ function SidePanel() {
     openSetting,
     closeSetting,
     openSelectImage,
-    setBgVideo
-
+    setBgVideo,
+    isFullScreenAutoBoolean,
+    setIsFullScreenAutoBoolean,
   } = useGlobalStore();
   const { clearActiveId, activeBoxId } = useBoxStore();
   const fileInput = useRef(null);
@@ -42,6 +43,12 @@ function SidePanel() {
   const [errorMessage, setErrorMessage] = React.useState('');
   const [showSelectImage, setShowSelectImage] = useState(false);  // Add a state for showing
   const [isShowDataCenter, setIsShowDataCenter] = React.useState(false);
+
+  const [isFullScreenAuto, setIsFullScreenAuto] = useState('no')
+
+  useEffect(() => {
+    ppplog('isFullScreenAuto', isFullScreenAuto)
+  }, [isFullScreenAuto])
 
   const handleChange = (event) => {
     setMode(event.target.value);
@@ -190,6 +197,16 @@ function SidePanel() {
 
   }
 
+  const onChangeFullScreenAuto = (event) => {
+    // ppplog('event', event, event.target.value)
+    setIsFullScreenAuto(event.target.value)
+    setIsFullScreenAutoBoolean(event.target.value === 'yes');
+  }
+
+  useEffect(() => {
+    setIsFullScreenAuto(isFullScreenAutoBoolean ? 'yes' : 'no');
+  }, [isFullScreenAutoBoolean])
+
 
   return (
     <div className={classes['side-panel-view']}>
@@ -231,36 +248,56 @@ function SidePanel() {
             <Typography>编辑页面</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <br />
-            <TextField label="屏幕宽度" value={screenWidth} onChange={handleWidthChange} />
-            <br />
-            <br />
-            <TextField label="屏幕高度" value={screenHeight} onChange={handleHeightChange} />
-            <br />
-            <br />
-
-            <Button variant="contained" component="label">
-              上传文件
-              <input ref={fileInput} type="file" hidden onChange={handleFileChange} />
-            </Button>
-            <Button color="success" onClick={selectImage}>选择图片</Button>
-            <Button onClick={handleUploadClick}>确定</Button>
-            <br />
-
-
-            <br />
             <Box>
-              <TextField label="输入图片地址" value={imageUrl} onChange={handleImageUrlChange} />
-              <Button onClick={handleConfirmClick}>确定</Button>
+              <br />
+              <TextField label="屏幕宽度" value={screenWidth} onChange={handleWidthChange} />
+              <br />
+              <br />
+              <TextField label="屏幕高度" value={screenHeight} onChange={handleHeightChange} />
+              <br />
+              <br />
+
+              <Button variant="contained" component="label">
+                上传文件
+                <input ref={fileInput} type="file" hidden onChange={handleFileChange} />
+              </Button>
+              <Button color="success" onClick={selectImage}>选择图片</Button>
+              <Button onClick={handleUploadClick}>确定</Button>
+              <br />
+
+
+              <br />
+              <Box>
+                <TextField label="输入图片地址" value={imageUrl} onChange={handleImageUrlChange} />
+                <Button onClick={handleConfirmClick}>确定</Button>
+              </Box>
+
+              {preview && (preview.startsWith('blob:') ? <img style={{ width: "100px", height: "60px" }} src={preview} alt="Preview" /> : <p>{preview}</p>)}
+
+
+
+              <Box mt={2}>
+                <Button color='warning' variant='outlined' onClick={handleResetBgClick}>重置</Button>
+              </Box>
+
+              <Box sx={{ paddingTop: 1 }}></Box>
+              <FormControl>
+                <FormLabel id="demo-controlled-radio-buttons-group">全屏适配</FormLabel>
+                <RadioGroup
+                  aria-labelledby="demo-controlled-radio-buttons-group"
+                  name="controlled-radio-buttons-group"
+                  value={isFullScreenAuto}
+                  onChange={onChangeFullScreenAuto}
+                  row
+                >
+                  <FormControlLabel value="yes" control={<Radio />} label="是" />
+                  <FormControlLabel value="no" control={<Radio />} label="否" />
+                </RadioGroup>
+              </FormControl>
             </Box>
-            <Box mt={2}>
-              <Button color='warning' variant='outlined' onClick={handleResetBgClick}>重置</Button>
-            </Box>
 
 
 
-
-            {preview && (preview.startsWith('blob:') ? <img style={{ width: "100px", height: "60px" }} src={preview} alt="Preview" /> : <p>{preview}</p>)}
 
 
           </AccordionDetails>

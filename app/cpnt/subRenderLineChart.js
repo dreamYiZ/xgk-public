@@ -3,7 +3,7 @@ import { LineChart } from '@mui/x-charts/LineChart';
 import { BASIC_PAYLOAD_LINE_CHART } from "../util/util";
 import ChartMuiTheme from "./ChartMuiTheme";
 
-export default function SubRenderLineChart({ box, ...sub }) {
+export default function SubRenderLineChart({ box, sub }) {
   return (
     <ChartMuiTheme>
 

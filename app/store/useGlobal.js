@@ -29,6 +29,7 @@ const useGlobalStore = create(persist(
     version: process.env.NEXT_PUBLIC_VERSION,
     screenWidth: 1920,
     screenHeight: 1080,
+    isFullScreenAutoBoolean: false,
     tab: 0,
     license: '',
     setMode: (_mode) => set(() => ({ mode: _mode })),
@@ -50,6 +51,7 @@ const useGlobalStore = create(persist(
     toggleScaleToFill: () => set((state) => ({ scaleToFill: !state.scaleToFill })),
     setApi: (api) => set(() => ({ api: api })),
     setBgVideo: (bgVideo) => set(() => ({ bgVideo: bgVideo })),
+    setIsFullScreenAutoBoolean: (isFullScreenAuto) => set(() => ({ isFullScreen: isFullScreenAuto }))
   }),
   {
     name: 'global-storage',

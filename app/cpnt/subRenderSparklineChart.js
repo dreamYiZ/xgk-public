@@ -3,7 +3,7 @@ import { SparkLineChart } from '@mui/x-charts/SparkLineChart';
 import { BASIC_PAYLOAD_SPARKLINE_CHART } from "../util/util";
 import ChartMuiTheme from "./ChartMuiTheme";
 
-export default function SubRenderSparkLineChart({ box, ...sub }) {
+export default function SubRenderSparkLineChart({ box, sub }) {
 
   const shape = {};
   if (sub.area) {

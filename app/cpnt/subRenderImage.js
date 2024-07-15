@@ -6,7 +6,7 @@ import useBoxStore from "../store/useBo";
 import { useCallback, useEffect, useState } from "react";
 import { ppplog, throttle, CMD_TIME } from "../util/util";
 
-function SubRenderImage({ box, ...sub }) {
+function SubRenderImage({ box, sub }) {
 
   const boxArr = useBoxStore((state) => state.boxArr);
   const [canClick, setCanClick] = useState(false);

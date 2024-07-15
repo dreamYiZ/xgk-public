@@ -165,7 +165,7 @@ function EditBox() {
 
           <EditSub />
 
-          <br />
+          <Box sx={{ paddingTop: 1 }} />
           <Button variant="contained" color="error" onClick={handleDeleteClick}>
             删除
           </Button>

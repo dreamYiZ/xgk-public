@@ -27,10 +27,14 @@ export default function Home() {
 
   const isEmpty = useBoxStore((state) => state.isEmpty);
   const mainRef = useRef(null);  // 新增一个 ref 来引用 <main> 元素
-  const { showWhenEditing, screenWidth, screenHeight, bgVideo } = useGlobalStore();  // 获取 'screenWidth' 和 'screenHeight' 状态
+  const { isFullScreenAutoBoolean, getIsTestOrDisplay, showWhenEditing, screenWidth, screenHeight, bgVideo } = useGlobalStore();  // 获取 'screenWidth' 和 'screenHeight' 状态
   const shouldEmpty = false;
 
   const [showVideoBg, setShowVideoBg] = useState(false);
+
+  const [mainStyle, setMainStyle] = useState({
+
+  })
 
   useBeCustomer();
 
@@ -96,13 +100,46 @@ export default function Home() {
     </>
   }
 
-  const mainStyle = {
-    width: `${screenWidth}px`,
-    height: `${screenHeight}px`,
-    backgroundImage: bg.type === BG_TYPE.IMAGE ? `url(${bg.filename})` : '',
-    backgroundSize: '100% 100%',
-    backgroundRepeat: 'no-repeat',
-  };  // Set the background of the <main> element based on the 'bg' state
+
+
+  useEffect(() => {
+    if (getIsTestOrDisplay()) {
+      if (isFullScreenAutoBoolean) {
+        setMainStyle(
+          {
+            width: `${100}vw`,
+            height: `${100}vh`,
+            backgroundImage: bg.type === BG_TYPE.IMAGE ? `url(${bg.filename})` : '',
+            backgroundSize: '100% 100%',
+            backgroundRepeat: 'no-repeat',
+            overflow: 'hidden'
+          }
+        )
+      } else {
+        setMainStyle(
+          {
+            width: `${screenWidth}px`,
+            height: `${screenHeight}px`,
+            backgroundImage: bg.type === BG_TYPE.IMAGE ? `url(${bg.filename})` : '',
+            backgroundSize: '100% 100%',
+            backgroundRepeat: 'no-repeat',
+          }
+        )
+      }
+
+    } else {
+      setMainStyle(
+        {
+          width: `${screenWidth}px`,
+          height: `${screenHeight}px`,
+          backgroundImage: bg.type === BG_TYPE.IMAGE ? `url(${bg.filename})` : '',
+          backgroundSize: '100% 100%',
+          backgroundRepeat: 'no-repeat',
+        }
+      )
+    }
+
+  }, [screenHeight, screenWidth, bg, isFullScreenAutoBoolean])
 
 
   // useEffect(() => {

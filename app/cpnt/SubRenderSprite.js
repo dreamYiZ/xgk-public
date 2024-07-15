@@ -2,7 +2,7 @@ import { SPRINT_STATUS } from "../util/util";
 import React, { useState, useEffect } from 'react';
 
 export default function (
-  { box, ...sub }
+  { box, sub }
 ) {
 
   const [currentStatus, setCurrentStatus] = useState([SPRINT_STATUS.RUNNING])

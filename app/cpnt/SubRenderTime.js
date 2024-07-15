@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { TIME_TYPE } from "../util/util";
 
 export default function (
-  { box, ...sub }
+  { box, sub }
 
 ) {
 

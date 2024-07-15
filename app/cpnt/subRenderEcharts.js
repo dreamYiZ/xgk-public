@@ -5,7 +5,7 @@ import ChartMuiTheme from "./ChartMuiTheme";
 import ChartsWrapper from "./echartsWrapper";
 import ppplog from "ppplog";
 
-export default function ({ box, ...sub }) {
+export default function ({ box, sub }) {
 
   if(!sub?.option){
     return `Not Options`;

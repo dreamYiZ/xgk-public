@@ -3,7 +3,7 @@ import { BarChart } from '@mui/x-charts/BarChart';
 import { BASIC_PAYLOAD_STACKING_CHART } from "../util/util";
 import ChartMuiTheme from "./ChartMuiTheme";
 
-export default function SubRenderStackingChart({ box, ...sub }) {
+export default function SubRenderStackingChart({ box, sub }) {
   return (
     <ChartMuiTheme>
       <BarChart

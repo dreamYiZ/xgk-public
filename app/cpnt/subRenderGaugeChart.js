@@ -3,7 +3,7 @@ import { BASIC_PAYLOAD_GAUGE_CHART } from "../util/util";
 import ChartMuiTheme from "./ChartMuiTheme";
 import { Gauge, gaugeClasses } from '@mui/x-charts/Gauge';
 
-export default function SubRenderGaugeChart({ box, ...sub }) {
+export default function SubRenderGaugeChart({ box, sub }) {
   return (
     <ChartMuiTheme>
       <Gauge

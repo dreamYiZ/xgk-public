@@ -10,6 +10,7 @@ import SubRenderSparklineChart from './cpnt/subRenderSparklineChart';
 import SubRenderEcharts from './cpnt/subRenderEcharts';
 import SubRenderSprite from "./cpnt/SubRenderSprite";
 import SubRenderTime from "./cpnt/SubRenderTime";
+import SubRenderVideo from "./cpnt/SubRenderVideo";
 
 
 const MAP_SUB_RENDER = {
@@ -25,13 +26,14 @@ const MAP_SUB_RENDER = {
   [SUB_TYPE.SPRITE]: SubRenderSprite,
   [SUB_TYPE.SPRITE_B]: SubRenderSprite,
   [SUB_TYPE.TIME]: SubRenderTime,
+  [SUB_TYPE.VIDEO]: SubRenderVideo,
 }
 
 
 function subRender(sub, box) {
   const Component = MAP_SUB_RENDER[sub.type];
   if (Component) {
-    return <Component {...sub} box={box} />
+    return <Component sub={sub} box={box} />
   }
 
   return <div>

@@ -25,21 +25,34 @@ export default function () {
 
   const changeById = useBoxStore(state => state.changeById);
 
-  const handleSave = () => {
+
+  const [videoUrl, setVideoUrl] = useState('');
+
+  const saveChange = () => {
     if (sub) {
       changeById(activeBox.boxid, {
         sub: {
           ...sub,
+          videoJsOptions: {
+            ...sub.videoJsOptions,
+            sources: [
+              {
+                type: 'video/mp4',
+                src: videoUrl
+              }
+            ]
+          }
         },
       });
     }
-  };
-
-  const saveChange = () => {
-
   }
 
   useEffect(() => {
+    if (activeBoxId && sub) {
+      if (sub?.videoJsOptions?.sources?.length > 0) {
+        setVideoUrl(sub?.videoJsOptions?.sources[0]?.src)
+      }
+    }
 
   }, [sub, activeBoxId]);
 
@@ -50,7 +63,25 @@ export default function () {
         isOpen={isOpen}
         setIsOpen={setIsOpen}
         buttonText="编辑数据"
+        title="视频编辑"
       >
+        <Box>
+
+          <TextField
+            fullWidth
+            label="视频地址"
+            value={videoUrl}
+            placeholder="请输入视频地址"
+            rows={4}
+            multiline
+            onChange={(event) => {
+              setVideoUrl(event.target.value);
+            }}
+          />
+        </Box>
+
+        <Box mt={1}></Box>
+
       </DrawerEditLayout>
 
     </Box>

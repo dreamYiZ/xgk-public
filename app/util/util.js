@@ -1,6 +1,6 @@
 import { SUB_TYPE, SUB_TYPE_DISPLAY, } from "./subType";
 import { v4 as uuidv4 } from 'uuid';
-import {FRAMEWORK_ID_SELECTOR, FRAMEWORK_ID } from "./cfg";
+import { FRAMEWORK_ID_SELECTOR, FRAMEWORK_ID } from "./cfg";
 import { CMD } from "./command";
 import { ppplog } from "./ppppp";
 import {
@@ -350,6 +350,19 @@ export const createTime = () => {
 }
 
 export const BASIC_PAYLOAD_VIDEO = {
+  videoJsOptions: {
+    autoplay: true,
+    controls: true,
+    responsive: true,
+    fluid: true,
+    loop: true,
+    sources: [
+      //   {
+      //   src: '/path/to/video.mp4',
+      //   type: 'video/mp4'
+      // }
+    ]
+  }
 
 }
 
@@ -357,7 +370,7 @@ export const createBoxVideo = () => {
   return {
     ...createBoxPayload(),
     width: '500px',
-    height: '420px',
+    height: '320px',
     sub: {
       type: SUB_TYPE.VIDEO,
       ...BASIC_PAYLOAD_VIDEO

@@ -3,7 +3,7 @@ import { PieChart } from '@mui/x-charts/PieChart';
 import { BASIC_SERIES_PIE_CHART } from "../util/util";
 import ChartMuiTheme from "./ChartMuiTheme";
 
-export default function SubRenderPieChart({ box, ...sub }) {
+export default function SubRenderPieChart({ box, sub }) {
 
   return (
     <ChartMuiTheme>

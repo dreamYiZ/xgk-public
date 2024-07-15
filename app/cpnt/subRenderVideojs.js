@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 // This imports the functional component from the previous sample.
 import VideoJS from './videoJsWrap';
 
-const App = () => {
+const RenderVideoJs = ({ sub }) => {
   const playerRef = React.useRef(null);
 
   const videoJsOptions = {
@@ -16,6 +16,10 @@ const App = () => {
       type: 'video/mp4'
     }]
   };
+
+
+  const [videoJsOptionsState, setVideoJsOptionsState] = useState(videoJsOptions);
+
 
   const handlePlayerReady = (player) => {
     playerRef.current = player;
@@ -30,11 +34,22 @@ const App = () => {
     });
   };
 
+  useEffect(() => {
+    try {
+      setVideoJsOptionsState(sub.videoJsOptions)
+
+    } catch (e) {
+      console.error(e);
+    }
+
+  }, [sub])
+
   return (
     <>
-      <div>Rest of app here</div>
-      <VideoJS options={videoJsOptions} onReady={handlePlayerReady} />
-      <div>Rest of app here</div>
+      <VideoJS options={videoJsOptionsState} onReady={handlePlayerReady} />
     </>
   );
 }
+
+
+export default RenderVideoJs;

@@ -3,7 +3,7 @@ import { BarChart } from '@mui/x-charts/BarChart';
 import { BASIC_PAYLOAD_BAR_CHART } from "../util/util";
 import ChartMuiTheme from "./ChartMuiTheme";
 
-export default function SubRenderBarChart({ box, ...sub }) {
+export default function SubRenderBarChart({ box, sub }) {
   return (
     <ChartMuiTheme>
 
