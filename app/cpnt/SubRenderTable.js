@@ -11,7 +11,7 @@ export default function (
 
 
   return <div style={{ width: box.width, height: box.height, }} >
-      <RenderBasicTable />
+      <RenderBasicTable sub={sub} />
   </div>
 }
 

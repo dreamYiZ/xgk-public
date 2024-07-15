@@ -20,6 +20,12 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import { MARQUEE_TYPE, MARQUEE_TYPE_DISPLAY, ppplog } from "../util/util";
 import { forwardRef, useImperativeHandle, useRef } from "react";
+import InputLabel from '@mui/material/InputLabel';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputAdornment from '@mui/material/InputAdornment';
+import AceEditor from "react-ace";
+import "ace-builds/src-noconflict/mode-json";
+import "ace-builds/src-noconflict/theme-monokai";
 
 
 export default function () {
@@ -29,67 +35,47 @@ export default function () {
   const sub = useMemo(() => activeBox?.sub, [activeBox, activeBoxId]);
   const changeById = useBoxStore(state => state.changeById);
 
+
   const [isOpen, setIsOpen] = useState(false);
 
+  const [option, setOption] = useState('');  // 新增的状态和处理函数
 
-  const [selectTypeMarquee, setSelectTypeMarquee] = useState(null);
-  const [marqueeData, setMarqueeData] = useState([]);
-
-  const [baseMarqueeValue, setBaseMarqueeValue] = useState();
-
-  const [color, setColor] = useState('');
-  const [fontSize, setFontSize] = useState(24);
-  const [time, setTime] = useState(null);
-
-
-  useEffect(() => {
-    if (Array.isArray(marqueeData) && marqueeData.length && typeof marqueeData[0] === 'string') {
-      setBaseMarqueeValue(marqueeData.join("\n"))
-    }
-  }, [marqueeData])
+  const [tableHeadString, setTableHeadString] = useState(''); //
 
 
 
 
 
-
-
-  // const [videoUrl, setVideoUrl] = useState('');
 
   const saveChange = () => {
     if (sub) {
 
-      ppplog('marqueeData', marqueeData)
-      let _newMarqueeData;
-      if (selectTypeMarquee === MARQUEE_TYPE.BASIC) {
-        if (baseMarqueeValue) {
-          _newMarqueeData = baseMarqueeValue.trim().split("\n").filter(Boolean);
-
-        } else {
-          _newMarqueeData = [];
-        }
-
-
+      let newHead = [];
+      if (tableHeadString) {
+        let _tableHeadString = tableHeadString.replaceAll("，", ",")
+        newHead = _tableHeadString.split(",")
       }
+
+      let data = [];
+
+      try {
+
+        let _data = JSON.parse(option)
+        if (Array.isArray(_data)) {
+          data = _data;
+        }
+      } catch (e) {
+        alert('json error: ' + e.message);
+        return
+        console.log('error', e);
+      }
+
 
       changeById(activeBox.boxid, {
         sub: {
           ...sub,
-          marqueeType: selectTypeMarquee,
-          data: _newMarqueeData,
-          fontSize,
-          color,
-          time
-
-          // videoJsOptions: {
-          //   ...sub.videoJsOptions,
-          //   sources: [
-          //     {
-          //       type: 'video/mp4',
-          //       src: videoUrl
-          //     }
-          //   ]
-          // }
+          tableHead: newHead,
+          data,
         },
       });
     }
@@ -99,11 +85,10 @@ export default function () {
 
   useEffect(() => {
     if (activeBoxId && sub) {
-      setSelectTypeMarquee(sub.marqueeType);
-      setMarqueeData(sub.data);
-      setTime(sub.time);
-      setFontSize(sub.fontSize);
-      setColor(sub.color);
+      const { tableHead, data } = sub;
+
+      setTableHeadString(tableHead?.join(","));
+      setOption(JSON.stringify(data, null, 2));
     }
   }, [sub, activeBoxId]);
 
@@ -120,7 +105,45 @@ export default function () {
 
         </Box>
         <Box mt={1}></Box>
+        <FormControl fullWidth sx={{ m: 1 }}>
+          <InputLabel htmlFor="outlined-column-name">表头逗号间隔</InputLabel>
+          <OutlinedInput
+            id="outlined-column-name"
+            startAdornment={<InputAdornment position="start">  </InputAdornment>}
+            label="Amount"
+            value={tableHeadString}
+            onChange={(event) => {
+              setTableHeadString(event.target.value);
+            }}
+          />
+        </FormControl>
 
+        <Typography variant="h6" component="h6">
+          数据
+        </Typography>
+
+        <Box >
+          <AceEditor
+            mode="json"
+            theme="monokai"
+            value={option}  // 使用 option 作为 value
+            onChange={setOption}  // 使用 setOption 作为 onChange 的处理函数
+            name="UNIQUE_ID_OF_DIV"
+            editorProps={{ $blockScrolling: true }}
+            fontSize={14}
+            showPrintMargin={true}
+            showGutter={true}
+            highlightActiveLine={true}
+            width={"100%"}
+            setOptions={{
+              enableBasicAutocompletion: true,
+              enableLiveAutocompletion: true,
+              enableSnippets: true,
+              showLineNumbers: true,
+              tabSize: 2,
+            }}
+          />
+        </Box>
       </DrawerEditLayout>
 
     </Box>

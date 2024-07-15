@@ -405,6 +405,7 @@ export const createMarquee = () => {
 
 
 export const BASIC_PAYLOAD_TABLE = {
+  tableHead: [],
   data: [],
   color: '#000000',
   fontSize: 26,
