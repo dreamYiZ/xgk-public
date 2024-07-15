@@ -18,7 +18,8 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
-import { MARQUEE_TYPE, MARQUEE_TYPE_DISPLAY } from "../util/util";
+import { MARQUEE_TYPE, MARQUEE_TYPE_DISPLAY, ppplog } from "../util/util";
+import { forwardRef, useImperativeHandle, useRef } from "react";
 
 
 export default function () {
@@ -26,21 +27,60 @@ export default function () {
   const activeBoxId = useBoxStore((state) => state.activeBoxId);
   const activeBox = useMemo(() => boxArr.find((box) => box.boxid === activeBoxId), [boxArr, activeBoxId]);
   const sub = useMemo(() => activeBox?.sub, [activeBox, activeBoxId]);
+  const changeById = useBoxStore(state => state.changeById);
+
   const [isOpen, setIsOpen] = useState(false);
 
-  const [selectTypeMarquee, setSelectTypeMarquee] = useState(null);
 
-  const changeById = useBoxStore(state => state.changeById);
+  const [selectTypeMarquee, setSelectTypeMarquee] = useState(null);
+  const [marqueeData, setMarqueeData] = useState([]);
+
+  const [baseMarqueeValue, setBaseMarqueeValue] = useState();
+
+  const [color, setColor] = useState('');
+  const [fontSize, setFontSize] = useState(24);
+  const [time, setTime] = useState(null);
+
+
+  useEffect(() => {
+    if (Array.isArray(marqueeData) && marqueeData.length && typeof marqueeData[0] === 'string') {
+      setBaseMarqueeValue(marqueeData.join("\n"))
+    }
+  }, [marqueeData])
+
+
+
+
+
 
 
   // const [videoUrl, setVideoUrl] = useState('');
 
   const saveChange = () => {
     if (sub) {
+
+      ppplog('marqueeData', marqueeData)
+      let _newMarqueeData;
+      if (selectTypeMarquee === MARQUEE_TYPE.BASIC) {
+        if (baseMarqueeValue) {
+          _newMarqueeData = baseMarqueeValue.trim().split("\n").filter(Boolean);
+
+        } else {
+          _newMarqueeData = [];
+        }
+
+
+      }
+
       changeById(activeBox.boxid, {
         sub: {
           ...sub,
-          marqueeType: selectTypeMarquee
+          marqueeType: selectTypeMarquee,
+          data: _newMarqueeData,
+          fontSize,
+          color,
+          time
+
           // videoJsOptions: {
           //   ...sub.videoJsOptions,
           //   sources: [
@@ -55,18 +95,16 @@ export default function () {
     }
   }
 
+
+
   useEffect(() => {
     if (activeBoxId && sub) {
-
       setSelectTypeMarquee(sub.marqueeType);
-      // if (sub?.videoJsOptions?.sources?.length > 0) {
-      //   setVideoUrl(sub?.videoJsOptions?.sources[0]?.src)
-      // }else{
-      //   setVideoUrl('')
-      // }
-
+      setMarqueeData(sub.data);
+      setTime(sub.time);
+      setFontSize(sub.fontSize);
+      setColor(sub.color);
     }
-
   }, [sub, activeBoxId]);
 
   return (
@@ -115,6 +153,19 @@ export default function () {
             </FormControl>
 
           </Box>
+
+
+          <Box>
+            {selectTypeMarquee === MARQUEE_TYPE.BASIC && <EditBasicMarquee baseMarqueeValue={baseMarqueeValue}
+              setBaseMarqueeValue={setBaseMarqueeValue}
+              color={color}
+              fontSize={fontSize}
+              setColor={setColor}
+              setFontSize={setFontSize}
+              time={time}
+              setTime={setTime}
+            />}
+          </Box>
         </Box>
 
         <Box mt={1}></Box>
@@ -123,4 +174,70 @@ export default function () {
 
     </Box>
   );
+}
+
+
+
+
+const EditBasicMarquee = ({ baseMarqueeValue, setBaseMarqueeValue,
+  color, setColor,
+  fontSize, setFontSize,
+  time, setTime
+
+}) => {
+
+  const onChangeBasicMarquee = (event) => {
+    setBaseMarqueeValue(event.target.value);
+  }
+
+
+  const [isColorPickerOpen, setIsColorPickerOpen] = useState(false);
+
+
+  return <Box>
+    <TextField
+      fullWidth
+      label="简单跑马灯"
+      multiline
+      rows={20}
+      value={baseMarqueeValue}
+      onChange={onChangeBasicMarquee}
+    />
+
+    <Box mt={1}></Box>
+    <TextField
+      label="时间"
+      type="number"
+      InputLabelProps={{
+        shrink: true,
+      }}
+      variant="filled"
+      value={time}
+      onChange={(event) => { setTime(event.target.value) }}
+    />
+
+    <Box mb={2}>
+      <div>
+        <label>文字颜色</label>
+        <br />
+        <TextField value={color} onChange={e => setColor(e.target.value)} />
+        <IconButton onClick={() => setIsColorPickerOpen(!isColorPickerOpen)}>
+          <ColorLensIcon />
+        </IconButton>
+        {isColorPickerOpen && <HexColorPicker color={color} onChange={setColor} />}
+      </div>
+    </Box>
+    <Box mt={1}></Box>
+
+    <TextField
+      label="文字大小"
+      type="number"
+      InputLabelProps={{
+        shrink: true,
+      }}
+      variant="filled"
+      value={fontSize}
+      onChange={(event) => { setFontSize(event.target.value) }}
+    />
+  </Box>
 }

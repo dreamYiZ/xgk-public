@@ -11,6 +11,7 @@ import SubRenderEcharts from './cpnt/subRenderEcharts';
 import SubRenderSprite from "./cpnt/SubRenderSprite";
 import SubRenderTime from "./cpnt/SubRenderTime";
 import SubRenderVideo from "./cpnt/SubRenderVideo";
+import SubRenderMarquee from "./cpnt/SubRenderMarquee";
 
 
 const MAP_SUB_RENDER = {
@@ -27,6 +28,7 @@ const MAP_SUB_RENDER = {
   [SUB_TYPE.SPRITE_B]: SubRenderSprite,
   [SUB_TYPE.TIME]: SubRenderTime,
   [SUB_TYPE.VIDEO]: SubRenderVideo,
+  [SUB_TYPE.MARQUEE]: SubRenderMarquee,
 }
 
 

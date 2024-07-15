@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import useGlobal from "../store/useGlobal";
-import { FRAMEWORK_ID_SELECTOR, FRAMEWORK_ID } from "../util/util";
+import { FRAMEWORK_ID_SELECTOR, FRAMEWORK_ID, ppplog } from "../util/util";
 
 export default function () {
   const [show, setShow] = useState(false);
@@ -20,10 +20,9 @@ export default function () {
   };
 
   const handleKeyUp = (event) => {
-    if (event.key === 'v') {
-      clearTimeout(keyPressTimeout);
-      setKeyUpHide(true);
-    }
+    ppplog('event.key', event.key)
+    clearTimeout(keyPressTimeout);
+    setKeyUpHide(true);
   };
 
 

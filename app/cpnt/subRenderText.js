@@ -5,7 +5,7 @@ import localFont from 'next/font/local'
 import { useState, useEffect } from "react";
 
 
-function SubRenderText(sub) {
+function SubRenderText({ sub }) {
   const style = {
     fontSize: `${sub.fontSize}px`,
     fontWeight: sub.fontWeight,
@@ -39,6 +39,7 @@ function SubRenderText(sub) {
 
   // only woff2 font support test
   useEffect(() => {
+
     if (sub.font !== null && sub.font !== '') {
       setFontFace(`
       @font-face {

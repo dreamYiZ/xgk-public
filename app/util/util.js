@@ -385,14 +385,17 @@ export const createBoxVideo = () => {
 
 export const BASIC_PAYLOAD_MARQUEE = {
   data: [],
-  marqueeType: MARQUEE_TYPE.BASIC
+  marqueeType: MARQUEE_TYPE.BASIC,
+  color: '#000000',
+  fontSize: 26,
+  time: 16,
 }
 
 export const createMarquee = () => {
   return {
     ...createBoxPayload(),
-    width: '600px',
-    height: '500px',
+    width: '400px',
+    height: '200px',
     sub: {
       type: SUB_TYPE.MARQUEE,
       ...BASIC_PAYLOAD_MARQUEE
