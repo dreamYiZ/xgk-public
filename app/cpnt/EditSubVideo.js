@@ -11,6 +11,7 @@ import { useDropzone } from 'react-dropzone';
 import { Typography } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import ColorLensIcon from '@mui/icons-material/ColorLens';
+import DrawerEditLayout from "./DrawerEditLayout";
 
 
 
@@ -19,10 +20,8 @@ export default function () {
   const activeBoxId = useBoxStore((state) => state.activeBoxId);
   const activeBox = useMemo(() => boxArr.find((box) => box.boxid === activeBoxId), [boxArr, activeBoxId]);
   const sub = useMemo(() => activeBox?.sub, [activeBox, activeBoxId]);
+  const [isOpen, setIsOpen] = useState(false);
 
-  const [fontSize, setFontSize] = useState(sub?.fontSize.replace('px', '') || '');
-  const [color, setColor] = useState(sub?.color || '');
-  const [isColorPickerOpen, setIsColorPickerOpen] = useState(false);
 
   const changeById = useBoxStore(state => state.changeById);
 
@@ -31,39 +30,29 @@ export default function () {
       changeById(activeBox.boxid, {
         sub: {
           ...sub,
-          fontSize: fontSize,
-          color: color,
         },
       });
     }
   };
 
+  const saveChange = () => {
+
+  }
+
   useEffect(() => {
-    if (sub) {
-      setFontSize(sub?.fontSize?.replace('px', '') || '');
-      setColor(sub.color || '');
-    }
+
   }, [sub, activeBoxId]);
 
   return (
     <Box my={2}>
-      <Box mb={2}>
-        <TextField label="字体大小 (px)" value={fontSize} onChange={e => setFontSize(e.target.value)} />
-      </Box>
-      <Box mb={2}>
-        <div>
-          <label>颜色</label>
-          <br />
-          <TextField value={color} onChange={e => setColor(e.target.value)} />
-          <IconButton onClick={() => setIsColorPickerOpen(!isColorPickerOpen)}>
-            <ColorLensIcon />
-          </IconButton>
-          {isColorPickerOpen && <HexColorPicker color={color} onChange={setColor} />}
-        </div>
-      </Box>
-      <Box>
-        <Button variant="contained" color="primary" onClick={handleSave}>保存</Button>
-      </Box>
+
+      <DrawerEditLayout saveChange={saveChange}
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        buttonText="编辑数据"
+      >
+      </DrawerEditLayout>
+
     </Box>
   );
 }

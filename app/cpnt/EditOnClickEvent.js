@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import Drawer from '@mui/material/Drawer';
 import useBoxStore from '../store/useBo';
 import { useState, useMemo, useEffect } from 'react';
-import ChartEditorLayout from "./ChartEditorLayout";
+import ChartEditorLayout from "./DrawerEditLayout";
 import SeriesRecordEdit from "./SeriesRecordEdit";
 import ChartColorEdit from "./ChartColorEdit";
 import ChartLabelEdit from "./ChartLabelEdit";

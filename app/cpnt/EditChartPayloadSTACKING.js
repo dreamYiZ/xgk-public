@@ -6,7 +6,7 @@ import useBoxStore from '../store/useBo';
 import { useState, useMemo, useEffect } from 'react';
 import SeriesRecordEdit from "./SeriesRecordEdit";
 import ppplog from "ppplog";
-import ShowDataEditorWhenNecessaryNessLayout from "./ChartEditorLayout";
+import ShowDataEditorWhenNecessaryNessLayout from "./DrawerEditLayout";
 import ChartColorEdit from "./ChartColorEdit";
 import ChartLabelEdit from "./ChartLabelEdit";
 import { BASIC_PAYLOAD_BAR_CHART } from "../util/util";

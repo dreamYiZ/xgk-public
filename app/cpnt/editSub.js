@@ -12,6 +12,7 @@ import EditSubMuiChartSparkLine from "./EditSubMuiChartSparkLine";
 import EditSubEcharts from "./editSubEcharts";
 import EditSubSprite from "./EditSubSprite"
 import EditSubTime from "./EditSubTime"
+import EditSubVideo from "./EditSubVideo"
 
 
 const MAP_SUB_EDIT = {
@@ -27,6 +28,7 @@ const MAP_SUB_EDIT = {
   [SUB_TYPE.SPRITE]: EditSubSprite,
   [SUB_TYPE.SPRITE_B]: EditSubSprite,
   [SUB_TYPE.TIME]: EditSubTime,
+  [SUB_TYPE.VIDEO]: EditSubVideo,
 
 
 }
