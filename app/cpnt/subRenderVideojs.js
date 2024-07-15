@@ -6,19 +6,19 @@ import VideoJS from './videoJsWrap';
 const RenderVideoJs = ({ sub }) => {
   const playerRef = React.useRef(null);
 
-  const videoJsOptions = {
-    autoplay: true,
-    controls: true,
-    responsive: true,
-    fluid: true,
-    sources: [{
-      src: '/path/to/video.mp4',
-      type: 'video/mp4'
-    }]
-  };
+  // const videoJsOptions = {
+  //   autoplay: true,
+  //   controls: true,
+  //   responsive: true,
+  //   fluid: true,
+  //   sources: [{
+  //     src: '/path/to/video.mp4',
+  //     type: 'video/mp4'
+  //   }]
+  // };
 
 
-  const [videoJsOptionsState, setVideoJsOptionsState] = useState(videoJsOptions);
+  const [videoJsOptionsState, setVideoJsOptionsState] = useState(null);
 
 
   const handlePlayerReady = (player) => {
@@ -46,7 +46,7 @@ const RenderVideoJs = ({ sub }) => {
 
   return (
     <>
-      <VideoJS options={videoJsOptionsState} onReady={handlePlayerReady} />
+     {videoJsOptionsState && <VideoJS options={videoJsOptionsState} onReady={handlePlayerReady} />}
     </>
   );
 }

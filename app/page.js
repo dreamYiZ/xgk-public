@@ -146,8 +146,6 @@ export default function Home() {
   //   ppplog('boxArr-from-page:', boxArr)
   // }, [])
 
-  ppplog('NEXT_PUBLIC_INIT', process.env.NEXT_PUBLIC_INIT)
-
   useEffect(() => {
     if (process.env.NEXT_PUBLIC_INIT &&
       process.env.NEXT_PUBLIC_INIT === 'AUTO'

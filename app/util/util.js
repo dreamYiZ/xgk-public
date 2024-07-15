@@ -7,6 +7,7 @@ import {
   SPRINT_STATUS,
   SPRINT_STATUS_DISPLAY
 } from "./spriteType";
+import { MARQUEE_TYPE, MARQUEE_TYPE_DISPLAY } from "./marqueeType";
 
 
 
@@ -382,8 +383,9 @@ export const createBoxVideo = () => {
 
 
 
-export const BASIC_PAYLOAD_MARQUEE ={
-  data: []
+export const BASIC_PAYLOAD_MARQUEE = {
+  data: [],
+  marqueeType: MARQUEE_TYPE.BASIC
 }
 
 export const createMarquee = () => {
@@ -583,18 +585,28 @@ export const getRelativePosY = (y) => {
 
 export { loadInitConfig } from "./init";
 export { default as generateLicense } from "./generateLicense"
-export { ANIMATE_TYPES_DISPLAY, ANIMATE_TYPES, ANIMATE_TIME_FUNCTION_TYPES, ANIMATE_TIME_FUNCTION_TYPES_DISPLAY } from "./animateType";
+export {
+  ANIMATE_TYPES_DISPLAY,
+  ANIMATE_TYPES,
+  ANIMATE_TIME_FUNCTION_TYPES,
+  ANIMATE_TIME_FUNCTION_TYPES_DISPLAY
+} from "./animateType";
 export { SUB_TYPE_DISPLAY } from "./subType";
 export { SUB_TYPE }
 export { mergeSub } from "./mergeSub";
 export { default as Bideo } from "./bbv";
-export { CMD, CMD_DISPLAY, CMD_TIME, CMD_TIME_DISPLAY } from "./command";
+export {
+  CMD,
+  CMD_DISPLAY, CMD_TIME,
+  CMD_TIME_DISPLAY
+} from "./command";
 export { xgkConsole } from "./xgk";
 export { ppplog };
 export { throttle, debounce };
 export {
   SPRINT_STATUS, SPRINT_STATUS_DISPLAY
-}
+};
+export { MARQUEE_TYPE, MARQUEE_TYPE_DISPLAY } from "./marqueeType";
 
 
 export const MAP_TYPE_FACTORY = {

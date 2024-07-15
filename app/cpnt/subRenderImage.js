@@ -64,14 +64,14 @@ function SubRenderImage({ box, sub }) {
   }, sub?.be)
 
 
-  useEffect(() => {
-    ppplog('boxArr-from-sub-render-image:', boxArr)
-  }, [boxArr])
+  // useEffect(() => {
+  //   ppplog('boxArr-from-sub-render-image:', boxArr)
+  // }, [boxArr])
 
 
-  useEffect(() => {
-    ppplog('eventArr-from-sub-render-image:', eventArr)
-  }, [eventArr])
+  // useEffect(() => {
+  //   ppplog('eventArr-from-sub-render-image:', eventArr)
+  // }, [eventArr])
 
 
 
