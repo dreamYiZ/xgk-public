@@ -29,8 +29,6 @@ const MAP_SUB_EDIT = {
   [SUB_TYPE.SPRITE_B]: EditSubSprite,
   [SUB_TYPE.TIME]: EditSubTime,
   [SUB_TYPE.VIDEO]: EditSubVideo,
-
-
 }
 
 function EditSub() {

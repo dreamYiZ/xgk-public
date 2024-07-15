@@ -51,7 +51,10 @@ export default function () {
     if (activeBoxId && sub) {
       if (sub?.videoJsOptions?.sources?.length > 0) {
         setVideoUrl(sub?.videoJsOptions?.sources[0]?.src)
+      }else{
+        setVideoUrl('')
       }
+
     }
 
   }, [sub, activeBoxId]);
