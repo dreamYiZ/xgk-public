@@ -14,6 +14,7 @@ import SubRenderVideo from "./cpnt/SubRenderVideo";
 import SubRenderMarquee from "./cpnt/SubRenderMarquee";
 import SubRenderTable from "./cpnt/SubRenderTable";
 import SubRenderTableOneRow from "./cpnt/SubRenderTableOneRow";
+import SubRenderSwiper from "./cpnt/SubRenderSwiper";
 
 
 const MAP_SUB_RENDER = {
@@ -33,6 +34,7 @@ const MAP_SUB_RENDER = {
   [SUB_TYPE.MARQUEE]: SubRenderMarquee,
   [SUB_TYPE.TABLE]: SubRenderTable,
   [SUB_TYPE.TABLE_ONE_ROW_ANIMATE]: SubRenderTableOneRow,
+  [SUB_TYPE.SWIPER]: SubRenderSwiper,
 }
 
 

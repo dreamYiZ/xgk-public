@@ -10,6 +10,7 @@ import {
 import { MARQUEE_TYPE, MARQUEE_TYPE_DISPLAY } from "./marqueeType";
 
 
+const DEMO_FACE_URL = '/demo-face.jpeg'
 
 export { p, FRAMEWORK_ID, FRAMEWORK_ID_SELECTOR } from "./cfg"
 
@@ -451,7 +452,17 @@ export const createBoxTableOneRow = () => {
 }
 
 const BASIC_PAYLOAD_SWIPER = {
-
+  data: [
+    ...new Array(10).fill().map((i, idx) => {
+      return {
+        id: uuidv4(),
+        faceUrl: DEMO_FACE_URL,
+        name: `Demo-${idx}`,
+        description: `Demo description-${idx}`,
+        comment: []
+      }
+    })
+  ]
 }
 
 export const createBoxSwiper = () => {
