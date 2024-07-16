@@ -46,9 +46,7 @@ function SidePanel() {
 
   const [isFullScreenAuto, setIsFullScreenAuto] = useState('no')
 
-  useEffect(() => {
-    ppplog('isFullScreenAuto', isFullScreenAuto)
-  }, [isFullScreenAuto])
+
 
   const handleChange = (event) => {
     setMode(event.target.value);
