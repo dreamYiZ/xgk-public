@@ -450,6 +450,22 @@ export const createBoxTableOneRow = () => {
   }
 }
 
+const BASIC_PAYLOAD_SWIPER = {
+
+}
+
+export const createBoxSwiper = () => {
+  return {
+    ...createBoxPayload(),
+    width: '500px',
+    height: '400px',
+    sub: {
+      type: SUB_TYPE.SWIPER,
+      ...BASIC_PAYLOAD_SWIPER
+    }
+  }
+}
+
 
 
 export const createMarketTemplates = () => {
@@ -690,4 +706,5 @@ export const MAP_TYPE_FACTORY = {
   [SUB_TYPE.MARQUEE]: createMarquee,
   [SUB_TYPE.TABLE]: createBoxTable,
   [SUB_TYPE.TABLE_ONE_ROW_ANIMATE]: createBoxTableOneRow,
+  [SUB_TYPE.SWIPER]: createBoxSwiper,
 };
