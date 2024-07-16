@@ -1,5 +1,5 @@
 import React from 'react';
-import { ppplog, TIME_TYPE, MARQUEE_TYPE } from "../util/util";
+import { maybeNumberOr, ppplog, TIME_TYPE, MARQUEE_TYPE } from "../util/util";
 import classes from "./SubRenderMarquee.module.sass";
 import RenderBasicTable from "./RenderBasicTable";
 import { useEffect, useState, useRef } from "react";
@@ -20,6 +20,7 @@ export default function (
     color,
     nameFontSize,
     descFontSize,
+    timeDuration,
     commentFontSize } = sub;
 
   const styleObj = {
@@ -29,7 +30,6 @@ export default function (
     commentFontSize,
   }
 
-  ppplog('data', data)
 
 
   useEffect(() => {
@@ -49,7 +49,7 @@ export default function (
         progress: (s, progress) => console.log(`progress is ${progress}`),
       }}
       autoplay={{
-        delay: 2000,
+        delay: maybeNumberOr(timeDuration * 1000, 3000),
       }}
       loop={true}
     >
@@ -65,7 +65,6 @@ export default function (
 
 
 const SwiperSlideItem = ({ person, styleObj }) => {
-  ppplog('person.faceUrl', person.faceUrl)
   return <SwiperSlide>
     <Box>
 

@@ -467,6 +467,7 @@ const BASIC_PAYLOAD_SWIPER = {
   nameFontSize: 28,
   descFontSize: 22,
   commentFontSize: 22,
+  timeDuration: 3,
 }
 
 export const createBoxSwiper = () => {
@@ -630,6 +631,14 @@ export const canToBeNumber = (stringOrNumber) => {
   // Check if the string representation of the parsed number is the same as the original string
   return !isNaN(number) && number.toString() === stringOrNumber.toString();
 };
+
+export const maybeNumberOr = (someNumber, defaultValue)=>{
+  if(canToBeNumber(someNumber)){
+    return parseFloat(someNumber)
+  }
+
+  return defaultValue
+}
 
 // A debounce function that takes a function and a delay as parameters
 function debounce(func, delay) {
