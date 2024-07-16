@@ -8,7 +8,7 @@ import { Dialog, DialogTitle, DialogContent, TextField, DialogActions, Button } 
 import { p as sp, generateLicense, loadInitConfig } from "../util/util";
 
 function ControlView(config) {
-  const { mode, setMode, version, hideWhenDisplaying, showWhenEditing, license } = useGlobalStore();
+  const { mode, setMode, version, setVersion,hideWhenDisplaying, showWhenEditing, license } = useGlobalStore();
 
   const [keyPressCount, setKeyPressCount] = useState(0);
   const [lastKey, setLastKey] = useState(null);
@@ -83,6 +83,15 @@ function ControlView(config) {
     }
 
   }, [license]);
+
+  useEffect(() => {
+
+    setVersion(process.env.NEXT_PUBLIC_VERSION);
+
+    return () => {
+
+    }
+  }, [])
 
 
 

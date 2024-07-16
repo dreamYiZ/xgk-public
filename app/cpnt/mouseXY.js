@@ -20,7 +20,6 @@ export default function () {
   };
 
   const handleKeyUp = (event) => {
-    ppplog('event.key', event.key)
     clearTimeout(keyPressTimeout);
     setKeyUpHide(true);
   };

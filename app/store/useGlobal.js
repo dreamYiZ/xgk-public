@@ -51,7 +51,8 @@ const useGlobalStore = create(persist(
     toggleScaleToFill: () => set((state) => ({ scaleToFill: !state.scaleToFill })),
     setApi: (api) => set(() => ({ api: api })),
     setBgVideo: (bgVideo) => set(() => ({ bgVideo: bgVideo })),
-    setIsFullScreenAutoBoolean: (isFullScreenAuto) => set(() => ({ isFullScreen: isFullScreenAuto }))
+    setIsFullScreenAutoBoolean: (isFullScreenAuto) => set(() => ({ isFullScreen: isFullScreenAuto })),
+    setVersion : (version) => set(() => ({ version: version})),
   }),
   {
     name: 'global-storage',
