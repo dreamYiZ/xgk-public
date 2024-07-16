@@ -462,7 +462,11 @@ const BASIC_PAYLOAD_SWIPER = {
         comment: []
       }
     })
-  ]
+  ],
+  color: '#000000',
+  nameFontSize: 28,
+  descFontSize: 22,
+  commentFontSize: 22,
 }
 
 export const createBoxSwiper = () => {

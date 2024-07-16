@@ -16,7 +16,18 @@ export default function (
 ) {
 
 
-  const { data } = sub;
+  const { data,
+    color,
+    nameFontSize,
+    descFontSize,
+    commentFontSize } = sub;
+
+  const styleObj = {
+    color,
+    nameFontSize,
+    descFontSize,
+    commentFontSize,
+  }
 
   ppplog('data', data)
 
@@ -44,7 +55,7 @@ export default function (
     >
 
       {data.map(person => {
-        return <SwiperSlideItem key={person.id} person={person} />
+        return <SwiperSlideItem styleObj={styleObj} key={person.id} person={person} />
       })}
 
 
@@ -53,7 +64,7 @@ export default function (
 }
 
 
-const SwiperSlideItem = ({ person }) => {
+const SwiperSlideItem = ({ person, styleObj }) => {
   ppplog('person.faceUrl', person.faceUrl)
   return <SwiperSlide>
     <Box>
@@ -65,7 +76,42 @@ const SwiperSlideItem = ({ person }) => {
           sx={{ width: 56, height: 56 }}
         />
       </Box>
+
+      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+        <Box sx={{ fontSize: `${styleObj.nameFontSize}px`, color: styleObj.color }}>
+          {person.name}
+        </Box>
+      </Box>
+
+      <Box sx={{ display: 'flex', justifyContent: 'center', textAlign: "center" }}>
+        <Box sx={{ fontSize: `${styleObj.descFontSize}px`, color: styleObj.color }}>
+          {person.description}
+        </Box>
+      </Box>
+
+      <Comments comment={person?.comment} />
     </Box>
 
   </SwiperSlide>
+}
+
+
+const Comments = ({ comment }) => {
+  if (!comment || !comment.length) {
+    return null;
+  }
+
+  return <Box>
+    <Box>
+
+    </Box>
+    <Box>
+      {comment.map(oneComment => {
+        return <Box key={oneComment?.id}>
+          {oneComment}
+        </Box>
+      })}
+
+    </Box>
+  </Box>
 }
