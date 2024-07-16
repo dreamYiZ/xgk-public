@@ -32,11 +32,7 @@ export default function (
 
 
 
-  useEffect(() => {
 
-    return () => {
-    }
-  }, [sub]);
 
   return <div style={{ width: box.width, height: box.height, }} >
 
@@ -45,8 +41,12 @@ export default function (
       slidesPerView={3}
       breakpoints={{ 768: { slidesPerView: 4 } }}
       on={{
-        slideChange: () => console.log('slide changed'),
-        progress: (s, progress) => console.log(`progress is ${progress}`),
+        slideChange: () => {
+          // console.log('slide changed')
+        },
+        progress: (s, progress) => {
+          // console.log(`progress is ${progress}`)
+        },
       }}
       autoplay={{
         delay: maybeNumberOr(timeDuration * 1000, 3000),
