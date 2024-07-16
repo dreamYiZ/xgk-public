@@ -14,11 +14,9 @@ export default function (
 
 ) {
   const { tableHead, pageRowCount, data, timeDuration } = sub;
-  console.log('timeDuration', timeDuration);
 
   const tableData = data;
 
-  console.log('tableData', tableData);
 
   const [currentTableData, setCurrentTableData] = useState([]);
   const currentIndex = useRef(0)
@@ -93,7 +91,6 @@ export default function (
     }
   }, []);
 
-  console.log('currentTableData', currentTableData);
 
 
 

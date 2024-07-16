@@ -434,6 +434,8 @@ export const BASIC_PAYLOAD_TABLE_ONE_ROW = {
   borderColor: '#000000',
   pageRowCount: 5,
   timeDuration: 6,
+  lineHeight: 40,
+
 }
 
 export const createBoxTableOneRow = () => {
