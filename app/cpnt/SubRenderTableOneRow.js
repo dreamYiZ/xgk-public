@@ -6,10 +6,11 @@ import { useEffect, useState, useRef } from "react";
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
 
 
 
-const TR_MIN_HEIGHT = 40;
+
 
 
 
@@ -17,14 +18,16 @@ export default function (
   { box, sub }
 
 ) {
-  const { tableHead, pageRowCount, data, timeDuration, isEndFollowStart } = sub;
+  const { tableHead, pageRowCount, data: tableData, timeDuration, color, borderColor, headFontSize,
 
-  const tableData = data;
+    fontSize, lineHeight, isEndFollowStart } = sub;
+
 
 
   const [currentTableData, setCurrentTableData] = useState([]);
   const currentIndex = useRef(0)
   const timeoutId = useRef(null)
+  const animateTimeoutIdRef = useRef(null)
 
   const [animateClassName, setAnimateClassName] = useState('');
   const [animateRestClassName, setRestAnimateClassName] = useState('');
@@ -32,9 +35,14 @@ export default function (
   const [comeOnData, setComeOnData] = useState([]);
 
   const [borderStyle, setBorderStyle] = useState({
-    // border: '1px solid black',
+    // border: `1px solid ${borderColor}`,
     // borderCollapse: 'collapse'
+
+    // fontSize,
+
   })
+
+
 
 
   useEffect(() => {
@@ -66,7 +74,7 @@ export default function (
       }
 
 
-      setTimeout(() => {
+      animateTimeoutIdRef.current = setTimeout(() => {
         setAnimateClassName('animate__animated');
         setRestAnimateClassName('animate__animated');
         setComeOnAnimateClassName('animate__animated');
@@ -107,8 +115,9 @@ export default function (
 
     return () => {
       clearTimeout(timeoutId.current);
+      clearTimeout(animateTimeoutIdRef.current);
     }
-  }, []);
+  }, [sub]);
 
 
 
@@ -118,7 +127,7 @@ export default function (
 
       <tr>
         {tableHead.map((th, idx) => {
-          return <th style={{ ...borderStyle, textAlign: "center" }} key={idx}>{th}</th>
+          return <th style={{ ...borderStyle, textAlign: "center", fontSize: `${headFontSize}px` }} key={idx}>{th}</th>
         })}
 
       </tr>
@@ -129,13 +138,13 @@ export default function (
         if (idx === 0) {
           return <tr key={idx} className={animateClassName}
             style={{
-              minHeight: `${TR_MIN_HEIGHT}px`,
+              minHeight: `${lineHeight}px`,
             }}
           >
             {
               tr.map((td, __idx) => {
                 return <td style={{ textAlign: "center", ...borderStyle }} key={__idx}>
-                  <TableCellTd>{td}</TableCellTd>
+                  <TableCellTd lineHeight={lineHeight} color={color} fontSize={fontSize}>{td}</TableCellTd>
                 </td>
               })
             }
@@ -144,7 +153,7 @@ export default function (
 
         return <tr key={idx} className={animateRestClassName}
           style={{
-            minHeight: `${TR_MIN_HEIGHT}px`,
+            minHeight: `${lineHeight}px`,
 
           }}>
           {/* return <tr key={idx} > */}
@@ -156,7 +165,7 @@ export default function (
                   ...borderStyle
                 }}
                 key={__idx}>
-                <TableCellTd>{td}</TableCellTd>
+                <TableCellTd lineHeight={lineHeight} color={color} fontSize={fontSize}>{td}</TableCellTd>
               </td>
             })
           }
@@ -167,7 +176,7 @@ export default function (
         comeOnData && comeOnData.length > 0 && <tr className={animateComeOnClassName}
 
           style={{
-            minHeight: `${TR_MIN_HEIGHT}px`,
+            minHeight: `${lineHeight}px`,
 
           }}
         >
@@ -177,9 +186,8 @@ export default function (
                 textAlign: "center",
                 transform: "translateY(-100%)",
                 ...borderStyle
-
               }} key={__idx}>
-                <TableCellTd>{td}</TableCellTd>
+                <TableCellTd lineHeight={lineHeight} color={color} fontSize={fontSize}>{td}</TableCellTd>
               </td>
             })
           }
@@ -191,11 +199,13 @@ export default function (
 }
 
 
-const TableCellTd = ({ children }) => {
+const TableCellTd = ({ children, lineHeight, color, fontSize }) => {
   return <Box sx={{
     display: "block",
-    minHeight: `${TR_MIN_HEIGHT}px`,
-    lineHeight: `${TR_MIN_HEIGHT}px`,
+    minHeight: `${lineHeight}px`,
+    lineHeight: `${lineHeight}px`,
+    color,
+    fontSize: `${fontSize}px`
   }}>
     {children}
   </Box>

@@ -17,7 +17,7 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
-import { MARQUEE_TYPE, MARQUEE_TYPE_DISPLAY, ppplog } from "../util/util";
+import { safeNumberIfString, MARQUEE_TYPE, MARQUEE_TYPE_DISPLAY, ppplog } from "../util/util";
 import { forwardRef, useImperativeHandle, useRef } from "react";
 import InputLabel from '@mui/material/InputLabel';
 import OutlinedInput from '@mui/material/OutlinedInput';
@@ -28,6 +28,9 @@ import "ace-builds/src-noconflict/theme-monokai";
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
+import ColorField from "./ColorField";
+import Checkbox from '@mui/material/Checkbox';
+import Grid from '@mui/material/Grid';
 
 
 export default function () {
@@ -49,6 +52,7 @@ export default function () {
 
   const [color, setColor] = useState();
   const [fontSize, setFontSize] = useState();
+  const [headFontSize, setHeadFontSize] = useState();
   const [time, setTime] = useState();
   const [borderColor, setBorderColor] = useState();
   const [pageRowCount, setPageRowCount] = useState();
@@ -89,6 +93,14 @@ export default function () {
           ...sub,
           tableHead: newHead,
           data,
+          color: color,
+          borderColor,
+          fontSize: safeNumberIfString(fontSize),
+          pageRowCount: safeNumberIfString(pageRowCount),
+          timeDuration: safeNumberIfString(timeDuration),
+          lineHeight: safeNumberIfString(lineHeight),
+          isEndFollowStart: safeNumberIfString(isEndFollowStart),
+          headFontSize: safeNumberIfString(headFontSize),
         },
       });
     }
@@ -106,16 +118,15 @@ export default function () {
 
       setColor(sub.color);
       setFontSize(sub.fontSize);
-      setTime(sub.time);
       setBorderColor(sub.borderColor);
       setPageRowCount(sub.pageRowCount);
       setTimeDuration(sub.timeDuration);
       setLineHeight(sub.lineHeight);
       setIsEndFollowStart(sub.isEndFollowStart);
+      setHeadFontSize(sub.headFontSize);
     }
   }, [sub, activeBoxId]);
 
-  console.log('tabIndex', tabIndex);
 
   return (
     <Box my={2}>
@@ -179,10 +190,34 @@ export default function () {
           </Box>
         </Box>
 
-        <Box sx={{}} hidden={tabIndex !== 1}>
+        <Box sx={{}} hidden={tabIndex !== 1} >
+          {/* <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "flex-start" }}> */}
 
+          <ColorField label="颜色" value={color} onChange={(event) => setColor(event)} />
+          <Box mt={1}></Box>
+          <ColorField label="边框颜色" value={borderColor} onChange={(event) => setBorderColor(event)} />
+          <Box mt={1}></Box>
+          <TextField value={headFontSize} onChange={(event) => setHeadFontSize(event.target.value)} type="number" label="表头字体大小" variant="outlined" />
+          <Box mt={1}></Box>
+          <TextField value={fontSize} onChange={(event) => setFontSize(event.target.value)} type="number" label="字体大小" variant="outlined" />
+          <Box mt={1}></Box>
 
+          <TextField value={pageRowCount} onChange={(event) => setPageRowCount(event.target.value)} type="number" label="一页多少个" variant="outlined" />
+          <Box mt={1}></Box>
+
+          <TextField value={timeDuration} onChange={(event) => setTimeDuration(event.target.value)} type="number" label="动画间隔" variant="outlined" />
+          <Box mt={1}></Box>
+
+          <TextField value={lineHeight} onChange={(event) => setLineHeight(event.target.value)} type="number" label="行高" variant="outlined" />
+
+          <Box mt={1}></Box>
+
+          <FormControlLabel control={<Checkbox onChange={(event) => setIsEndFollowStart(event.target.value)} checked={isEndFollowStart} />} label="循环连接" />
+
+          {/* </Box> */}
         </Box>
+
+
       </DrawerEditLayout>
 
     </Box>

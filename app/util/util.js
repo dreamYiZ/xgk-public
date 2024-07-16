@@ -430,12 +430,12 @@ export const BASIC_PAYLOAD_TABLE_ONE_ROW = {
   data: [...new Array(10).fill(1).map((i, idx) => [idx * 1, idx * 2, idx * 3, idx * 4])],
   color: '#000000',
   fontSize: 26,
-  time: 16,
   borderColor: '#000000',
   pageRowCount: 5,
   timeDuration: 6,
   lineHeight: 40,
   isEndFollowStart: true,
+  headFontSize: 28
 }
 
 export const createBoxTableOneRow = () => {
@@ -578,6 +578,20 @@ export const pxToNumber = (pxValue) => {
     return parseFloat(pxValue.replace('px', ''));
   }
   return pxValue
+}
+
+export const safeNumberIfString = (maybeNumber) => {
+  if (typeof maybeNumber === 'number') {
+    return maybeNumber;
+  }
+  if (typeof maybeNumber === 'string') {
+    let parsed = parseFloat(maybeNumber);
+    if (typeof parsed === 'number') {
+      return parsed;
+    }
+    return 10
+  }
+  return 10
 }
 
 export const canToBeNumber = (stringOrNumber) => {
