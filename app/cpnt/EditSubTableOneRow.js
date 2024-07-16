@@ -6,7 +6,6 @@ import MenuItem from '@mui/material/MenuItem';
 import { HexColorPicker } from 'react-colorful';  // 引入颜色选择器
 import { ANIMATE_TIME_FUNCTION_TYPES_DISPLAY, ANIMATE_TIME_FUNCTION_TYPES, ANIMATE_TYPES, ANIMATE_TYPES_DISPLAY } from "../util/util";
 import { useCallback, useState, useMemo, useEffect } from 'react';
-import { Box } from '@mui/system';  // 引入 Box 组件
 import { useDropzone } from 'react-dropzone';
 import { Typography } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
@@ -26,6 +25,9 @@ import InputAdornment from '@mui/material/InputAdornment';
 import AceEditor from "react-ace";
 import "ace-builds/src-noconflict/mode-json";
 import "ace-builds/src-noconflict/theme-monokai";
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Box from '@mui/material/Box';
 
 
 export default function () {
@@ -42,6 +44,17 @@ export default function () {
 
   const [tableHeadString, setTableHeadString] = useState(''); //
 
+  const [tabIndex, setTabIndex] = useState(0);
+
+
+  const [color, setColor] = useState();
+  const [fontSize, setFontSize] = useState();
+  const [time, setTime] = useState();
+  const [borderColor, setBorderColor] = useState();
+  const [pageRowCount, setPageRowCount] = useState();
+  const [timeDuration, setTimeDuration] = useState();
+  const [lineHeight, setLineHeight] = useState();
+  const [isEndFollowStart, setIsEndFollowStart] = useState();
 
 
 
@@ -89,8 +102,20 @@ export default function () {
 
       setTableHeadString(tableHead?.join(","));
       setOption(JSON.stringify(data, null, 2));
+
+
+      setColor(sub.color);
+      setFontSize(sub.fontSize);
+      setTime(sub.time);
+      setBorderColor(sub.borderColor);
+      setPageRowCount(sub.pageRowCount);
+      setTimeDuration(sub.timeDuration);
+      setLineHeight(sub.lineHeight);
+      setIsEndFollowStart(sub.isEndFollowStart);
     }
   }, [sub, activeBoxId]);
+
+  console.log('tabIndex', tabIndex);
 
   return (
     <Box my={2}>
@@ -101,48 +126,62 @@ export default function () {
         buttonText="编辑数据"
         title="表格"
       >
-        <Box>
 
+        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+          <Tabs value={tabIndex} onChange={(event, newValue) => setTabIndex(newValue)} aria-label="basic tabs example">
+            <Tab label="数据" />
+            <Tab label="样式" />
+          </Tabs>
         </Box>
+
         <Box mt={1}></Box>
-        <FormControl fullWidth sx={{ m: 1 }}>
-          <InputLabel htmlFor="outlined-column-name">表头逗号间隔</InputLabel>
-          <OutlinedInput
-            id="outlined-column-name"
-            startAdornment={<InputAdornment position="start">  </InputAdornment>}
-            label="Amount"
-            value={tableHeadString}
-            onChange={(event) => {
-              setTableHeadString(event.target.value);
-            }}
-          />
-        </FormControl>
 
-        <Typography variant="h6" component="h6">
-          数据
-        </Typography>
 
-        <Box >
-          <AceEditor
-            mode="json"
-            theme="monokai"
-            value={option}  // 使用 option 作为 value
-            onChange={setOption}  // 使用 setOption 作为 onChange 的处理函数
-            name="UNIQUE_ID_OF_DIV"
-            editorProps={{ $blockScrolling: true }}
-            fontSize={14}
-            showPrintMargin={true}
-            showGutter={true}
-            highlightActiveLine={true}
-            width={"100%"}
-            setOptions={{
-              enableBasicAutocompletion: true,
-              enableLiveAutocompletion: true,
-              enableSnippets: true,
-              showLineNumbers: true,
-              tabSize: 2,
-            }}
-          />
+        <Box sx={{}} hidden={tabIndex !== 0}>
+          <FormControl fullWidth sx={{ m: 1 }}>
+            <InputLabel htmlFor="outlined-column-name">表头逗号间隔</InputLabel>
+            <OutlinedInput
+              id="outlined-column-name"
+              startAdornment={<InputAdornment position="start">  </InputAdornment>}
+              label="Amount"
+              value={tableHeadString}
+              onChange={(event) => {
+                setTableHeadString(event.target.value);
+              }}
+            />
+          </FormControl>
+
+          <Typography variant="h6" component="h6">
+            数据
+          </Typography>
+
+          <Box >
+            <AceEditor
+              mode="json"
+              theme="monokai"
+              value={option}  // 使用 option 作为 value
+              onChange={setOption}  // 使用 setOption 作为 onChange 的处理函数
+              name="UNIQUE_ID_OF_DIV"
+              editorProps={{ $blockScrolling: true }}
+              fontSize={14}
+              showPrintMargin={true}
+              showGutter={true}
+              highlightActiveLine={true}
+              width={"100%"}
+              setOptions={{
+                enableBasicAutocompletion: true,
+                enableLiveAutocompletion: true,
+                enableSnippets: true,
+                showLineNumbers: true,
+                tabSize: 2,
+              }}
+            />
+          </Box>
+        </Box>
+
+        <Box sx={{}} hidden={tabIndex !== 1}>
+
+
         </Box>
       </DrawerEditLayout>
 

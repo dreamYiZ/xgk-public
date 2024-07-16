@@ -1,9 +1,13 @@
 import React from 'react';
 import { TIME_TYPE, MARQUEE_TYPE, ppplog } from "../util/util";
 import classes from "./SubRenderMarquee.module.sass";
-import { Box } from '@mui/system';  // 引入 Box 组件
 import RenderBasicTable from "./RenderBasicTable";
 import { useEffect, useState, useRef } from "react";
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Box from '@mui/material/Box';
+
+
 
 const TR_MIN_HEIGHT = 40;
 
@@ -13,7 +17,7 @@ export default function (
   { box, sub }
 
 ) {
-  const { tableHead, pageRowCount, data, timeDuration } = sub;
+  const { tableHead, pageRowCount, data, timeDuration, isEndFollowStart } = sub;
 
   const tableData = data;
 
@@ -34,7 +38,6 @@ export default function (
 
 
   useEffect(() => {
-    let pageTotal = Math.ceil((tableData.length / pageRowCount));
 
     const refreshTableData = (isFirst) => {
 
@@ -42,6 +45,7 @@ export default function (
 
       } else {
         currentIndex.current = 0;
+        isFirst = true;
       }
 
 
@@ -68,7 +72,22 @@ export default function (
         setComeOnAnimateClassName('animate__animated');
         setComeOnData([]);
 
-        let _displayData = tableData.slice(currentIndex.current, currentIndex.current + pageRowCount)
+        let _displayData
+
+        if (currentIndex.current + pageRowCount >= tableData.length) {
+
+          if (isEndFollowStart) {
+
+            _displayData = [...tableData.slice(currentIndex.current, tableData.length), ...tableData.slice(0, (currentIndex.current + pageRowCount) - tableData.length)]
+          } else {
+            _displayData = [...tableData.slice(currentIndex.current, tableData.length)]
+          }
+
+
+        } else {
+          _displayData = tableData.slice(currentIndex.current, currentIndex.current + pageRowCount)
+
+        }
         setCurrentTableData(_displayData)
       }, timeDuration * 1000 - 30)
 

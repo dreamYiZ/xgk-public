@@ -30,7 +30,7 @@ export default function ChartEditorLayout({ children, saveChange,
             <Box sx={{ paddingTop: 1 }}></Box>
 
             <Divider />
-            <Box sx={{ paddingTop: 2 }}></Box>
+            <Box sx={{ paddingTop: 1 }}></Box>
           </Box>}
 
           {children}
