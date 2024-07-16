@@ -77,7 +77,7 @@ export default function BasicTable({
     <ChartMuiTheme>
 
       <TableContainer component={Paper} sx={{ backgroundColor: "transparent", color: "#FFF" }}>
-        <Table sx={{ minWidth: 350 }} aria-label="simple table">
+        <Table sx={{ minWidth: 150 }} aria-label="simple table">
           <TableHead>
             <TableRow>
 

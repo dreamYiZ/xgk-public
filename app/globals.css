@@ -70,3 +70,7 @@ body {
 
 
 
+
+.visible-important {
+  visibility: visible !important;
+}

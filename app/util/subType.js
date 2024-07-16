@@ -14,6 +14,7 @@ export const SUB_TYPE = {
   VIDEO: 'video',
   MARQUEE: 'Marquee',
   TABLE: 'TABLE',
+  TABLE_ONE_ROW_ANIMATE: 'TABLE_ONE_ROW_ANIMATE',
 }
 
 export const SUB_TYPE_DISPLAY = {
@@ -32,4 +33,5 @@ export const SUB_TYPE_DISPLAY = {
   [SUB_TYPE.VIDEO]: '视频',
   [SUB_TYPE.MARQUEE]: '跑马灯',
   [SUB_TYPE.TABLE]: '表格',
+  [SUB_TYPE.TABLE_ONE_ROW_ANIMATE]: '表格单行滚动',
 }

@@ -15,6 +15,7 @@ import EditSubTime from "./EditSubTime"
 import EditSubVideo from "./EditSubVideo"
 import EditSubMarquee from "./EditSubMarquee"
 import EditSubTable from "./EditSubTable"
+import EditSubTableOneRow from "./EditSubTableOneRow"
 
 
 const MAP_SUB_EDIT = {
@@ -33,6 +34,7 @@ const MAP_SUB_EDIT = {
   [SUB_TYPE.VIDEO]: EditSubVideo,
   [SUB_TYPE.MARQUEE]: EditSubMarquee,
   [SUB_TYPE.TABLE]: EditSubTable,
+  [SUB_TYPE.TABLE_ONE_ROW_ANIMATE]: EditSubTableOneRow,
 }
 
 function EditSub() {

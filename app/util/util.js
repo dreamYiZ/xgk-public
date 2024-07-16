@@ -410,6 +410,7 @@ export const BASIC_PAYLOAD_TABLE = {
   color: '#000000',
   fontSize: 26,
   time: 16,
+  pageRowCount: 5,
 }
 
 export const createBoxTable = () => {
@@ -420,6 +421,29 @@ export const createBoxTable = () => {
     sub: {
       type: SUB_TYPE.TABLE,
       ...BASIC_PAYLOAD_TABLE
+    }
+  }
+}
+
+export const BASIC_PAYLOAD_TABLE_ONE_ROW = {
+  tableHead: ['一', '二', '三', '四'],
+  data: [...new Array(10).fill(1).map((i, idx) => [idx * 1, idx * 2, idx * 3, idx * 4])],
+  color: '#000000',
+  fontSize: 26,
+  time: 16,
+  borderColor: '#000000',
+  pageRowCount: 5,
+  timeDuration: 6,
+}
+
+export const createBoxTableOneRow = () => {
+  return {
+    ...createBoxPayload(),
+    width: '500px',
+    height: '400px',
+    sub: {
+      type: SUB_TYPE.TABLE_ONE_ROW_ANIMATE,
+      ...BASIC_PAYLOAD_TABLE_ONE_ROW
     }
   }
 }
@@ -649,4 +673,5 @@ export const MAP_TYPE_FACTORY = {
   [SUB_TYPE.VIDEO]: createBoxVideo,
   [SUB_TYPE.MARQUEE]: createMarquee,
   [SUB_TYPE.TABLE]: createBoxTable,
+  [SUB_TYPE.TABLE_ONE_ROW_ANIMATE]: createBoxTableOneRow,
 };
