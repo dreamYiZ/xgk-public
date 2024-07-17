@@ -463,6 +463,7 @@ const BASIC_PAYLOAD_SWIPER = {
       }
     })
   ],
+  faceWidth: 80,
   color: '#000000',
   nameFontSize: 28,
   descFontSize: 22,

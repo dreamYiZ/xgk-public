@@ -54,6 +54,7 @@ export default function () {
   const [descFontSize, setDescFontSize] = useState();
   const [commentFontSize, setCommentFontSize] = useState();
   const [timeDuration, setTimeDuration] = useState();
+  const [faceWidth, setFaceWidth] = useState();;
 
 
 
@@ -87,7 +88,7 @@ export default function () {
           nameFontSize: safeNumberIfString(nameFontSize),
           descFontSize: safeNumberIfString(descFontSize),
           commentFontSize: safeNumberIfString(commentFontSize),
-
+          faceWidth: safeNumberIfString(faceWidth),
         },
       });
     }
@@ -108,6 +109,7 @@ export default function () {
       setCommentFontSize(sub.commentFontSize)
       setColor(sub.color);
       setTimeDuration(sub.timeDuration);
+      setFaceWidth(sub.faceWidth);
     }
   }, [sub, activeBoxId]);
 
@@ -163,7 +165,8 @@ export default function () {
         </Box>
 
         <Box sx={{}} hidden={tabIndex !== 1} >
-
+          <TextField value={faceWidth} onChange={(event) => setFaceWidth(event.target.value)} type="number" label="头像宽度" variant="outlined" />
+          <Box mt={1}></Box>
           <ColorField label="颜色" value={color} onChange={(event) => setColor(event)} />
           <Box mt={1}></Box>
 

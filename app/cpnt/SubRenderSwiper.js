@@ -20,11 +20,13 @@ export default function (
     color,
     nameFontSize,
     descFontSize,
+    faceWidth,
     timeDuration,
     commentFontSize } = sub;
 
   const styleObj = {
     color,
+    faceWidth,
     nameFontSize,
     descFontSize,
     commentFontSize,
@@ -72,7 +74,7 @@ const SwiperSlideItem = ({ person, styleObj }) => {
         <Avatar
           alt="Remy Sharp"
           src={person.faceUrl}
-          sx={{ width: 56, height: 56 }}
+          sx={{ width: styleObj.faceWidth, height: styleObj.faceWidth }}
         />
       </Box>
 

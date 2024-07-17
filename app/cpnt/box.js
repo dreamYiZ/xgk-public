@@ -21,7 +21,7 @@ function Box({ boxid, width, height, position, opacity,
 
   useEffect(() => {
 
-    if (mode === MODE.EDIT) {
+    if (mode !== MODE.EDIT) {
       return () => { }
     }
 
@@ -33,14 +33,14 @@ function Box({ boxid, width, height, position, opacity,
     const onMouseDown = (e) => {
       if (mode !== MODE.EDIT) return;
       setActiveBoxId(boxid);  // Set this box as the active box
-      ppplog('boxElement.getBoundingClientRect()', boxElement.getBoundingClientRect(), scale)
-      if (scale) {
-        offsetX = e.clientX - boxElement.getBoundingClientRect().left;
-        offsetY = e.clientY - boxElement.getBoundingClientRect().top;
-      } else {
-        offsetX = e.clientX - boxElement.getBoundingClientRect().left;
-        offsetY = e.clientY - boxElement.getBoundingClientRect().top;
-      }
+      // ppplog('boxElement.getBoundingClientRect()', boxElement.getBoundingClientRect(), scale)
+      // if (scale) {
+      //   offsetX = e.clientX - boxElement.getBoundingClientRect().left;
+      //   offsetY = e.clientY - boxElement.getBoundingClientRect().top;
+      // } else {
+      // }
+      offsetX = e.clientX - boxElement.getBoundingClientRect().left;
+      offsetY = e.clientY - boxElement.getBoundingClientRect().top;
 
       document.addEventListener('mousemove', onMouseMove);
       document.addEventListener('mouseup', onMouseUp);
