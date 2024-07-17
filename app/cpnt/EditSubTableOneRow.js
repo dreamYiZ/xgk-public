@@ -59,6 +59,7 @@ export default function () {
   const [timeDuration, setTimeDuration] = useState();
   const [lineHeight, setLineHeight] = useState();
   const [isEndFollowStart, setIsEndFollowStart] = useState();
+  const [showBorder, setShowBorder] = useState(false);
 
 
 
@@ -101,6 +102,7 @@ export default function () {
           lineHeight: safeNumberIfString(lineHeight),
           isEndFollowStart: safeNumberIfString(isEndFollowStart),
           headFontSize: safeNumberIfString(headFontSize),
+          showBorder,
         },
       });
     }
@@ -124,6 +126,7 @@ export default function () {
       setLineHeight(sub.lineHeight);
       setIsEndFollowStart(sub.isEndFollowStart);
       setHeadFontSize(sub.headFontSize);
+      setShowBorder(sub.showBorder);
     }
   }, [sub, activeBoxId]);
 
@@ -213,6 +216,8 @@ export default function () {
           <Box mt={1}></Box>
 
           <FormControlLabel control={<Checkbox onChange={(event) => setIsEndFollowStart(event.target.value)} checked={isEndFollowStart} />} label="循环连接" />
+
+          <FormControlLabel control={<Checkbox onChange={(event) => setShowBorder(event.target.value)} checked={showBorder} />} label="是否border" />
 
           {/* </Box> */}
         </Box>

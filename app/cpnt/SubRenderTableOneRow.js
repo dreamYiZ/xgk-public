@@ -86,7 +86,7 @@ export default function (
 
           if (isEndFollowStart) {
 
-            _displayData = [...tableData.slice(currentIndex.current, tableData.length), ...tableData.slice(0, (currentIndex.current + pageRowCount) - tableData.length)]
+            _displayData = [...tableData.slice(currentIndex.current, tableData.length), ...tableData.slice(0, (currentIndex.current + pageRowCount) - tableData.length + 1)]
           } else {
             _displayData = [...tableData.slice(currentIndex.current, tableData.length)]
           }
@@ -119,6 +119,20 @@ export default function (
     }
   }, [sub]);
 
+
+  useEffect(() => {
+
+    const { showBorder } = sub;
+
+    if (showBorder) {
+      setBorderStyle({
+        border: `1px solid ${borderColor}`,
+        borderCollapse: 'collapse'
+      })
+    } else {
+      setBorderStyle({});
+    }
+  }, [sub])
 
 
 
