@@ -6,6 +6,9 @@ import ppplog from "ppplog";
 import useGlobalStore, { MODE } from '../store/useGlobal';
 import zIndex from '@mui/material/styles/zIndex';
 import { stringToNumber, debounce } from "../util/util";
+// import { debounce } from 'lodash';
+
+
 
 function Box({ boxid, width, height, position, opacity,
   children, groupid, x, y, scale, mainRef, ...other }) {
@@ -17,7 +20,11 @@ function Box({ boxid, width, height, position, opacity,
   const activeBoxId = useBoxStore((state) => state.activeBoxId);  // Access the 'activeBoxId' state
 
 
-  const debounceMove = (fn) => debounce(() => { fn() }, 300)
+  const debounceMove = debounce(({
+    newX, newY
+  }) => { changeBoxById(boxid, { x: newX, y: newY }) }, 300)
+
+
 
   useEffect(() => {
 
@@ -69,9 +76,15 @@ function Box({ boxid, width, height, position, opacity,
       boxElement.style.top = newY;
 
 
-      debounceMove(() => {
-        changeBoxById(boxid, { x: newX, y: newY });
+      debounceMove({
+        newX: newX,
+        newY: newY
       })
+
+      // changeBoxById(boxid, { x: newX, y: newY });
+      // debounce(() => {
+      //   ppplog('changeBoxById-move')
+      // }, 300)
 
     };
 

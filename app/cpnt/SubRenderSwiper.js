@@ -114,7 +114,6 @@ const Comments = ({ comment, commentTime = 1 }) => {
       }}>
 
         {comment.map(oneComment => {
-          ppplog('comment', comment)
           return <Box key={oneComment?.id} >
             {oneComment.text}
           </Box>
