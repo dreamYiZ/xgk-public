@@ -35,6 +35,7 @@ const MAP_SUB_RENDER = {
   [SUB_TYPE.TABLE]: SubRenderTable,
   [SUB_TYPE.TABLE_ONE_ROW_ANIMATE]: SubRenderTableOneRow,
   [SUB_TYPE.SWIPER]: SubRenderSwiper,
+  [SUB_TYPE.SWIPER_JS]: SubRenderSwiper,
 }
 
 

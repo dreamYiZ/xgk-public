@@ -22,7 +22,6 @@ export default function (
 
 const RenderMarqueeBase = ({ sub }) => {
   const { data, color, fontSize } = sub;
-  ppplog('RenderMarqueeBase-sub', sub)
   return <Box >
     {data.map(line => {
       return <div style={{ color: color, fontSize: `${fontSize}px` }}>{line}</div>

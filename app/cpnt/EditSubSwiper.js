@@ -17,7 +17,11 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
-import { safeNumberIfString, MARQUEE_TYPE, MARQUEE_TYPE_DISPLAY, ppplog } from "../util/util";
+import {
+  safeNumberIfString, MARQUEE_TYPE, MARQUEE_TYPE_DISPLAY, ppplog
+  , SUB_TYPE
+
+} from "../util/util";
 import { forwardRef, useImperativeHandle, useRef } from "react";
 import InputLabel from '@mui/material/InputLabel';
 import OutlinedInput from '@mui/material/OutlinedInput';
@@ -55,6 +59,7 @@ export default function () {
   const [commentFontSize, setCommentFontSize] = useState();
   const [timeDuration, setTimeDuration] = useState();
   const [faceWidth, setFaceWidth] = useState();;
+  const [commentTime, setCommentTime] = useState();;
 
 
 
@@ -78,6 +83,10 @@ export default function () {
         console.log('error', e);
       }
 
+      let rest = {};
+      if (sub.type === SUB_TYPE.SWIPER_JS) {
+        rest.commentTime = commentTime;
+      }
 
       changeById(activeBox.boxid, {
         sub: {
@@ -89,6 +98,7 @@ export default function () {
           descFontSize: safeNumberIfString(descFontSize),
           commentFontSize: safeNumberIfString(commentFontSize),
           faceWidth: safeNumberIfString(faceWidth),
+          ...rest
         },
       });
     }
@@ -110,6 +120,11 @@ export default function () {
       setColor(sub.color);
       setTimeDuration(sub.timeDuration);
       setFaceWidth(sub.faceWidth);
+
+
+      if (sub.type === SUB_TYPE.SWIPER_JS) {
+        setCommentTime(sub.commentTime);
+      }
     }
   }, [sub, activeBoxId]);
 
@@ -179,6 +194,9 @@ export default function () {
           <Box mt={1}></Box>
 
           <TextField value={timeDuration} onChange={(event) => setTimeDuration(event.target.value)} type="number" label="动画间隔" variant="outlined" />
+          <Box mt={1}></Box>
+
+          {sub.type === SUB_TYPE.SWIPER_JS && <TextField value={commentTime} onChange={(event) => setCommentTime(event.target.value)} type="number" label="动画间隔" variant="outlined" />}
           <Box mt={1}></Box>
 
 

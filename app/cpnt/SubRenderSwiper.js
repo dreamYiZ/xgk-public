@@ -97,22 +97,40 @@ const SwiperSlideItem = ({ person, styleObj }) => {
 }
 
 
-const Comments = ({ comment }) => {
+const Comments = ({ comment, commentTime = 1 }) => {
   if (!comment || !comment.length) {
     return null;
   }
 
+  let time = comment.length * commentTime;
+
   return <Box>
     <Box>
-
+      评价：
     </Box>
-    <Box>
-      {comment.map(oneComment => {
-        return <Box key={oneComment?.id}>
-          {oneComment}
-        </Box>
-      })}
+    <Box sx={{ height: '300px', overflow: 'hidden' }}>
+      <Box sx={{
+        animation: `${classes.marqueeTop} ${time}s linear infinite`,
+      }}>
 
+        {comment.map(oneComment => {
+          ppplog('comment', comment)
+          return <Box key={oneComment?.id} >
+            {oneComment.text}
+          </Box>
+        })}
+      </Box>
     </Box>
   </Box>
 }
+
+
+
+// const RenderMarqueeBase = ({ props }) => {
+//   const { data, color, fontSize } = props;
+//   return <Box >
+//     {data.map(line => {
+//       return <div style={{ color: color, fontSize: `${fontSize}px` }}>{line}</div>
+//     })}
+//   </Box>
+// }

@@ -37,6 +37,7 @@ const MAP_SUB_EDIT = {
   [SUB_TYPE.TABLE]: EditSubTable,
   [SUB_TYPE.TABLE_ONE_ROW_ANIMATE]: EditSubTableOneRow,
   [SUB_TYPE.SWIPER]: EditSubSwiper,
+  [SUB_TYPE.SWIPER_JS]: EditSubSwiper,
 }
 
 function EditSub() {

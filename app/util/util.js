@@ -492,7 +492,7 @@ const BASIC_PAYLOAD_SWIPER_JS = {
         name: `Demo-${idx}`,
         description: `Demo description-${idx}`,
         comment: [
-          new Array(10).fill().map((i, idx) => {
+          ...new Array(10).fill().map((i, idx) => {
             return {
               id: uuidv4(),
               text: `Demo comment-${idx}`,
@@ -502,6 +502,7 @@ const BASIC_PAYLOAD_SWIPER_JS = {
       }
     })
   ],
+  commentTime: 1,
   faceWidth: 80,
   color: '#000000',
   nameFontSize: 28,
@@ -517,7 +518,7 @@ export const createBoxSwiperJS = () => {
     width: '500px',
     height: '400px',
     sub: {
-      type: SUB_TYPE.SWIPER,
+      type: SUB_TYPE.SWIPER_JS,
       ...BASIC_PAYLOAD_SWIPER_JS
     }
   }
