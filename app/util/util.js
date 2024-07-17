@@ -483,6 +483,46 @@ export const createBoxSwiper = () => {
   }
 }
 
+const BASIC_PAYLOAD_SWIPER_JS = {
+  data: [
+    ...new Array(10).fill().map((i, idx) => {
+      return {
+        id: uuidv4(),
+        faceUrl: DEMO_FACE_URL,
+        name: `Demo-${idx}`,
+        description: `Demo description-${idx}`,
+        comment: [
+          new Array(10).fill().map((i, idx) => {
+            return {
+              id: uuidv4(),
+              text: `Demo comment-${idx}`,
+            }
+          })
+        ]
+      }
+    })
+  ],
+  faceWidth: 80,
+  color: '#000000',
+  nameFontSize: 28,
+  descFontSize: 22,
+  commentFontSize: 22,
+  timeDuration: 3,
+}
+
+
+export const createBoxSwiperJS = () => {
+  return {
+    ...createBoxPayload(),
+    width: '500px',
+    height: '400px',
+    sub: {
+      type: SUB_TYPE.SWIPER,
+      ...BASIC_PAYLOAD_SWIPER_JS
+    }
+  }
+}
+
 
 
 export const createMarketTemplates = () => {
@@ -744,4 +784,5 @@ export const MAP_TYPE_FACTORY = {
   [SUB_TYPE.TABLE]: createBoxTable,
   [SUB_TYPE.TABLE_ONE_ROW_ANIMATE]: createBoxTableOneRow,
   [SUB_TYPE.SWIPER]: createBoxSwiper,
+  [SUB_TYPE.SWIPER_JS]: createBoxSwiperJS,
 };

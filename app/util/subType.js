@@ -16,6 +16,7 @@ export const SUB_TYPE = {
   TABLE: 'TABLE',
   TABLE_ONE_ROW_ANIMATE: 'TABLE_ONE_ROW_ANIMATE',
   SWIPER: 'SWIPER',
+  SWIPER_JS: 'SWIPER_JS',
 }
 
 export const SUB_TYPE_DISPLAY = {
@@ -36,4 +37,5 @@ export const SUB_TYPE_DISPLAY = {
   [SUB_TYPE.TABLE]: '表格',
   [SUB_TYPE.TABLE_ONE_ROW_ANIMATE]: '表格单行滚动',
   [SUB_TYPE.SWIPER]: '轮播图',
+  [SUB_TYPE.SWIPER_JS]: '轮播图评论',
 }
