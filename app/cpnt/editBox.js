@@ -10,6 +10,7 @@ import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } 
 import { FRAMEWORK_ID_SELECTOR } from "../util/util";
 import { IconButton } from '@mui/material';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
+import Typography from '@mui/material/Typography';
 
 function EditBox() {
   const boxArr = useBoxStore((state) => state.boxArr);  // Access the 'boxArr' state
@@ -142,6 +143,10 @@ function EditBox() {
           <TextField label="y-纵坐标" value={activeBox.y} onChange={(event) => handleInputChange(event, 'y')} />
           <br />
           <br />
+          <TextField label="缩放" value={activeBox.scale} onChange={(event) => handleInputChange(event, 'scale')} />
+          <br />
+          <br />
+
 
           <Box display="flex" alignItems="center">  {/* 设置为 flex 布局 */}
             <Box mr={2}>  {/* 添加右边距 */}
@@ -159,6 +164,8 @@ function EditBox() {
                 自尺寸
               </Button>
             </Box>
+
+
 
           </Box>
 
@@ -190,7 +197,7 @@ function EditBox() {
           </Dialog>
         </>
       ) : (
-        <p style={{opacity: .6}}>没有选中的组件.</p>
+        <p style={{ opacity: .6 }}>没有选中的组件.</p>
       )
       }
     </EditTabContainer >

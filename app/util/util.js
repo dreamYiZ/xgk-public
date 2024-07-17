@@ -612,6 +612,18 @@ export const pxToNumber = (pxValue) => {
   return pxValue
 }
 
+export const stringToNumber = (maybeNumber) => {
+  if (typeof maybeNumber === 'number') {
+    return maybeNumber;
+  }
+  if (typeof maybeNumber === 'string') {
+    let parsed = parseFloat(maybeNumber);
+    if (typeof parsed === 'number') {
+      return parsed;
+    }
+  }
+}
+
 export const safeNumberIfString = (maybeNumber) => {
   if (typeof maybeNumber === 'number') {
     return maybeNumber;
@@ -632,8 +644,8 @@ export const canToBeNumber = (stringOrNumber) => {
   return !isNaN(number) && number.toString() === stringOrNumber.toString();
 };
 
-export const maybeNumberOr = (someNumber, defaultValue)=>{
-  if(canToBeNumber(someNumber)){
+export const maybeNumberOr = (someNumber, defaultValue) => {
+  if (canToBeNumber(someNumber)) {
     return parseFloat(someNumber)
   }
 

@@ -5,8 +5,10 @@ import useBoxStore from '../store/useBo';
 import ppplog from "ppplog";
 import useGlobalStore, { MODE } from '../store/useGlobal';
 import zIndex from '@mui/material/styles/zIndex';
+import { stringToNumber, debounce } from "../util/util";
 
-function Box({ boxid, width, height, position, opacity, children, groupid, x, y, mainRef, ...other }) {
+function Box({ boxid, width, height, position, opacity,
+  children, groupid, x, y, scale, mainRef, ...other }) {
   const boxRef = useRef(null);
   const changeBoxById = useBoxStore((state) => state.changeById);
   const setActiveBoxId = useBoxStore((state) => state.setActiveBoxId);  // Access the 'setActiveBoxId' function
@@ -15,7 +17,14 @@ function Box({ boxid, width, height, position, opacity, children, groupid, x, y,
   const activeBoxId = useBoxStore((state) => state.activeBoxId);  // Access the 'activeBoxId' state
 
 
+  const debounceMove = (fn) => debounce(() => { fn() }, 300)
+
   useEffect(() => {
+
+    if (mode === MODE.EDIT) {
+      return () => { }
+    }
+
     const boxElement = boxRef.current;
     const mainElement = mainRef.current;
     let offsetX = 0;
@@ -24,8 +33,15 @@ function Box({ boxid, width, height, position, opacity, children, groupid, x, y,
     const onMouseDown = (e) => {
       if (mode !== MODE.EDIT) return;
       setActiveBoxId(boxid);  // Set this box as the active box
-      offsetX = e.clientX - boxElement.getBoundingClientRect().left;
-      offsetY = e.clientY - boxElement.getBoundingClientRect().top;
+      ppplog('boxElement.getBoundingClientRect()', boxElement.getBoundingClientRect(), scale)
+      if (scale) {
+        offsetX = e.clientX - boxElement.getBoundingClientRect().left;
+        offsetY = e.clientY - boxElement.getBoundingClientRect().top;
+      } else {
+        offsetX = e.clientX - boxElement.getBoundingClientRect().left;
+        offsetY = e.clientY - boxElement.getBoundingClientRect().top;
+      }
+
       document.addEventListener('mousemove', onMouseMove);
       document.addEventListener('mouseup', onMouseUp);
     };
@@ -33,6 +49,12 @@ function Box({ boxid, width, height, position, opacity, children, groupid, x, y,
     const onMouseMove = (e) => {
       let newX = e.clientX - offsetX - mainElement.getBoundingClientRect().left;
       let newY = e.clientY - offsetY - mainElement.getBoundingClientRect().top;
+
+
+      if (scale) {
+        newX = e.clientX - offsetX - mainElement.getBoundingClientRect().left + boxElement.getBoundingClientRect().width * (stringToNumber(scale) - 1) / 2;
+        newY = e.clientY - offsetY - mainElement.getBoundingClientRect().top + boxElement.getBoundingClientRect().height * (stringToNumber(scale) - 1) / 2;
+      }
 
       // 边界检查
       if (newX < 0) newX = 0;
@@ -45,7 +67,12 @@ function Box({ boxid, width, height, position, opacity, children, groupid, x, y,
 
       boxElement.style.left = newX;
       boxElement.style.top = newY;
-      changeBoxById(boxid, { x: newX, y: newY });
+
+
+      debounceMove(() => {
+        changeBoxById(boxid, { x: newX, y: newY });
+      })
+
     };
 
     const onMouseUp = () => {
@@ -53,14 +80,16 @@ function Box({ boxid, width, height, position, opacity, children, groupid, x, y,
       document.removeEventListener('mouseup', onMouseUp);
     };
 
-    boxElement.addEventListener('mousedown', onMouseDown);
+    if (mode === MODE.EDIT) {
+      boxElement.addEventListener('mousedown', onMouseDown);
+    }
 
     return () => {
       boxElement.removeEventListener('mousedown', onMouseDown);
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
     };
-  }, [boxid, changeBoxById, mode]);
+  }, [boxid, changeBoxById, mode, scale]);
 
   const boxStyle = useMemo(() => ({
     width: width,
@@ -71,7 +100,8 @@ function Box({ boxid, width, height, position, opacity, children, groupid, x, y,
     top: y,
     zIndex: zIndex,
     outline: activeBoxId === boxid ? '2px dashed #7CB9E8' : 'none',  // Changed 'border' to 'outline'
-  }), [width, height, position, opacity, x, y, zIndex, activeBoxId, boxid]);  // Add
+    transform: `scale(${scale})`,
+  }), [width, height, position, opacity, x, y, scale, zIndex, activeBoxId, boxid]);  // Add
 
 
   return <div id={boxid} ref={boxRef} style={boxStyle} className={`${classes.box} ${classes.disableSelection}`}>{children}</div>;

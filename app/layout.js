@@ -17,8 +17,8 @@ import Framework from "./framework"
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "DATA VISION",
-  description: "-- DATA VISION -- -- DATA VISION -- -- DATA VISION -- -- DATA VISION --",
+  title: "小龟壳低代码",
+  description: "小龟壳低代码大屏,小龟壳大屏,低代码,小龟壳,大屏低代码",
 };
 
 export default function RootLayout({ children }) {
