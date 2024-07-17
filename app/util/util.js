@@ -385,7 +385,11 @@ export const createBoxVideo = () => {
 
 
 export const BASIC_PAYLOAD_MARQUEE = {
-  data: [],
+  data: [
+    ...new Array(30).fill().map((i, idx) => {
+      return 'demo blablablablalalalblablablablablablablablablablablablablablablabl' + '---' + idx
+    })
+  ],
   marqueeType: MARQUEE_TYPE.BASIC,
   color: '#000000',
   fontSize: 26,
