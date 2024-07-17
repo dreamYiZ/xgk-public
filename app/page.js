@@ -142,9 +142,9 @@ export default function Home() {
   }, [screenHeight, screenWidth, bg, isFullScreenAutoBoolean])
 
 
-  useEffect(() => {
-    ppplog('boxArr-from-page:', boxArr)
-  }, [])
+  // useEffect(() => {
+  //   ppplog('boxArr-from-page:', boxArr)
+  // }, [])
 
   useEffect(() => {
     if (process.env.NEXT_PUBLIC_INIT &&
