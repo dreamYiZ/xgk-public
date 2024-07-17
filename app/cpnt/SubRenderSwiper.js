@@ -42,7 +42,6 @@ export default function (
     <Box py={2}></Box>
     <Swiper
       slidesPerView={slidesPerView}
-      breakpoints={{ 768: { slidesPerView: 4 } }}
       on={{
         slideChange: () => {
           // console.log('slide changed')
