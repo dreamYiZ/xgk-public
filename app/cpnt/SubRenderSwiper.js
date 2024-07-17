@@ -22,6 +22,7 @@ export default function (
     descFontSize,
     faceWidth,
     timeDuration,
+    slidesPerView = 3,
     commentFontSize } = sub;
 
   const styleObj = {
@@ -40,7 +41,7 @@ export default function (
 
     <Box py={2}></Box>
     <Swiper
-      slidesPerView={3}
+      slidesPerView={slidesPerView}
       breakpoints={{ 768: { slidesPerView: 4 } }}
       on={{
         slideChange: () => {

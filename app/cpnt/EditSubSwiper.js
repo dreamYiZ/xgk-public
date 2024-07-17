@@ -59,7 +59,8 @@ export default function () {
   const [commentFontSize, setCommentFontSize] = useState();
   const [timeDuration, setTimeDuration] = useState();
   const [faceWidth, setFaceWidth] = useState();;
-  const [commentTime, setCommentTime] = useState();;
+  const [commentTime, setCommentTime] = useState();
+  const [slidesPerView, setSlidesPerView] = useState();
 
 
 
@@ -98,6 +99,7 @@ export default function () {
           descFontSize: safeNumberIfString(descFontSize),
           commentFontSize: safeNumberIfString(commentFontSize),
           faceWidth: safeNumberIfString(faceWidth),
+          slidesPerView: safeNumberIfString(slidesPerView),
           ...rest
         },
       });
@@ -120,6 +122,7 @@ export default function () {
       setColor(sub.color);
       setTimeDuration(sub.timeDuration);
       setFaceWidth(sub.faceWidth);
+      setSlidesPerView(sub.slidesPerView);
 
 
       if (sub.type === SUB_TYPE.SWIPER_JS) {
@@ -190,7 +193,10 @@ export default function () {
           <TextField value={descFontSize} onChange={(event) => setDescFontSize(event.target.value)} type="number" label="字体大小" variant="outlined" />
           <Box mt={1}></Box>
 
-          <TextField value={commentFontSize} onChange={(event) => setCommentFontSize(event.target.value)} type="number" label="一页多少个" variant="outlined" />
+          <TextField value={commentFontSize} onChange={(event) => setCommentFontSize(event.target.value)} type="number" label="评论字体大小" variant="outlined" />
+          <Box mt={1}></Box>
+
+          <TextField value={slidesPerView} onChange={(event) => setSlidesPerView(event.target.value)} type="number" label="一页多少个" variant="outlined" />
           <Box mt={1}></Box>
 
           <TextField value={timeDuration} onChange={(event) => setTimeDuration(event.target.value)} type="number" label="动画间隔" variant="outlined" />

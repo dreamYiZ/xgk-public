@@ -509,6 +509,7 @@ const BASIC_PAYLOAD_SWIPER_JS = {
   descFontSize: 22,
   commentFontSize: 22,
   timeDuration: 3,
+  slidesPerView: 3,
 }
 
 
