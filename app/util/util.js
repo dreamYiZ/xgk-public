@@ -8,7 +8,13 @@ import {
   SPRINT_STATUS_DISPLAY
 } from "./spriteType";
 import { MARQUEE_TYPE, MARQUEE_TYPE_DISPLAY } from "./marqueeType";
-
+import {
+  TIME_TYPE, TIME_TYPE_DISPLAY
+} from "./timeType";
+export {
+  TIME_TYPE, TIME_TYPE_DISPLAY
+}
+export {TIME_TYPE_MOMENT} from "./timeType";
 
 const DEMO_FACE_URL = '/demo-face.jpeg'
 
@@ -329,9 +335,7 @@ export const createSpriteB = () => {
 }
 
 
-export const TIME_TYPE = {
-  YYYY_MM_DD_HH_MM_SS: 'YYYY_MM_DD_HH_MM_SS'
-}
+
 
 export const BASIC_PAYLOAD_TIME = {
   fontSize: '26',

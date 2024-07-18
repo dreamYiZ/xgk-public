@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { TIME_TYPE } from "../util/util";
+import { TIME_TYPE, TIME_TYPE_MOMENT, ppplog } from "../util/util";
+import moment from 'moment';
+import 'moment/locale/zh-cn';
 
 export default function (
   { box, sub }
@@ -49,6 +51,16 @@ export default function (
         default:
           timeString = now.toString();
       }
+
+      if (Object.keys(TIME_TYPE_MOMENT).includes(timeType)) {
+
+
+        moment.locale('cn');
+
+        timeString = moment().format(TIME_TYPE_MOMENT[timeType]);;
+      }
+
+
       setTimeString(timeString);
     }, 1000); // Update every second
 
