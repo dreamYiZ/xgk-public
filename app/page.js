@@ -46,8 +46,9 @@ export default function Home() {
 
   useEffect(() => {
     if (isEmpty()) {
-      const newBox = createBox(createBoxText());
-      addBox(newBox);
+      ppplog('=== is empty! ===')
+      // const newBox = createBox(createBoxText());
+      // addBox(newBox);
     }
 
     return () => {
