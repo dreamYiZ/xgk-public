@@ -572,7 +572,13 @@ const BASIC_PAYLOAD_SWIPER_IMAGE_TEXT = {
   color: '#000000',
   fontSize: 26,
   lineHeight: 36,
+  textWidth: 320,
   timeDuration: 3,
+  imageWidth: 160,
+  imageHeight: 160,
+  width: 500,
+  height: 340,
+  textMarginBottom: 30
 }
 
 

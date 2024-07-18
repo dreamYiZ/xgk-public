@@ -10,14 +10,15 @@ import EditSubMuiChartLine from "./EditSubMuiChartLine";
 import EditSubMuiChartSTACKING from "./EditSubMuiChartSTACKING";
 import EditSubMuiChartSparkLine from "./EditSubMuiChartSparkLine";
 import EditSubEcharts from "./editSubEcharts";
-import EditSubSprite from "./EditSubSprite"
-import EditSubTime from "./EditSubTime"
-import EditSubVideo from "./EditSubVideo"
-import EditSubMarquee from "./EditSubMarquee"
-import EditSubTable from "./EditSubTable"
-import EditSubTableOneRow from "./EditSubTableOneRow"
-import EditSubSwiper from "./EditSubSwiper"
-import EditSubRollOneLine from "./EditSubRollOneLine"
+import EditSubSprite from "./EditSubSprite";
+import EditSubTime from "./EditSubTime";
+import EditSubVideo from "./EditSubVideo";
+import EditSubMarquee from "./EditSubMarquee";
+import EditSubTable from "./EditSubTable";
+import EditSubTableOneRow from "./EditSubTableOneRow";
+import EditSubSwiper from "./EditSubSwiper";
+import EditSubRollOneLine from "./EditSubRollOneLine";
+import EditSubSwiperImageText from "./EditSubSwiperImageText";
 
 
 const MAP_SUB_EDIT = {
@@ -40,6 +41,7 @@ const MAP_SUB_EDIT = {
   [SUB_TYPE.SWIPER]: EditSubSwiper,
   [SUB_TYPE.SWIPER_JS]: EditSubSwiper,
   [SUB_TYPE.ROLL_ONE_LINE]: EditSubRollOneLine,
+  [SUB_TYPE.SWIPER_IMAGE_TEXT]: EditSubSwiperImageText,
 }
 
 function EditSub() {

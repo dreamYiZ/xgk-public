@@ -9,6 +9,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { Swiper, SwiperSlide } from "./SwiperWarper";
 import Avatar from '@mui/material/Avatar';
+import Image from 'next/image'
 
 export default function (
   { box, sub }
@@ -18,19 +19,27 @@ export default function (
 
   const { data,
     color,
-    nameFontSize,
-    descFontSize,
-    faceWidth,
+    fontSize,
+    lineHeight,
     timeDuration,
-    slidesPerView = 3,
-    commentFontSize } = sub;
+    imageWidth,
+    imageHeight,
+    textWidth,
+    width,
+    height,
+    textMarginBottom,
+  } = sub;
 
   const styleObj = {
     color,
-    faceWidth,
-    nameFontSize,
-    descFontSize,
-    commentFontSize,
+    fontSize,
+    lineHeight,
+    imageWidth,
+    imageHeight,
+    textWidth,
+    width,
+    height,
+    textMarginBottom,
   }
 
 
@@ -52,12 +61,14 @@ export default function (
       }}
       autoplay={{
         delay: maybeNumberOr(timeDuration * 1000, 3000),
+        // delay: maybeNumberOr(2220 * 1000),
       }}
       loop={true}
     >
 
-      {data.map(person => {
-        return <SwiperSlideItem styleObj={styleObj} key={person.id} person={person} />
+      {data.map(imgAndTextArr => {
+        ppplog('imgAndTextArr', imgAndTextArr)
+        return <SwiperSlideItem styleObj={styleObj} key={imgAndTextArr.id} imgAndTextArr={imgAndTextArr} />
       })}
 
 
@@ -66,33 +77,61 @@ export default function (
 }
 
 
-const SwiperSlideItem = ({ person, styleObj }) => {
+const SwiperSlideItem = (props) => {
+  ppplog('SwiperSlideItem', props)
   return <SwiperSlide>
-    <Box>
-
-      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-        <Avatar
-          alt="Remy Sharp"
-          src={person.faceUrl}
-          sx={{ width: styleObj.faceWidth, height: styleObj.faceWidth }}
-        />
-      </Box>
-
-      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-        <Box sx={{ fontSize: `${styleObj.nameFontSize}px`, color: styleObj.color }}>
-          {person.name}
-        </Box>
-      </Box>
-
-      <Box sx={{ display: 'flex', justifyContent: 'center', textAlign: "center" }}>
-        <Box sx={{ fontSize: `${styleObj.descFontSize}px`, color: styleObj.color }}>
-          {person.description}
-        </Box>
-      </Box>
-
-    </Box>
-
+    <ImageTextBox {...props} />
   </SwiperSlide>
 }
 
 
+const ImageTextBox = (props) => {
+
+  // ppplog('ImageTextBox props ', props)
+  const {
+    imgAndTextArr, styleObj
+  } = props;
+  // ppplog('ImageTextBox props', imgAndTextArr, styleObj)
+
+  const {
+    id,
+    img,
+    textArr,
+    imgLeft
+  } = imgAndTextArr;
+
+  return <Box sx={{ display: "flex", width: `${styleObj.width}px`, height: `${styleObj.height}px`, alignItems: "center", justifyContent: "space-around" }} >
+    {imgLeft && <ImageBox img={img} styleObj={styleObj} />}
+
+    <TextArrayBox textArr={textArr} styleObj={styleObj} />
+
+    {!imgLeft && <ImageBox img={img} styleObj={styleObj} />}
+
+  </Box>
+}
+
+
+const ImageBox = ({
+  img, styleObj
+}) => {
+  return <Box >
+    <img
+      src={img}
+      width={styleObj.imageWidth || 130}
+      height={styleObj.imageHeight || 130}
+      alt={img || 'no img url'}
+    />
+  </Box>
+}
+
+
+const TextArrayBox = ({
+  textArr, styleObj
+}) => {
+  return <Box sx={{ width: `${styleObj.textWidth}px`, display: "flex", flexDirection: "column", overflowY: "auto", height: `${styleObj.height}px` }}>
+    {textArr.map(text => {
+      return <Box sx={{ display: "block", whiteSpace: "wrap", wordBreak: "break-all", textIndent: "2em", marginBottom: `${styleObj.textMarginBottom}px` }}>{text || ''}</Box>
+
+    })}
+  </Box>
+}

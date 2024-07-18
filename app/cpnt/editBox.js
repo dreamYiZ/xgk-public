@@ -179,6 +179,12 @@ function EditBox() {
           <Dialog
             open={open}
             onClose={handleClose}
+            onKeyUp={(e) => {
+              const ENTER = 13;
+              if (e.keyCode === ENTER) {
+                handleConfirmDelete();
+              }
+            }}
           >
             <DialogTitle>{"删除元素"}</DialogTitle>
             <DialogContent>
