@@ -48,31 +48,33 @@ export default function (
 
   return <div style={{ width: box.width, height: box.height, }} >
 
-    <Box py={2}></Box>
-    <Swiper
-      slidesPerView={1}
-      on={{
-        slideChange: () => {
-          // console.log('slide changed')
-        },
-        progress: (s, progress) => {
-          // console.log(`progress is ${progress}`)
-        },
-      }}
-      autoplay={{
-        delay: maybeNumberOr(timeDuration * 1000, 3000),
-        // delay: maybeNumberOr(2220 * 1000),
-      }}
-      loop={true}
-    >
+    <Box p={3}>
 
-      {data.map(imgAndTextArr => {
-        ppplog('imgAndTextArr', imgAndTextArr)
-        return <SwiperSlideItem styleObj={styleObj} key={imgAndTextArr.id} imgAndTextArr={imgAndTextArr} />
-      })}
+      <Swiper
+        slidesPerView={1}
+        on={{
+          slideChange: () => {
+            // console.log('slide changed')
+          },
+          progress: (s, progress) => {
+            // console.log(`progress is ${progress}`)
+          },
+        }}
+        autoplay={{
+          delay: maybeNumberOr(timeDuration * 1000, 3000),
+          // delay: maybeNumberOr(2220 * 1000),
+        }}
+        loop={true}
+      >
+
+        {data.map(imgAndTextArr => {
+          ppplog('imgAndTextArr', imgAndTextArr)
+          return <SwiperSlideItem styleObj={styleObj} key={imgAndTextArr.id} imgAndTextArr={imgAndTextArr} />
+        })}
 
 
-    </Swiper>
+      </Swiper>
+    </Box>
   </div >
 }
 

@@ -39,30 +39,31 @@ export default function (
 
   return <div style={{ width: box.width, height: box.height, }} >
 
-    <Box py={2}></Box>
-    <Swiper
-      slidesPerView={slidesPerView}
-      on={{
-        slideChange: () => {
-          // console.log('slide changed')
-        },
-        progress: (s, progress) => {
-          // console.log(`progress is ${progress}`)
-        },
-      }}
-      autoplay={{
-        delay: maybeNumberOr(timeDuration * 1000, 3000),
-      }}
-      loop={true}
-    >
+    <Box p={3}>
+      <Swiper
+        slidesPerView={slidesPerView}
+        on={{
+          slideChange: () => {
+            // console.log('slide changed')
+          },
+          progress: (s, progress) => {
+            // console.log(`progress is ${progress}`)
+          },
+        }}
+        autoplay={{
+          delay: maybeNumberOr(timeDuration * 1000, 3000),
+        }}
+        loop={true}
+      >
 
-      {data.map(person => {
-        return <SwiperSlideItem styleObj={styleObj} key={person.id} person={person} />
-      })}
+        {data.map(person => {
+          return <SwiperSlideItem styleObj={styleObj} key={person.id} person={person} />
+        })}
 
 
-    </Swiper>
-  </div >
+      </Swiper>
+    </Box>
+  </div>
 }
 
 
