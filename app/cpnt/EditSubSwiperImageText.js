@@ -1,31 +1,12 @@
 import useBoxStore from '../store/useBo';
 import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import { HexColorPicker } from 'react-colorful';  // 引入颜色选择器
-import { ANIMATE_TIME_FUNCTION_TYPES_DISPLAY, ANIMATE_TIME_FUNCTION_TYPES, ANIMATE_TYPES, ANIMATE_TYPES_DISPLAY } from "../util/util";
-import { useCallback, useState, useMemo, useEffect } from 'react';
-import { useDropzone } from 'react-dropzone';
+import { useState, useMemo, useEffect } from 'react';
 import { Typography } from '@mui/material';
-import IconButton from '@mui/material/IconButton';
-import ColorLensIcon from '@mui/icons-material/ColorLens';
 import DrawerEditLayout from "./DrawerEditLayout";
 import * as React from 'react';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
 import {
-  safeNumberIfString, MARQUEE_TYPE, MARQUEE_TYPE_DISPLAY, ppplog
-  , SUB_TYPE
-
+  safeNumberIfString, ppplog
 } from "../util/util";
-import { forwardRef, useImperativeHandle, useRef } from "react";
-import InputLabel from '@mui/material/InputLabel';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputAdornment from '@mui/material/InputAdornment';
 import AceEditor from "react-ace";
 import "ace-builds/src-noconflict/mode-json";
 import "ace-builds/src-noconflict/theme-monokai";
@@ -33,8 +14,6 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import ColorField from "./ColorField";
-import Checkbox from '@mui/material/Checkbox';
-import Grid from '@mui/material/Grid';
 
 
 export default function () {
@@ -47,15 +26,8 @@ export default function () {
   const [isOpen, setIsOpen] = useState(false);
   const [option, setOption] = useState('');  // 新增的状态和处理函数
   const [tabIndex, setTabIndex] = useState(0);
-
   const [color, setColor] = useState();
-  const [nameFontSize, setNameFontSize] = useState();
-  const [descFontSize, setDescFontSize] = useState();
-  const [commentFontSize, setCommentFontSize] = useState();
   const [timeDuration, setTimeDuration] = useState();
-  const [faceWidth, setFaceWidth] = useState();
-  const [commentTime, setCommentTime] = useState();
-  const [slidesPerView, setSlidesPerView] = useState();
   const [fontSize, setFontSize] = useState();
   const [lineHeight, setLineHeight] = useState();
   const [textWidth, setTextWidth] = useState();
