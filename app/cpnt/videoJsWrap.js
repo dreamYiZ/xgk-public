@@ -5,7 +5,7 @@ import 'video.js/dist/video-js.css';
 export const VideoJS = (props) => {
   const videoRef = React.useRef(null);
   const playerRef = React.useRef(null);
-  const {options, onReady} = props;
+  const { options, onReady } = props;
 
   React.useEffect(() => {
 
@@ -22,8 +22,8 @@ export const VideoJS = (props) => {
         onReady && onReady(player);
       });
 
-    // You could update an existing player in the `else` block here
-    // on prop change, for example:
+      // You could update an existing player in the `else` block here
+      // on prop change, for example:
     } else {
       const player = playerRef.current;
 
