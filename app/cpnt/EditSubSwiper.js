@@ -139,7 +139,7 @@ export default function () {
         isOpen={isOpen}
         setIsOpen={setIsOpen}
         buttonText="编辑数据"
-        title="表格"
+        title="轮播图"
       >
 
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>

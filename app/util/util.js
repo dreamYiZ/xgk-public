@@ -530,6 +530,33 @@ export const createBoxSwiperJS = () => {
 }
 
 
+const BASIC_PAYLOAD_ROLL_ONE_LINE = {
+  data: [
+    ...new Array(10).fill().map((i, idx) => {
+      return 'demo blablablablalalalblablablablablablablablablablablablablablablabl' + '---' + idx
+    })
+  ],
+  color: '#000000',
+  fontSize: 26,
+  lineHight: 36,
+  timeDuration: 3,
+  perPage: 5,
+}
+
+
+export const createBoxRollOneLine = () => {
+  return {
+    ...createBoxPayload(),
+    width: '500px',
+    height: '400px',
+    sub: {
+      type: SUB_TYPE.ROLL_ONE_LINE,
+      ...BASIC_PAYLOAD_ROLL_ONE_LINE
+    }
+  }
+}
+
+
 
 export const createMarketTemplates = () => {
   return []
@@ -791,4 +818,5 @@ export const MAP_TYPE_FACTORY = {
   [SUB_TYPE.TABLE_ONE_ROW_ANIMATE]: createBoxTableOneRow,
   [SUB_TYPE.SWIPER]: createBoxSwiper,
   [SUB_TYPE.SWIPER_JS]: createBoxSwiperJS,
+  [SUB_TYPE.ROLL_ONE_LINE]: createBoxRollOneLine,
 };

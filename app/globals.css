@@ -74,3 +74,8 @@ body {
 .visible-important {
   visibility: visible !important;
 }
+
+
+.hidden-important {
+  visibility: hidden !important;
+}
