@@ -115,6 +115,7 @@ export default function () {
       setWidth(sub.width);
       setHeight(sub.height);
       setTextMarginBottom(sub.textMarginBottom);
+      setTimeDuration(sub.timeDuration);
 
 
     }
