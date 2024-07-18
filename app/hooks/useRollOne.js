@@ -43,13 +43,6 @@ export default function useRollOne(
     if (data.length > perPage) {
 
       let nextPageFunc = () => {
-        ppplog('currentPageIndex.current * perPage', currentPageIndex * perPage, data.length)
-        // if (currentPageIndex * perPage < data.length) {
-        //   setCurrentPageIndex(pre => pre + 1);
-        // } else {
-        //   setCurrentPageIndex(0);
-        // }
-
         setCurrentPageIndex(pre => {
           if (pre + 1 < data.length) {
             return pre + 1;
@@ -70,7 +63,6 @@ export default function useRollOne(
       idTimeoutChangePageIndex.current = setTimeout(() => {
         nextPageFunc();
       }, timeDuration * 1000)
-      // nextPageFunc();
     }
 
 

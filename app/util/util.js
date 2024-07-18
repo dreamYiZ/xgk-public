@@ -538,7 +538,7 @@ const BASIC_PAYLOAD_ROLL_ONE_LINE = {
   ],
   color: '#000000',
   fontSize: 26,
-  lineHight: 36,
+  lineHeight: 36,
   timeDuration: 3,
   perPage: 5,
 }

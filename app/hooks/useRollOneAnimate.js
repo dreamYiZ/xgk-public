@@ -15,8 +15,8 @@ export default function useRollOneAnimate(
 
 
   const [firstRowClass, setFirstRowClass] = useState();
-  const [restClass, setRestRowClass] = useState();
   const [comeOnRowClass, setComeOnRowClass] = useState();
+  const [restClass, setRestRowClass] = useState();
 
 
 
