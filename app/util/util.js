@@ -556,6 +556,38 @@ export const createBoxRollOneLine = () => {
   }
 }
 
+const BASIC_PAYLOAD_SWIPER_IMAGE_TEXT = {
+  data: [
+    ...new Array(10).fill().map((i, idx) => {
+      return {
+        id: uuidv4(),
+        img: '/demo-face.jpeg',
+        textArr: new Array(5).fill().map((_i, _idx) => {
+          return 'bla'.repeat(99)
+        }),
+        imgLeft: idx % 2 === 0
+      }
+    })
+  ],
+  color: '#000000',
+  fontSize: 26,
+  lineHeight: 36,
+  timeDuration: 3,
+}
+
+
+export const createBoxSwiperImageText = () => {
+  return {
+    ...createBoxPayload(),
+    width: '500px',
+    height: '400px',
+    sub: {
+      type: SUB_TYPE.SWIPER_IMAGE_TEXT,
+      ...BASIC_PAYLOAD_SWIPER_IMAGE_TEXT
+    }
+  }
+}
+
 
 
 export const createMarketTemplates = () => {
@@ -819,4 +851,5 @@ export const MAP_TYPE_FACTORY = {
   [SUB_TYPE.SWIPER]: createBoxSwiper,
   [SUB_TYPE.SWIPER_JS]: createBoxSwiperJS,
   [SUB_TYPE.ROLL_ONE_LINE]: createBoxRollOneLine,
+  [SUB_TYPE.SWIPER_IMAGE_TEXT]: createBoxSwiperImageText,
 };
