@@ -2,6 +2,7 @@ import { useEffect, useCallback } from 'react';
 import useBoxStore from "../store/useBo";
 import useBeStore from "../store/useBe";
 import { ppplog, CMD, SPRINT_STATUS } from "../util/util";
+import { trimStringToIntOrNull } from "../util/numberUtil";
 
 
 
@@ -44,9 +45,18 @@ export default function useBeCustomer() {
       // status =  'running'
 
       let newStatus = status;
-      if (enabled.length > 1) {
-        const currentIndex = enabled.indexOf(status);
-        newStatus = enabled[(currentIndex + 1) % enabled.length];
+
+      if (!trimStringToIntOrNull(code)) {
+        if (enabled.length > 1) {
+          const currentIndex = enabled.indexOf(status);
+          newStatus = enabled[(currentIndex + 1) % enabled.length];
+        }
+      } else {
+        if (enabled.length >= 1) {
+          if (enabled[trimStringToIntOrNull(code)]) {
+            newStatus = enabled[trimStringToIntOrNull(code)];
+          }
+        }
       }
 
       // Update the status of the targetBox

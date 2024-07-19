@@ -18,11 +18,7 @@ import {
   canToBeNumber,
   maybeNumberOr,
 } from "./numberUtil";
-
-export {
-  TIME_TYPE, TIME_TYPE_DISPLAY
-}
-export { TIME_TYPE_MOMENT } from "./timeType";
+export * from "./timeType";
 
 const DEMO_FACE_URL = '/demo-face.jpeg';
 

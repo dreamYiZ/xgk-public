@@ -47,3 +47,13 @@ export const maybeNumberOr = (someNumber, defaultValue) => {
 
   return defaultValue
 }
+
+
+export const trimStringToIntOrNull = (stringOrNumber) => {
+  const shouldBeInt = parseInt(stringOrNumber);
+
+  if (Number.isInteger(shouldBeInt)) {
+    return shouldBeInt;
+  }
+  return null;
+}
