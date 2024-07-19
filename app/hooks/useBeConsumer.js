@@ -52,6 +52,7 @@ export default function useBeCustomer() {
           newStatus = enabled[(currentIndex + 1) % enabled.length];
         }
       } else {
+        // 根据code值来改变status
         if (enabled.length >= 1) {
           if (enabled[trimStringToIntOrNull(code)]) {
             newStatus = enabled[trimStringToIntOrNull(code)];
