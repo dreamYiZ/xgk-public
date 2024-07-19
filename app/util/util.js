@@ -11,14 +11,31 @@ import { MARQUEE_TYPE, MARQUEE_TYPE_DISPLAY } from "./marqueeType";
 import {
   TIME_TYPE, TIME_TYPE_DISPLAY
 } from "./timeType";
+import {
+  pxToNumber,
+  stringToNumber,
+  safeNumberIfString,
+  canToBeNumber,
+  maybeNumberOr,
+} from "./numberUtil";
+
 export {
   TIME_TYPE, TIME_TYPE_DISPLAY
 }
-export {TIME_TYPE_MOMENT} from "./timeType";
+export { TIME_TYPE_MOMENT } from "./timeType";
 
-const DEMO_FACE_URL = '/demo-face.jpeg'
+const DEMO_FACE_URL = '/demo-face.jpeg';
 
-export { p, FRAMEWORK_ID, FRAMEWORK_ID_SELECTOR } from "./cfg"
+export { p, FRAMEWORK_ID, FRAMEWORK_ID_SELECTOR } from "./cfg";
+
+export {
+  pxToNumber,
+  stringToNumber,
+  safeNumberIfString,
+  canToBeNumber,
+  maybeNumberOr,
+}
+
 
 
 export const createBoxPayload = (sub) => ({
@@ -576,20 +593,20 @@ const BASIC_PAYLOAD_SWIPER_IMAGE_TEXT = {
   color: '#000000',
   fontSize: 26,
   lineHeight: 36,
-  textWidth: 320,
+  textWidth: 300,
   timeDuration: 3,
   imageWidth: 160,
   imageHeight: 160,
-  width: 500,
+  width: 540,
   height: 340,
-  textMarginBottom: 30
+  textMarginBottom: 20
 }
 
 
 export const createBoxSwiperImageText = () => {
   return {
     ...createBoxPayload(),
-    width: '500px',
+    width: '570px',
     height: '400px',
     sub: {
       type: SUB_TYPE.SWIPER_IMAGE_TEXT,
@@ -718,55 +735,7 @@ export const combineBoxAndSubArr = (boxArr, mergedBoxArr) => {
   )
 }
 
-export const pxToNumber = (pxValue) => {
-  if (typeof pxValue === 'number') {
-    return pxValue;
-  }
-  if (typeof pxValue === 'string') {
-    return parseFloat(pxValue.replace('px', ''));
-  }
-  return pxValue
-}
 
-export const stringToNumber = (maybeNumber) => {
-  if (typeof maybeNumber === 'number') {
-    return maybeNumber;
-  }
-  if (typeof maybeNumber === 'string') {
-    let parsed = parseFloat(maybeNumber);
-    if (typeof parsed === 'number') {
-      return parsed;
-    }
-  }
-}
-
-export const safeNumberIfString = (maybeNumber) => {
-  if (typeof maybeNumber === 'number') {
-    return maybeNumber;
-  }
-  if (typeof maybeNumber === 'string') {
-    let parsed = parseFloat(maybeNumber);
-    if (typeof parsed === 'number') {
-      return parsed;
-    }
-    return 10
-  }
-  return 10
-}
-
-export const canToBeNumber = (stringOrNumber) => {
-  const number = parseFloat(stringOrNumber);
-  // Check if the string representation of the parsed number is the same as the original string
-  return !isNaN(number) && number.toString() === stringOrNumber.toString();
-};
-
-export const maybeNumberOr = (someNumber, defaultValue) => {
-  if (canToBeNumber(someNumber)) {
-    return parseFloat(someNumber)
-  }
-
-  return defaultValue
-}
 
 // A debounce function that takes a function and a delay as parameters
 function debounce(func, delay) {

@@ -79,7 +79,7 @@ export default function () {
         isOpen={isOpen}
         setIsOpen={setIsOpen}
         buttonText="编辑数据"
-        title="轮播图"
+        title="时间组件"
       >
 
         <Box mb={2}>

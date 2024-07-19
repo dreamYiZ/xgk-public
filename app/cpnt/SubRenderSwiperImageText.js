@@ -130,7 +130,7 @@ const ImageBox = ({
 const TextArrayBox = ({
   textArr, styleObj
 }) => {
-  return <Box sx={{ width: `${styleObj.textWidth}px`, display: "flex", flexDirection: "column", overflowY: "auto", height: `${styleObj.height}px` }}>
+  return <Box sx={{ width: `${styleObj.textWidth}px`, display: "flex", flexDirection: "column", overflowY: "auto", height: `${styleObj.height}px` }} pr={2}>
     {textArr.map(text => {
       return <Box sx={{ display: "block", whiteSpace: "wrap", wordBreak: "break-all", textIndent: "2em", marginBottom: `${styleObj.textMarginBottom}px` }}>{text || ''}</Box>
 
