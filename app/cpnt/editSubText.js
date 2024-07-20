@@ -108,7 +108,7 @@ function EditSubText() {
       setAnimationInterval(sub.animationInterval || 0);
       setAnimationTimingFunction(sub.animationTimingFunction || ANIMATE_TIME_FUNCTION_TYPES.LINEAR);
 
-      if(sub.font){
+      if (sub.font) {
         setSelectedFont(sub.font)
       }
     }
@@ -155,7 +155,13 @@ function EditSubText() {
       <TextField label="字体粗细" value={fontWeight} onChange={e => setFontWeight(e.target.value)} />
       <br />
       <br />
-      <TextField label="内容" value={content} onChange={e => setContent(e.target.value)} />
+      <TextField
+        label="内容"
+        value={content}
+        onChange={e => setContent(e.target.value)}
+        multiline
+        rows={4}  // Set the number of rows for multiline input
+      />
       <br />
       <br />
       <div>

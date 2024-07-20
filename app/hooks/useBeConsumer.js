@@ -3,7 +3,7 @@ import useBoxStore from "../store/useBo";
 import useBeStore from "../store/useBe";
 import { ppplog, CMD, SPRINT_STATUS } from "../util/util";
 import { trimStringToIntOrNull } from "../util/numberUtil";
-
+import usePageManager from "../hooks/usePageManager"
 
 
 // cmd
@@ -25,6 +25,8 @@ export default function useBeCustomer() {
     eventArr,
     consumeBe,
   } = useBeStore();
+
+  const { changeCurrentPage } = usePageManager()
 
   const consumeEv = useCallback((beItem) => {
     // Implement your event consumption logic here
@@ -67,6 +69,11 @@ export default function useBeCustomer() {
           status: newStatus,
         },
       });
+    }
+
+    if (cmd === CMD.GOTO) {
+
+      changeCurrentPage(target.id);
     }
 
     consumeBe(beItem);

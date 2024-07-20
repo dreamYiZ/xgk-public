@@ -16,6 +16,7 @@ import { Autocomplete } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
+import usePageStorage from "../store/usePage"
 
 
 export default function EditChartPayload() {
@@ -38,6 +39,7 @@ export default function EditChartPayload() {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [code, setCode] = useState('');
 
+  const { pageList } = usePageStorage();
 
 
   const handleSnackbarClose = (event, reason) => {
@@ -51,29 +53,40 @@ export default function EditChartPayload() {
 
   const onCmdSelectionChange = (_selectedCmd) => {
 
-    let _availableTargetList = boxArr.filter(box => {
+    if (_selectedCmd !== CMD.GOTO) {
 
-      if (!box.sub) {
-        return false;
+      let _availableTargetList = boxArr.filter(box => {
+
+        if (!box.sub) {
+          return false;
+        }
+
+        if (!box.sub.CMD) {
+          return false
+        }
+
+        if (!Array.isArray(box.sub.CMD) || box.sub.CMD.length <= 0) {
+          return false
+        }
+
+        if (!box.sub.CMD.includes(_selectedCmd)) {
+          return false
+        }
+
+        return true;
+      })
+
+      if (_availableTargetList && _availableTargetList.length) {
+        setAvailableTargetList(_availableTargetList);
       }
+    }
 
-      if (!box.sub.CMD) {
-        return false
-      }
-
-      if (!Array.isArray(box.sub.CMD) || box.sub.CMD.length <= 0) {
-        return false
-      }
-
-      if (!box.sub.CMD.includes(_selectedCmd)) {
-        return false
-      }
-
-      return true;
-    })
-
-
-    setAvailableTargetList(_availableTargetList);
+    if (_selectedCmd === CMD.GOTO) {
+      setAvailableTargetList(pageList.map(page => ({
+        id: page.id,
+        name: page.name,
+      })))
+    }
 
     setSelectedTarget(null);
   }
@@ -161,15 +174,31 @@ export default function EditChartPayload() {
             />
           </FormControl>
           <Box sx={{ height: '16px' }} /> {/* 添加间隔 */}
-          <InputLabel>选择目标</InputLabel>
-          <FormControl fullWidth>
-            <Autocomplete
-              value={selectedTarget}
-              onChange={(event, newValue) => setSelectedTarget(newValue)}
-              options={availableTargetList.map((box) => box.boxid)}
-              renderInput={(params) => <TextField {...params} InputLabelProps={{ shrink: true }} />}
-            />
-          </FormControl>
+
+          {selectedCmd !== CMD.GOTO && <Box>
+            <InputLabel>选择目标</InputLabel>
+            <FormControl fullWidth>
+              <Autocomplete
+                value={selectedTarget}
+                onChange={(event, newValue) => setSelectedTarget(newValue)}
+                options={availableTargetList.map((box) => box.boxid)}
+                renderInput={(params) => <TextField {...params} InputLabelProps={{ shrink: true }} />}
+              />
+            </FormControl>
+          </Box>}
+
+          {selectedCmd === CMD.GOTO && <Box>
+            <InputLabel>选择目标</InputLabel>
+            <FormControl fullWidth>
+              <Autocomplete
+                value={selectedTarget}
+                onChange={(event, newValue) => setSelectedTarget(newValue)}
+                options={availableTargetList}
+                getOptionLabel={(option) => option.name}
+                renderInput={(params) => <TextField {...params} InputLabelProps={{ shrink: true }} />}
+              />
+            </FormControl>
+          </Box>}
           <Box sx={{ height: '16px' }} /> {/* 添加间隔 */}
           <InputLabel>选择执行时间</InputLabel>
           <FormControl fullWidth>
@@ -206,11 +235,3 @@ export default function EditChartPayload() {
 }
 
 
-// export const CMD_TIME ={
-//   NOW: 'NOW',
-//   AFTER_3S: 'AFTER_3S',
-// }
-// export const CMD_TIME_DISPLAY ={
-//   [CMD_TIME.NOW]: '立即执行',
-//   [CMD_TIME.AFTER_3S]: '三秒之后',
-// }

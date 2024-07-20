@@ -7,7 +7,6 @@ import DrawerTitle from "./drawerTitle";
 import useBoxStore from "../store/useBo";
 import usePageStore from "../store/usePage";
 import { v4 as uuidv4 } from 'uuid';
-import TextField from '@mui/material/TextField';
 import DisplayPageItem from "./DisplayPageItem";
 import { ppplog } from "../util/util";
 import useGlobalStore from '../store/useGlobal';
@@ -25,7 +24,7 @@ export default function PageManage({ show, handleClose }) {
   } = usePageStore();
 
   const { boxArr, setBoxArr } = useBoxStore();
-  const { bg, bgVideo, setBgVideo, setBg } = useGlobalStore()
+  const { bg, bgVideo, setBgVideo, setBg } = useGlobalStore();
 
   const changeCurrentPage = (id) => {
     const { getPageById } = usePageStore.getState();
@@ -33,9 +32,9 @@ export default function PageManage({ show, handleClose }) {
     usePageStore.setState({ currentPage: page, currentPageId: id });
 
     setBoxArr(page.bo);
-    setBgVideo(page.bgVideo)
+    setBgVideo(page.bgVideo);
     setBg(page.bg);
-  }
+  };
 
   const handleDragEnd = (result) => {
     if (!result.destination) return;
@@ -43,7 +42,7 @@ export default function PageManage({ show, handleClose }) {
     const [movedPage] = reorderedPageList.splice(result.source.index, 1);
     reorderedPageList.splice(result.destination.index, 0, movedPage);
     updatePageOrder(reorderedPageList);
-  }
+  };
 
   ppplog('pageList', pageList);
 
@@ -54,8 +53,8 @@ export default function PageManage({ show, handleClose }) {
       name: `新页面${+new Date()}`,
       bg: bg,
       bgVideo: bgVideo,
-    })
-  }
+    });
+  };
 
   const saveToCurrentPage = () => {
     if (currentPageId) {
@@ -65,7 +64,8 @@ export default function PageManage({ show, handleClose }) {
         bgVideo: bgVideo,
       });
     }
-  }
+  };
+
   return (
     <div>
       {show && (
@@ -76,10 +76,18 @@ export default function PageManage({ show, handleClose }) {
         >
           <Box sx={{ width: 600, padding: 2 }}>
             <DrawerTitle>页面管理</DrawerTitle>
+            <Box mb={2}>
+              <Typography variant="h6">
+                当前页面：{currentPage ? currentPage.name : '未选择页面'}
+              </Typography>
+            </Box>
             <Box>
               <Button onClick={addCurrentToNewPage}>添加到新页面</Button>
-
-              {currentPageId && <Button variant='outlined' color='secondary' onClick={saveToCurrentPage}>保存到当前页面</Button>}
+              {currentPageId && (
+                <Button variant='outlined' color='secondary' onClick={saveToCurrentPage}>
+                  保存到当前页面
+                </Button>
+              )}
             </Box>
             <Box mt={1}>
               {pageList.map((page, index) => (
