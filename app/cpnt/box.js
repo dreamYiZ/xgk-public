@@ -8,8 +8,6 @@ import zIndex from '@mui/material/styles/zIndex';
 import { stringToNumber, debounce } from "../util/util";
 // import { debounce } from 'lodash';
 
-
-
 function Box({ boxid, width, height, position, opacity,
   children, groupid, x, y, scale, mainRef, ...other }) {
   const boxRef = useRef(null);
@@ -18,16 +16,13 @@ function Box({ boxid, width, height, position, opacity,
   const { mode } = useGlobalStore();
 
   const activeBoxId = useBoxStore((state) => state.activeBoxId);  // Access the 'activeBoxId' state
-
+  const activeBox = useMemo(() => useBoxStore.getState().boxArr.find(box => box.boxid === boxid), [boxid]);  // 获取当前Box数据
 
   const debounceMove = debounce(({
     newX, newY
-  }) => { changeBoxById(boxid, { x: newX, y: newY }) }, 300)
-
-
+  }) => { changeBoxById(boxid, { x: newX, y: newY }) }, 300);
 
   useEffect(() => {
-
     if (mode !== MODE.EDIT) {
       return () => { }
     }
@@ -40,12 +35,6 @@ function Box({ boxid, width, height, position, opacity,
     const onMouseDown = (e) => {
       if (mode !== MODE.EDIT) return;
       setActiveBoxId(boxid);  // Set this box as the active box
-      // ppplog('boxElement.getBoundingClientRect()', boxElement.getBoundingClientRect(), scale)
-      // if (scale) {
-      //   offsetX = e.clientX - boxElement.getBoundingClientRect().left;
-      //   offsetY = e.clientY - boxElement.getBoundingClientRect().top;
-      // } else {
-      // }
       offsetX = e.clientX - boxElement.getBoundingClientRect().left;
       offsetY = e.clientY - boxElement.getBoundingClientRect().top;
 
@@ -56,7 +45,6 @@ function Box({ boxid, width, height, position, opacity,
     const onMouseMove = (e) => {
       let newX = e.clientX - offsetX - mainElement.getBoundingClientRect().left;
       let newY = e.clientY - offsetY - mainElement.getBoundingClientRect().top;
-
 
       if (scale) {
         newX = e.clientX - offsetX - mainElement.getBoundingClientRect().left + boxElement.getBoundingClientRect().width * (stringToNumber(scale) - 1) / 2;
@@ -75,17 +63,10 @@ function Box({ boxid, width, height, position, opacity,
       boxElement.style.left = newX;
       boxElement.style.top = newY;
 
-
       debounceMove({
         newX: newX,
         newY: newY
-      })
-
-      // changeBoxById(boxid, { x: newX, y: newY });
-      // debounce(() => {
-      //   ppplog('changeBoxById-move')
-      // }, 300)
-
+      });
     };
 
     const onMouseUp = () => {
@@ -116,9 +97,18 @@ function Box({ boxid, width, height, position, opacity,
     transform: `scale(${scale})`,
   }), [width, height, position, opacity, x, y, scale, zIndex, activeBoxId, boxid]);  // Add
 
+  const animateCssClass = useMemo(() => activeBox?.animateCssClass || '', [activeBox]);
 
-  return <div id={boxid} ref={boxRef} style={boxStyle} className={`${classes.box} ${classes.disableSelection}`}>{children}</div>;
-
+  return (
+    <div
+      id={boxid}
+      ref={boxRef}
+      style={boxStyle}
+      className={`${classes.box} ${classes.disableSelection} ${animateCssClass} animate__animated`}
+    >
+      {children}
+    </div>
+  );
 }
 
 export default Box;

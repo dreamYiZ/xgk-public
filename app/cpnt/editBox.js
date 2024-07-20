@@ -2,7 +2,7 @@ import useBoxStore from '../store/useBo';
 import useGlobalStore from '../store/useGlobal';
 import ppplog from "ppplog";
 import EditSub from "./editSub";
-import { TextField, Button } from '@mui/material';
+import { TextField, Button, Autocomplete, FormControl } from '@mui/material';
 import EditTabContainer from "./editTabContainer";
 import Box from '@mui/material/Box';
 import { useState, useEffect, useMemo } from "react";
@@ -11,6 +11,7 @@ import { FRAMEWORK_ID_SELECTOR } from "../util/util";
 import { IconButton } from '@mui/material';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
 import Typography from '@mui/material/Typography';
+import { ANIMATE_CSS_CLASS, ANIMATE_CSS_CLASS_DISPLAY } from "../util/animateCssType";
 
 function EditBox() {
   const boxArr = useBoxStore((state) => state.boxArr);  // Access the 'boxArr' state
@@ -19,7 +20,6 @@ function EditBox() {
   const delById = useBoxStore((state) => state.delById);  // Access the 'delById' function
   const { screenWidth, screenHeight } = useGlobalStore();  // Access the 'screenWidth' and 'screenHeight' states
 
-
   const [localActiveBoxId, setLocalActiveBoxId] = useState(activeBoxId);
 
   useEffect(() => {
@@ -27,11 +27,9 @@ function EditBox() {
   }, [activeBoxId]);
 
   // Find the active box in the 'boxArr' array
-
   const activeBox = useMemo(() => {
-    return boxArr.find((box) => box.boxid === activeBoxId);
-  }, [boxArr, localActiveBoxId]);  // Recompute activeBox when boxArr or activeBoxId changes
-
+    return boxArr.find((box) => box.boxid === localActiveBoxId);
+  }, [boxArr, localActiveBoxId]);  // Recompute activeBox when boxArr or localActiveBoxId changes
 
   const handleInputChange = (event, property) => {
     changeById(activeBoxId, { [property]: event.target.value });
@@ -43,9 +41,7 @@ function EditBox() {
 
   const handleFocusClick = () => {
     const mainElement = document.querySelector(FRAMEWORK_ID_SELECTOR);  // 使用 id 来获取元素
-
     if (mainElement && activeBox) {
-
       let { x, y, height } = activeBox;
       // 如果 x, y, height 是字符串，则移除 'px' 并转换为数字
       x = typeof x === 'string' ? Number(x.replace('px', '')) : x;
@@ -71,8 +67,6 @@ function EditBox() {
     }
   };
 
-
-
   const [open, setOpen] = useState(false);  // 新增状态变量
 
   const handleClickOpen = () => {
@@ -92,12 +86,13 @@ function EditBox() {
     handleClose();  // 关闭弹窗
   };
 
-
-
   const handleCopyClick = () => {
     navigator.clipboard.writeText(activeBox.boxid);
   };
 
+  const handleAnimateCssChange = (event, newValue) => {
+    changeById(activeBoxId, { animateCssClass: newValue || '' });
+  };
 
   return (
     <EditTabContainer>
@@ -111,7 +106,7 @@ function EditBox() {
             onChange={(event) => handleInputChange(event, 'boxid')}
             InputProps={{
               endAdornment: (
-                <IconButton onClick={handleCopyClick} >
+                <IconButton onClick={handleCopyClick}>
                   <FileCopyIcon />
                 </IconButton>
               ),
@@ -147,6 +142,19 @@ function EditBox() {
           <br />
           <br />
 
+          <Box mr={2} mb={2}> {/* 添加右边距 */}
+            <FormControl variant="outlined" fullWidth>
+              <Autocomplete
+                id="animate-css-class"
+                options={Object.values(ANIMATE_CSS_CLASS)}
+                getOptionLabel={(option) => ANIMATE_CSS_CLASS_DISPLAY[option]}
+                value={activeBox.animateCssClass || ''}
+                onChange={handleAnimateCssChange}
+                renderInput={(params) => <TextField {...params} label="动画效果" variant="outlined" />}
+                freeSolo
+              />
+            </FormControl>
+          </Box>
 
           <Box display="flex" alignItems="center">  {/* 设置为 flex 布局 */}
             <Box mr={2}>  {/* 添加右边距 */}
@@ -164,11 +172,7 @@ function EditBox() {
                 resize
               </Button>
             </Box>
-
-
-
           </Box>
-
 
           <EditSub />
 
@@ -204,11 +208,9 @@ function EditBox() {
         </>
       ) : (
         <p style={{ opacity: .6 }}>没有选中的组件.</p>
-      )
-      }
-    </EditTabContainer >
+      )}
+    </EditTabContainer>
   );
-
 }
 
 export default EditBox;
