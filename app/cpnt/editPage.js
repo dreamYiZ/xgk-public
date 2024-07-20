@@ -26,7 +26,7 @@ function EditPage() {
         {boxArr.map((box) => (
           <ListItem key={box.boxid} >
             <ListItemText
-              primary={`${SUB_TYPE_DISPLAY[box?.sub?.type]}: ${box.boxid}`}
+              primary={`${SUB_TYPE_DISPLAY[box?.sub?.type]}:${box?.name?.slice(0,10)}: ${box.boxid}`}
               style={{ color: box.boxid === activeBoxId ? '#7CB9E8' : 'black', cursor: 'pointer' }}
               onClick={() => handleItemClick(box.boxid)}
             />
