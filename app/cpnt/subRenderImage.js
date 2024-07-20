@@ -5,6 +5,7 @@ import useGlobalStore from "../store/useGlobal";
 import useBoxStore from "../store/useBo";
 import { useCallback, useEffect, useState } from "react";
 import { ppplog, throttle, CMD_TIME } from "../util/util";
+import useBeFactory from "../hooks/useBeFactory";
 
 function SubRenderImage({ box, sub }) {
 
@@ -14,6 +15,7 @@ function SubRenderImage({ box, sub }) {
 
   const { getIsTestOrDisplay, mode } = useGlobalStore();
   const { addEvent, eventArr, addEventSortByTime } = useBe();
+  const { createBeBySubBe } = useBeFactory();
 
 
   useEffect(() => {
@@ -22,25 +24,12 @@ function SubRenderImage({ box, sub }) {
 
   const addBeToBeStore = () => {
     const { be } = sub;
-    const { time, ...restBe } = be;
-    let _time = +new Date();
 
-    if (time === CMD_TIME.NOW) {
 
-    }
+    createBeBySubBe(be);
 
-    if (time === CMD_TIME.CMD_TIME_DISPLAY) {
-      _time = +new Date() + 3000;
-    }
 
-    let newBe = {
-      ...restBe,
-      time: _time,
-    }
-
-    addEventSortByTime(newBe);
-
-    ppplog('addBeToBeStore', restBe, _time, newBe);
+    ppplog('addBeToBeStore', _time, newBe);
   }
 
   const addBeToBeStoreThrottle = throttle(addBeToBeStore, 1000)

@@ -33,7 +33,7 @@ export default function EditChartPayload() {
 
   const [selectedCmd, setSelectedCmd] = useState(null);
   const [selectedTarget, setSelectedTarget] = useState(null);
-  const [selectedTime, setSelectedTime] = useState('立即执行');
+  const [selectedTime, setSelectedTime] = useState(CMD_TIME.NOW);
 
   const [availableTargetList, setAvailableTargetList] = useState([]);
   const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -51,7 +51,7 @@ export default function EditChartPayload() {
   };
 
 
-  const onCmdSelectionChange = (_selectedCmd) => {
+  const onCmdSelectionChange = (_selectedCmd, shouldNotUnSelectTarget) => {
 
     if (_selectedCmd !== CMD.GOTO) {
 
@@ -88,7 +88,10 @@ export default function EditChartPayload() {
       })))
     }
 
-    setSelectedTarget(null);
+    if (!shouldNotUnSelectTarget) {
+      setSelectedTarget(null);
+    }
+
   }
 
 
@@ -146,6 +149,10 @@ export default function EditChartPayload() {
       setSelectedTarget(sub.be.target);
       setSelectedTime(sub.be.time);
       setCode(sub.be.code);
+
+      if (sub?.be?.cmd) {
+        onCmdSelectionChange(sub?.be?.cmd, true);
+      }
     }
   }, [sub?.be])
 
@@ -181,7 +188,7 @@ export default function EditChartPayload() {
               <Autocomplete
                 value={selectedTarget}
                 onChange={(event, newValue) => setSelectedTarget(newValue)}
-                options={availableTargetList.map((box) => box.boxid)}
+                options={availableTargetList.map((box) => `${box?.name}:${box.boxid}`)}
                 renderInput={(params) => <TextField {...params} InputLabelProps={{ shrink: true }} />}
               />
             </FormControl>
