@@ -90,7 +90,12 @@ Finally, if you also want to see the example work in the deployed application ma
 
 
 
-# .env.local
+# .env.local 配置
 
+## 产品密匙
 XGK_SECRET=DSVXLJfvcxj23BLfjfjewBkcxvjiEROij324239cjlCJXIjsdnc2jFj
 NEXT_PUBLIC_INIT=AUTO  //自动装载public文件夹下config.txt配置
+
+
+
+当NEXT_PUBLIC_INIT为AUTO时，会自动加载public文件夹下config.txt配置文件
