@@ -2,6 +2,8 @@ import create from 'zustand'
 import { persist } from 'zustand/middleware'
 
 
+export const GLOBAL_STORAGE_KEY = 'global-storage'
+
 export const BG_TYPE = {
   IMAGE: 'image',
   VIDEO: 'video',
@@ -55,7 +57,7 @@ const useGlobalStore = create(persist(
     setVersion : (version) => set(() => ({ version: version})),
   }),
   {
-    name: 'global-storage',
+    name: GLOBAL_STORAGE_KEY,
     getStorage: () => localStorage,
   }
 ));

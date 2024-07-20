@@ -10,6 +10,7 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import ppplog from "ppplog";
 import Typography from '@mui/material/Typography';
+import { MODE, GLOBAL_STORAGE_KEY } from "../store/useGlobal";
 
 export default function Setting() {
   const { isOpenSetting, openSetting, closeSetting, setLicense, license,
@@ -26,6 +27,35 @@ export default function Setting() {
     link.click();
   };
 
+
+  const downloadTestConfig = () => {
+    const newLocalStorage = localStorage;
+    const globalSetting = JSON.parse(localStorage.getItem(GLOBAL_STORAGE_KEY));
+    globalSetting.state.mode = MODE.TEST;
+    newLocalStorage[GLOBAL_STORAGE_KEY] = JSON.stringify(globalSetting);
+
+    const config = JSON.stringify(newLocalStorage, null, 2);
+    const blob = new Blob([config], { type: 'text/plain;charset=utf-8' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'config.txt';
+    link.click();
+  }
+
+  const downloadDisplayConfig = () => {
+    const newLocalStorage = localStorage;
+    const globalSetting = JSON.parse(localStorage.getItem(GLOBAL_STORAGE_KEY));
+    globalSetting.state.mode = MODE.DISPLAY;
+    newLocalStorage[GLOBAL_STORAGE_KEY] = JSON.stringify(globalSetting);
+
+    const config = JSON.stringify(newLocalStorage, null, 2);
+    const blob = new Blob([config], { type: 'text/plain;charset=utf-8' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'config.txt';
+    link.click();
+  }
+
   const uploadConfig = (event) => {
     const file = event.target.files[0];
     const reader = new FileReader();
@@ -34,6 +64,8 @@ export default function Setting() {
       for (let key in config) {
         localStorage.setItem(key, config[key]);
       }
+
+      window.location.reload();
     };
     reader.readAsText(file);
   };
@@ -64,6 +96,8 @@ export default function Setting() {
       >
         <Box sx={{ width: 350, padding: 2 }}>
           <Button onClick={downloadConfig}>下载配置</Button>
+          <Button onClick={downloadTestConfig}>下载测试配置</Button>
+          <Button onClick={downloadDisplayConfig}>下载展示配置</Button>
           <Button variant="contained" component="label">
             上传配置
             <input type="file" hidden onChange={uploadConfig} />

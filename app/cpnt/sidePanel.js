@@ -23,6 +23,8 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import FeaturedPlayListIcon from '@mui/icons-material/FeaturedPlayList';
+import PageManage from "./PageManage";
 
 
 
@@ -43,6 +45,7 @@ function SidePanel() {
   const [errorMessage, setErrorMessage] = React.useState('');
   const [showSelectImage, setShowSelectImage] = useState(false);  // Add a state for showing
   const [isShowDataCenter, setIsShowDataCenter] = React.useState(false);
+  const [isShowPageManage, setIsShowPageManage] = React.useState(false);
 
   const [isFullScreenAuto, setIsFullScreenAuto] = useState('no')
 
@@ -192,7 +195,11 @@ function SidePanel() {
 
   const handleOpenDataControlCenter = () => {
     setIsShowDataCenter(true);
+  }
 
+
+  const handleOpenPageManage = () => {
+    setIsShowPageManage(true);
   }
 
   const onChangeFullScreenAuto = (event) => {
@@ -209,9 +216,13 @@ function SidePanel() {
   return (
     <div className={classes['side-panel-view']}>
       <Box display="flex" justifyContent="space-between" mb={2}>
-        {activeBoxId && <Button variant="outlined" color="primary" onClick={handelClearActiveId}>取消选择</Button>}
+        {activeBoxId && <Button variant="outlined" color="primary" onClick={handelClearActiveId}>取消</Button>}
         <IconButton onClick={handleOpenSettings}>  {/* 添加一个 IconButton 来打开设置面板 */}
           <SettingsIcon />
+        </IconButton>
+
+        <IconButton onClick={handleOpenPageManage}>  {/* 添加一个 IconButton 来打开设置面板 */}
+          <FeaturedPlayListIcon />
         </IconButton>
 
         <IconButton onClick={handleOpenDataControlCenter}>  {/* 添加一个 IconButton 来打开数据控制中心 */}
@@ -325,6 +336,10 @@ function SidePanel() {
       <Setting />  {/* 设置面板 */}
       <ChooseImage handleChoose={handleChoose} show={showSelectImage} handleClose={() => {
         setShowSelectImage(false);
+      }} />
+
+      <PageManage show={isShowPageManage} handleClose={() => {
+        setIsShowPageManage(false);
       }} />
 
       <DataCenter show={isShowDataCenter} setShow={setIsShowDataCenter} />

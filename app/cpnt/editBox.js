@@ -161,7 +161,7 @@ function EditBox() {
             </Box>
             <Box mr={2}>  {/* 添加右边距 */}
               <Button variant="contained" color="success" onClick={handleAutoSizeClick}>  {/* 修改颜色为 'success' */}
-                自尺寸
+                resize
               </Button>
             </Box>
 
