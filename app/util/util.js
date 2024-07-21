@@ -692,6 +692,30 @@ export const createBoxThreeCanvas = () => {
   }
 }
 
+const BASIC_PAYLOAD_MARQUEE_IMAGE_VIDEO = {
+  data: new Array(100).fill().map((_, idx) => {
+    return {
+      id: uuidv4(),
+      videoUrl: '/upload/demo-video.mp4',
+      imageUrl: DEMO_FACE_URL,
+    }
+  }),
+  imageWidth: 200,
+  imageHeight: 200,
+}
+
+export const createBoxMarqueeImageVideo = () => {
+  return {
+    ...createBoxPayload(),
+    width: '500px',
+    height: '400px',
+    sub: {
+      type: SUB_TYPE.MARQUEE_IMAGE_VIDEO,
+      ...BASIC_PAYLOAD_MARQUEE_IMAGE_VIDEO
+    }
+  }
+}
+
 
 
 export const createMarketTemplates = () => {
@@ -911,4 +935,5 @@ export const MAP_TYPE_FACTORY = {
   [SUB_TYPE.SWIPER_ONE_PICTURE]: createBoxSwiperOnePicture,
   [SUB_TYPE.BUTTON_ACTIVE_ONE]: createBoxButtonActiveOne,
   [SUB_TYPE.THREE_CANVAS]: createBoxThreeCanvas,
+  [SUB_TYPE.MARQUEE_IMAGE_VIDEO]: createBoxMarqueeImageVideo,
 };
