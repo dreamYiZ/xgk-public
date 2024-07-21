@@ -58,7 +58,9 @@ function Model({ url, animateType, animateSpeed, modelScale }) {
 
 
   useFrame(({ clock }) => {
-    ref.current.rotation.y = clock.getElapsedTime()
+    if(animateType === THREE_ANIMATE_TYPE.AUTO){
+      ref.current.rotation.y = clock.getElapsedTime()
+    }
   })
 
   return <primitive object={scene} ref={ref} />;
