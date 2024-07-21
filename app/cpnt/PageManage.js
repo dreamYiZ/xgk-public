@@ -89,7 +89,7 @@ export default function PageManage({ show, handleClose }) {
     )
   }, [autoList])
 
-  ppplog('autoList', autoList)
+  // ppplog('autoList', autoList)
 
   return (
     <div>
