@@ -99,3 +99,10 @@ NEXT_PUBLIC_INIT=AUTO  //自动装载public文件夹下config.txt配置
 
 
 当NEXT_PUBLIC_INIT为AUTO时，会自动加载public文件夹下config.txt配置文件
+
+
+
+## mimage
+
+### 素材库地址
+/mimage
