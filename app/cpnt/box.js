@@ -51,6 +51,9 @@ function Box({ boxid, width, height, position, opacity,
         newY = e.clientY - offsetY - mainElement.getBoundingClientRect().top + boxElement.getBoundingClientRect().height * (stringToNumber(scale) - 1) / 2;
       }
 
+
+      ppplog('newX,newY', newX, newY, offsetX, offsetY)
+
       // 边界检查
       if (newX < 0) newX = 0;
       if (newY < 0) newY = 0;

@@ -68,7 +68,6 @@ export default function (
       >
 
         {data.map(imgAndTextArr => {
-          ppplog('imgAndTextArr', imgAndTextArr)
           return <SwiperSlideItem styleObj={styleObj} key={imgAndTextArr.id} imgAndTextArr={imgAndTextArr} />
         })}
 
@@ -80,7 +79,6 @@ export default function (
 
 
 const SwiperSlideItem = (props) => {
-  ppplog('SwiperSlideItem', props)
   return <SwiperSlide>
     <ImageTextBox {...props} />
   </SwiperSlide>
@@ -93,7 +91,6 @@ const ImageTextBox = (props) => {
   const {
     imgAndTextArr, styleObj
   } = props;
-  // ppplog('ImageTextBox props', imgAndTextArr, styleObj)
 
   const {
     id,

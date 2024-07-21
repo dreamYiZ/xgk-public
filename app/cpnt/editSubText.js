@@ -35,7 +35,7 @@ function EditSubText() {
   const [fonts, setFonts] = useState([]);
 
 
-  const [selectedFont, setSelectedFont] = useState(null);
+  const [selectedFont, setSelectedFont] = useState('');
 
   const onDrop = useCallback(acceptedFiles => {
     const file = acceptedFiles[0];
