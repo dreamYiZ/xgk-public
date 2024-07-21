@@ -148,7 +148,7 @@ function EditBox() {
                 id="animate-css-class"
                 options={Object.values(ANIMATE_CSS_CLASS)}
                 getOptionLabel={(option) => ANIMATE_CSS_CLASS_DISPLAY[option]}
-                value={activeBox.animateCssClass || ''}
+                value={activeBox.animateCssClass }
                 onChange={handleAnimateCssChange}
                 renderInput={(params) => <TextField {...params} label="动画效果" variant="outlined" />}
                 freeSolo

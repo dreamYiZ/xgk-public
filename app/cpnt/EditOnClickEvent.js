@@ -78,6 +78,8 @@ export default function EditChartPayload() {
 
       if (_availableTargetList && _availableTargetList.length) {
         setAvailableTargetList(_availableTargetList);
+      } else {
+        setAvailableTargetList([]);
       }
     }
 
@@ -151,7 +153,9 @@ export default function EditChartPayload() {
       setCode(sub.be.code);
 
       if (sub?.be?.cmd) {
-        onCmdSelectionChange(sub?.be?.cmd, true);
+        if (availableTargetList.length <= 0) {
+          onCmdSelectionChange(sub?.be?.cmd, true);
+        }
       }
     }
   }, [sub?.be])
