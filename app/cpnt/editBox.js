@@ -138,7 +138,9 @@ function EditBox() {
           <TextField label="y-纵坐标" value={activeBox.y} onChange={(event) => handleInputChange(event, 'y')} />
           <br />
           <br />
-          <TextField label="缩放" value={activeBox.scale} onChange={(event) => handleInputChange(event, 'scale')} />
+          <Box>
+            <TextField label="缩放" value={activeBox.scale} onChange={(event) => handleInputChange(event, 'scale')} />
+          </Box>
           <br />
           <br />
 
@@ -148,7 +150,7 @@ function EditBox() {
                 id="animate-css-class"
                 options={Object.values(ANIMATE_CSS_CLASS)}
                 getOptionLabel={(option) => ANIMATE_CSS_CLASS_DISPLAY[option]}
-                value={activeBox.animateCssClass }
+                value={activeBox.animateCssClass}
                 onChange={handleAnimateCssChange}
                 renderInput={(params) => <TextField {...params} label="动画效果" variant="outlined" />}
                 freeSolo

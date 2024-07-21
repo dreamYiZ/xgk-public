@@ -2,6 +2,7 @@ import useGlobalStore from '../store/useGlobal';
 import useBoxStore from "../store/useBo";
 import usePageStore from "../store/usePage";
 import { ppplog } from "../util/util";
+import { v4 as uuidv4 } from 'uuid';
 
 export default function () {
 

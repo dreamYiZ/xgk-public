@@ -86,7 +86,7 @@ export default function useBeCustomer() {
     const firstEvent = eventArr[0];
 
     // Check if the first event's time is earlier than the current time
-    if (firstEvent && firstEvent.time < Date.now()) {
+    if (firstEvent && (firstEvent.time < Date.now() || !firstEvent.time)) {
       consumeEv(firstEvent);
     }
   }, [eventArr, consumeEv]);

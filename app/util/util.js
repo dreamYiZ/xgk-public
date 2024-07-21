@@ -19,7 +19,9 @@ import {
   maybeNumberOr,
 } from "./numberUtil";
 import { THREE_ANIMATE_TYPE } from "./threeAnimateTyle";
+import { AUTO_NEXT_PAGE } from "./autoType";
 
+export * from "./autoType";
 export * from "./timeType";
 export * from "./threeAnimateTyle";
 
