@@ -2,22 +2,25 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, useGLTF } from '@react-three/drei';
 import { Suspense, useRef, useEffect } from 'react';
 import { ppplog, THREE_ANIMATE_TYPE } from "../util/util";
+import ErrorBoundaryThree from "./ErrorBoundaryThree";
 
 export default function BoxWithModel({ box, sub }) {
   return (
-    <Canvas style={{ width: box.width, height: box.height }} camera={{ position: [0, 0, 10] }}>
-      <ambientLight intensity={0.5} />
-      <directionalLight position={[5, 5, 5]} intensity={1} />
-      <Suspense fallback={null}>
-        <Model
-          url={sub.modelUrl}
-          animateType={sub.animateType}
-          animateSpeed={sub.animateSpeed}
-          modelScale={sub.modelScale} // Pass modelScale here
-        />
-      </Suspense>
-      <OrbitControls />
-    </Canvas>
+    <ErrorBoundaryThree>
+      <Canvas style={{ width: box.width, height: box.height }} camera={{ position: [0, 0, 10] }}>
+        <ambientLight intensity={0.5} />
+        <directionalLight position={[5, 5, 5]} intensity={1} />
+        <Suspense fallback={null}>
+          <Model
+            url={sub.modelUrl}
+            animateType={sub.animateType}
+            animateSpeed={sub.animateSpeed}
+            modelScale={sub.modelScale} // Pass modelScale here
+          />
+        </Suspense>
+        <OrbitControls />
+      </Canvas>
+    </ErrorBoundaryThree>
   );
 }
 
