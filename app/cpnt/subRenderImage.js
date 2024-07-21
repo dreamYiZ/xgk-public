@@ -24,12 +24,7 @@ function SubRenderImage({ box, sub }) {
 
   const addBeToBeStore = () => {
     const { be } = sub;
-
-
     createBeBySubBe(be);
-
-
-    ppplog('addBeToBeStore', _time, newBe);
   }
 
   const addBeToBeStoreThrottle = throttle(addBeToBeStore, 1000)
