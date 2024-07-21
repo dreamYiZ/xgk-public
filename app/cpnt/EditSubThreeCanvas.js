@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import useBoxStore from '../store/useBo';
 import TextField from '@mui/material/TextField';
 import DrawerEditLayout from "./DrawerEditLayout";
@@ -6,9 +6,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import { Select, MenuItem, FormControl, InputLabel, Slider, Typography } from '@mui/material';
-import {
-  safeNumberIfString, ppplog, THREE_ANIMATE_TYPE, THREE_ANIMATE_TYPE_DISPLAY
-} from "../util/util";
+import { safeNumberIfString, ppplog, THREE_ANIMATE_TYPE, THREE_ANIMATE_TYPE_DISPLAY } from "../util/util";
 import "ace-builds/src-noconflict/mode-json";
 import "ace-builds/src-noconflict/theme-monokai";
 
@@ -25,7 +23,9 @@ export default function () {
 
   const [modelUrl, setModelUrl] = useState('');
   const [animateType, setAnimateType] = useState(THREE_ANIMATE_TYPE.NONE);
-  const [animateSpeed, setAnimateSpeed] = useState(1);
+  // Commenting out animateSpeed
+  // const [animateSpeed, setAnimateSpeed] = useState(1);
+  const [modelScale, setModelScale] = useState(1);
 
   const saveChange = () => {
     if (sub) {
@@ -34,7 +34,9 @@ export default function () {
           ...sub,
           modelUrl: modelUrl,
           animateType: animateType,
-          animateSpeed: animateSpeed,
+          // Uncomment if you want to include animateSpeed
+          // animateSpeed: animateSpeed,
+          modelScale: modelScale,
         },
       });
     }
@@ -45,7 +47,9 @@ export default function () {
       setOption(JSON.stringify(sub, null, 2));
       setModelUrl(sub.modelUrl);
       setAnimateType(sub.animateType || THREE_ANIMATE_TYPE.NONE);
-      setAnimateSpeed(sub.animateSpeed || 1);
+      // Commenting out animateSpeed
+      // setAnimateSpeed(sub.animateSpeed || 1);
+      setModelScale(sub.modelScale || 1);
     }
   }, [sub, activeBoxId]);
 
@@ -98,6 +102,8 @@ export default function () {
 
           <Box mt={2}></Box>
 
+          {/* Commenting out animation speed related code */}
+          {/*
           <Typography gutterBottom>动画速度</Typography>
           <Slider
             value={animateSpeed}
@@ -106,6 +112,20 @@ export default function () {
             step={0.1}
             min={0.1}
             max={5}
+            valueLabelDisplay="auto"
+          />
+          */}
+
+          <Box mt={2}></Box>
+
+          <Typography gutterBottom>模型缩放</Typography>
+          <Slider
+            value={modelScale}
+            onChange={(event, newValue) => setModelScale(newValue)}
+            aria-labelledby="model-scale-slider"
+            step={0.1}
+            min={1}
+            max={10}
             valueLabelDisplay="auto"
           />
 

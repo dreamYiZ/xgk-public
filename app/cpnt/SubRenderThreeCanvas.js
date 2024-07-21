@@ -74,9 +74,18 @@ export default function (
     onClickHandler();
   }
 
+
+  const handleMouseEvents = (event) => {
+    event.stopPropagation();
+  };
+
   return <div style={{ width: box.width, height: box.height, }} >
     <Box p={5}>
-      <ThreeCanvas box={box} sub={sub} />
+      <Box
+        onMouseDown={handleMouseEvents} onMouseMove={handleMouseEvents} onClick={handleMouseEvents}
+      >
+        <ThreeCanvas box={box} sub={sub} />
+      </Box>
     </Box>
   </div >
 }

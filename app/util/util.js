@@ -675,7 +675,7 @@ export const createBoxButtonActiveOne = () => {
 const BASIC_PAYLOAD_THREE_CANVAS = {
   modelUrl: '/upload/free.glb',
   animateType: THREE_ANIMATE_TYPE.AUTO,
-  animateSpeed: 1,
+  modelScale: 3,
 }
 
 export const createBoxThreeCanvas = () => {
