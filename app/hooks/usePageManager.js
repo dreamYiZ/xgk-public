@@ -36,8 +36,12 @@ export default function () {
     setBoxArr(page.bo);
 
     if (!page.notChangeBg) {
-      setBgVideo(page.bgVideo);
-      setBg(page.bg);
+      if (page.bgVideo) {
+        setBgVideo(page.bgVideo);
+      }
+      if (page.bg) {
+        setBg(page.bg);
+      }
     }
 
   };

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import Drawer from '@mui/material/Drawer';
 import Typography from '@mui/material/Typography';
@@ -7,7 +7,7 @@ import useBoxStore from "../store/useBo";
 import usePageStore from "../store/usePage";
 import { v4 as uuidv4 } from 'uuid';
 import DisplayPageItem from "./DisplayPageItem";
-import { ppplog } from "../util/util";
+import { CMD, ppplog } from "../util/util";
 import useGlobalStore from '../store/useGlobal';
 import usePageManager from "../hooks/usePageManager";
 import { Radio, RadioGroup, FormControlLabel, FormControl, FormLabel, TextField, Tabs, Tab, Box, IconButton, Checkbox } from '@mui/material';
@@ -77,6 +77,17 @@ export default function PageManage({ show, handleClose }) {
     setAutoList(updatedList);
     setAutoDuration(newDuration);
   };
+
+
+  useEffect(() => {
+    let _autoNextIndex = autoList.findIndex(autoItem => {
+      return autoItem.be.cmd === CMD.NEXT_PAGE
+    });
+
+    setSelectedAutoIndex(
+      _autoNextIndex
+    )
+  }, [autoList])
 
   ppplog('autoList', autoList)
 
