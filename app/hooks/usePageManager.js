@@ -29,8 +29,12 @@ export default function () {
     usePageStore.setState({ currentPage: page, currentPageId: id });
 
     setBoxArr(page.bo);
-    setBgVideo(page.bgVideo);
-    setBg(page.bg);
+
+    if (!page.notChangeBg) {
+      setBgVideo(page.bgVideo);
+      setBg(page.bg);
+    }
+
   };
 
 

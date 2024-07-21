@@ -84,9 +84,9 @@ export default function useBeFactory(
 
 
   return {
-    createBeBySubBe,
     hasBe,
     canClick,
+    createBeBySubBe,
     addBeToBeStoreThrottle,
     onClickHandler
   }

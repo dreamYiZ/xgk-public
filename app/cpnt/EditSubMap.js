@@ -18,6 +18,7 @@ import EditSubSwiper from "./EditSubSwiper";
 import EditSubRollOneLine from "./EditSubRollOneLine";
 import EditSubSwiperImageText from "./EditSubSwiperImageText";
 import EditSubSwiperOnePicture from "./EditSubSwiperOnePicture";
+import EditSubButtonActiveOne from "./EditSubButtonActiveOne";
 
 export const MAP_SUB_EDIT = {
   [SUB_TYPE.TEXT]: EditSubText,
@@ -41,6 +42,7 @@ export const MAP_SUB_EDIT = {
   [SUB_TYPE.ROLL_ONE_LINE]: EditSubRollOneLine,
   [SUB_TYPE.SWIPER_IMAGE_TEXT]: EditSubSwiperImageText,
   [SUB_TYPE.SWIPER_ONE_PICTURE]: EditSubSwiperOnePicture,
+  [SUB_TYPE.BUTTON_ACTIVE_ONE]: EditSubButtonActiveOne,
 }
 
 

@@ -649,6 +649,26 @@ export const createBoxSwiperOnePicture = () => {
 }
 
 
+export const BASIC_PAYLOAD_BUTTON_ACTIVE_ONE = {
+  imgUrl: '/demo-face.jpeg',
+  imgActiveUrl: '/demo-cat-2.jpg',
+  groupid: null,
+  isActive: false,
+}
+
+export const createBoxButtonActiveOne = () => {
+  return {
+    ...createBoxPayload(),
+    width: '200px',
+    height: '50px',
+    sub: {
+      type: SUB_TYPE.BUTTON_ACTIVE_ONE,
+      ...BASIC_PAYLOAD_BUTTON_ACTIVE_ONE
+    }
+  }
+}
+
+
 
 export const createMarketTemplates = () => {
   return []
@@ -865,4 +885,5 @@ export const MAP_TYPE_FACTORY = {
   [SUB_TYPE.ROLL_ONE_LINE]: createBoxRollOneLine,
   [SUB_TYPE.SWIPER_IMAGE_TEXT]: createBoxSwiperImageText,
   [SUB_TYPE.SWIPER_ONE_PICTURE]: createBoxSwiperOnePicture,
+  [SUB_TYPE.BUTTON_ACTIVE_ONE]: createBoxButtonActiveOne,
 };
