@@ -28,7 +28,6 @@ function Model({ url, animateType, animateSpeed, modelScale }) {
   const { scene } = useGLTF(url);
   const ref = useRef();
 
-  ppplog('model-url', url);
 
   // Ensure the model is at the correct position
   useEffect(() => {
@@ -36,13 +35,13 @@ function Model({ url, animateType, animateSpeed, modelScale }) {
     scene.scale.set(...new Array(3).fill(modelScale));
     // scene.position.set(0, 0, 0);
 
-    ppplog('ref.current.rotation', ref.current.rotation)
+    // ppplog('ref.current.rotation', ref.current.rotation)
     // Log the scene and its materials for debugging
-    ppplog('Scene:', scene);
+    // ppplog('Scene:', scene);
     scene.traverse((object) => {
       if (object.isMesh) {
-        ppplog('Mesh:', object);
-        ppplog('Material:', object.material);
+        // ppplog('Mesh:', object);
+        // ppplog('Material:', object.material);
       }
     });
   }, [scene, modelScale]);
