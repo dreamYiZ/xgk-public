@@ -18,7 +18,10 @@ import {
   canToBeNumber,
   maybeNumberOr,
 } from "./numberUtil";
+import { THREE_ANIMATE_TYPE } from "./threeAnimateTyle";
+
 export * from "./timeType";
+export * from "./threeAnimateTyle";
 
 const DEMO_FACE_URL = '/demo-face.jpeg';
 
@@ -669,6 +672,25 @@ export const createBoxButtonActiveOne = () => {
 }
 
 
+const BASIC_PAYLOAD_THREE_CANVAS = {
+  modelUrl: '/upload/free.glb',
+  animateType: THREE_ANIMATE_TYPE.AUTO,
+  animateSpeed: 1,
+}
+
+export const createBoxThreeCanvas = () => {
+  return {
+    ...createBoxPayload(),
+    width: '500px',
+    height: '500px',
+    sub: {
+      type: SUB_TYPE.THREE_CANVAS,
+      ...BASIC_PAYLOAD_THREE_CANVAS
+    }
+  }
+}
+
+
 
 export const createMarketTemplates = () => {
   return []
@@ -886,4 +908,5 @@ export const MAP_TYPE_FACTORY = {
   [SUB_TYPE.SWIPER_IMAGE_TEXT]: createBoxSwiperImageText,
   [SUB_TYPE.SWIPER_ONE_PICTURE]: createBoxSwiperOnePicture,
   [SUB_TYPE.BUTTON_ACTIVE_ONE]: createBoxButtonActiveOne,
+  [SUB_TYPE.THREE_CANVAS]: createBoxThreeCanvas,
 };
