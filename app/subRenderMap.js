@@ -17,6 +17,7 @@ import SubRenderTableOneRow from "./cpnt/SubRenderTableOneRow";
 import SubRenderSwiper from "./cpnt/SubRenderSwiper";
 import SubRenderRollOneLine from "./cpnt/SubRenderRollOneLine";
 import SubRenderSwiperImageText from "./cpnt/SubRenderSwiperImageText";
+import SubRenderSwiperOnePicture from "./cpnt/SubRenderSwiperOnePicture";
 
 
 const MAP_SUB_RENDER = {
@@ -40,6 +41,7 @@ const MAP_SUB_RENDER = {
   [SUB_TYPE.SWIPER_JS]: SubRenderSwiper,
   [SUB_TYPE.ROLL_ONE_LINE]: SubRenderRollOneLine,
   [SUB_TYPE.SWIPER_IMAGE_TEXT]: SubRenderSwiperImageText,
+  [SUB_TYPE.SWIPER_ONE_PICTURE]: SubRenderSwiperOnePicture,
 }
 
 
