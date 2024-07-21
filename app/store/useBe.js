@@ -16,7 +16,7 @@ const useEventStore = create((set) => ({
   emptyEvents: () => set((state) => ({ eventArr: [] })),
   addEventSortByTime: (event) => set((state) => ({
     eventArr: [...state.eventArr, event].sort(function (x, y) {
-      return x.timestamp - y.timestamp;
+      return x.time - y.time;
     })
   })),
   consumeBe:  () => set((state) => ({ eventArr: state.eventArr.slice(1) })),

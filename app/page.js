@@ -9,6 +9,7 @@ import useGlobalStore, { BG_TYPE } from './store/useGlobal';
 import { loadInitConfig, createBoxText, Bideo, ppplog } from "./util/util";
 import MouseXY from "./cpnt/mouseXY";
 import useBeCustomer from "./hooks/useBeConsumer";
+import useAutoConsumer from "./hooks/useAutoConsumer";
 
 
 import dynamic from 'next/dynamic';
@@ -37,6 +38,7 @@ export default function Home() {
   })
 
   useBeCustomer();
+  useAutoConsumer();
 
 
   useEffect(() => {

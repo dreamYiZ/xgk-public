@@ -1,10 +1,10 @@
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback, useState } from 'react';
 import useBoxStore from "../store/useBo";
 import useBeStore from "../store/useBe";
 import { ppplog, CMD, SPRINT_STATUS } from "../util/util";
 import { trimStringToIntOrNull } from "../util/numberUtil";
-import usePageManager from "../hooks/usePageManager"
-
+import usePageManager from "../hooks/usePageManager";
+import useGlobalStore from "../store/useGlobal";
 
 // cmd
 // :
@@ -26,7 +26,12 @@ export default function useBeCustomer() {
     consumeBe,
   } = useBeStore();
 
-  const { changeCurrentPage } = usePageManager()
+  const { getIsTestOrDisplay, mode } = useGlobalStore();
+
+
+  const { changeCurrentPage, rollNextPage } = usePageManager()
+
+  const [canConsume, setCanConsume] = useState(false);
 
   const consumeEv = useCallback((beItem) => {
     // Implement your event consumption logic here
@@ -76,6 +81,11 @@ export default function useBeCustomer() {
       changeCurrentPage(target.id);
     }
 
+    if (cmd === CMD.NEXT_PAGE) {
+      rollNextPage()
+
+    }
+
     consumeBe(beItem);
   }, [getById, changeById]);
 
@@ -92,6 +102,10 @@ export default function useBeCustomer() {
   }, [eventArr, consumeEv]);
 
   useEffect(() => {
+
+    if (!canConsume) {
+      return
+    }
     let idSetTimeout = null;
 
     const consumeEvIfGood = () => {
@@ -103,5 +117,10 @@ export default function useBeCustomer() {
     return () => {
       clearTimeout(idSetTimeout)
     }
-  }, [_consumeEvIfGood]);
+  }, [_consumeEvIfGood, canConsume]);
+
+
+  useEffect(() => {
+    setCanConsume(getIsTestOrDisplay());
+  }, [mode])
 }

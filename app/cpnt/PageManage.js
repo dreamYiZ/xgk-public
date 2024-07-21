@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import Drawer from '@mui/material/Drawer';
 import Typography from '@mui/material/Typography';
@@ -9,10 +9,9 @@ import { v4 as uuidv4 } from 'uuid';
 import DisplayPageItem from "./DisplayPageItem";
 import { ppplog } from "../util/util";
 import useGlobalStore from '../store/useGlobal';
-import usePageManager from "../hooks/usePageManager"
-import { Radio, RadioGroup, FormControlLabel, FormControl, FormLabel, TextField, Tabs, Tab, Box, IconButton } from '@mui/material';
+import usePageManager from "../hooks/usePageManager";
+import { Radio, RadioGroup, FormControlLabel, FormControl, FormLabel, TextField, Tabs, Tab, Box, IconButton, Checkbox } from '@mui/material';
 import useAutoStore from "../store/useAutoStore";
-
 
 export default function PageManage({ show, handleClose }) {
   const {
@@ -30,6 +29,11 @@ export default function PageManage({ show, handleClose }) {
   const { bg, bgVideo, setBgVideo, setBg } = useGlobalStore();
   const { addCurrentToNewPage } = usePageManager();
   const [tabValue, setTabValue] = useState(0);
+  const { autoList, setAutoList } = useAutoStore();
+
+  const [selectedAutoIndex, setSelectedAutoIndex] = useState(0);
+  const [autoDuration, setAutoDuration] = useState(autoList[selectedAutoIndex]?.duration || 10);
+  const [isEnabled, setIsEnabled] = useState(autoList[selectedAutoIndex]?.disabled);
 
   const changeCurrentPage = (id) => {
     const { getPageById } = usePageStore.getState();
@@ -49,7 +53,6 @@ export default function PageManage({ show, handleClose }) {
     updatePageOrder(reorderedPageList);
   };
 
-
   const saveToCurrentPage = () => {
     if (currentPageId) {
       updatePage(currentPageId, {
@@ -59,6 +62,23 @@ export default function PageManage({ show, handleClose }) {
       });
     }
   };
+
+  const handleCheckboxChange = () => {
+    const updatedList = [...autoList];
+    updatedList[selectedAutoIndex].disabled = !isEnabled;
+    setAutoList(updatedList);
+    setIsEnabled(!isEnabled);
+  };
+
+  const handleDurationChange = (e) => {
+    const newDuration = parseInt(e.target.value, 10);
+    const updatedList = [...autoList];
+    updatedList[selectedAutoIndex].duration = newDuration;
+    setAutoList(updatedList);
+    setAutoDuration(newDuration);
+  };
+
+  ppplog('autoList', autoList)
 
   return (
     <div>
@@ -103,28 +123,24 @@ export default function PageManage({ show, handleClose }) {
                   />
                 ))}
               </Box>
-
             </Box>
 
-
-            <Box hidden={tabValue !== 0}>
-                todo:
-                添加mui的checkbox，用来改变
-                (set, get) => ({
-    autoList: [
-      {
-        be: {
-          cmd: CMD.NEXT_PAGE
-        },
-        duration: 10,
-        id: uuidv4(),
-        disabled: true,
-      }
-    ],
-  }),
-  中cmd: CMD.NEXT_PAGE的元素的enabled值， label是是否自动换页
-
-  添加一个输入框，用来编辑 duration: 10,
+            <Box hidden={tabValue !== 1}>
+              <Typography variant="h6">自动化设置</Typography>
+              <Box mt={2}>
+                <FormControlLabel
+                  control={<Checkbox checked={!isEnabled} onChange={handleCheckboxChange} />}
+                  label="自动换页"
+                />
+                <Box mt={1} />
+                <TextField
+                  label="持续时间"
+                  type="number"
+                  value={autoDuration}
+                  onChange={handleDurationChange}
+                  sx={{ mt: 1 }}
+                />
+              </Box>
             </Box>
           </Box>
         </Drawer>
