@@ -33,7 +33,19 @@ export default function () {
     setBg(page.bg);
   };
 
+
+  const addCurrentToNewPage = () => {
+    addPage({
+      bo: boxArr,
+      id: uuidv4(),
+      name: `新页面${+new Date()}`,
+      bg: bg,
+      bgVideo: bgVideo,
+    });
+  };
+
   return {
-    changeCurrentPage
+    changeCurrentPage,
+    addCurrentToNewPage
   }
 }

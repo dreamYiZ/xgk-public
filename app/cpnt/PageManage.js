@@ -10,6 +10,7 @@ import { v4 as uuidv4 } from 'uuid';
 import DisplayPageItem from "./DisplayPageItem";
 import { ppplog } from "../util/util";
 import useGlobalStore from '../store/useGlobal';
+import usePageManager from "../hooks/usePageManager"
 
 export default function PageManage({ show, handleClose }) {
   const {
@@ -25,6 +26,7 @@ export default function PageManage({ show, handleClose }) {
 
   const { boxArr, setBoxArr } = useBoxStore();
   const { bg, bgVideo, setBgVideo, setBg } = useGlobalStore();
+  const { addCurrentToNewPage } = usePageManager();
 
   const changeCurrentPage = (id) => {
     const { getPageById } = usePageStore.getState();
@@ -44,17 +46,6 @@ export default function PageManage({ show, handleClose }) {
     updatePageOrder(reorderedPageList);
   };
 
-  ppplog('pageList', pageList);
-
-  const addCurrentToNewPage = () => {
-    addPage({
-      bo: boxArr,
-      id: uuidv4(),
-      name: `新页面${+new Date()}`,
-      bg: bg,
-      bgVideo: bgVideo,
-    });
-  };
 
   const saveToCurrentPage = () => {
     if (currentPageId) {

@@ -47,12 +47,16 @@ function Box({ boxid, width, height, position, opacity,
       let newY = e.clientY - offsetY - mainElement.getBoundingClientRect().top;
 
       if (scale) {
-        newX = e.clientX - offsetX - mainElement.getBoundingClientRect().left + boxElement.getBoundingClientRect().width * (stringToNumber(scale) - 1) / 2;
-        newY = e.clientY - offsetY - mainElement.getBoundingClientRect().top + boxElement.getBoundingClientRect().height * (stringToNumber(scale) - 1) / 2;
+        // newX = e.clientX - offsetX - mainElement.getBoundingClientRect().left + boxElement.getBoundingClientRect().width * (stringToNumber(scale) - 1) / 2 / 2 / 2;
+        // newY = e.clientY - offsetY - mainElement.getBoundingClientRect().top + boxElement.getBoundingClientRect().height * (stringToNumber(scale) - 1) / 2 / 2 / 2;
+
+        newX = e.clientX - offsetX - mainElement.getBoundingClientRect().left + boxElement.getBoundingClientRect().width * (stringToNumber(scale) - 1) / 2 / stringToNumber(scale);
+        newY = e.clientY - offsetY - mainElement.getBoundingClientRect().top + boxElement.getBoundingClientRect().height * (stringToNumber(scale) - 1) / 2 / stringToNumber(scale);
       }
 
 
-      ppplog('newX,newY', newX, newY, offsetX, offsetY)
+      // ppplog('newX,newY', newX, newY, e.clientX, e.clientY, offsetX, offsetY, mainElement.getBoundingClientRect().left, mainElement.getBoundingClientRect().top,
+      //   boxElement.getBoundingClientRect().width * (stringToNumber(scale) - 1) / 2, boxElement.getBoundingClientRect().height * (stringToNumber(scale) - 1) / 2)
 
       // 边界检查
       if (newX < 0) newX = 0;
