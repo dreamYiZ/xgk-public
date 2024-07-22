@@ -20,6 +20,7 @@ import EditSubSwiperImageText from "./EditSubSwiperImageText";
 import EditSubSwiperOnePicture from "./EditSubSwiperOnePicture";
 import EditSubButtonActiveOne from "./EditSubButtonActiveOne";
 import EditSubThreeCanvas from "./EditSubThreeCanvas";
+import EditMarqueeImageVideo from "./EditMarqueeImageVideo";
 
 export const MAP_SUB_EDIT = {
   [SUB_TYPE.TEXT]: EditSubText,
@@ -45,6 +46,7 @@ export const MAP_SUB_EDIT = {
   [SUB_TYPE.SWIPER_ONE_PICTURE]: EditSubSwiperOnePicture,
   [SUB_TYPE.BUTTON_ACTIVE_ONE]: EditSubButtonActiveOne,
   [SUB_TYPE.THREE_CANVAS]: EditSubThreeCanvas,
+  [SUB_TYPE.MARQUEE_IMAGE_VIDEO]: EditMarqueeImageVideo,
 }
 
 

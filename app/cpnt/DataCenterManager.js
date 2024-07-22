@@ -104,8 +104,8 @@ export default function () {
 
 
   return (
-    <Box sx={{ padding: 2, display: 'flex', flexDirection: 'row' }}>
-      <Box sx={{ flex: 0.7 }}>
+    <Box sx={{ padding: 2, display: 'flex', flexDirection: 'row', height: "calc( 100% - 100px )" }}>
+      <Box sx={{ flex: 0.7, height: "100%" }}>
         <AceEditor
           mode="json"
           theme="monokai"
@@ -118,6 +118,7 @@ export default function () {
           showGutter={true}
           highlightActiveLine={true}
           width={"100%"}
+          height={"100%"}
           setOptions={{
             enableBasicAutocompletion: true,
             enableLiveAutocompletion: true,

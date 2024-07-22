@@ -681,6 +681,9 @@ const BASIC_PAYLOAD_THREE_CANVAS = {
   modelUrl: '/upload/free.glb',
   animateType: THREE_ANIMATE_TYPE.AUTO,
   modelScale: 3,
+  positionX: 0,
+  positionY: 0,
+  positionZ: 0,
 }
 
 export const createBoxThreeCanvas = () => {

@@ -28,17 +28,14 @@ export default function DataCenter({ show, setShow }) {
         open={show}
         onClose={() => setShow(false)}
       >
-        <Box sx={{ width: 1250, padding: 2 }}>
+        <Box sx={{ width: 1250, padding: 2, height: "100%" }}>
           <Typography variant="h4" component="div" gutterBottom>
             数据管理中心
           </Typography>
 
           <Divider />
           {show && <DataCenterManager />}
-
         </Box>
-
-
 
       </Drawer>
     </div>
