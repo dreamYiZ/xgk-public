@@ -3,7 +3,7 @@ import useGlobalStore, { MODE } from "../store/useGlobal";
 import useBoxStore from "../store/useBo";
 import usePageStore from "../store/usePage";
 import useAutoStore from "../store/useAutoStore";
-import { validApiUrl, combineBoxAndSubArr } from "../util/util";
+import { validApiUrl, combineBoxAndSubArr, mergePageBo } from "../util/util";
 
 export default function useApiToRefreshData() {
 
@@ -35,15 +35,22 @@ export default function useApiToRefreshData() {
             }
 
             if (data.page) {
-              setPageList(page);
+              setPageList(data.page);
+            }
+
+            if (data.pageBo) {
+              setPageList(prePageList=>{
+                const newPageList = mergePageBo(prePageList, data.pageBo)
+                return newPageList
+              });
             }
 
             if (data.global) {
-              setGlobal(global);
+              setGlobal(data.global);
             }
 
             if (data.auto) {
-              setAutoList(auto);
+              setAutoList(data.auto);
             }
 
 

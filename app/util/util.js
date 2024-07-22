@@ -27,6 +27,7 @@ export * from "./animateTypeMarqueeImageVideo";
 export * from "./autoType";
 export * from "./timeType";
 export * from "./threeAnimateTyle";
+export * from "./apiFetchUtil";
 
 const DEMO_FACE_URL = '/demo-face.jpeg';
 
