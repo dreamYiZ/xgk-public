@@ -1,11 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import videojs from 'video.js';
 import 'video.js/dist/video-js.css';
 
 export const VideoJS = (props) => {
   const videoRef = React.useRef(null);
   const playerRef = React.useRef(null);
-  const { options, onReady } = props;
+  const [videoStyle, setVideoStyle] = React.useState(null);
+  const { options, onReady, width, height } = props;
+
+  useEffect(()=>{
+    setVideoStyle({
+      width: `${width}px`,
+      height: `${height}px`,
+    })
+  },[width,height]);
 
   React.useEffect(() => {
 
@@ -45,7 +53,7 @@ export const VideoJS = (props) => {
   }, [playerRef]);
 
   return (
-    <div data-vjs-player>
+    <div data-vjs-player {...videoStyle}>
       <div ref={videoRef} />
     </div>
   );

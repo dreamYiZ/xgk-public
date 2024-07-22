@@ -2,7 +2,7 @@ import Box from '@mui/material/Box';
 import { useEffect, useState, useRef } from 'react';
 import { ppplog } from "../util/util";
 
-export default function ({ sub, box }) {
+export default function ({ sub, box, setActiveImageVideoItem }) {
   const [styledData, setStyledData] = useState([]);
   const [rowCount, setRowCount] = useState(0);
   const [colCount, setColCount] = useState(0);
@@ -29,7 +29,14 @@ export default function ({ sub, box }) {
       return newImgItem;
     });
 
+    // if (_newData.length < rowCount * colCount) {
+    //   const __newData = _newData.concat(_newData.slice(0, rowCount * colCount - _newData.length))
+    //   ppplog('__newData', __newData.length, _newData.length)
+    //   setStyledData(__newData);
+    // } else {
     setStyledData(_newData);
+    // }
+
   }, [data, rowCount, colCount]);
 
   useEffect(() => {
@@ -42,7 +49,7 @@ export default function ({ sub, box }) {
 
       const numRows = Math.floor(boxHeight / imageHeight);
 
-      console.log(`The box can display ${numRows} rows.`);
+      console.log(`The box can display ${numRows} rows.`, Math.ceil(data.length / numRows));
 
       setRowCount(numRows);
       setColCount(Math.ceil(data.length / numRows));
@@ -60,7 +67,6 @@ export default function ({ sub, box }) {
           if (newLeft + imageWidth <= 0) {
             newLeft = (colCount - 1) * imageWidth;
           }
-          // todo: 最后一行，数量不够的时候，处理好，让结束和新的一轮imgItem的位置连接起来，而不是最后空出一些空白
           return { ...imgItem, left: newLeft };
         });
       });
@@ -76,10 +82,14 @@ export default function ({ sub, box }) {
     };
 
     setRandomSpeeds();
-    const speedInterval = setInterval(setRandomSpeeds, 30000); // Update speeds every 30 seconds
+    // const speedInterval = setInterval(setRandomSpeeds, 30000); // Update speeds every 30 seconds
 
-    return () => clearInterval(speedInterval);
+    // return () => clearInterval(speedInterval);
   }, [rowCount, imageWidth]);
+
+  const handleClickImageItem = (imgItem) => {
+    setActiveImageVideoItem(imgItem);
+  }
 
   return (
     <Box ref={boxRef} sx={{ position: 'relative', height: "100%", width: "100%", overflow: 'hidden' }}>
@@ -89,6 +99,8 @@ export default function ({ sub, box }) {
             src={imgItem.imageUrl}
             width={`${imageWidth - 12}px`}
             height={`${imageHeight - 12}px`}
+            onTouchStart={() => handleClickImageItem(imgItem)}
+            onClick={() => handleClickImageItem(imgItem)}
             style={{
               position: 'absolute',
               left: `${imgItem.left}px`,
