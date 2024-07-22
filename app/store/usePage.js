@@ -19,6 +19,10 @@ const useBoxStore = create(persist(
     currentPage: null,
     currentPageId: null,
 
+    setPageList: (newPageList) => set({
+      pageList: newPageList,
+    }),
+
     addPage: (page) => set(state => ({
       pageList: [...state.pageList, page],
       currentPage: page,

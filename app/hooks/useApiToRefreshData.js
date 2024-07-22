@@ -1,12 +1,16 @@
 import { useEffect, useRef } from 'react';
 import useGlobalStore, { MODE } from "../store/useGlobal";
 import useBoxStore from "../store/useBo";
+import usePageStore from "../store/usePage";
+import useAutoStore from "../store/useAutoStore";
 import { validApiUrl, combineBoxAndSubArr } from "../util/util";
 
 export default function useApiToRefreshData() {
 
-  const { api, mode } = useGlobalStore();
+  const { api, mode, setGlobal } = useGlobalStore();
   const { boxArr, setBoxArr } = useBoxStore();
+  const { setPageList } = usePageStore();
+  const { setAutoList } = useAutoStore();
   const boxArrRef = useRef(boxArr);  // 使用 useRef 来存储 boxArr 的值
 
   useEffect(() => {
@@ -24,10 +28,25 @@ export default function useApiToRefreshData() {
         fetch(api)
           .then(response => response.json())
           .then(data => {
+
             if (data.bo) {
               const newBoxArr = combineBoxAndSubArr(boxArrRef.current, data.bo);
               setBoxArr(newBoxArr);
             }
+
+            if (data.page) {
+              setPageList(page);
+            }
+
+            if (data.global) {
+              setGlobal(global);
+            }
+
+            if (data.auto) {
+              setAutoList(auto);
+            }
+
+
           })
           .catch(error => console.error('Error:', error));
       }

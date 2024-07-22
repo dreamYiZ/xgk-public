@@ -54,7 +54,10 @@ const useGlobalStore = create(persist(
     setApi: (api) => set(() => ({ api: api })),
     setBgVideo: (bgVideo) => set(() => ({ bgVideo: bgVideo })),
     setIsFullScreenAutoBoolean: (isFullScreenAuto) => set(() => ({ isFullScreenAutoBoolean: isFullScreenAuto })),
-    setVersion : (version) => set(() => ({ version: version})),
+    setVersion: (version) => set(() => ({ version: version })),
+    setGlobal: (global) => set(() => ({
+      ...global
+    }))
   }),
   {
     name: GLOBAL_STORAGE_KEY,
