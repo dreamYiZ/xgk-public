@@ -23,6 +23,7 @@ import { AUTO_NEXT_PAGE } from "./autoType";
 import { ANIMATE_TYPE_MARQUEE_IMAGE_VIDEO } from "./animateTypeMarqueeImageVideo";
 
 
+export * from "./numberUtil";
 export * from "./animateTypeMarqueeImageVideo";
 export * from "./autoType";
 export * from "./timeType";

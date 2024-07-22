@@ -2,11 +2,11 @@ import React, { useRef } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import { useDrag, useDrop } from 'react-dnd';
-import SwapVertIcon from '@mui/icons-material/SwapVert';
 import IconButton from '@mui/material/IconButton';
+import SwapVertIcon from '@mui/icons-material/SwapVert';
+import Checkbox from '@mui/material/Checkbox';
 
-const DisplayPageItem = ({ page, index, changeCurrentPage, deletePageById, updatePageName, handleDragEnd }) => {
+const DisplayPageItem = ({ page, index, changeCurrentPage, deletePageById, updatePageName, handleDragEnd, updatePage }) => {
   const dragItem = useRef();
   const dropItem = useRef();
 
@@ -30,6 +30,11 @@ const DisplayPageItem = ({ page, index, changeCurrentPage, deletePageById, updat
     updatePageName(page.id, e.target.value);
   };
 
+  const handleCheckboxChange = (e) => {
+    const updatedPage = { ...page, notChangeBg: e.target.checked };
+    updatePage(page.id, updatedPage);
+  };
+
   return (
     <Box
       sx={{ display: 'flex', alignItems: 'center', mb: 2, p: 1, border: '1px solid #ccc', borderRadius: '4px' }}
@@ -38,17 +43,21 @@ const DisplayPageItem = ({ page, index, changeCurrentPage, deletePageById, updat
       onDragOver={(e) => onDragOver(e, index)}
       onDrop={onDrop}
     >
-
-      <IconButton >
-        <SwapVertIcon sx={{ cursor: "pointer" }} />
+      <IconButton>
+        <SwapVertIcon sx={{ cursor: 'pointer' }} />
       </IconButton>
-
       <TextField
         value={page.name}
         onChange={handleChangeName}
         variant="outlined"
         size="small"
         sx={{ flexGrow: 1, marginRight: 2 }}
+      />
+      <Checkbox
+        checked={page.notChangeBg}
+        onChange={handleCheckboxChange}
+        color="primary"
+        inputProps={{ 'aria-label': 'not change background' }}
       />
       <Box mr={1}>
         <Button variant="contained" color="primary" onClick={() => changeCurrentPage(page.id)}>切换</Button>

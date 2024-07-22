@@ -131,6 +131,7 @@ export default function PageManage({ show, handleClose }) {
                     deletePageById={deletePageById}
                     updatePageName={updatePageName}
                     handleDragEnd={handleDragEnd}
+                    updatePage={updatePage}
                   />
                 ))}
               </Box>

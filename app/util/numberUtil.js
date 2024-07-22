@@ -57,3 +57,10 @@ export const trimStringToIntOrNull = (stringOrNumber) => {
   }
   return null;
 }
+
+export const ifNumberToPx = (stringOrNumber) => {
+  if(canToBeNumber(stringOrNumber)){
+    return `${stringOrNumber}px`
+  }
+  return stringOrNumber
+}

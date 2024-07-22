@@ -6,7 +6,8 @@ import { v4 as uuidv4 } from 'uuid';
 
 const type_page = {
   bo: [],
-  name: ''
+  name: '',
+  notChangeBg: false,
 }
 
 export const PAGE_STORAGE_KEY = 'page-storage';

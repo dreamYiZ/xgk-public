@@ -5,7 +5,7 @@ import useBoxStore from '../store/useBo';
 import ppplog from "ppplog";
 import useGlobalStore, { MODE } from '../store/useGlobal';
 import zIndex from '@mui/material/styles/zIndex';
-import { stringToNumber, debounce } from "../util/util";
+import { ifNumberToPx, stringToNumber, debounce } from "../util/util";
 // import { debounce } from 'lodash';
 
 function Box({ boxid, width, height, position, opacity,
@@ -93,12 +93,12 @@ function Box({ boxid, width, height, position, opacity,
   }, [boxid, changeBoxById, mode, scale]);
 
   const boxStyle = useMemo(() => ({
-    width: width,
-    height: height,
+    width: ifNumberToPx(width),
+    height: ifNumberToPx(height),
     position: position,
     opacity: opacity,
-    left: x,
-    top: y,
+    left: ifNumberToPx(x),
+    top: ifNumberToPx(y),
     zIndex: zIndex,
     outline: activeBoxId === boxid ? '2px dashed #7CB9E8' : 'none',  // Changed 'border' to 'outline'
     transform: `scale(${scale})`,
