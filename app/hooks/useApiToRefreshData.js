@@ -52,6 +52,13 @@ export default function useApiToRefreshData() {
               });
             }
 
+            if (data.pageBoUpdate) {
+              setPageList(prePageList => {
+                const newPageList = mergePageBoUpdate(prePageList, data.pageBoUpdate)
+                return newPageList
+              });
+            }
+
             if (data.global) {
               setGlobal(data.global);
             }

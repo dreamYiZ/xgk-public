@@ -98,6 +98,9 @@ export default function Setting() {
           <Button onClick={downloadConfig}>下载配置</Button>
           <Button onClick={downloadTestConfig}>下载测试配置</Button>
           <Button onClick={downloadDisplayConfig}>下载展示配置</Button>
+
+          <Box mt={1} />
+
           <Button variant="contained" component="label">
             上传配置
             <input type="file" hidden onChange={uploadConfig} />
