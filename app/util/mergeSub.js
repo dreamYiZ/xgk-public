@@ -51,5 +51,5 @@ const mergeSub = (preBoxArr, newBoxArr) => {
 
 
 module.exports = {
-  mergeSub
+  mergeSub, mergeTwoSub
 }

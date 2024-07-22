@@ -840,7 +840,7 @@ export const combineBoxAndSubArr = (boxArr, mergedBoxArr) => {
     preBox => {
       return {
         ...preBox,
-        sub: getSubById(mergedBoxArr, preBox.boxid)
+        sub: getSubById(mergedBoxArr, preBox.boxid) ?? preBox.sub ?? null
       }
     }
   )

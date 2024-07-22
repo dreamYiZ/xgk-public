@@ -1,4 +1,4 @@
-import { Inter } from "next/font/google";
+// import { Inter } from "next/font/google";
 import "./globals.css";
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
@@ -13,8 +13,9 @@ import Framework from "./framework"
 // register Swiper custom elements
 // register();
 
+const bodyClass = 'xgk-body'
 
-const inter = Inter({ subsets: ["latin"] });
+// const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: "小龟壳低代码",
@@ -25,7 +26,7 @@ export default function RootLayout({ children }) {
 
   return (
     <html lang="zh-CN">
-      <body className={inter.className}>
+      <body className={bodyClass}>
         <Framework>
           {children}
         </Framework>
