@@ -20,7 +20,10 @@ import {
 } from "./numberUtil";
 import { THREE_ANIMATE_TYPE } from "./threeAnimateTyle";
 import { AUTO_NEXT_PAGE } from "./autoType";
+import { ANIMATE_TYPE_MARQUEE_IMAGE_VIDEO } from "./animateTypeMarqueeImageVideo";
 
+
+export * from "./animateTypeMarqueeImageVideo";
 export * from "./autoType";
 export * from "./timeType";
 export * from "./threeAnimateTyle";
@@ -698,17 +701,19 @@ const BASIC_PAYLOAD_MARQUEE_IMAGE_VIDEO = {
       id: uuidv4(),
       videoUrl: '/upload/demo-video.mp4',
       imageUrl: DEMO_FACE_URL,
+
     }
   }),
   imageWidth: 200,
   imageHeight: 200,
+  animateType: ANIMATE_TYPE_MARQUEE_IMAGE_VIDEO.GO_LEFT,
 }
 
 export const createBoxMarqueeImageVideo = () => {
   return {
     ...createBoxPayload(),
-    width: '500px',
-    height: '400px',
+    width: '900px',
+    height: '600px',
     sub: {
       type: SUB_TYPE.MARQUEE_IMAGE_VIDEO,
       ...BASIC_PAYLOAD_MARQUEE_IMAGE_VIDEO

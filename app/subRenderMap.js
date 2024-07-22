@@ -20,6 +20,7 @@ import SubRenderSwiperImageText from "./cpnt/SubRenderSwiperImageText";
 import SubRenderSwiperOnePicture from "./cpnt/SubRenderSwiperOnePicture";
 import SubRenderButtonActiveOne from "./cpnt/SubRenderButtonActiveOne";
 import SubRenderThreeCanvas from "./cpnt/SubRenderThreeCanvas";
+import SubRenderMarqueeImageVideo from "./cpnt/SubRenderMarqueeImageVideo";
 
 
 
@@ -47,6 +48,7 @@ const MAP_SUB_RENDER = {
   [SUB_TYPE.SWIPER_ONE_PICTURE]: SubRenderSwiperOnePicture,
   [SUB_TYPE.BUTTON_ACTIVE_ONE]: SubRenderButtonActiveOne,
   [SUB_TYPE.THREE_CANVAS]: SubRenderThreeCanvas,
+  [SUB_TYPE.MARQUEE_IMAGE_VIDEO]: SubRenderMarqueeImageVideo,
 }
 
 

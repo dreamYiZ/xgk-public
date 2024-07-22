@@ -6,11 +6,11 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import { Select, MenuItem, FormControl, InputLabel, Slider, Typography } from '@mui/material';
-import { safeNumberIfString, ppplog, THREE_ANIMATE_TYPE, THREE_ANIMATE_TYPE_DISPLAY } from "../util/util";
+import { maybeNumberOr, safeNumberIfString, ppplog, THREE_ANIMATE_TYPE, THREE_ANIMATE_TYPE_DISPLAY } from "../util/util";
 import "ace-builds/src-noconflict/mode-json";
 import "ace-builds/src-noconflict/theme-monokai";
 
-export default function () {
+export default function EditModel() {
   const boxArr = useBoxStore((state) => state.boxArr);
   const activeBoxId = useBoxStore((state) => state.activeBoxId);
   const activeBox = useMemo(() => boxArr.find((box) => box.boxid === activeBoxId), [boxArr, activeBoxId]);
@@ -26,6 +26,9 @@ export default function () {
   // Commenting out animateSpeed
   // const [animateSpeed, setAnimateSpeed] = useState(1);
   const [modelScale, setModelScale] = useState(1);
+  const [positionX, setPositionX] = useState(0);
+  const [positionY, setPositionY] = useState(0);
+  const [positionZ, setPositionZ] = useState(0);
 
   const saveChange = () => {
     if (sub) {
@@ -37,6 +40,9 @@ export default function () {
           // Uncomment if you want to include animateSpeed
           // animateSpeed: animateSpeed,
           modelScale: modelScale,
+          positionX: positionX,
+          positionY: positionY,
+          positionZ: positionZ,
         },
       });
     }
@@ -49,7 +55,10 @@ export default function () {
       setAnimateType(sub.animateType || THREE_ANIMATE_TYPE.NONE);
       // Commenting out animateSpeed
       // setAnimateSpeed(sub.animateSpeed || 1);
-      setModelScale(sub.modelScale || 1);
+      setModelScale(maybeNumberOr(sub.modelScale, 0) || 1);
+      setPositionX(maybeNumberOr(sub.positionX, 0) || 0);
+      setPositionY(maybeNumberOr(sub.positionY, 0) || 0);
+      setPositionZ(maybeNumberOr(sub.positionZ, 0) || 0);
     }
   }, [sub, activeBoxId]);
 
@@ -127,6 +136,34 @@ export default function () {
             min={1}
             max={10}
             valueLabelDisplay="auto"
+          />
+
+          <Box mt={2}></Box>
+
+          <TextField
+            label="位置 X"
+            type="number"
+            value={positionX}
+            onChange={(event) => setPositionX(parseFloat(event.target.value))}
+            fullWidth
+          />
+          <Box mt={2}></Box>
+
+          <TextField
+            label="位置 Y"
+            type="number"
+            value={positionY}
+            onChange={(event) => setPositionY(parseFloat(event.target.value))}
+            fullWidth
+          />
+          <Box mt={2}></Box>
+
+          <TextField
+            label="位置 Z"
+            type="number"
+            value={positionZ}
+            onChange={(event) => setPositionZ(parseFloat(event.target.value))}
+            fullWidth
           />
 
           <Box mt={1}></Box>

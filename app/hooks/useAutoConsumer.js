@@ -25,7 +25,7 @@ export default function useAutoConsumer() {
 
 
   useEffect(() => {
-    ppplog('getIsTestOrDisplay()', getIsTestOrDisplay(), enabledAutoList)
+    // ppplog('getIsTestOrDisplay()', getIsTestOrDisplay(), enabledAutoList)
     if (!getIsTestOrDisplay()) {
       return
     }
