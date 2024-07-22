@@ -11,7 +11,7 @@ const type_page = {
 
 export const PAGE_STORAGE_KEY = 'page-storage';
 
-const useBoxStore = create(persist(
+const usePageStore = create(persist(
   (set, get) => ({
     pageList: [
 
@@ -71,4 +71,4 @@ const useBoxStore = create(persist(
   }
 ));
 
-export default useBoxStore;
+export default usePageStore;

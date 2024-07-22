@@ -3,6 +3,7 @@ import useGlobalStore, { MODE } from "../store/useGlobal";
 import useBoxStore from "../store/useBo";
 import usePageStore from "../store/usePage";
 import useAutoStore from "../store/useAutoStore";
+import useBeStore from "../store/useBe";
 import { validApiUrl, combineBoxAndSubArr, mergePageBo } from "../util/util";
 
 export default function useApiToRefreshData() {
@@ -11,6 +12,7 @@ export default function useApiToRefreshData() {
   const { boxArr, setBoxArr } = useBoxStore();
   const { setPageList } = usePageStore();
   const { setAutoList } = useAutoStore();
+  const { setEventArr, addEventSortByTime } = useBeStore();
   const boxArrRef = useRef(boxArr);  // 使用 useRef 来存储 boxArr 的值
 
   useEffect(() => {
@@ -29,8 +31,13 @@ export default function useApiToRefreshData() {
           .then(response => response.json())
           .then(data => {
 
+            if (data.boMerge) {
+              const newBoxArr = combineBoxAndSubArr(boxArrRef.current, data.boMerge);
+              setBoxArr(newBoxArr);
+            }
+
             if (data.bo) {
-              const newBoxArr = combineBoxAndSubArr(boxArrRef.current, data.bo);
+              const newBoxArr = data.bo;
               setBoxArr(newBoxArr);
             }
 
@@ -39,7 +46,7 @@ export default function useApiToRefreshData() {
             }
 
             if (data.pageBo) {
-              setPageList(prePageList=>{
+              setPageList(prePageList => {
                 const newPageList = mergePageBo(prePageList, data.pageBo)
                 return newPageList
               });
@@ -51,6 +58,14 @@ export default function useApiToRefreshData() {
 
             if (data.auto) {
               setAutoList(data.auto);
+            }
+
+            if (data.be) {
+              setEventArr(data.be);
+            }
+
+            if (data.addBe) {
+              addEventSortByTime(data.addBe);
             }
 
 
