@@ -8,7 +8,7 @@ import { validApiUrl, combineBoxAndSubArr, mergePageBo } from "../util/util";
 
 export default function useApiToRefreshData() {
 
-  const { api, mode, setGlobal, getIsTestOrDisplay } = useGlobalStore();
+  const { api, mode, setGlobal, getIsTestOrDisplay, apiRateLimit } = useGlobalStore();
   const { boxArr, setBoxArr } = useBoxStore();
   const { setPageList } = usePageStore();
   const { setAutoList } = useAutoStore();
@@ -85,10 +85,10 @@ export default function useApiToRefreshData() {
     fetchApi();
 
     // 每10秒执行一次 fetchApi
-    const intervalId = setInterval(fetchApi, 10000);
+    const intervalId = setInterval(fetchApi, apiRateLimit * 1000);
 
     // 在组件卸载时清除定时器
     return () => clearInterval(intervalId);
-  }, [api, mode, setBoxArr]);
+  }, [api, mode, setBoxArr, apiRateLimit]);
 
 }

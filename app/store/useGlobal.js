@@ -21,6 +21,7 @@ const useGlobalStore = create(persist(
     scaleToFill: false,
     themePaletteMode: 'dark',
     api: '',
+    apiRateLimit: 10,
     bg: {
       type: BG_TYPE.IMAGE,
       filename: null,
@@ -89,6 +90,7 @@ const useGlobalStore = create(persist(
       mainDivLeft: 0,
       mainScale: 1,
     })),
+    setApiRateLimit: (rateLimit)=>set(()=>({apiRateLimit:rateLimit})),
   }),
   {
     name: GLOBAL_STORAGE_KEY,

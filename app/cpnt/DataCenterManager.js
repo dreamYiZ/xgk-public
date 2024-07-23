@@ -5,7 +5,7 @@ import AceEditor from "react-ace";
 import { useRef } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import { getSubById, mergeSub, validApiUrl } from "../util/util";
+import { getSubById, mergeSub, validApiUrl, canToBeNumber, safeNumberIfString } from "../util/util";
 import "ace-builds/src-noconflict/mode-json";
 import "ace-builds/src-noconflict/theme-monokai";
 import useGlobalStore from '../store/useGlobal';
@@ -13,10 +13,11 @@ import useGlobalStore from '../store/useGlobal';
 export default function () {
 
   const { boxArr, setBoxArr } = useBoxStore();
-  const { api: gApi, setApi: gSetApi } = useGlobalStore();
+  const { api: gApi, setApi: gSetApi, setApiRateLimit, apiRateLimit } = useGlobalStore();
   const fileInput = useRef(null);  // 创建一个 ref 来引用文件输入元素
   const mergeFileInput = useRef(null);  // 创建一个 ref 来引用文件输入元素
   const [api, setApi] = useState(gApi);  // 创建一个状态来存储 API
+  const [apiRateLimitLocal, setApiRateLimitLocal] = useState(apiRateLimit);  // 创建一个状态来存储 API
 
   const [option, setOption] = useState('');  // 新增的状态和处理函数
 
@@ -40,6 +41,17 @@ export default function () {
   }, [boxArr])
 
 
+  useEffect(() => {
+
+    setApiRateLimitLocal(apiRateLimit);
+
+    return () => {
+
+    }
+  }, [apiRateLimit])
+
+
+
   const handleClearApi = () => {
     setApi('');  // 清除 api 状态
     gSetApi('');
@@ -49,6 +61,12 @@ export default function () {
     // 在这里处理提交操作
     if (validApiUrl(api)) {
       gSetApi(api.trim());
+
+      if (!canToBeNumber(apiRateLimitLocal)) {
+        alert('请输入数字');
+      }
+
+      setApiRateLimit(safeNumberIfString(apiRateLimitLocal))
     }
   };
 
@@ -98,7 +116,10 @@ export default function () {
     } catch (e) {
       console.error(e);
     }
+  }
 
+  const handleApiRateLimitChange = (event) => {
+    setApiRateLimitLocal(event.target.value);
   }
 
 
@@ -181,8 +202,15 @@ export default function () {
           label="获取数据API"
           value={api}
           onChange={(event) => setApi(event.target.value)}
-          fullWidth  // 让输入框占满可用宽度
-          multiline  // 允许输入多行文本
+          fullWidth
+          multiline
+        />
+
+        <Box mb={1} />
+        <TextField
+          label="API调用频率"
+          value={apiRateLimitLocal}
+          onChange={handleApiRateLimitChange}
         />
 
         <br />
