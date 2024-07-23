@@ -5,7 +5,7 @@ import useBoxStore from '../store/useBo';
 import ppplog from "ppplog";
 import useGlobalStore, { MODE } from '../store/useGlobal';
 import zIndex from '@mui/material/styles/zIndex';
-import { ifNumberToPx, stringToNumber, debounce } from "../util/util";
+import { pxToNumber, ifNumberToPx, stringToNumber, debounce } from "../util/util";
 // import { debounce } from 'lodash';
 
 function Box({ boxid, width, height, position, opacity,
@@ -13,12 +13,12 @@ function Box({ boxid, width, height, position, opacity,
   const boxRef = useRef(null);
   const changeBoxById = useBoxStore((state) => state.changeById);
   const setActiveBoxId = useBoxStore((state) => state.setActiveBoxId);  // Access the 'setActiveBoxId' function
-  const { mode } = useGlobalStore();
+  const { mode, mainScale } = useGlobalStore();
 
   const activeBoxId = useBoxStore((state) => state.activeBoxId);  // Access the 'activeBoxId' state
   const activeBox = useMemo(() => useBoxStore.getState().boxArr.find(box => box.boxid === boxid), [boxid]);  // 获取当前Box数据
 
-  const mouseOffset = useRef(null);
+  const startPosRef = useRef(null);
 
   const debounceMove = debounce(({
     newX, newY
@@ -41,9 +41,9 @@ function Box({ boxid, width, height, position, opacity,
       offsetX = e.clientX - boxElement.getBoundingClientRect().left;
       offsetY = e.clientY - boxElement.getBoundingClientRect().top;
 
-      mouseOffset.current = {
-        offsetX,
-        offsetY,
+      startPosRef.current = {
+        x: e.clientX,
+        y: e.clientY,
       }
       document.addEventListener('mousemove', onMouseMove);
       document.addEventListener('mouseup', onMouseUp);
@@ -55,15 +55,20 @@ function Box({ boxid, width, height, position, opacity,
       // let newY = e.clientY - mouseOffset.current.offsetY;
 
 
-      let newX = e.clientX - offsetX - mainElement.getBoundingClientRect().left;
-      let newY = e.clientY - offsetY - mainElement.getBoundingClientRect().top;
+      // let newX = e.clientX - offsetX - mainElement.getBoundingClientRect().left;
+      // let newY = e.clientY - offsetY - mainElement.getBoundingClientRect().top;
 
-      if (scale) {
-        newX = e.clientX - offsetX - mainElement.getBoundingClientRect().left + boxElement.getBoundingClientRect().width * (stringToNumber(scale) - 1) / 2 / stringToNumber(scale);
-        newY = e.clientY - offsetY - mainElement.getBoundingClientRect().top + boxElement.getBoundingClientRect().height * (stringToNumber(scale) - 1) / 2 / stringToNumber(scale);
-      }
+      // if (scale) {
+      //   newX = e.clientX - offsetX - mainElement.getBoundingClientRect().left + boxElement.getBoundingClientRect().width * (stringToNumber(scale) - 1) / 2 / stringToNumber(scale);
+      //   newY = e.clientY - offsetY - mainElement.getBoundingClientRect().top + boxElement.getBoundingClientRect().height * (stringToNumber(scale) - 1) / 2 / stringToNumber(scale);
+      // }
+
+      const deltaX = (e.clientX - startPosRef.current.x) / mainScale;
+      const deltaY = (e.clientY - startPosRef.current.y) / mainScale;
 
 
+      let newX = pxToNumber(boxElement.style.left || 0) + deltaX;
+      let newY = pxToNumber(boxElement.style.top || 0) + deltaY;
       // ppplog('newX,newY', newX, newY, e.clientX, e.clientY, offsetX, offsetY, mainElement.getBoundingClientRect().left, mainElement.getBoundingClientRect().top,
       //   boxElement.getBoundingClientRect().width * (stringToNumber(scale) - 1) / 2, boxElement.getBoundingClientRect().height * (stringToNumber(scale) - 1) / 2)
 
@@ -83,6 +88,13 @@ function Box({ boxid, width, height, position, opacity,
         newX: newX,
         newY: newY
       });
+
+      startPosRef.current = {
+        x: e.clientX,
+        y: e.clientY,
+      }
+
+
     };
 
     const onMouseUp = () => {
@@ -99,7 +111,7 @@ function Box({ boxid, width, height, position, opacity,
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
     };
-  }, [boxid, changeBoxById, mode, scale]);
+  }, [boxid, changeBoxById, mode, scale, mainScale]);
 
   const boxStyle = useMemo(() => ({
     width: ifNumberToPx(width),

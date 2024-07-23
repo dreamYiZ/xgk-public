@@ -17,7 +17,7 @@ export default function useShortcut() {
   );
 
   useEffect(() => {
-    ppplog('useShortcut');
+    // ppplog('useShortcut');
 
     const frameworkEl = document.querySelector(FRAMEWORK_ID_SELECTOR);
     const mainRenderEl = document.querySelector(`#${MAIN_ID_TO_RENDER_BOX}`);
@@ -27,9 +27,9 @@ export default function useShortcut() {
     }
 
     const handleWheel = (event) => {
-      ppplog('handleWheel');
+      // ppplog('handleWheel');
       if (event.metaKey || event.ctrlKey) { // Command key on Mac or Ctrl key on Windows
-        ppplog('metaKey');
+        // ppplog('metaKey');
         event.preventDefault();
 
         let newScale = mainScale - event.deltaY * 0.01; // Adjust scale factor as needed
@@ -40,7 +40,7 @@ export default function useShortcut() {
 
     const handleKeyDown = (event) => {
       if (event.code === 'Space') {
-        ppplog('Space');
+        // ppplog('Space');
         frameworkEl.style.cursor = 'grab';
         mainRenderEl && (mainRenderEl.style.cursor = 'grab');
         event.preventDefault();
@@ -48,7 +48,7 @@ export default function useShortcut() {
     };
 
     const handleKeyUp = (event) => {
-      ppplog('Space up');
+      // ppplog('Space up');
       if (event.code === 'Space') {
         frameworkEl.style.cursor = 'default';
         mainRenderEl && (mainRenderEl.style.cursor = 'default');
@@ -68,7 +68,7 @@ export default function useShortcut() {
 
     const handleMouseMove = (event) => {
       if (isDragging) {
-        ppplog('handleMouseMove-isDragging');
+        // ppplog('handleMouseMove-isDragging');
         const deltaX = event.clientX - startPosRef.current.x;
         const deltaY = event.clientY - startPosRef.current.y;
 
@@ -80,7 +80,7 @@ export default function useShortcut() {
 
         mainRenderEl.style.left = `${pxToNumber(mainRenderEl.style.left || 0) + deltaX}px`;
         mainRenderEl.style.top = `${pxToNumber(mainRenderEl.style.top || 0) + deltaY}px`;
-        ppplog('mainRenderEl.style.left', mainRenderEl, mainRenderEl.style.left, mainRenderEl.style.top)
+        // ppplog('mainRenderEl.style.left', mainRenderEl, mainRenderEl.style.left, mainRenderEl.style.top)
 
         debouncedUpdatePosition(pxToNumber(mainRenderEl.style.left), pxToNumber(mainRenderEl.style.top));
         // debouncedUpdatePosition(mainRenderEl.style.left, mainRenderEl.style.top);
