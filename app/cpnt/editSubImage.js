@@ -100,6 +100,12 @@ function EditSubImage() {
   return (
     <div>
       <br />
+
+      <TextField label="输入图片地址" value={imageUrl} variant="outlined" multiline fullWidth
+        onChange={(event) => setImageUrl(event.target.value)}
+      />
+
+
       <Box sx={{ my: 2 }}>
         <input
           accept="image/*"
@@ -163,7 +169,7 @@ function EditSubImage() {
       <ChooseImage handleChoose={handleChoose} show={showSelectImage} handleClose={() => {
         setShowSelectImage(false);
       }} />
-       <br />
+      <br />
 
       <EditOnClickEvent setShowEditOnClickEvent={setShowEditOnClickEvent} showEditOnClickEvent={showEditOnClickEvent} />
     </div>

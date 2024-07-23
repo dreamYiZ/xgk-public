@@ -14,11 +14,29 @@ function Framework({ children }) {
   const [isClient, setIsClient] = useState(false)
   const [isManagePage, setIsManagePage] = useState(false);  // 新增的状态
 
-  const { mode, isFullScreenAutoBoolean, showWhenEditing } = useGlobalStore();
+  const { mode, isFullScreenAutoBoolean, showWhenEditing, getIsTestOrDisplay } = useGlobalStore();
   const { clearActiveId } = useBoxStore();  // Access the 'boxArr' state
+  const [isTestOrDisplay, setIsTestOrDisplay] = useState(true);
+  const [frameworkStyle, setFrameworkStyle] = useState({});
 
 
   useApiToRefreshData();
+
+
+  useEffect(() => {
+    setIsTestOrDisplay(getIsTestOrDisplay());
+  }, [mode])
+
+  useEffect(() => {
+    let _style = {};
+    if (!isTestOrDisplay) {
+      _style.backgroundColor = '#FFFFFF';
+    }
+
+    setFrameworkStyle(_style)
+
+  }, [isTestOrDisplay])
+
 
   // useEffect(() => {
   //   addWindowErrorHandler();
@@ -79,7 +97,7 @@ function Framework({ children }) {
 
   return (
     process.env.NODE_ENV === 'development' ? (
-      <div className={classes['framework']}>
+      <div className={classes['framework']} style={{ ...frameworkStyle }}>
         <div id={`${FRAMEWORK_ID}`} className={pageContentClass} style={pageContentStyle}>
           {children}
         </div>
@@ -89,7 +107,7 @@ function Framework({ children }) {
       </div>
     ) : (
       <ErrorBoundary>
-        <div className={classes['framework']}>
+        <div className={classes['framework']} style={{ ...frameworkStyle }}>
           <div id={`${FRAMEWORK_ID}`} className={pageContentClass} style={pageContentStyle}>
             {children}
           </div>

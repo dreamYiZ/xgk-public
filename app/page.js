@@ -27,6 +27,7 @@ export default function Home() {
   const isEmpty = useBoxStore((state) => state.isEmpty);
   const mainRef = useRef(null);  // 新增一个 ref 来引用 <main> 元素
   const { setMainDivLoadTime, mainDivLeft, mainDivTop, mode, mainScale, isFullScreenAutoBoolean, getIsTestOrDisplay, showWhenEditing, screenWidth, screenHeight, bgVideo } = useGlobalStore();  // 获取 'screenWidth' 和 'screenHeight' 状态
+
   const shouldEmpty = false;
 
   const [showVideoBg, setShowVideoBg] = useState(false);
@@ -95,6 +96,7 @@ export default function Home() {
       })}
     </>
   }
+
 
   useEffect(() => {
     if (getIsTestOrDisplay()) {
