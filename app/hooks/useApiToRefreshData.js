@@ -8,7 +8,7 @@ import { validApiUrl, combineBoxAndSubArr, mergePageBo } from "../util/util";
 
 export default function useApiToRefreshData() {
 
-  const { api, mode, setGlobal } = useGlobalStore();
+  const { api, mode, setGlobal, getIsTestOrDisplay } = useGlobalStore();
   const { boxArr, setBoxArr } = useBoxStore();
   const { setPageList } = usePageStore();
   const { setAutoList } = useAutoStore();
