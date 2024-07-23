@@ -22,7 +22,7 @@ export default function useApiToRefreshData() {
   useEffect(() => {
     const fetchApi = () => {
       // 只有当 mode 等于 MODE.TEST 或 MODE.DISPLAY 时才运行
-      if (mode !== MODE.TEST && mode !== MODE.DISPLAY) {
+      if (!getIsTestOrDisplay()) {
         return;
       }
 

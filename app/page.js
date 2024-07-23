@@ -158,7 +158,7 @@ export default function Home() {
   return (
     <main id={MAIN_ID_TO_RENDER_BOX} ref={mainRef} style={mainStyle} className={styles.main} suppressHydrationWarning>
       <video id="background_video" className={styles.background_video} loop muted style={{ width: '100%', height: '100%', display: `${showVideoBg ? 'block' : 'none'}` }}></video>
-      <div style={{ width: '100%', height: '100%' }}>
+      <div id="main-id-to-render-box-arr-container" style={{ width: '100%', height: '100%' }}>
         {renderBoxArr()}
         {showWhenEditing && <MouseXY />}
       </div>

@@ -1,26 +1,36 @@
 import { useRef, useEffect, useState, useCallback } from 'react';
 import useGlobalStore from '../store/useGlobal';
-import { ppplog, pxToNumber, MAIN_ID_TO_RENDER_BOX, MIN_MAIN_SCALE, MAX_MAIN_SCALE, FRAMEWORK_ID_SELECTOR } from '../util/util';
+import {
+  MAIN_ID_TO_RENDER_BOX_CONTAINER,
+  ppplog, pxToNumber, MAIN_ID_TO_RENDER_BOX, MIN_MAIN_SCALE, MAX_MAIN_SCALE, FRAMEWORK_ID_SELECTOR
+} from '../util/util';
 import { debounce } from 'lodash';
 
 export default function useShortcut() {
-  const { mainScale, setMainScale, setMainDivLeft, mainDivLoadTime, setMainDivTop } = useGlobalStore();
+  const { mainScale, setMainScale, setMainDivLeft, mainDivLoadTime, setMainDivTop, showWhenEditing, mode } = useGlobalStore();
   const [isDragging, setIsDragging] = useState(false);
   const startPosRef = useRef({ x: 0, y: 0 });
 
   const debouncedUpdatePosition = useCallback(
-    debounce((deltaX, deltaY) => {
-      setMainDivLeft(deltaX);
-      setMainDivTop(deltaY);
-    }, 10),
+    debounce((x, y) => {
+      setMainDivLeft(x);
+      setMainDivTop(y);
+    }, 300),
     [setMainDivLeft, setMainDivTop]
   );
 
   useEffect(() => {
+
+
+    if (!showWhenEditing()) {
+      return () => { };
+    }
+
     // ppplog('useShortcut');
 
     const frameworkEl = document.querySelector(FRAMEWORK_ID_SELECTOR);
     const mainRenderEl = document.querySelector(`#${MAIN_ID_TO_RENDER_BOX}`);
+    const mainRenderContainerEl = document.querySelector(`#${MAIN_ID_TO_RENDER_BOX_CONTAINER}`);
     if (!frameworkEl) {
       console.error(`Element with selector ${FRAMEWORK_ID_SELECTOR} not found.`);
       return;
@@ -43,6 +53,7 @@ export default function useShortcut() {
         // ppplog('Space');
         frameworkEl.style.cursor = 'grab';
         mainRenderEl && (mainRenderEl.style.cursor = 'grab');
+        mainRenderContainerEl && (mainRenderContainerEl.style.cursor = 'grab');
         event.preventDefault();
       }
     };
@@ -52,6 +63,7 @@ export default function useShortcut() {
       if (event.code === 'Space') {
         frameworkEl.style.cursor = 'default';
         mainRenderEl && (mainRenderEl.style.cursor = 'default');
+        mainRenderContainerEl && (mainRenderContainerEl.style.cursor = 'default');
       }
       if (isDragging) {
         setIsDragging(false);
@@ -69,24 +81,19 @@ export default function useShortcut() {
     const handleMouseMove = (event) => {
       if (isDragging) {
         // ppplog('handleMouseMove-isDragging');
-        const deltaX = event.clientX - startPosRef.current.x;
-        const deltaY = event.clientY - startPosRef.current.y;
+        const deltaX = (event.clientX - startPosRef.current.x);
+        const deltaY = (event.clientY - startPosRef.current.y);
 
 
-        // todo: 修改mainRenderEl的left 和 top， 来实现拖拽位置
         if (!mainRenderEl) {
           return;
         }
 
         mainRenderEl.style.left = `${pxToNumber(mainRenderEl.style.left || 0) + deltaX}px`;
         mainRenderEl.style.top = `${pxToNumber(mainRenderEl.style.top || 0) + deltaY}px`;
-        // ppplog('mainRenderEl.style.left', mainRenderEl, mainRenderEl.style.left, mainRenderEl.style.top)
+
 
         debouncedUpdatePosition(pxToNumber(mainRenderEl.style.left), pxToNumber(mainRenderEl.style.top));
-        // debouncedUpdatePosition(mainRenderEl.style.left, mainRenderEl.style.top);
-        // setMainDivLeft(pxToNumber(mainRenderEl.style.left));
-        // setMainDivTop(pxToNumber(mainRenderEl.style.top));
-        // setStartPos({ x: event.clientX, y: event.clientY });
 
         startPosRef.current = { x: event.clientX, y: event.clientY };
       }
@@ -115,7 +122,7 @@ export default function useShortcut() {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('keyup', handleKeyUp);
     };
-  }, [mainScale, setMainScale, mainDivLoadTime, isDragging, debouncedUpdatePosition]);
+  }, [mainScale, setMainScale, mainDivLoadTime, isDragging, debouncedUpdatePosition, mode]);
 
   return null; // No need to render anything
 }

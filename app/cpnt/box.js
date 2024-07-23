@@ -1,5 +1,5 @@
 "use client"
-import { useRef, useEffect, useMemo } from 'react';  // Import useMemo
+import { useRef, useEffect, useMemo, useCallback } from 'react';  // Import useMemo
 import classes from "./box.module.sass";
 import useBoxStore from '../store/useBo';
 import ppplog from "ppplog";
@@ -20,9 +20,11 @@ function Box({ boxid, width, height, position, opacity,
 
   const startPosRef = useRef(null);
 
-  const debounceMove = debounce(({
-    newX, newY
-  }) => { changeBoxById(boxid, { x: newX, y: newY }) }, 300);
+  const debounceMove = useCallback(
+    debounce(({
+      newX, newY
+    }) => { changeBoxById(boxid, { x: newX, y: newY }) }, 300)
+    , [changeBoxById]);
 
 
   useEffect(() => {
