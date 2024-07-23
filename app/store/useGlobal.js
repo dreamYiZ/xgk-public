@@ -1,7 +1,6 @@
 import create from 'zustand'
 import { persist } from 'zustand/middleware'
 
-
 export const GLOBAL_STORAGE_KEY = 'global-storage'
 
 export const BG_TYPE = {
@@ -33,7 +32,12 @@ const useGlobalStore = create(persist(
     screenHeight: 1080,
     isFullScreenAutoBoolean: false,
     tab: 0,
+    mainScale: 1,
+    mainDivLeft: 0,
+    mainDivTop: 0,
+    mainDivLoadTime: 0,
     license: '',
+
     setMode: (_mode) => set(() => ({ mode: _mode })),
     setScreenWidth: (_width) => set(() => ({ screenWidth: _width })),
     setScreenHeight: (_height) => set(() => ({ screenHeight: _height })),
@@ -42,9 +46,11 @@ const useGlobalStore = create(persist(
     setModeToEdit: () => set(() => ({ mode: MODE.EDIT })),
     setModeToDisplay: () => set(() => ({ mode: MODE.DISPLAY })),
     setModeToTest: () => set(() => ({ mode: MODE.TEST })),
+
     hideWhenDisplaying: () => get().mode !== MODE.DISPLAY,
     getIsTestOrDisplay: () => get().mode === MODE.DISPLAY || get().mode === MODE.TEST,
     showWhenEditing: () => get().mode === MODE.EDIT,
+
     setBg: (_bg) => set(() => ({ bg: _bg })),
     openSetting: () => set(() => ({ isOpenSetting: true })),
     closeSetting: () => set(() => ({ isOpenSetting: false })),
@@ -57,14 +63,37 @@ const useGlobalStore = create(persist(
     setVersion: (version) => set(() => ({ version: version })),
     setGlobal: (global) => set(() => ({
       ...global
-    }))
+    })),
+    setMainScale: (scale) => set(() => ({ mainScale: scale })),
+    setMainDivLeft: (leftCallback) => set(() => {
+      if (typeof leftCallback === 'function') {
+        console.log('leftCallback(get().mainDivLeft)', leftCallback(get().mainDivLeft))
+
+        return { mainDivLeft: leftCallback(get().mainDivLeft) }
+      } else {
+        console.log('leftCallback(get().mainDivLeft)', leftCallback)
+        return { mainDivLeft: leftCallback }
+      }
+    }),
+    setMainDivTop: (topCallback) => set(() => {
+      if (typeof topCallback === 'function') {
+        return { mainDivTop: topCallback(get().mainDivTop) };
+      }
+      return { mainDivTop: topCallback };
+    }),
+    setMainDivLoadTime: (time) => set(() => ({
+      mainDivLoadTime: time
+    })),
+    clearMainDivState: () => set(() => ({
+      mainDivTop: 0,
+      mainDivLeft: 0,
+      mainScale: 1,
+    })),
   }),
   {
     name: GLOBAL_STORAGE_KEY,
     getStorage: () => localStorage,
   }
 ));
-
-
 
 export default useGlobalStore;

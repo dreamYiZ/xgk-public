@@ -18,9 +18,12 @@ function Box({ boxid, width, height, position, opacity,
   const activeBoxId = useBoxStore((state) => state.activeBoxId);  // Access the 'activeBoxId' state
   const activeBox = useMemo(() => useBoxStore.getState().boxArr.find(box => box.boxid === boxid), [boxid]);  // 获取当前Box数据
 
+  const mouseOffset = useRef(null);
+
   const debounceMove = debounce(({
     newX, newY
   }) => { changeBoxById(boxid, { x: newX, y: newY }) }, 300);
+
 
   useEffect(() => {
     if (mode !== MODE.EDIT) {
@@ -38,18 +41,24 @@ function Box({ boxid, width, height, position, opacity,
       offsetX = e.clientX - boxElement.getBoundingClientRect().left;
       offsetY = e.clientY - boxElement.getBoundingClientRect().top;
 
+      mouseOffset.current = {
+        offsetX,
+        offsetY,
+      }
       document.addEventListener('mousemove', onMouseMove);
       document.addEventListener('mouseup', onMouseUp);
     };
 
     const onMouseMove = (e) => {
+
+      // let newX = e.clientX - mouseOffset.current.offsetX;
+      // let newY = e.clientY - mouseOffset.current.offsetY;
+
+
       let newX = e.clientX - offsetX - mainElement.getBoundingClientRect().left;
       let newY = e.clientY - offsetY - mainElement.getBoundingClientRect().top;
 
       if (scale) {
-        // newX = e.clientX - offsetX - mainElement.getBoundingClientRect().left + boxElement.getBoundingClientRect().width * (stringToNumber(scale) - 1) / 2 / 2 / 2;
-        // newY = e.clientY - offsetY - mainElement.getBoundingClientRect().top + boxElement.getBoundingClientRect().height * (stringToNumber(scale) - 1) / 2 / 2 / 2;
-
         newX = e.clientX - offsetX - mainElement.getBoundingClientRect().left + boxElement.getBoundingClientRect().width * (stringToNumber(scale) - 1) / 2 / stringToNumber(scale);
         newY = e.clientY - offsetY - mainElement.getBoundingClientRect().top + boxElement.getBoundingClientRect().height * (stringToNumber(scale) - 1) / 2 / stringToNumber(scale);
       }

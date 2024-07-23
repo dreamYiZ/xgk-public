@@ -25,7 +25,7 @@ import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import FeaturedPlayListIcon from '@mui/icons-material/FeaturedPlayList';
 import PageManage from "./PageManage";
-
+import FlipCameraAndroidIcon from '@mui/icons-material/FlipCameraAndroid';
 
 
 function SidePanel() {
@@ -37,6 +37,7 @@ function SidePanel() {
     setBgVideo,
     isFullScreenAutoBoolean,
     setIsFullScreenAutoBoolean,
+    clearMainDivState,
   } = useGlobalStore();
   const { clearActiveId, activeBoxId } = useBoxStore();
   const fileInput = useRef(null);
@@ -217,6 +218,13 @@ function SidePanel() {
     <div className={classes['side-panel-view']}>
       <Box display="flex" justifyContent="space-between" mb={2}>
         {activeBoxId && <Button variant="outlined" color="primary" onClick={handelClearActiveId}>取消</Button>}
+
+
+        {!activeBoxId && <IconButton onClick={clearMainDivState}>  {/* 添加一个 IconButton 来打开设置面板 */}
+          <FlipCameraAndroidIcon />
+        </IconButton>
+        }
+        {/* {!activeBoxId && <Button variant="outlined" color="primary" onClick={clearMainDivState}>取消</Button>} */}
         <IconButton onClick={handleOpenSettings}>  {/* 添加一个 IconButton 来打开设置面板 */}
           <SettingsIcon />
         </IconButton>
