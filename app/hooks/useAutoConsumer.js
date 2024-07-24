@@ -1,60 +1,80 @@
-import { useRef, useState, useEffect, useCallback } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import useAutoStore from "../store/useAutoStore";
-import { CMD, ppplog } from "../util/util";
-import usePageStore from "../store/usePage";
-import useBoxStore from "../store/useBo";
+import { ppplog } from "../util/util";
 import useBeStore from "../store/useBe";
 import useGlobalStore from "../store/useGlobal";
 
 // Custom hook to process automation commands
 export default function useAutoConsumer() {
-  const { autoList, setAutoList } = useAutoStore();
+  const { autoList } = useAutoStore();
   const { addEventSortByTime } = useBeStore();
-
   const [enabledAutoList, setEnabledAutoList] = useState([]);
-  const { getIsTestOrDisplay, mode } = useGlobalStore();
-
+  const { getIsTestOrDisplay, isUserDoingSomething, setIsUserDoingSomething } = useGlobalStore();
   const timeoutIdArrayRef = useRef([]);
 
   useEffect(() => {
-    const _enabledAutoList = autoList.filter(e => !e?.disabled)
-
-    ppplog('autoList-useEffect', autoList, _enabledAutoList)
-    setEnabledAutoList(_enabledAutoList)
-  }, [autoList])
-
+    const _enabledAutoList = autoList.filter(e => !e?.disabled);
+    setEnabledAutoList(_enabledAutoList);
+  }, [autoList]);
 
   useEffect(() => {
-    // ppplog('getIsTestOrDisplay()', getIsTestOrDisplay(), enabledAutoList)
     if (!getIsTestOrDisplay()) {
-      return
+      return;
     }
 
     enabledAutoList.forEach(enabledAuto => {
-
       const addAutoTimeout = () => {
+        let timeoutIdForDoingSomething;
         const timeoutId = setTimeout(() => {
-          ppplog('addEvent')
-          addEventSortByTime({
-            ...enabledAuto.be,
-            time: +new Date(),
-          })
+          ppplog('addEvent');
+
+          if (!isUserDoingSomething) {
+            addEventSortByTime({
+              ...enabledAuto.be,
+              time: +new Date(),
+            });
+          } else {
+            timeoutIdForDoingSomething = setTimeout(() => {
+              setIsUserDoingSomething(false);
+            }, 1000 * enabledAuto.duration);
+          }
+
           addAutoTimeout();
-        }, 1000 * enabledAuto.duration)
+        }, 1000 * enabledAuto.duration);
 
-        timeoutIdArrayRef.current.push(timeoutId)
-      }
+        timeoutIdArrayRef.current.push(timeoutId);
+        if (timeoutIdForDoingSomething) {
+          timeoutIdArrayRef.current.push(timeoutIdForDoingSomething);
+        }
+      };
 
-      addAutoTimeout()
-    })
+      addAutoTimeout();
+    });
 
     return () => {
       timeoutIdArrayRef.current.forEach(timeoutId => {
-        clearTimeout(timeoutId)
-      })
+        clearTimeout(timeoutId);
+      });
 
       timeoutIdArrayRef.current = [];
-    }
-  }, [enabledAutoList, mode])
+    };
+  }, [enabledAutoList, getIsTestOrDisplay, isUserDoingSomething, addEventSortByTime, setIsUserDoingSomething]);
 
+  useEffect(() => {
+    const handleUserActivity = () => {
+      setIsUserDoingSomething(true);
+      timeoutIdArrayRef.current.forEach(timeoutId => clearTimeout(timeoutId));
+      timeoutIdArrayRef.current = [];
+
+      setTimeout(() => setIsUserDoingSomething(false), 1000);
+    };
+
+    window.addEventListener('mousemove', handleUserActivity);
+    window.addEventListener('keydown', handleUserActivity);
+
+    return () => {
+      window.removeEventListener('mousemove', handleUserActivity);
+      window.removeEventListener('keydown', handleUserActivity);
+    };
+  }, [setIsUserDoingSomething]);
 }

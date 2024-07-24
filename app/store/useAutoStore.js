@@ -5,17 +5,19 @@ import { CMD } from "../util/util";
 
 export const PAGE_STORAGE_KEY = 'auto-storage';
 
+export const AUTO_NEXT_PAGE = {
+  be: {
+    cmd: CMD.NEXT_PAGE
+  },
+  duration: 10,
+  id: uuidv4(),
+  disabled: true,
+}
+
 const useAutoStore = create(persist(
   (set, get) => ({
     autoList: [
-      {
-        be: {
-          cmd: CMD.NEXT_PAGE
-        },
-        duration: 10,
-        id: uuidv4(),
-        disabled: true,
-      }
+      AUTO_NEXT_PAGE
     ],
     setAutoList: (newAutoList) => set({ autoList: [...newAutoList] }),
   }),

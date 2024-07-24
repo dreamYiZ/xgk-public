@@ -11,7 +11,7 @@ import { CMD, ppplog } from "../util/util";
 import useGlobalStore from '../store/useGlobal';
 import usePageManager from "../hooks/usePageManager";
 import { Radio, RadioGroup, FormControlLabel, FormControl, FormLabel, TextField, Tabs, Tab, Box, IconButton, Checkbox } from '@mui/material';
-import useAutoStore from "../store/useAutoStore";
+import useAutoStore, { AUTO_NEXT_PAGE } from "../store/useAutoStore";
 
 export default function PageManage({ show, handleClose }) {
   const {
@@ -83,6 +83,11 @@ export default function PageManage({ show, handleClose }) {
     let _autoNextIndex = autoList.findIndex(autoItem => {
       return autoItem.be.cmd === CMD.NEXT_PAGE
     });
+
+    if (_autoNextIndex === -1) {
+      _autoNextIndex = 0;
+      setAutoList([AUTO_NEXT_PAGE, ...autoList])
+    }
 
     setSelectedAutoIndex(
       _autoNextIndex
