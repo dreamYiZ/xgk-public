@@ -39,7 +39,7 @@ export default function (
 
   return <div style={{ width: box.width, height: box.height, }} >
 
-    <Box p={3}>
+    <Box p={3} sx={{ overflow: "hidden", height: "100%" }}>
       <Swiper
         slidesPerView={slidesPerView}
         on={{

@@ -14,7 +14,7 @@ function Box({ boxid, width, height, position, opacity,
   const boxRef = useRef(null);
   const changeBoxById = useBoxStore((state) => state.changeById);
   const setActiveBoxId = useBoxStore((state) => state.setActiveBoxId);  // Access the 'setActiveBoxId' function
-  const { mode, mainScale } = useGlobalStore();
+  const { mode, mainScale, getIsTestOrDisplay } = useGlobalStore();
   const isResizingRef = useRef(false);
 
   const activeBoxId = useBoxStore((state) => state.activeBoxId);  // Access the 'activeBoxId' state
@@ -23,16 +23,29 @@ function Box({ boxid, width, height, position, opacity,
   const startPosRef = useRef(null);
 
   const [showResize, setShowResize] = useState(false);
+  const [isTestOrDisplay, setTestOrDisplay] = useState(true);
 
   useEffect(() => {
     setShowResize(activeBoxId === boxid);
   }, [activeBoxId, boxid])
+
 
   const debounceMove = useCallback(
     debounce(({
       newX, newY
     }) => { changeBoxById(boxid, { x: newX, y: newY }) }, 300)
     , [changeBoxById]);
+
+
+  useEffect(() => {
+
+    setTestOrDisplay(getIsTestOrDisplay());
+
+    return () => {
+
+    }
+  }, [mode])
+
 
 
   useEffect(() => {
@@ -140,7 +153,6 @@ function Box({ boxid, width, height, position, opacity,
 
   const animateCssClass = useMemo(() => activeBox?.animateCssClass || '', [activeBox]);
 
-  ppplog('xy', x, y);
 
   return (
     <div
@@ -150,11 +162,11 @@ function Box({ boxid, width, height, position, opacity,
       className={`${classes.box} ${classes.disableSelection} ${animateCssClass} animate__animated`}
     >
       {children}
-      <BoxResize mainRef={mainRef} boxid={boxid} boxStyle={{ outerX: x, outerY: y, width, height }}
+      {!isTestOrDisplay && <BoxResize mainRef={mainRef} boxid={boxid} boxStyle={{ outerX: x, outerY: y, width, height }}
         show={showResize}
         isResizingRef={isResizingRef}
         outerBoxRef={boxRef}
-      />
+      />}
     </div>
   );
 }
