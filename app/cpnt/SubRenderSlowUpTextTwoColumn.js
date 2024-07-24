@@ -6,7 +6,7 @@ import VideoJS from './videoJsWrap'; // Assuming you have a VideoJS wrapper comp
 import { ANIMATE_TYPE_MARQUEE_IMAGE_VIDEO } from '../util/util'; // Your constants
 import { ppplog, pxToNumber } from "../util/util";
 import MarqueeImageVideoGoLeft from "./MarqueeImageVideoGoLeft";
-import RenderSlowUp from "./RenderSlowUp";
+import RenderSlowUp from "./RenderSlowUpContainer";
 import RenderSlowUpTextItemTwoColumn from './RenderSlowUpTextItemTwoColumn';
 
 const ANIMATION_INTERVAL = 100; // Adjust as needed, faster for smoother animation
