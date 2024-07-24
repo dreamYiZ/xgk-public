@@ -10,7 +10,7 @@ export default function useApiToRefreshData() {
 
   const { api, mode, setGlobal, getIsTestOrDisplay, apiRateLimit } = useGlobalStore();
   const { boxArr, setBoxArr } = useBoxStore();
-  const { setPageList } = usePageStore();
+  const { setPageList, pageList } = usePageStore();
   const { setAutoList } = useAutoStore();
   const { setEventArr, addEventSortByTime } = useBeStore();
   const boxArrRef = useRef(boxArr);  // 使用 useRef 来存储 boxArr 的值
@@ -46,17 +46,20 @@ export default function useApiToRefreshData() {
             }
 
             if (data.pageBo) {
-              setPageList(prePageList => {
-                const newPageList = mergePageBo(prePageList, data.pageBo)
-                return newPageList
-              });
+              const newPageList = mergePageBo(pageList, data.pageBo)
+              setPageList(newPageList)
             }
 
             if (data.pageBoUpdate) {
-              setPageList(prePageList => {
-                const newPageList = mergePageBoUpdate(prePageList, data.pageBoUpdate)
-                return newPageList
-              });
+              const newPageList = mergePageBoUpdate(pageList, data.pageBoUpdate)
+              setPageList(newPageList)
+            }
+
+            if (data.pageBoUpdateAndSub) {
+              const newPageList = mergePageBoUpdate(pageList, data.pageBoUpdate)
+              setPageList(newPageList)
+
+              setBoxArr(mergeSub(boxArr, pageBoUpdateAndSub))
             }
 
             if (data.global) {
