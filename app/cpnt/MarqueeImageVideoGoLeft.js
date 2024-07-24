@@ -64,7 +64,7 @@ export default function MarqueeImageVideoGoLeft({ sub, box, setActiveImageVideoI
           return { ...imgItem, left: newLeft };
         });
       });
-    }, 1000 / 30); // 30 frames per second
+    }, 1000 / 10); // 30 frames per second
 
     return () => clearInterval(interval);
   }, [colCount, imageWidth, rowSpeeds, styledData]);
