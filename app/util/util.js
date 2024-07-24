@@ -740,6 +740,7 @@ const BASIC_PAYLOAD_SLOW_UP_TEXT = {
   }),
   fontSize: 22,
   animationTime: 10,
+  rowHeight: 50,
 }
 
 export const createBoxSlowUpText = () => {

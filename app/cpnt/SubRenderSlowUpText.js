@@ -7,6 +7,7 @@ import { ANIMATE_TYPE_MARQUEE_IMAGE_VIDEO } from '../util/util'; // Your constan
 import { ppplog, pxToNumber } from "../util/util";
 import MarqueeImageVideoGoLeft from "./MarqueeImageVideoGoLeft";
 import RenderSlowUp from "./RenderSlowUp";
+import RenderSlowUpTextItem from './RenderSlowUpTextItem';
 
 const ANIMATION_INTERVAL = 100; // Adjust as needed, faster for smoother animation
 
@@ -15,21 +16,13 @@ export default function SubRenderSlowUpText({ box, sub }) {
 
   return (
     <div style={{ width: box.width, height: box.height, overflow: 'hidden', position: 'relative' }} >
-      <RenderSlowUp animationTime={sub.animationTime}>
-sfds <br />
-sfds <br />
-sfds <br />
-sfds <br />
-sfds <br />
-sfds <br />
-sfds <br />
-sfds <br />
-sfds <br />
-sfds <br />
-sfds <br />
-sfds <br />
-sfds <br />
+      <RenderSlowUp animationTime={sub.animationTime} rowHeight={sub.rowHeight}>
+        {sub.data.map(i => {
+          return <RenderSlowUpTextItem sub={sub} slowRow={i} key={i.id} />
+        })}
       </RenderSlowUp>
     </div>
   );
 }
+
+
