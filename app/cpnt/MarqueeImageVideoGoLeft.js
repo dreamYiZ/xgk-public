@@ -2,7 +2,7 @@ import Box from '@mui/material/Box';
 import { useEffect, useState, useRef } from 'react';
 import { ppplog } from "../util/util";
 
-export default function ({ sub, box, setActiveImageVideoItem }) {
+export default function MarqueeImageVideoGoLeft({ sub, box, setActiveImageVideoItem }) {
   const [styledData, setStyledData] = useState([]);
   const [rowCount, setRowCount] = useState(0);
   const [colCount, setColCount] = useState(0);
@@ -29,15 +29,9 @@ export default function ({ sub, box, setActiveImageVideoItem }) {
       return newImgItem;
     });
 
-    // if (_newData.length < rowCount * colCount) {
-    //   const __newData = _newData.concat(_newData.slice(0, rowCount * colCount - _newData.length))
-    //   ppplog('__newData', __newData.length, _newData.length)
-    //   setStyledData(__newData);
-    // } else {
     setStyledData(_newData);
-    // }
 
-  }, [data, rowCount, colCount]);
+  }, [data, rowCount, colCount, imageWidth, imageHeight]);
 
   useEffect(() => {
     if (boxRef.current) {
@@ -82,9 +76,7 @@ export default function ({ sub, box, setActiveImageVideoItem }) {
     };
 
     setRandomSpeeds();
-    // const speedInterval = setInterval(setRandomSpeeds, 30000); // Update speeds every 30 seconds
 
-    // return () => clearInterval(speedInterval);
   }, [rowCount, imageWidth]);
 
   const handleClickImageItem = (imgItem) => {

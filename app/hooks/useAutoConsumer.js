@@ -62,11 +62,14 @@ export default function useAutoConsumer() {
 
   useEffect(() => {
     const handleUserActivity = () => {
-      setIsUserDoingSomething(true);
+      if (!isUserDoingSomething) {
+        setIsUserDoingSomething(true);
+      }
       timeoutIdArrayRef.current.forEach(timeoutId => clearTimeout(timeoutId));
       timeoutIdArrayRef.current = [];
 
-      setTimeout(() => setIsUserDoingSomething(false), 1000);
+      let timeoutId = setTimeout(() => setIsUserDoingSomething(false), 30 * 1000);
+      timeoutIdArrayRef.current.push(timeoutId);
     };
 
     window.addEventListener('mousemove', handleUserActivity);
@@ -76,5 +79,5 @@ export default function useAutoConsumer() {
       window.removeEventListener('mousemove', handleUserActivity);
       window.removeEventListener('keydown', handleUserActivity);
     };
-  }, [setIsUserDoingSomething]);
+  }, [setIsUserDoingSomething, isUserDoingSomething]);
 }

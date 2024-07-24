@@ -4,7 +4,7 @@ import useBoxStore from '../store/useBo';
 import useBeFactory from "../hooks/useBeFactory";
 import VideoJS from './videoJsWrap'; // Assuming you have a VideoJS wrapper component
 import { ANIMATE_TYPE_MARQUEE_IMAGE_VIDEO } from '../util/util'; // Your constants
-import { ppplog, pxToNumber } from "../util/util";
+import { ppplog } from "../util/util";
 import MarqueeImageVideoGoLeft from "./MarqueeImageVideoGoLeft";
 
 const ANIMATION_INTERVAL = 100; // Adjust as needed, faster for smoother animation
@@ -48,7 +48,7 @@ export default function MarqueeImageVideo({ box, sub }) {
       width: `${videoWidth}px`,
       height: `${videoHeight}px`,
     });
-  }, [activeImageVideoItem]);
+  }, [activeImageVideoItem, sub.videoWidth, sub.videoHeight]);
 
   useEffect(() => {
     if (!activeImageVideoItem) {
@@ -70,7 +70,7 @@ export default function MarqueeImageVideo({ box, sub }) {
   const handlePlayerReady = (player) => {
     playerRef.current = player;
 
-    // You can handle player events here, for example:
+    // Handle player events here
     player.on('waiting', () => {
       videojs.log('player is waiting');
     });

@@ -711,8 +711,8 @@ const BASIC_PAYLOAD_MARQUEE_IMAGE_VIDEO = {
 
     }
   }),
-  imageWidth: 200,
-  imageHeight: 200,
+  imageWidth: 100,
+  imageHeight: 80,
   animateType: ANIMATE_TYPE_MARQUEE_IMAGE_VIDEO.GO_LEFT,
   videoWidth: 400,
   videoHeight: 280,
