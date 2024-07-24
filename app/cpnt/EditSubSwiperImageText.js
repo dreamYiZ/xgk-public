@@ -160,10 +160,10 @@ export default function () {
           <Box mt={1}></Box>
           <TextField value={imageHeight} onChange={(event) => setImageHeight(event.target.value)} type="number" label="图片高度" variant="outlined" />
           <Box mt={1}></Box>
-          <TextField value={width} onChange={(event) => setWidth(event.target.value)} type="number" label="宽度" variant="outlined" />
+          {/* <TextField value={width} onChange={(event) => setWidth(event.target.value)} type="number" label="宽度" variant="outlined" />
           <Box mt={1}></Box>
-          <TextField value={height} onChange={(event) => setHeight(event.target.value)} type="number" label="高度" variant="outlined" />
-          <Box mt={1}></Box>
+          <TextField value={height} onChange={(event) => setHeight(event.target.value)} type="number" label="高度" variant="outlined" /> */}
+          {/* <Box mt={1}></Box> */}
           <TextField value={textMarginBottom} onChange={(event) => setTextMarginBottom(event.target.value)} type="number" label="文字底部间距" variant="outlined" />
           <Box mt={1}></Box>
         </Box>

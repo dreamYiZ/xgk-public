@@ -730,7 +730,7 @@ export const createBoxMarqueeImageVideo = () => {
   }
 }
 
-const BASIC_PAYLOAD_SLOW_UP_TEXT = {
+export const BASIC_PAYLOAD_SLOW_UP_TEXT = {
   data: new Array(6).fill().map((_, idx) => {
     return {
       id: uuidv4(),
@@ -741,6 +741,7 @@ const BASIC_PAYLOAD_SLOW_UP_TEXT = {
   fontSize: 22,
   animationTime: 10,
   rowHeight: 50,
+  color: '#000000'
 }
 
 export const createBoxSlowUpText = () => {
@@ -751,6 +752,34 @@ export const createBoxSlowUpText = () => {
     sub: {
       type: SUB_TYPE.SLOW_UP_TEXT,
       ...BASIC_PAYLOAD_SLOW_UP_TEXT
+    }
+  }
+}
+
+export const BASIC_PAYLOAD_SLOW_UP_TEXT_TWO_COLUMN = {
+  data: new Array(6).fill().map((_, idx) => {
+    return {
+      id: uuidv4(),
+      text: idx + 'blah'.repeat(7),
+      secondText: idx + 'right-blah'.repeat(1)
+    }
+  }),
+  fontSize: 22,
+  fontSizeSecond: 22,
+  animationTime: 10,
+  rowHeight: 50,
+  color: '#000000',
+  colorSecond: '#000000',
+}
+
+export const createBoxSlowUpTextTwoColumn = () => {
+  return {
+    ...createBoxPayload(),
+    width: '320px',
+    height: '500px',
+    sub: {
+      type: SUB_TYPE.SLOW_UP_TEXT_TWO_COLUMN,
+      ...BASIC_PAYLOAD_SLOW_UP_TEXT_TWO_COLUMN
     }
   }
 }
@@ -976,4 +1005,5 @@ export const MAP_TYPE_FACTORY = {
   [SUB_TYPE.THREE_CANVAS]: createBoxThreeCanvas,
   [SUB_TYPE.MARQUEE_IMAGE_VIDEO]: createBoxMarqueeImageVideo,
   [SUB_TYPE.SLOW_UP_TEXT]: createBoxSlowUpText,
+  [SUB_TYPE.SLOW_UP_TEXT_TWO_COLUMN]: createBoxSlowUpTextTwoColumn,
 };

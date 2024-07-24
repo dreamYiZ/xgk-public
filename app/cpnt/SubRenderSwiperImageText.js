@@ -43,12 +43,24 @@ export default function (
   }
 
 
+  const swiperOutBoxRef = useRef(null);
+
+  const [swiperOutBoxHeight, SetSwiperOutBoxHeight] = useState();
+
+
+  useEffect(() => {
+
+    const swiperOutBoRect = swiperOutBoxRef.current.getBoundingClientRect()
+    const _height = swiperOutBoRect.height
+    SetSwiperOutBoxHeight(_height)
+  }, [box?.width, box?.height])
+
 
 
 
   return <div style={{ width: box.width, height: box.height, }} >
 
-    <Box p={3}>
+    <Box ref={swiperOutBoxRef} p={3} sx={{ height: "100%", position: "relative" }}>
 
       <Swiper
         slidesPerView={1}
@@ -68,7 +80,7 @@ export default function (
       >
 
         {data.map(imgAndTextArr => {
-          return <SwiperSlideItem styleObj={styleObj} key={imgAndTextArr.id} imgAndTextArr={imgAndTextArr} />
+          return <SwiperSlideItem swiperOutBoxHeight={swiperOutBoxHeight} styleObj={styleObj} key={imgAndTextArr.id} imgAndTextArr={imgAndTextArr} />
         })}
 
 
@@ -89,7 +101,7 @@ const ImageTextBox = (props) => {
 
   // ppplog('ImageTextBox props ', props)
   const {
-    imgAndTextArr, styleObj
+    imgAndTextArr, styleObj, swiperOutBoxHeight
   } = props;
 
   const {
@@ -99,10 +111,11 @@ const ImageTextBox = (props) => {
     imgLeft
   } = imgAndTextArr;
 
-  return <Box sx={{ display: "flex", width: `${styleObj.width}px`, height: `${styleObj.height}px`, alignItems: "center", justifyContent: "space-around" }} >
+  return <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-around" }} >
+    {/* return <Box sx={{ display: "flex", width: `${styleObj.width}px`, height: `${styleObj.height}px`, alignItems: "center", justifyContent: "space-around" }} > */}
     {imgLeft && <ImageBox img={img} styleObj={styleObj} />}
 
-    <TextArrayBox textArr={textArr} styleObj={styleObj} />
+    <TextArrayBox swiperOutBoxHeight={swiperOutBoxHeight} textArr={textArr} styleObj={styleObj} />
 
     {!imgLeft && <ImageBox img={img} styleObj={styleObj} />}
 
@@ -124,16 +137,18 @@ const ImageBox = ({
 }
 
 const TextArrayBox = ({
-  textArr, styleObj
+  textArr, styleObj, swiperOutBoxHeight
 }) => {
 
-  return <Box sx={{ width: `${styleObj.textWidth}px`, display: "flex", flexDirection: "column", overflowY: "auto",
-    height: `${styleObj.height}px`,
-    '&::-webkit-scrollbar':{
+  return <Box sx={{
+    width: `${styleObj.textWidth}px`, display: "flex", flexDirection: "column", overflowY: "auto",
+    // return <Box sx={{ width: `${styleObj.textWidth}px`, display: "flex", flexDirection: "column", overflowY: "auto",
+    height: `${swiperOutBoxHeight}px`,
+    '&::-webkit-scrollbar': {
       display: 'none'
     }
-   }} pr={2}>
-    
+  }} pr={2}>
+
     {textArr.map(text => {
       return <Box sx={{
         display: "block", whiteSpace: "wrap", wordBreak: "break-all", textIndent: "2em",

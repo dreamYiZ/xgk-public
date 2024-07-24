@@ -7,6 +7,6 @@ export default function ({ slowRow, sub }) {
     height: `${sub.rowHeight}px`, display: 'flex',
     alignItems: 'center' ,fontSize: `${sub.fontSize}px`,
   }}>
-    <Box>{slowRow.text}</Box>
+    <Box sx={{color: `${sub.color}`}}>{slowRow.text}</Box>
   </Box>
 }

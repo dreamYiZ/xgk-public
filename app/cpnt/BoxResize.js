@@ -4,12 +4,15 @@ import classes from './BoxResize.module.sass';
 import useBoxStore from '../store/useBo';
 import { pxToNumber, ppplog } from "../util/util";
 import { debounce } from "lodash";
+import useGlobalStore, { MODE } from '../store/useGlobal';
 
 const RESIZE_HANDLE_SIZE = 10;
 
 export default function BoxResize({ outerBoxRef, children, boxid, mainRef, boxStyle, isResizingRef }) {
   const changeBoxById = useBoxStore((state) => state.changeById);
   const resizingRef = useRef(false);
+  const { mode, mainScale } = useGlobalStore();
+
   const resizeDirectionRef = useRef(null);
   const boxRef = useRef(null);
   const startPosRef = useRef({ x: 0, y: 0 });
@@ -55,12 +58,14 @@ export default function BoxResize({ outerBoxRef, children, boxid, mainRef, boxSt
     const mainElement = mainRef.current;
     const mainRect = mainElement.getBoundingClientRect();
     // const outerBoxRefRect = outerBoxElement.getBoundingClientRect();
-    let newWidth = startSizeRef.current.width;
-    let newHeight = startSizeRef.current.height;
+    let newWidth = startSizeRef.current.width / mainScale;
+    let newHeight = startSizeRef.current.height / mainScale;
     let newLeft = pxToNumber(boxStyle.outerX);
     let newTop = pxToNumber(boxStyle.outerY);
-    const deltaX = e.clientX - startPosRef.current.x;
-    const deltaY = e.clientY - startPosRef.current.y;
+    const deltaX = (e.clientX - startPosRef.current.x) / mainScale;
+    const deltaY = (e.clientY - startPosRef.current.y) / mainScale;
+    // const deltaX = (e.clientX - startPosRef.current.x) / mainScale;
+    // const deltaY = (e.clientY - startPosRef.current.y) / mainScale;
 
     ppplog('newLeft-0', newLeft, newTop, deltaX, deltaY);
     // return;
