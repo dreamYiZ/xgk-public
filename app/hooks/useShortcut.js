@@ -1,5 +1,6 @@
 import { useRef, useEffect, useState, useCallback } from 'react';
 import useGlobalStore from '../store/useGlobal';
+import useBoxStore from '../store/useBo';
 import {
   MAIN_ID_TO_RENDER_BOX_CONTAINER,
   ppplog, pxToNumber, MAIN_ID_TO_RENDER_BOX, MIN_MAIN_SCALE, MAX_MAIN_SCALE, FRAMEWORK_ID_SELECTOR
@@ -8,6 +9,7 @@ import { debounce } from 'lodash';
 
 export default function useShortcut() {
   const { mainScale, setMainScale, setMainDivLeft, mainDivLoadTime, setMainDivTop, showWhenEditing, mode } = useGlobalStore();
+  const { activeBoxId, delById } = useBoxStore();
   const [isDragging, setIsDragging] = useState(false);
   const startPosRef = useRef({ x: 0, y: 0 });
 
@@ -20,8 +22,6 @@ export default function useShortcut() {
   );
 
   useEffect(() => {
-
-
     if (!showWhenEditing()) {
       return () => { };
     }
@@ -56,6 +56,16 @@ export default function useShortcut() {
         mainRenderContainerEl && (mainRenderContainerEl.style.cursor = 'grab');
         event.preventDefault();
       }
+
+      // Handle Delete key
+      if (event.code === 'Delete') {
+        if (activeBoxId && !['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
+          const confirmDelete = window.confirm('确认删除吗？');
+          if (confirmDelete) {
+            delById(activeBoxId);
+          }
+        }
+      }
     };
 
     const handleKeyUp = (event) => {
@@ -74,7 +84,6 @@ export default function useShortcut() {
       if (event.button === 0 && frameworkEl.style.cursor === 'grab') {
         setIsDragging(true);
         startPosRef.current = { x: event.clientX, y: event.clientY }
-        // setStartPos({ x: event.clientX, y: event.clientY });
       }
     };
 
@@ -84,14 +93,12 @@ export default function useShortcut() {
         const deltaX = (event.clientX - startPosRef.current.x);
         const deltaY = (event.clientY - startPosRef.current.y);
 
-
         if (!mainRenderEl) {
           return;
         }
 
         mainRenderEl.style.left = `${pxToNumber(mainRenderEl.style.left || 0) + deltaX}px`;
         mainRenderEl.style.top = `${pxToNumber(mainRenderEl.style.top || 0) + deltaY}px`;
-
 
         debouncedUpdatePosition(pxToNumber(mainRenderEl.style.left), pxToNumber(mainRenderEl.style.top));
 
@@ -122,7 +129,7 @@ export default function useShortcut() {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('keyup', handleKeyUp);
     };
-  }, [mainScale, setMainScale, mainDivLoadTime, isDragging, debouncedUpdatePosition, mode]);
+  }, [mainScale, setMainScale, mainDivLoadTime, isDragging, debouncedUpdatePosition, mode, activeBoxId, delById, showWhenEditing]);
 
   return null; // No need to render anything
 }

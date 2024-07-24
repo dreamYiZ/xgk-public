@@ -1,5 +1,5 @@
 "use client"
-import { useRef, useEffect, useMemo, useCallback } from 'react';  // Import useMemo
+import { useState, useRef, useEffect, useMemo, useCallback } from 'react';  // Import useMemo
 import classes from "./box.module.sass";
 import useBoxStore from '../store/useBo';
 import ppplog from "ppplog";
@@ -7,6 +7,7 @@ import useGlobalStore, { MODE } from '../store/useGlobal';
 import zIndex from '@mui/material/styles/zIndex';
 import { pxToNumber, ifNumberToPx, stringToNumber, debounce } from "../util/util";
 // import { debounce } from 'lodash';
+import BoxResize from "./BoxResize";
 
 function Box({ boxid, width, height, position, opacity,
   children, groupid, x, y, scale, mainRef, ...other }) {
@@ -14,11 +15,18 @@ function Box({ boxid, width, height, position, opacity,
   const changeBoxById = useBoxStore((state) => state.changeById);
   const setActiveBoxId = useBoxStore((state) => state.setActiveBoxId);  // Access the 'setActiveBoxId' function
   const { mode, mainScale } = useGlobalStore();
+  const isResizingRef = useRef(false);
 
   const activeBoxId = useBoxStore((state) => state.activeBoxId);  // Access the 'activeBoxId' state
   const activeBox = useMemo(() => useBoxStore.getState().boxArr.find(box => box.boxid === boxid), [boxid]);  // 获取当前Box数据
 
   const startPosRef = useRef(null);
+
+  const [showResize, setShowResize] = useState(false);
+
+  useEffect(() => {
+    setShowResize(activeBoxId === boxid);
+  }, [activeBoxId, boxid])
 
   const debounceMove = useCallback(
     debounce(({
@@ -52,6 +60,9 @@ function Box({ boxid, width, height, position, opacity,
     };
 
     const onMouseMove = (e) => {
+      if (isResizingRef.current) {
+        return
+      }
 
       // let newX = e.clientX - mouseOffset.current.offsetX;
       // let newY = e.clientY - mouseOffset.current.offsetY;
@@ -129,6 +140,8 @@ function Box({ boxid, width, height, position, opacity,
 
   const animateCssClass = useMemo(() => activeBox?.animateCssClass || '', [activeBox]);
 
+  ppplog('xy', x, y);
+
   return (
     <div
       id={boxid}
@@ -137,6 +150,11 @@ function Box({ boxid, width, height, position, opacity,
       className={`${classes.box} ${classes.disableSelection} ${animateCssClass} animate__animated`}
     >
       {children}
+      <BoxResize mainRef={mainRef} boxid={boxid} boxStyle={{ outerX: x, outerY: y, width, height }}
+        show={showResize}
+        isResizingRef={isResizingRef}
+        outerBoxRef={boxRef}
+      />
     </div>
   );
 }

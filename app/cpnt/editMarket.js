@@ -58,7 +58,7 @@ function EditMarket() {
             <ListItem key={item.type}>
               <ListItemText primary={`${item.typeName}`} />
 
-              <DragCreate marketItem={item} />
+              <DragCreate marketItem={item} setOpen={setOpen} />
 
               <IconButton onClick={() => addNewBoxByType(item.type)}>
                 <AddIcon />

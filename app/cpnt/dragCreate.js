@@ -19,7 +19,7 @@ import OpenWithIcon from '@mui/icons-material/OpenWith';
 import Box from '@mui/material/Box';
 
 
-export default function ({ marketItem }) {
+export default function ({ marketItem, setOpen }) {
 
   const [doingCreate, setDoingCreate] = useState(false);
   const [coords, setCoords] = useState({ x: 0, y: 0 });

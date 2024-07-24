@@ -714,6 +714,8 @@ const BASIC_PAYLOAD_MARQUEE_IMAGE_VIDEO = {
   imageWidth: 200,
   imageHeight: 200,
   animateType: ANIMATE_TYPE_MARQUEE_IMAGE_VIDEO.GO_LEFT,
+  videoWidth: 400,
+  videoHeight: 280,
 }
 
 export const createBoxMarqueeImageVideo = () => {
@@ -724,6 +726,30 @@ export const createBoxMarqueeImageVideo = () => {
     sub: {
       type: SUB_TYPE.MARQUEE_IMAGE_VIDEO,
       ...BASIC_PAYLOAD_MARQUEE_IMAGE_VIDEO
+    }
+  }
+}
+
+const BASIC_PAYLOAD_SLOW_UP_TEXT = {
+  data: new Array(6).fill().map((_, idx) => {
+    return {
+      id: uuidv4(),
+      text: idx + 'blah'.repeat(7),
+      secondText: idx + 'right-blah'.repeat(1)
+    }
+  }),
+  fontSize: 22,
+  animationTime: 10,
+}
+
+export const createBoxSlowUpText = () => {
+  return {
+    ...createBoxPayload(),
+    width: '250px',
+    height: '500px',
+    sub: {
+      type: SUB_TYPE.SLOW_UP_TEXT,
+      ...BASIC_PAYLOAD_SLOW_UP_TEXT
     }
   }
 }
@@ -948,4 +974,5 @@ export const MAP_TYPE_FACTORY = {
   [SUB_TYPE.BUTTON_ACTIVE_ONE]: createBoxButtonActiveOne,
   [SUB_TYPE.THREE_CANVAS]: createBoxThreeCanvas,
   [SUB_TYPE.MARQUEE_IMAGE_VIDEO]: createBoxMarqueeImageVideo,
+  [SUB_TYPE.SLOW_UP_TEXT]: createBoxSlowUpText,
 };

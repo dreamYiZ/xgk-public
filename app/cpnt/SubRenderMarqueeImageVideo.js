@@ -29,8 +29,8 @@ export default function MarqueeImageVideo({ box, sub }) {
     ppplog('activeImageVideoItem', activeImageVideoItem);
 
     const containerRect = imgVideoContainerRef.current.getBoundingClientRect();
-    const videoWidth = 400; // Example width of the video element
-    const videoHeight = 280; // Example height of the video element
+    const videoWidth = sub.videoWidth || 400; // Example width of the video element
+    const videoHeight = sub.videoHeight || 280; // Example height of the video element
 
     let top = containerRect.height / 2 - videoHeight / 2 + 12;
     let left = activeImageVideoItem.left;
