@@ -39,6 +39,7 @@ const useGlobalStore = create(persist(
     mainDivLoadTime: 0,
     license: '',
     isUserDoingSomething: false,
+    delayIsUserDoingSomething: 30,
     setMode: (_mode) => set(() => ({ mode: _mode })),
     setScreenWidth: (_width) => set(() => ({ screenWidth: _width })),
     setScreenHeight: (_height) => set(() => ({ screenHeight: _height })),
@@ -92,6 +93,7 @@ const useGlobalStore = create(persist(
     })),
     setApiRateLimit: (rateLimit) => set(() => ({ apiRateLimit: rateLimit })),
     setIsUserDoingSomething: (isUserDoingSomething) => set(() => ({ isUserDoingSomething: isUserDoingSomething })),
+    setDelayIsUserDoingSomething: (delayIsUserDoingSomething) => set(() => ({ delayIsUserDoingSomething: delayIsUserDoingSomething })),
   }),
   {
     name: GLOBAL_STORAGE_KEY,

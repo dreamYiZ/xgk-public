@@ -1,17 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import Button from '@mui/material/Button';
-import Drawer from '@mui/material/Drawer';
-import Typography from '@mui/material/Typography';
-import DrawerTitle from "./drawerTitle";
+import React, { useEffect, useState, useCallback } from 'react';
+import {
+  Box, Button, Drawer, Typography, Tabs, Tab, FormControlLabel, Checkbox, TextField
+} from '@mui/material';
 import useBoxStore from "../store/useBo";
 import usePageStore from "../store/usePage";
-import { v4 as uuidv4 } from 'uuid';
 import DisplayPageItem from "./DisplayPageItem";
-import { CMD, ppplog } from "../util/util";
 import useGlobalStore from '../store/useGlobal';
 import usePageManager from "../hooks/usePageManager";
-import { Radio, RadioGroup, FormControlLabel, FormControl, FormLabel, TextField, Tabs, Tab, Box, IconButton, Checkbox } from '@mui/material';
 import useAutoStore, { AUTO_NEXT_PAGE } from "../store/useAutoStore";
+import { CMD, ppplog } from "../util/util";
 
 export default function PageManage({ show, handleClose }) {
   const {
@@ -26,7 +23,7 @@ export default function PageManage({ show, handleClose }) {
   } = usePageStore();
 
   const { boxArr, setBoxArr } = useBoxStore();
-  const { bg, bgVideo, setBgVideo, setBg } = useGlobalStore();
+  const { bg, bgVideo, setBgVideo, setBg, setDelayIsUserDoingSomething, delayIsUserDoingSomething } = useGlobalStore();
   const { addCurrentToNewPage } = usePageManager();
   const [tabValue, setTabValue] = useState(0);
   const { autoList, setAutoList } = useAutoStore();
@@ -35,7 +32,7 @@ export default function PageManage({ show, handleClose }) {
   const [autoDuration, setAutoDuration] = useState(autoList[selectedAutoIndex]?.duration || 10);
   const [isEnabled, setIsEnabled] = useState(autoList[selectedAutoIndex]?.disabled);
 
-  const changeCurrentPage = (id) => {
+  const changeCurrentPage = useCallback((id) => {
     const { getPageById } = usePageStore.getState();
     const page = getPageById(id);
     usePageStore.setState({ currentPage: page, currentPageId: id });
@@ -43,17 +40,17 @@ export default function PageManage({ show, handleClose }) {
     setBoxArr(page.bo);
     setBgVideo(page.bgVideo);
     setBg(page.bg);
-  };
+  }, [setBoxArr, setBgVideo, setBg]);
 
-  const handleDragEnd = (result) => {
+  const handleDragEnd = useCallback((result) => {
     if (!result.destination) return;
     const reorderedPageList = Array.from(pageList);
     const [movedPage] = reorderedPageList.splice(result.source.index, 1);
     reorderedPageList.splice(result.destination.index, 0, movedPage);
     updatePageOrder(reorderedPageList);
-  };
+  }, [pageList, updatePageOrder]);
 
-  const saveToCurrentPage = () => {
+  const saveToCurrentPage = useCallback(() => {
     if (currentPageId) {
       updatePage(currentPageId, {
         bo: boxArr,
@@ -61,40 +58,40 @@ export default function PageManage({ show, handleClose }) {
         bgVideo: bgVideo,
       });
     }
-  };
+  }, [currentPageId, boxArr, bg, bgVideo, updatePage]);
 
-  const handleCheckboxChange = () => {
+  const handleCheckboxChange = useCallback(() => {
     const updatedList = [...autoList];
     updatedList[selectedAutoIndex].disabled = !isEnabled;
     setAutoList(updatedList);
     setIsEnabled(!isEnabled);
-  };
+  }, [autoList, selectedAutoIndex, isEnabled, setAutoList]);
 
-  const handleDurationChange = (e) => {
+  const handleDurationChange = useCallback((e) => {
     const newDuration = parseInt(e.target.value, 10);
     const updatedList = [...autoList];
     updatedList[selectedAutoIndex].duration = newDuration;
     setAutoList(updatedList);
     setAutoDuration(newDuration);
-  };
+  }, [autoList, selectedAutoIndex, setAutoList]);
 
+  const handleDelayChange = useCallback((e) => {
+    const newDelay = parseInt(e.target.value, 10);
+    setDelayIsUserDoingSomething(newDelay);
+  }, [setDelayIsUserDoingSomething]);
 
   useEffect(() => {
     let _autoNextIndex = autoList.findIndex(autoItem => {
-      return autoItem.be.cmd === CMD.NEXT_PAGE
+      return autoItem.be.cmd === CMD.NEXT_PAGE;
     });
 
     if (_autoNextIndex === -1) {
       _autoNextIndex = 0;
-      setAutoList([AUTO_NEXT_PAGE, ...autoList])
+      setAutoList([AUTO_NEXT_PAGE, ...autoList]);
     }
 
-    setSelectedAutoIndex(
-      _autoNextIndex
-    )
-  }, [autoList])
-
-  // ppplog('autoList', autoList)
+    setSelectedAutoIndex(_autoNextIndex);
+  }, [autoList, setAutoList]);
 
   return (
     <div>
@@ -105,7 +102,6 @@ export default function PageManage({ show, handleClose }) {
           onClose={handleClose}
         >
           <Box sx={{ width: 600, padding: 2 }}>
-
             <Tabs value={tabValue} onChange={(event, newValue) => setTabValue(newValue)} aria-label="simple tabs example">
               <Tab label="页面" />
               <Tab label="自动" />
@@ -155,6 +151,15 @@ export default function PageManage({ show, handleClose }) {
                   type="number"
                   value={autoDuration}
                   onChange={handleDurationChange}
+                  sx={{ mt: 1 }}
+                />
+
+                <Box mt={1} />
+                <TextField
+                  label="延迟触发"
+                  type="number"
+                  value={delayIsUserDoingSomething}
+                  onChange={handleDelayChange}
                   sx={{ mt: 1 }}
                 />
               </Box>

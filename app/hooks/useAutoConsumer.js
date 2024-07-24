@@ -9,7 +9,7 @@ export default function useAutoConsumer() {
   const { autoList } = useAutoStore();
   const { addEventSortByTime } = useBeStore();
   const [enabledAutoList, setEnabledAutoList] = useState([]);
-  const { getIsTestOrDisplay, isUserDoingSomething, setIsUserDoingSomething } = useGlobalStore();
+  const { getIsTestOrDisplay, isUserDoingSomething, setIsUserDoingSomething, delayIsUserDoingSomething } = useGlobalStore();
   const timeoutIdArrayRef = useRef([]);
 
   useEffect(() => {
@@ -61,6 +61,10 @@ export default function useAutoConsumer() {
   }, [enabledAutoList, getIsTestOrDisplay, isUserDoingSomething, addEventSortByTime, setIsUserDoingSomething]);
 
   useEffect(() => {
+    if (delayIsUserDoingSomething <= 0) {
+      return () => { }
+    }
+
     const handleUserActivity = () => {
       if (!isUserDoingSomething) {
         setIsUserDoingSomething(true);
@@ -68,7 +72,7 @@ export default function useAutoConsumer() {
       timeoutIdArrayRef.current.forEach(timeoutId => clearTimeout(timeoutId));
       timeoutIdArrayRef.current = [];
 
-      let timeoutId = setTimeout(() => setIsUserDoingSomething(false), 30 * 1000);
+      let timeoutId = setTimeout(() => setIsUserDoingSomething(false), delayIsUserDoingSomething * 1000);
       timeoutIdArrayRef.current.push(timeoutId);
     };
 
@@ -79,5 +83,5 @@ export default function useAutoConsumer() {
       window.removeEventListener('mousemove', handleUserActivity);
       window.removeEventListener('keydown', handleUserActivity);
     };
-  }, [setIsUserDoingSomething, isUserDoingSomething]);
+  }, [setIsUserDoingSomething, isUserDoingSomething, delayIsUserDoingSomething]);
 }
