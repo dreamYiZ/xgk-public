@@ -784,6 +784,22 @@ export const createBoxSlowUpTextTwoColumn = () => {
   }
 }
 
+export const BASIC_PAYLOAD_FABRIC_CANVAS = {
+  data: null,
+}
+
+export const createBoxFabricCanvas = () => {
+  return {
+    ...createBoxPayload(),
+    width: '320px',
+    height: '500px',
+    sub: {
+      type: SUB_TYPE.FABRIC_CANVAS,
+      ...BASIC_PAYLOAD_FABRIC_CANVAS
+    }
+  }
+}
+
 
 
 export const createMarketTemplates = () => {
@@ -1006,4 +1022,5 @@ export const MAP_TYPE_FACTORY = {
   [SUB_TYPE.MARQUEE_IMAGE_VIDEO]: createBoxMarqueeImageVideo,
   [SUB_TYPE.SLOW_UP_TEXT]: createBoxSlowUpText,
   [SUB_TYPE.SLOW_UP_TEXT_TWO_COLUMN]: createBoxSlowUpTextTwoColumn,
+  [SUB_TYPE.FABRIC_CANVAS]: createBoxFabricCanvas,
 };

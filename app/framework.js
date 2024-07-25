@@ -1,65 +1,78 @@
-"use client";
-import classes from "./layout.module.sass";
+"use client"
+// src/components/Framework.js
+import React, { useEffect, useRef, useState, useMemo } from 'react';
+import Box from '@mui/material/Box';
 import ControlView from "./cpnt/controlView.js"
 import useGlobalStore from './store/useGlobal';
+import useBoxStore from "./store/useBo";
 import { MODE } from './store/useGlobal';
-import { useEffect, useMemo, useState } from "react";
-import useBoxStore from './store/useBo';
 import { usePathname } from 'next/navigation';
-import { xgkConsole, FRAMEWORK_ID, addWindowErrorHandler } from "./util/util";
+import { xgkConsole, FRAMEWORK_ID } from "./util/util";
 import ErrorBoundary from './cpnt/errorBoundary';
 import useApiToRefreshData from "./hooks/useApiToRefreshData";
+import { FabricProvider } from './context/FabricContext';
+import * as fabric from 'fabric'; // v6
+import classes from "./layout.module.sass";
+
+const ANIMATION_INTERVAL = 100; // Adjust as needed, faster for smoother animation
 
 function Framework({ children }) {
-  const [isClient, setIsClient] = useState(false)
-  const [isManagePage, setIsManagePage] = useState(false);  // 新增的状态
-
+  const [isClient, setIsClient] = useState(false);
+  const [isManagePage, setIsManagePage] = useState(false);
   const { mode, isFullScreenAutoBoolean, showWhenEditing, getIsTestOrDisplay } = useGlobalStore();
-  const { clearActiveId } = useBoxStore();  // Access the 'boxArr' state
+  const { clearActiveId } = useBoxStore();
   const [isTestOrDisplay, setIsTestOrDisplay] = useState(true);
   const [frameworkStyle, setFrameworkStyle] = useState({});
-
+  const pathname = usePathname();
+  const canvasEl = useRef(null);
+  const [fabricCanvas, setFabricCanvas] = useState(null);
 
   useApiToRefreshData();
 
-
   useEffect(() => {
     setIsTestOrDisplay(getIsTestOrDisplay());
-  }, [mode])
+  }, [mode]);
 
   useEffect(() => {
     let _style = {};
     if (!isTestOrDisplay) {
       _style.backgroundColor = '#FFFFFF';
     }
-
-    setFrameworkStyle(_style)
-
-  }, [isTestOrDisplay])
-
-
-  // useEffect(() => {
-  //   addWindowErrorHandler();
-  //   return () => {
-  //     window.onerror = null;  // 在组件卸载时删除错误处理器
-  //   };
-  // },[])
+    setFrameworkStyle(_style);
+  }, [isTestOrDisplay]);
 
   useEffect(() => {
-    setIsClient(true)
-  }, [])
-
-  const pathname = usePathname()
+    setIsClient(true);
+  }, []);
 
   useEffect(() => {
-    setIsManagePage(pathname.startsWith('/m'));  // 更新isManagePage状态
+    setIsManagePage(pathname.startsWith('/m'));
   }, [pathname]);
 
-  // 根据 'mode' 的值动态地添加类名
+  useEffect(() => {
+    if (mode !== MODE.EDIT) {
+      clearActiveId();
+    }
+  }, [mode]);
+
+  useEffect(() => {
+    xgkConsole();
+  }, []);
+
+  useEffect(() => {
+    const options = {};
+    const canvas = new fabric.Canvas(canvasEl.current, options);
+    setFabricCanvas(canvas);
+
+    return () => {
+      setFabricCanvas(null);
+      canvas.dispose();
+    };
+  }, []);
+
   const controlPanelClass = `${classes['control-panel']} ${mode === MODE.EDIT ? 'control-panel-editing' : ''}`;
   const pageContentClass = `${classes['page-content']} ${mode === MODE.EDIT ? classes['editing'] : ''}`;
 
-  // 根据 'mode' 和 'isFullScreenAutoBoolean' 的值动态地设置样式
   const pageContentStyle = useMemo(() => {
     if (isFullScreenAutoBoolean && mode !== MODE.EDIT) {
       return { overflow: 'hidden', left: '0px', width: '100vw', height: '100vh' };
@@ -70,43 +83,17 @@ function Framework({ children }) {
     }
   }, [mode, isFullScreenAutoBoolean]);
 
-  useEffect(() => {
-    if (mode !== MODE.EDIT) {
-      clearActiveId();
-    }
-  }, [mode]);
-
   if (isManagePage) {
-    return <div className={classes['management']}>
-      {children}
-    </div>;
+    return <div className={classes['management']}>{children}</div>;
   }
-
-
-  useEffect(() => {
-    xgkConsole();
-  }, [])
-
 
   if (!isClient) {
     return '';
   }
 
-
-
-
   return (
     process.env.NODE_ENV === 'development' ? (
-      <div className={classes['framework']} style={{ ...frameworkStyle }}>
-        <div id={`${FRAMEWORK_ID}`} className={pageContentClass} style={pageContentStyle}>
-          {children}
-        </div>
-        <div className={controlPanelClass}>
-          {showWhenEditing && <ControlView />}
-        </div>
-      </div>
-    ) : (
-      <ErrorBoundary>
+      <FabricProvider>
         <div className={classes['framework']} style={{ ...frameworkStyle }}>
           <div id={`${FRAMEWORK_ID}`} className={pageContentClass} style={pageContentStyle}>
             {children}
@@ -115,11 +102,22 @@ function Framework({ children }) {
             {showWhenEditing && <ControlView />}
           </div>
         </div>
+      </FabricProvider>
+    ) : (
+      <ErrorBoundary>
+        <FabricProvider>
+          <div className={classes['framework']} style={{ ...frameworkStyle }}>
+            <div id={`${FRAMEWORK_ID}`} className={pageContentClass} style={pageContentStyle}>
+              {children}
+            </div>
+            <div className={controlPanelClass}>
+              {showWhenEditing && <ControlView />}
+            </div>
+          </div>
+        </FabricProvider>
       </ErrorBoundary>
     )
   );
-
 }
 
 export default Framework;
-

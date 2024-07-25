@@ -14,7 +14,9 @@ function Box({ boxid, width, height, position, opacity,
   const boxRef = useRef(null);
   const changeBoxById = useBoxStore((state) => state.changeById);
   const setActiveBoxId = useBoxStore((state) => state.setActiveBoxId);  // Access the 'setActiveBoxId' function
-  const { mode, mainScale, getIsTestOrDisplay } = useGlobalStore();
+  const { mode, mainScale, getIsTestOrDisplay,
+    isMainDragging
+  } = useGlobalStore();
   const isResizingRef = useRef(false);
 
   const activeBoxId = useBoxStore((state) => state.activeBoxId);  // Access the 'activeBoxId' state
@@ -74,6 +76,10 @@ function Box({ boxid, width, height, position, opacity,
 
     const onMouseMove = (e) => {
       if (isResizingRef.current) {
+        return
+      }
+
+      if (isMainDragging) {
         return
       }
 
@@ -137,7 +143,7 @@ function Box({ boxid, width, height, position, opacity,
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
     };
-  }, [boxid, changeBoxById, mode, scale, mainScale]);
+  }, [boxid, changeBoxById, mode, scale, mainScale, isMainDragging]);
 
   const boxStyle = useMemo(() => ({
     width: ifNumberToPx(width),

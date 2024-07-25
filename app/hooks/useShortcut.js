@@ -8,10 +8,18 @@ import {
 import { debounce } from 'lodash';
 
 export default function useShortcut() {
-  const { mainScale, setMainScale, setMainDivLeft, mainDivLoadTime, setMainDivTop, showWhenEditing, mode } = useGlobalStore();
+  const { mainScale, setMainScale, setMainDivLeft, mainDivLoadTime, setMainDivTop, showWhenEditing, mode,
+
+    setIsMainDragging: setIsDraggingGlobal, isMainDragging
+  } = useGlobalStore();
   const { activeBoxId, delById } = useBoxStore();
   const [isDragging, setIsDragging] = useState(false);
   const startPosRef = useRef({ x: 0, y: 0 });
+
+
+  useEffect(() => {
+    setIsDraggingGlobal(isDragging);
+  }, [isDragging])
 
   const debouncedUpdatePosition = useCallback(
     debounce((x, y) => {

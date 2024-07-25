@@ -23,6 +23,7 @@ import SubRenderThreeCanvas from "./cpnt/SubRenderThreeCanvas";
 import SubRenderMarqueeImageVideo from "./cpnt/SubRenderMarqueeImageVideo";
 import SubRenderSlowUpText from "./cpnt/SubRenderSlowUpText";
 import SubRenderSlowUpTextTwoColumn from "./cpnt/SubRenderSlowUpTextTwoColumn";
+import SubRenderFabricCanvas from "./cpnt/SubRenderFabricCanvas";
 
 
 
@@ -53,6 +54,7 @@ const MAP_SUB_RENDER = {
   [SUB_TYPE.MARQUEE_IMAGE_VIDEO]: SubRenderMarqueeImageVideo,
   [SUB_TYPE.SLOW_UP_TEXT]: SubRenderSlowUpText,
   [SUB_TYPE.SLOW_UP_TEXT_TWO_COLUMN]: SubRenderSlowUpTextTwoColumn,
+  [SUB_TYPE.FABRIC_CANVAS]: SubRenderFabricCanvas,
 }
 
 

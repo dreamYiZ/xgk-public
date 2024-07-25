@@ -87,8 +87,8 @@ export default function BoxResize({ outerBoxRef, children, boxid, mainRef, boxSt
 
     }
 
-    if (newWidth > mainRect.width) newWidth = mainRect.width;
-    if (newHeight > mainRect.height) newHeight = mainRect.height;
+    // if (newWidth > mainRect.width) newWidth = mainRect.width;
+    // if (newHeight > mainRect.height) newHeight = mainRect.height;
 
     boxElement.style.width = `${newWidth}px`;
     boxElement.style.height = `${newHeight}px`;
