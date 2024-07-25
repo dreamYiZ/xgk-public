@@ -23,6 +23,7 @@ import EditSubThreeCanvas from "./EditSubThreeCanvas";
 import EditMarqueeImageVideo from "./EditMarqueeImageVideo";
 import EditSlowUpText from "./EditSlowUpText";
 import EditSlowUpTextTwoColumn from "./EditSlowUpTextTwoColumn";
+import EditFabricCanvas from "./EditFabricCanvas";
 
 export const MAP_SUB_EDIT = {
   [SUB_TYPE.TEXT]: EditSubText,
@@ -51,6 +52,7 @@ export const MAP_SUB_EDIT = {
   [SUB_TYPE.MARQUEE_IMAGE_VIDEO]: EditMarqueeImageVideo,
   [SUB_TYPE.SLOW_UP_TEXT]: EditSlowUpText,
   [SUB_TYPE.SLOW_UP_TEXT_TWO_COLUMN]: EditSlowUpTextTwoColumn,
+  [SUB_TYPE.FABRIC_CANVAS]: EditFabricCanvas,
 }
 
 

@@ -25,7 +25,7 @@ export async function POST(req) {
 
     revalidatePath("/");
 
-    return NextResponse.json({ status: "success" });
+    return NextResponse.json({ status: "success", url: `${file.name}` });
   } catch (e) {
     console.error(e);
     return NextResponse.json({ status: "fail", error: e });
