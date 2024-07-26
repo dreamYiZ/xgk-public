@@ -9,7 +9,7 @@ export default function useAutoConsumer() {
   const { autoList } = useAutoStore();
   const { addEventSortByTime } = useBeStore();
   const [enabledAutoList, setEnabledAutoList] = useState([]);
-  const { getIsTestOrDisplay, isUserDoingSomething, setIsUserDoingSomething, delayIsUserDoingSomething } = useGlobalStore();
+  const { mode, getIsTestOrDisplay, isUserDoingSomething, setIsUserDoingSomething, delayIsUserDoingSomething } = useGlobalStore();
   const timeoutIdArrayRef = useRef([]);
 
   useEffect(() => {
@@ -58,7 +58,7 @@ export default function useAutoConsumer() {
 
       timeoutIdArrayRef.current = [];
     };
-  }, [enabledAutoList, getIsTestOrDisplay, isUserDoingSomething, addEventSortByTime, setIsUserDoingSomething]);
+  }, [enabledAutoList, mode, getIsTestOrDisplay, isUserDoingSomething, addEventSortByTime, setIsUserDoingSomething]);
 
   useEffect(() => {
     if (delayIsUserDoingSomething <= 0) {
