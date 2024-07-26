@@ -17,6 +17,7 @@ import DifferenceIcon from '@mui/icons-material/Difference';
 import DragCreate from "./dragCreate";
 import OpenWithIcon from '@mui/icons-material/OpenWith';
 import Box from '@mui/material/Box';
+import { SUB_TYPE } from "../util/util";
 
 
 export default function ({ marketItem, setOpen }) {
@@ -43,7 +44,17 @@ export default function ({ marketItem, setOpen }) {
       const newBox = MAP_TYPE_FACTORY[type]();
       newBox.x = x;
       newBox.y = y;
-      useBoxStore.getState().add(newBox);
+      if (newBox.sub.type === SUB_TYPE.FABRIC_CANVAS) {
+        if (
+          useBoxStore.getState().boxArr.find(i => i.sub.type === SUB_TYPE.FABRIC_CANVAS)
+        ) {
+          alert("已存在Fabric画布")
+        } else {
+          useBoxStore.getState().add(newBox);
+        }
+      } else {
+        useBoxStore.getState().add(newBox);
+      }
     } else {
       setOpen(true);
       console.error(`No factory function found for type "${type}"`);

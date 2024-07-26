@@ -23,6 +23,7 @@ import { AUTO_NEXT_PAGE } from "./autoType";
 import { ANIMATE_TYPE_MARQUEE_IMAGE_VIDEO } from "./animateTypeMarqueeImageVideo";
 
 
+export * from "./subType";
 export * from "./constant";
 export * from "./cfg";
 export * from "./numberUtil";
@@ -791,6 +792,7 @@ export const BASIC_PAYLOAD_FABRIC_CANVAS = {
 export const createBoxFabricCanvas = () => {
   return {
     ...createBoxPayload(),
+    zIndex: 999,
     width: '320px',
     height: '500px',
     sub: {

@@ -4,18 +4,18 @@ import classes from "./box.module.sass";
 import useBoxStore from '../store/useBo';
 import ppplog from "ppplog";
 import useGlobalStore, { MODE } from '../store/useGlobal';
-import zIndex from '@mui/material/styles/zIndex';
+
 import { pxToNumber, ifNumberToPx, stringToNumber, debounce } from "../util/util";
 // import { debounce } from 'lodash';
 import BoxResize from "./BoxResize";
 
-function Box({ boxid, width, height, position, opacity,
+function Box({ boxid, width, height, position, opacity, zIndex,
   children, groupid, x, y, scale, mainRef, ...other }) {
   const boxRef = useRef(null);
   const changeBoxById = useBoxStore((state) => state.changeById);
   const setActiveBoxId = useBoxStore((state) => state.setActiveBoxId);  // Access the 'setActiveBoxId' function
   const { mode, mainScale, getIsTestOrDisplay,
-    isMainDragging
+    isMainDragging, isSpacePress, isCanvasEditing
   } = useGlobalStore();
   const isResizingRef = useRef(false);
 
@@ -52,6 +52,10 @@ function Box({ boxid, width, height, position, opacity,
 
   useEffect(() => {
     if (mode !== MODE.EDIT) {
+      return () => { }
+    }
+
+    if (isCanvasEditing) {
       return () => { }
     }
 
@@ -143,7 +147,7 @@ function Box({ boxid, width, height, position, opacity,
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
     };
-  }, [boxid, changeBoxById, mode, scale, mainScale, isMainDragging]);
+  }, [boxid, changeBoxById, mode, scale, mainScale, isMainDragging, isCanvasEditing]);
 
   const boxStyle = useMemo(() => ({
     width: ifNumberToPx(width),
@@ -153,6 +157,7 @@ function Box({ boxid, width, height, position, opacity,
     left: ifNumberToPx(x),
     top: ifNumberToPx(y),
     zIndex: zIndex,
+    // cursor: isSpacePress ? "grab" : 'default',
     outline: activeBoxId === boxid ? '2px dashed #7CB9E8' : 'none',  // Changed 'border' to 'outline'
     transform: `scale(${scale})`,
   }), [width, height, position, opacity, x, y, scale, zIndex, activeBoxId, boxid]);  // Add

@@ -6,16 +6,18 @@ import {
   ppplog, pxToNumber, MAIN_ID_TO_RENDER_BOX, MIN_MAIN_SCALE, MAX_MAIN_SCALE, FRAMEWORK_ID_SELECTOR
 } from '../util/util';
 import { debounce } from 'lodash';
+import { useFabricContext } from "../context/FabricContext";
 
 export default function useShortcut() {
   const { mainScale, setMainScale, setMainDivLeft, mainDivLoadTime, setMainDivTop, showWhenEditing, mode,
 
-    setIsMainDragging: setIsDraggingGlobal, isMainDragging
+    setIsMainDragging: setIsDraggingGlobal, isMainDragging, setIsSpacePress,
   } = useGlobalStore();
   const { activeBoxId, delById } = useBoxStore();
   const [isDragging, setIsDragging] = useState(false);
   const startPosRef = useRef({ x: 0, y: 0 });
 
+  const { fabricCanvas } = useFabricContext();
 
   useEffect(() => {
     setIsDraggingGlobal(isDragging);
@@ -25,7 +27,7 @@ export default function useShortcut() {
     debounce((x, y) => {
       setMainDivLeft(x);
       setMainDivTop(y);
-    }, 300),
+    }, 1000),
     [setMainDivLeft, setMainDivTop]
   );
 
@@ -63,11 +65,25 @@ export default function useShortcut() {
         mainRenderEl && (mainRenderEl.style.cursor = 'grab');
         mainRenderContainerEl && (mainRenderContainerEl.style.cursor = 'grab');
         event.preventDefault();
+        // setIsDragging(true);
+
+        setIsSpacePress(true);
       }
 
       // Handle Delete key
       if (event.code === 'Delete') {
         if (activeBoxId && !['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
+
+          if (fabricCanvas && fabricCanvas.getActiveObject()) {
+
+            const confirmDelete = window.confirm('确认删除Fabric中的一个元素吗？');
+            if (confirmDelete) {
+              fabricCanvas.getActiveObject().remove();
+            }
+            return
+          }
+
+
           const confirmDelete = window.confirm('确认删除吗？');
           if (confirmDelete) {
             delById(activeBoxId);
@@ -83,6 +99,7 @@ export default function useShortcut() {
         mainRenderEl && (mainRenderEl.style.cursor = 'default');
         mainRenderContainerEl && (mainRenderContainerEl.style.cursor = 'default');
       }
+
       if (isDragging) {
         setIsDragging(false);
       }
@@ -137,7 +154,7 @@ export default function useShortcut() {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('keyup', handleKeyUp);
     };
-  }, [mainScale, setMainScale, mainDivLoadTime, isDragging, debouncedUpdatePosition, mode, activeBoxId, delById, showWhenEditing]);
+  }, [fabricCanvas, mainScale, setMainScale, mainDivLoadTime, isDragging, debouncedUpdatePosition, mode, activeBoxId, delById, showWhenEditing]);
 
   return null; // No need to render anything
 }

@@ -9,6 +9,7 @@ import { Snackbar } from '@mui/material';
 import Alert from '@mui/material/Alert';
 import DragCreate from "./dragCreate";
 import Box from '@mui/material/Box';
+import { SUB_TYPE } from "../util/util";
 
 
 function EditMarket() {
@@ -30,7 +31,18 @@ function EditMarket() {
   const addNewBoxByType = (type) => {
     if (typeof MAP_TYPE_FACTORY[type] === 'function') {
       const newBox = MAP_TYPE_FACTORY[type]();
-      useBoxStore.getState().add(newBox);
+
+      if (newBox.sub.type === SUB_TYPE.FABRIC_CANVAS) {
+        if (
+          useBoxStore.getState().boxArr.find(i => i.sub.type === SUB_TYPE.FABRIC_CANVAS)
+        ) {
+          alert("已存在Fabric画布")
+        } else {
+          useBoxStore.getState().add(newBox);
+        }
+      } else {
+        useBoxStore.getState().add(newBox);
+      }
     } else {
       setOpen(true);
       console.error(`No factory function found for type "${type}"`);
@@ -42,10 +54,11 @@ function EditMarket() {
 
   return (
     <EditTabContainer>
-      <Box sx={{ display: "flex", flexDirection: 'column', maxHeight: "calc(-210px + 100vh)"
+      <Box sx={{
+        display: "flex", flexDirection: 'column', maxHeight: "calc(-210px + 100vh)"
 
 
-       }}>
+      }}>
 
         <Box>
           <br />

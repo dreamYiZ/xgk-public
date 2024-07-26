@@ -6,6 +6,7 @@ export function useActiveSub() {
   const activeBoxId = useBoxStore((state) => state.activeBoxId);
   const activeBox = useMemo(() => boxArr.find((box) => box.boxid === activeBoxId), [boxArr, activeBoxId]);
   const activeSub = useMemo(() => activeBox?.sub, [activeBox, activeBoxId]);
+  const { changeById } = useBoxStore();
 
-  return { activeSub };
+  return { activeSub, activeBox, activeBoxId, changeById };
 }

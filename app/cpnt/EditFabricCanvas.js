@@ -13,6 +13,7 @@ import useGlobalStore from "../store/useGlobal";
 import { useDropzone } from 'react-dropzone';
 import { useFabricContext } from "../context/FabricContext";
 import * as fabric from 'fabric'; // v6
+import FabricCreator from "./FabricCreator";
 
 export default function EditFabricCanvas() {
   const boxArr = useBoxStore((state) => state.boxArr);
@@ -20,13 +21,14 @@ export default function EditFabricCanvas() {
   const activeBox = useMemo(() => boxArr.find((box) => box.boxid === activeBoxId), [boxArr, activeBoxId]);
   const sub = useMemo(() => activeBox?.sub, [activeBox, activeBoxId]);
   const changeById = useBoxStore(state => state.changeById);
-  const { mainScale } = useGlobalStore();
+  const { mainScale, setIsCanvasEditing } = useGlobalStore();
   const [isOpen, setIsOpen] = useState(false);
   const [tabIndex, setTabIndex] = useState(0);
   const [option, setOption] = useState('');
   const mainRef = useRef(null);
   const { fabricCanvas } = useFabricContext();
   const [uploadFiles, setUploadFiles] = useState([]);
+  const [openImage, setOpenImage] = useState(false);
 
   useEffect(() => {
     setTimeout(() => {
@@ -34,17 +36,36 @@ export default function EditFabricCanvas() {
     }, 800);
   }, []);
 
+  useEffect(() => {
+    setIsCanvasEditing(openImage);
+    return () => {
+      setIsCanvasEditing(false);
+
+    }
+  }, [openImage])
+
 
   useEffect(() => {
-    if (!fabricCanvas) return;
-    var path = new fabric.Path('M 0 0 L 200 100 L 170 200 z');
-    path.set({ left: 120, top: 120 });
-    fabricCanvas.add(path);
+    if (!fabricCanvas) return () => { };
+    // var path = new fabric.Path('M 0 0 L 200 100 L 170 200 z');
+    // path.set({ left: 120, top: 120 });
+    // fabricCanvas.add(path);
 
 
-    fabric.FabricImage.fromURL('/upload/images.png', function(oImg) {
-      fabricCanvas.add(oImg);
-    });
+    // fabric.FabricImage.fromURL('/upload/images.png', function (oImg) {
+    //   oImg.set({
+    //     width: 200,
+    //     height: 200,
+    //     left: 200,
+    //     top: 200,
+    //   })
+    //   fabricCanvas.add(oImg);
+    // });
+
+    // fabric.Image.fromURL('/upload/images.png', function (oImg) {
+    //   // canvas.add(oImg);
+    //   fabricCanvas.add(oImg);
+    // });
 
   }, [fabricCanvas])
 
@@ -109,6 +130,8 @@ export default function EditFabricCanvas() {
       });
   }, []);
 
+
+
   const handleClickFullMain = () => {
     const rect = mainRef.current.getBoundingClientRect();
     changeById(activeBox.boxid, {
@@ -120,6 +143,11 @@ export default function EditFabricCanvas() {
   };
 
   const saveChange = () => {
+
+    const jsonStrFabric = JSON.stringify(fabricCanvas)
+
+    ppplog('jsonStrFabric', jsonStrFabric);
+
     if (sub) {
       changeById(activeBox.boxid, {
         sub: {
@@ -193,6 +221,12 @@ export default function EditFabricCanvas() {
           </Box>
         </Box>
       </DrawerEditLayout>
+
+      <Box mt={1}>
+        <Button variant="outlined" onClick={() => setOpenImage(true)} >图库</Button>
+      </Box>
+
+      {openImage && <FabricCreator setOpenImage={setOpenImage} />}
     </Box>
   );
 }

@@ -41,6 +41,9 @@ const useGlobalStore = create(persist(
     isUserDoingSomething: false,
     delayIsUserDoingSomething: 30,
     isMainDragging: false,
+    isSpacePress: false,
+    isCanvasEditing: false,
+
     setMode: (_mode) => set(() => ({ mode: _mode })),
     setScreenWidth: (_width) => set(() => ({ screenWidth: _width })),
     setScreenHeight: (_height) => set(() => ({ screenHeight: _height })),
@@ -96,6 +99,8 @@ const useGlobalStore = create(persist(
     setIsUserDoingSomething: (isUserDoingSomething) => set(() => ({ isUserDoingSomething: isUserDoingSomething })),
     setDelayIsUserDoingSomething: (delayIsUserDoingSomething) => set(() => ({ delayIsUserDoingSomething: delayIsUserDoingSomething })),
     setIsMainDragging: (isMainDragging) => set(() => ({ isMainDragging: isMainDragging })),
+    setIsSpacePress: (isSpacePress) => set(() => ({ isSpacePress: isSpacePress })),
+    setIsCanvasEditing : (isCanvasEditing) => set(() => ({ isCanvasEditing: isCanvasEditing })),
   }),
   {
     name: GLOBAL_STORAGE_KEY,
