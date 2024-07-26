@@ -803,6 +803,24 @@ export const createBoxFabricCanvas = () => {
 }
 
 
+export const BASIC_PAYLOAD_CHARTJS = {
+  payload: null,
+}
+
+export const createBoxChartjs = () => {
+  return {
+    ...createBoxPayload(),
+    zIndex: 1,
+    width: '520px',
+    height: '360px',
+    sub: {
+      type: SUB_TYPE.CHARTJS,
+      ...BASIC_PAYLOAD_CHARTJS
+    }
+  }
+}
+
+
 
 export const createMarketTemplates = () => {
   return []
@@ -964,8 +982,8 @@ function throttle(func, interval) {
 
 export const getRelativePosX = (x) => {
   return x - 300 + document.querySelector(FRAMEWORK_ID_SELECTOR).scrollLeft
-
 }
+
 export const getRelativePosY = (y) => {
   return y + document.querySelector(FRAMEWORK_ID_SELECTOR).scrollTop
 }
@@ -1025,4 +1043,5 @@ export const MAP_TYPE_FACTORY = {
   [SUB_TYPE.SLOW_UP_TEXT]: createBoxSlowUpText,
   [SUB_TYPE.SLOW_UP_TEXT_TWO_COLUMN]: createBoxSlowUpTextTwoColumn,
   [SUB_TYPE.FABRIC_CANVAS]: createBoxFabricCanvas,
+  [SUB_TYPE.CHARTJS]: createBoxChartjs,
 };

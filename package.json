@@ -27,6 +27,7 @@
     "@types/three": "^0.166.0",
     "ace-builds": "^1.35.2",
     "animate.css": "^4.1.1",
+    "chart.js": "^4.4.3",
     "dotenv": "^16.4.5",
     "echarts": "^5.5.1",
     "fabric": "^6.0.2",
