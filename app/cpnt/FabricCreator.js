@@ -70,7 +70,7 @@ export default function FabricCreator({ setOpenImage }) {
       const canvasX = (dropX - rect.left) / mainScale;
       const canvasY = (dropY - rect.top) / mainScale;
 
-      ppplog('imageRef.current', imageRef.current);
+      // ppplog('imageRef.current', imageRef.current);
 
       const imgFab = new fabric.Image(imageRef.current, {
         left: canvasX,
