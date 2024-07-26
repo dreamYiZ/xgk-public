@@ -47,25 +47,6 @@ export default function EditFabricCanvas() {
 
   useEffect(() => {
     if (!fabricCanvas) return () => { };
-    // var path = new fabric.Path('M 0 0 L 200 100 L 170 200 z');
-    // path.set({ left: 120, top: 120 });
-    // fabricCanvas.add(path);
-
-
-    // fabric.FabricImage.fromURL('/upload/images.png', function (oImg) {
-    //   oImg.set({
-    //     width: 200,
-    //     height: 200,
-    //     left: 200,
-    //     top: 200,
-    //   })
-    //   fabricCanvas.add(oImg);
-    // });
-
-    // fabric.Image.fromURL('/upload/images.png', function (oImg) {
-    //   // canvas.add(oImg);
-    //   fabricCanvas.add(oImg);
-    // });
 
   }, [fabricCanvas])
 
@@ -82,13 +63,13 @@ export default function EditFabricCanvas() {
       .then(response => {
         if (response.status === 'success') {
           const imageUrl = `/upload/${response.url}`;
-          ppplog('Image URL:', imageUrl, fabricCanvas);
+          // ppplog('Image URL:', imageUrl, fabricCanvas);
 
           if (fabricCanvas) {
-            ppplog('2 fabricCanvas initialized', fabricCanvas)
+            // ppplog('2 fabricCanvas initialized', fabricCanvas)
             fabric.Image.fromURL(imageUrl, (img) => {
               if (img) {
-                ppplog('3 fabric.Image loaded', img);
+                // ppplog('3 fabric.Image loaded', img);
                 img.scaleToWidth(150);
                 img.scaleToHeight(150);
                 const canvasCenter = fabricCanvas.getCenter();
@@ -99,18 +80,18 @@ export default function EditFabricCanvas() {
                 fabricCanvas.add(img);
                 fabricCanvas.renderAll();
               } else {
-                ppplog('3 fabric.Image not loaded', img);
+                // ppplog('3 fabric.Image not loaded', img);
               }
             }, { crossOrigin: 'anonymous' }); // Ensure cross-origin is set if needed
           } else {
-            ppplog('4 Fabric canvas not initialized');
+            // ppplog('4 Fabric canvas not initialized');
           }
         } else {
           console.error(response.error);
         }
       })
       .catch(error => {
-        console.error('Error uploading image:', error);
+        // console.error('Error uploading image:', error);
       });
   }, [fabricCanvas]);
 
@@ -125,7 +106,7 @@ export default function EditFabricCanvas() {
         if (response.status === 'success') {
           setUploadFiles(response.files);
         } else {
-          console.error(response.error);
+          // console.error(response.error);
         }
       });
   }, []);
@@ -145,8 +126,6 @@ export default function EditFabricCanvas() {
   const saveChange = () => {
 
     const jsonStrFabric = JSON.stringify(fabricCanvas)
-
-    ppplog('jsonStrFabric', jsonStrFabric);
 
     if (sub) {
       changeById(activeBox.boxid, {

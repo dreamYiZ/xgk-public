@@ -33,13 +33,11 @@ export default function SubRenderFabricCanvas({ box, sub }) {
 
   useEffect(() => {
     if (data && fabricCanvas) {
-      ppplog('data', data);
 
       fabricCanvas.loadFromJSON(data).then(function () {
 
         if (_isTestOrDisplay) {
           fabricCanvas.forEachObject(function (o) {
-            ppplog('12345')
             o.selectable = false;
           });
         }

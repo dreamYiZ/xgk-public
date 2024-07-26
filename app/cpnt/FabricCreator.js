@@ -54,14 +54,14 @@ export default function FabricCreator({ setOpenImage }) {
   }, []);
 
   const handleOnMouseDown = (event) => {
-    ppplog('handleOnMouseDown');
+    // ppplog('handleOnMouseDown');
     setStartX(event.clientX);
     setStartY(event.clientY);
     imageRef.current = event.target;
   };
 
   const handleOnMouseUp = (event) => {
-    ppplog('handleOnMouseUp');
+    // ppplog('handleOnMouseUp');
     const dropX = event.clientX;
     const dropY = event.clientY;
 
