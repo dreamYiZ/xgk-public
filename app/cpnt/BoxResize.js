@@ -11,7 +11,7 @@ const RESIZE_HANDLE_SIZE = 10;
 export default function BoxResize({ outerBoxRef, children, boxid, mainRef, boxStyle, isResizingRef }) {
   const changeBoxById = useBoxStore((state) => state.changeById);
   const resizingRef = useRef(false);
-  const { mode, mainScale } = useGlobalStore();
+  const { mode, mainScale, isMainDragging } = useGlobalStore();
 
   const resizeDirectionRef = useRef(null);
   const boxRef = useRef(null);
@@ -52,6 +52,10 @@ export default function BoxResize({ outerBoxRef, children, boxid, mainRef, boxSt
     ppplog('moveResize-0', resizingRef.current, resizeDirectionRef.current);
 
     if (!resizingRef.current || !resizeDirectionRef.current) return;
+
+    if (isMainDragging) {
+      return
+    }
 
     const boxElement = boxRef.current;
     const outerBoxElement = outerBoxRef.current;
@@ -107,7 +111,7 @@ export default function BoxResize({ outerBoxRef, children, boxid, mainRef, boxSt
     // debounceResize(newWidth, newHeight);
     debounceResize(newWidth, newHeight, newLeft, newTop);
 
-  }, [changeBoxById, boxid, debounceResize, boxStyle]);
+  }, [changeBoxById, boxid, debounceResize, boxStyle, isMainDragging]);
 
   const handleMouseUp = () => {
     resizingRef.current = false;
