@@ -41,6 +41,7 @@ export default function EditMarqueeImageVideo() {
           rowHeight: rowHeight,
           color: color,
           colorSecond: colorSecond,
+          data: JSON.parse(option),
         },
       });
     }
@@ -65,7 +66,7 @@ export default function EditMarqueeImageVideo() {
         isOpen={isOpen}
         setIsOpen={setIsOpen}
         buttonText="编辑数据"
-        title="图片视频跑马灯"
+        title="两列缓慢上升文字"
       >
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Tabs value={tabIndex} onChange={(event, newValue) => setTabIndex(newValue)} aria-label="basic tabs example">

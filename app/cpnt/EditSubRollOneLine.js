@@ -89,7 +89,7 @@ export default function () {
       changeById(activeBox.boxid, {
         sub: {
           ...sub,
-          data,
+          data: JSON.parse(option),
           color: color,
           timeDuration: safeNumberIfString(timeDuration),
           fontSize: safeNumberIfString(fontSize),

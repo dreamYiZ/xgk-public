@@ -7,7 +7,7 @@ import Box from '@mui/material/Box';
 import AceEditor from "react-ace";
 import "ace-builds/src-noconflict/mode-json";
 import "ace-builds/src-noconflict/theme-monokai";
-import {BASIC_PAYLOAD_SLOW_UP_TEXT} from "../util/util";
+import { BASIC_PAYLOAD_SLOW_UP_TEXT } from "../util/util";
 import { Slider, Typography, TextField } from '@mui/material';
 import ColorField from "./ColorField";
 
@@ -36,6 +36,7 @@ export default function EditMarqueeImageVideo() {
           animationTime: animationTime,
           rowHeight: rowHeight,
           color: color,
+          data: JSON.parse(option),
         },
       });
     }
@@ -58,7 +59,7 @@ export default function EditMarqueeImageVideo() {
         isOpen={isOpen}
         setIsOpen={setIsOpen}
         buttonText="编辑数据"
-        title="图片视频跑马灯"
+        title="单行缓慢上升文字"
       >
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Tabs value={tabIndex} onChange={(event, newValue) => setTabIndex(newValue)} aria-label="basic tabs example">
