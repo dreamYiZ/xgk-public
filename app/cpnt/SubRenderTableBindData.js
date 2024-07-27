@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
 import Box from '@mui/material/Box';
-import 'animate.css';
 
 export default function TableComponent({ box, sub }) {
   const {
@@ -12,6 +11,9 @@ export default function TableComponent({ box, sub }) {
     tableHeadFontSize: headFontSize,
     tableBodyFontSize: fontSize,
     lineHeight,
+    hasBorder,
+    alternateRowColor,
+    alternateRowBackgroundColor,
   } = sub;
 
   const [currentTableData, setCurrentTableData] = useState(tableBodyArray);
@@ -37,7 +39,7 @@ export default function TableComponent({ box, sub }) {
       animationTimeoutRef.current = setTimeout(() => {
         setAnimateRowIndex(null);
         setCurrentTableData(tableBodyArray);
-      }, 600); // 1 second animation duration
+      }, 600);
     } else {
       setAnimateRowIndex(null);
       setCurrentTableData(tableBodyArray);
@@ -47,9 +49,7 @@ export default function TableComponent({ box, sub }) {
   }, [tableBodyArray]);
 
   useEffect(() => {
-    const { showBorder } = sub;
-
-    if (showBorder) {
+    if (hasBorder) {
       setBorderStyle({
         border: `1px solid ${borderColor}`,
         borderCollapse: 'collapse',
@@ -57,7 +57,7 @@ export default function TableComponent({ box, sub }) {
     } else {
       setBorderStyle({});
     }
-  }, [sub, borderColor]);
+  }, [hasBorder, borderColor]);
 
   useEffect(() => {
     return () => {
@@ -79,8 +79,15 @@ export default function TableComponent({ box, sub }) {
         </thead>
         <tbody>
           {currentTableData.map((tr, idx) => (
-            <tr key={idx} className={animateRowIndex === idx ? 'animate__animated animate__fadeOutUp' : ''}
-              style={{ minHeight: `${lineHeight}px` }}>
+            <tr
+              key={idx}
+              className={animateRowIndex === idx ? 'animate__animated animate__fadeOutUp' : ''}
+              style={{
+                minHeight: `${lineHeight}px`,
+                backgroundColor: alternateRowColor && idx % 2 === 1 ? alternateRowBackgroundColor : 'transparent',
+                color: color  // Apply body color here
+              }}
+            >
               {tr.map((td, __idx) => (
                 <td style={{ textAlign: "center", ...borderStyle }} key={__idx}>
                   <TableCellTd lineHeight={lineHeight} color={color} fontSize={fontSize}>{td}</TableCellTd>

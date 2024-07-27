@@ -1,9 +1,7 @@
-import "ace-builds/src-noconflict/mode-json";
-import "ace-builds/src-noconflict/theme-monokai";
-import { ppplog } from "../util/util";
+import React, { useState, useMemo } from 'react';
+import { Box, Typography, TextField, Tabs, Tab, Switch, FormControlLabel } from '@mui/material';
+import { HexColorPicker } from 'react-colorful';  // Import HexColorPicker
 import useBoxStore from "../store/useBo";
-import React, { useState, useMemo, useEffect } from 'react';
-import { Box, Typography, Button, TextField, Tabs, Tab } from '@mui/material';
 import DrawerEditLayout from "./DrawerEditLayout";
 
 export default function EditSubChartjs() {
@@ -21,6 +19,9 @@ export default function EditSubChartjs() {
   const [fontSize, setFontSize] = useState(sub?.tableBodyFontSize || '22');
   const [lineHeight, setLineHeight] = useState(sub?.lineHeight || '40');
   const [timeDuration, setTimeDuration] = useState(5);
+  const [hasBorder, setHasBorder] = useState(sub?.hasBorder ?? true);
+  const [alternateRowColor, setAlternateRowColor] = useState(sub?.alternateRowColor ?? false);
+  const [alternateRowBackgroundColor, setAlternateRowBackgroundColor] = useState(sub?.alternateRowBackgroundColor || '#f0f0f0');
 
   const saveChange = () => {
     if (sub) {
@@ -32,6 +33,9 @@ export default function EditSubChartjs() {
           tableBodyColor: color,
           tableBodyFontSize: fontSize,
           lineHeight,
+          hasBorder,
+          alternateRowColor,
+          alternateRowBackgroundColor
         },
       });
     }
@@ -83,13 +87,36 @@ export default function EditSubChartjs() {
 
         <Box sx={{}} hidden={tabIndex !== 1}>
           <Box mt={1}></Box>
-          <TextField value={color} onChange={(event) => setColor(event.target.value)} label="颜色" variant="outlined" fullWidth />
+          <Typography variant="h6" component="h6">
+            表体颜色
+          </Typography>
+          <HexColorPicker color={color} onChange={setColor} />
           <Box mt={1}></Box>
           <TextField value={fontSize} onChange={(event) => setFontSize(event.target.value)} type="number" label="字体大小" variant="outlined" fullWidth />
           <Box mt={1}></Box>
           <TextField value={lineHeight} onChange={(event) => setLineHeight(event.target.value)} type="number" label="行高" variant="outlined" fullWidth />
           <Box mt={1}></Box>
           <TextField value={timeDuration} onChange={(event) => setTimeDuration(event.target.value)} type="number" label="动画间隔" variant="outlined" fullWidth />
+          <Box mt={2}>
+            <FormControlLabel
+              control={<Switch checked={hasBorder} onChange={(e) => setHasBorder(e.target.checked)} />}
+              label="显示边框"
+            />
+          </Box>
+          <Box mt={2}>
+            <FormControlLabel
+              control={<Switch checked={alternateRowColor} onChange={(e) => setAlternateRowColor(e.target.checked)} />}
+              label="隔行变色"
+            />
+          </Box>
+          {alternateRowColor && (
+            <Box mt={2}>
+              <Typography variant="h6" component="h6">
+                隔行背景颜色
+              </Typography>
+              <HexColorPicker color={alternateRowBackgroundColor} onChange={setAlternateRowBackgroundColor} />
+            </Box>
+          )}
         </Box>
       </DrawerEditLayout>
     </Box>

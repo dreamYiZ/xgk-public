@@ -830,6 +830,7 @@ export const BASIC_PAYLOAD_TABLE_BIND_DATA = {
   tableBodyFontSize: '22',
   lineHeight: 40,
   headHeight: 50,
+  hasBorder: true,
 
   tableBodyArray: [
     ['章三', 55, 77, 44],

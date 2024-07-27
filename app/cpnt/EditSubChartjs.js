@@ -1,14 +1,13 @@
-// EditSubChartjs
 import useBoxStore from '../store/useBo';
 import { useState, useMemo, useEffect } from 'react';
-import { Box, Typography, Button } from '@mui/material';
+import { Box, Typography, TextField, Button, Switch, FormControlLabel } from '@mui/material';
 import DrawerEditLayout from "./DrawerEditLayout";
 import AceEditor from "react-ace";
 import "ace-builds/src-noconflict/mode-json";
 import "ace-builds/src-noconflict/theme-monokai";
 import { ppplog } from "../util/util";
 
-export default function () {
+export default function EditSubChartjs() {
   const boxArr = useBoxStore((state) => state.boxArr);
   const activeBoxId = useBoxStore((state) => state.activeBoxId);
   const activeBox = useMemo(() => boxArr.find((box) => box.boxid === activeBoxId), [boxArr, activeBoxId]);
@@ -20,6 +19,10 @@ export default function () {
   const [parsedData, setParsedData] = useState(null);
   const [parseError, setParseError] = useState('');
 
+  const [borderColor, setBorderColor] = useState(sub?.borderColor || '#000000');
+  const [alternateRowColor, setAlternateRowColor] = useState(sub?.alternateRowColor || false);
+  const [alternateRowBackgroundColor, setAlternateRowBackgroundColor] = useState(sub?.alternateRowBackgroundColor || '#f0f0f0');
+
   const saveChange = () => {
     if (sub) {
       try {
@@ -28,19 +31,21 @@ export default function () {
           sub: {
             ...sub,
             payload: data,
+            borderColor,
+            alternateRowColor,
+            alternateRowBackgroundColor
           },
         });
       } catch (e) {
         alert('json error: ' + e.message);
       }
     }
-  }
+  };
 
   const handleParse = () => {
     try {
-      // Evaluate the code in the payload string
       let option;
-      eval(`option = ${payload}`);  // Note: Be cautious with eval() as it can execute arbitrary code
+      eval(`option = ${payload}`);
       let parseOption = option;
       if (sub && typeof parseOption === 'object') {
         setParsedData(parseOption);
@@ -58,12 +63,15 @@ export default function () {
       setParsedData(null);
       setParseError('解析错误: ' + e.message);
     }
-  }
+  };
 
   useEffect(() => {
     if (activeBoxId && sub) {
-      ppplog('subsub', sub)
+      ppplog('subsub', sub);
       setPayload(JSON.stringify(sub.payload, null, 2));
+      setBorderColor(sub.borderColor || '#000000');
+      setAlternateRowColor(sub.alternateRowColor || false);
+      setAlternateRowBackgroundColor(sub.alternateRowBackgroundColor || '#f0f0f0');
     }
   }, [sub, activeBoxId]);
 
@@ -112,6 +120,32 @@ export default function () {
               <pre>{JSON.stringify(parsedData, null, 2)}</pre>
             )}
           </Box>
+          <Box mt={2}>
+            <TextField
+              label="边框颜色"
+              variant="outlined"
+              fullWidth
+              value={borderColor}
+              onChange={(e) => setBorderColor(e.target.value)}
+            />
+          </Box>
+          <Box mt={2}>
+            <FormControlLabel
+              control={<Switch checked={alternateRowColor} onChange={(e) => setAlternateRowColor(e.target.checked)} />}
+              label="隔行变色"
+            />
+          </Box>
+          {alternateRowColor && (
+            <Box mt={2}>
+              <TextField
+                label="隔行背景颜色"
+                variant="outlined"
+                fullWidth
+                value={alternateRowBackgroundColor}
+                onChange={(e) => setAlternateRowBackgroundColor(e.target.value)}
+              />
+            </Box>
+          )}
         </Box>
       </DrawerEditLayout>
     </Box>
