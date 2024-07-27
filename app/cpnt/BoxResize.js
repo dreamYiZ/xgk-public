@@ -29,7 +29,7 @@ export default function BoxResize({ outerBoxRef, children, boxid, mainRef, boxSt
   );
 
   const handleMouseDown = (direction, e) => {
-    ppplog('handleMouseDown');
+    // ppplog('handleMouseDown');
     e.stopPropagation();
     resizingRef.current = true;
     resizeDirectionRef.current = direction;
@@ -37,7 +37,7 @@ export default function BoxResize({ outerBoxRef, children, boxid, mainRef, boxSt
     const rect = boxRef.current.getBoundingClientRect();
     startSizeRef.current = { width: rect.width, height: rect.height };
     // startPositionRef.current = { left: e.clientX, top: parseFloat(boxRef.current.style.top) };
-    ppplog('handleMouseDown 2', boxStyle, boxStyle.outerX, boxStyle.outerY);
+    // ppplog('handleMouseDown 2', boxStyle, boxStyle.outerX, boxStyle.outerY);
 
     document.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('mouseup', handleMouseUp);
@@ -49,7 +49,7 @@ export default function BoxResize({ outerBoxRef, children, boxid, mainRef, boxSt
     isResizingRef.current = true;
 
     e.stopPropagation();  // Stop the event from propagating to parent elements
-    ppplog('moveResize-0', resizingRef.current, resizeDirectionRef.current);
+    // ppplog('moveResize-0', resizingRef.current, resizeDirectionRef.current);
 
     if (!resizingRef.current || !resizeDirectionRef.current) return;
 
@@ -71,10 +71,10 @@ export default function BoxResize({ outerBoxRef, children, boxid, mainRef, boxSt
     // const deltaX = (e.clientX - startPosRef.current.x) / mainScale;
     // const deltaY = (e.clientY - startPosRef.current.y) / mainScale;
 
-    ppplog('newLeft-0', newLeft, newTop, deltaX, deltaY);
+    // ppplog('newLeft-0', newLeft, newTop, deltaX, deltaY);
     // return;
 
-    ppplog('moveResize-1');
+    // ppplog('moveResize-1');
 
     if (resizeDirectionRef.current === 'right') {
       newWidth += deltaX;
@@ -102,7 +102,7 @@ export default function BoxResize({ outerBoxRef, children, boxid, mainRef, boxSt
     // boxElement.style.left = `${newLeft}px`;
     // boxElement.style.top = `${newTop}px`;
 
-    ppplog('newLeft', newLeft, newTop);
+    // ppplog('newLeft', newLeft, newTop);
 
     outerBoxElement.style.left = `${newLeft}px`;
     outerBoxElement.style.top = `${newTop}px`;
