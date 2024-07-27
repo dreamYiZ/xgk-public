@@ -25,6 +25,7 @@ import EditSlowUpText from "./EditSlowUpText";
 import EditSlowUpTextTwoColumn from "./EditSlowUpTextTwoColumn";
 import EditFabricCanvas from "./EditFabricCanvas";
 import EditSubChartjs from "./EditSubChartjs";
+import EditSubTableBindData from "./EditSubTableBindData";
 
 export const MAP_SUB_EDIT = {
   [SUB_TYPE.TEXT]: EditSubText,
@@ -55,6 +56,7 @@ export const MAP_SUB_EDIT = {
   [SUB_TYPE.SLOW_UP_TEXT_TWO_COLUMN]: EditSlowUpTextTwoColumn,
   [SUB_TYPE.FABRIC_CANVAS]: EditFabricCanvas,
   [SUB_TYPE.CHARTJS]: EditSubChartjs,
+  [SUB_TYPE.TABLE_BIND_DATA]: EditSubTableBindData,
 }
 
 

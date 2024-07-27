@@ -821,6 +821,44 @@ export const createBoxChartjs = () => {
 }
 
 
+export const BASIC_PAYLOAD_TABLE_BIND_DATA = {
+  tableHeadArray: ['姓名', '语文', '数学', '英语'],
+  tableWidthArray: [120, 80, 80, 80],
+  tableHeadFontSize: '28',
+  tableHeadColor: '#FFFFFF',
+  tableBodyColor: '#FFFFFF',
+  tableBodyFontSize: '22',
+  lineHeight: 40,
+  headHeight: 50,
+
+  tableBodyArray: [
+    ['章三', 55, 77, 44],
+    ['李四', 68, 82, 79],
+    ['王五', 90, 70, 60],
+    ['赵六', 75, 85, 95],
+    ['孙七', 80, 88, 92],
+    ['周八', 62, 78, 55],
+    ['吴九', 70, 65, 80],
+    ['郑十', 85, 90, 88],
+  ],
+}
+
+
+
+export const createBoxTableBindData = () => {
+  return {
+    ...createBoxPayload(),
+    zIndex: 1,
+    width: '420px',
+    height: '460px',
+    sub: {
+      type: SUB_TYPE.TABLE_BIND_DATA,
+      ...BASIC_PAYLOAD_TABLE_BIND_DATA
+    }
+  }
+}
+
+
 
 export const createMarketTemplates = () => {
   return []
@@ -1044,4 +1082,5 @@ export const MAP_TYPE_FACTORY = {
   [SUB_TYPE.SLOW_UP_TEXT_TWO_COLUMN]: createBoxSlowUpTextTwoColumn,
   [SUB_TYPE.FABRIC_CANVAS]: createBoxFabricCanvas,
   [SUB_TYPE.CHARTJS]: createBoxChartjs,
+  [SUB_TYPE.TABLE_BIND_DATA]: createBoxTableBindData,
 };

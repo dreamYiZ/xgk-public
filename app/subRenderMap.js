@@ -25,7 +25,7 @@ import SubRenderSlowUpText from "./cpnt/SubRenderSlowUpText";
 import SubRenderSlowUpTextTwoColumn from "./cpnt/SubRenderSlowUpTextTwoColumn";
 import SubRenderFabricCanvas from "./cpnt/SubRenderFabricCanvas";
 import SubRenderChartjs from "./cpnt/SubRenderChartjs";
-
+import SubRenderTableBindData from "./cpnt/SubRenderTableBindData";
 
 
 const MAP_SUB_RENDER = {
@@ -57,6 +57,7 @@ const MAP_SUB_RENDER = {
   [SUB_TYPE.SLOW_UP_TEXT_TWO_COLUMN]: SubRenderSlowUpTextTwoColumn,
   [SUB_TYPE.FABRIC_CANVAS]: SubRenderFabricCanvas,
   [SUB_TYPE.CHARTJS]: SubRenderChartjs,
+  [SUB_TYPE.TABLE_BIND_DATA]: SubRenderTableBindData,
 }
 
 
