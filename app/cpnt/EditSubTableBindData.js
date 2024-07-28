@@ -16,6 +16,7 @@ export default function EditSubChartjs() {
   const [tableBodyArray, setTableBodyArray] = useState(sub?.tableBodyArray || []);
   const [tabIndex, setTabIndex] = useState(0);
   const [color, setColor] = useState(sub?.tableBodyColor || '#FFFFFF');
+  const [borderColor, setBorderColor] = useState(sub?.borderColor || '#FFFFFF'); // New state for border color
   const [fontSize, setFontSize] = useState(sub?.tableBodyFontSize || '22');
   const [lineHeight, setLineHeight] = useState(sub?.lineHeight || '40');
   const [timeDuration, setTimeDuration] = useState(5);
@@ -31,6 +32,7 @@ export default function EditSubChartjs() {
           tableHeadArray,
           tableBodyArray,
           tableBodyColor: color,
+          borderColor, // Save border color
           tableBodyFontSize: fontSize,
           lineHeight,
           hasBorder,
@@ -91,6 +93,11 @@ export default function EditSubChartjs() {
             表体颜色
           </Typography>
           <HexColorPicker color={color} onChange={setColor} />
+          <Box mt={1}></Box>
+          <Typography variant="h6" component="h6">
+            边框颜色
+          </Typography>
+          <HexColorPicker color={borderColor} onChange={setBorderColor} /> {/* New color picker for border */}
           <Box mt={1}></Box>
           <TextField value={fontSize} onChange={(event) => setFontSize(event.target.value)} type="number" label="字体大小" variant="outlined" fullWidth />
           <Box mt={1}></Box>

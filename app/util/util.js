@@ -831,6 +831,7 @@ export const BASIC_PAYLOAD_TABLE_BIND_DATA = {
   lineHeight: 40,
   headHeight: 50,
   hasBorder: true,
+  borderColor: '#FFFFFF',
 
   tableBodyArray: [
     ['章三', 55, 77, 44],

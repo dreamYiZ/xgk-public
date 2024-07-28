@@ -89,7 +89,7 @@ export default function (
 
       {
         displayData.map((i, idx) => {
-          return <OneText className={getClassAnimate(idx)} text={i} key={idx + i} />
+          return <OneText styleObj={styleObj} className={getClassAnimate(idx)} text={i} key={idx + i} />
         })
       }
     </Box>
@@ -99,8 +99,8 @@ export default function (
 
 
 
-const OneText = ({ text, className }) => {
-  return <Box className={className}>
-    { text }
+const OneText = ({ text, className, styleObj }) => {
+  return <Box style={{ ...styleObj }} className={className}>
+    {text}
   </Box >
 }
