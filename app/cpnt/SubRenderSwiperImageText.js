@@ -1,5 +1,5 @@
 import React from 'react';
-import { maybeNumberOr, ppplog, TIME_TYPE, MARQUEE_TYPE } from "../util/util";
+import { maybeNumberOr, pxToNumber, ppplog, TIME_TYPE, MARQUEE_TYPE, ifNumberToPx } from "../util/util";
 import classes from "./SubRenderMarquee.module.sass";
 import RenderBasicTable from "./RenderBasicTable";
 import { useEffect, useState, useRef } from "react";
@@ -52,7 +52,7 @@ export default function (
 
     const swiperOutBoRect = swiperOutBoxRef.current.getBoundingClientRect()
     const _height = swiperOutBoRect.height
-    SetSwiperOutBoxHeight(_height)
+    SetSwiperOutBoxHeight(_height - 48)
   }, [box?.width, box?.height])
 
 
@@ -115,7 +115,7 @@ const ImageTextBox = (props) => {
     {/* return <Box sx={{ display: "flex", width: `${styleObj.width}px`, height: `${styleObj.height}px`, alignItems: "center", justifyContent: "space-around" }} > */}
     {imgLeft && <ImageBox img={img} styleObj={styleObj} />}
 
-    <TextArrayBox swiperOutBoxHeight={swiperOutBoxHeight} textArr={textArr} styleObj={styleObj} />
+    <TextArrayBox swiperOutBoxHeight={swiperOutBoxHeight} textArr={textArr} styleObj= {styleObj} />
 
     {!imgLeft && <ImageBox img={img} styleObj={styleObj} />}
 

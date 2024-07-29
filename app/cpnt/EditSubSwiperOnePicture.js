@@ -100,7 +100,7 @@ export default function () {
         isOpen={isOpen}
         setIsOpen={setIsOpen}
         buttonText="编辑数据"
-        title="轮播图-图文"
+        title="轮播图-一张图"
       >
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Tabs value={tabIndex} onChange={(event, newValue) => setTabIndex(newValue)} aria-label="basic tabs example">
