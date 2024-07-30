@@ -20,6 +20,8 @@ export default function useShortcut() {
 
   const { fabricCanvas } = useFabricContext();
 
+  const lastScaleTimeRef = useRef(Date.now());
+
   useEffect(() => {
     setIsDraggingGlobal(isDragging);
   }, [isDragging, setIsDraggingGlobal]);
@@ -46,9 +48,15 @@ export default function useShortcut() {
     const handleWheel = (event) => {
       if (event.metaKey || event.ctrlKey) {
         event.preventDefault();
-        let newScale = mainScale - event.deltaY * 0.01;
-        newScale = Math.max(MIN_MAIN_SCALE, Math.min(MAX_MAIN_SCALE, newScale));
-        setMainScale(newScale);
+
+        const currentTime = Date.now();
+        const timeElapsed = currentTime - lastScaleTimeRef.current;
+        if (timeElapsed > 1000) { // 1 second threshold
+          let newScale = mainScale - Math.sign(event.deltaY) * 0.1; // Adjust scale step as needed
+          newScale = Math.max(MIN_MAIN_SCALE, Math.min(MAX_MAIN_SCALE, newScale));
+          setMainScale(newScale);
+          lastScaleTimeRef.current = currentTime;
+        }
       }
     };
 
@@ -97,10 +105,12 @@ export default function useShortcut() {
 
     const handleMouseMove = (event) => {
       if (isDragging) {
+
+        if (!mainRenderEl) return;
+
         const deltaX = event.clientX - startPosRef.current.x;
         const deltaY = event.clientY - startPosRef.current.y;
 
-        if (!mainRenderEl) return;
 
         mainRenderEl.style.left = `${pxToNumber(mainRenderEl.style.left || 0) + deltaX}px`;
         mainRenderEl.style.top = `${pxToNumber(mainRenderEl.style.top || 0) + deltaY}px`;

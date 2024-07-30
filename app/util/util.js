@@ -539,6 +539,8 @@ const BASIC_PAYLOAD_SWIPER_JS = {
   commentTime: 1,
   faceWidth: 80,
   color: '#000000',
+  commentColor: '#000000',
+  commentHeaderText: "评论",
   nameFontSize: 28,
   descFontSize: 22,
   commentFontSize: 22,
