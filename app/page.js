@@ -26,7 +26,7 @@ export default function Home() {
 
   const isEmpty = useBoxStore((state) => state.isEmpty);
   const mainRef = useRef(null);  // 新增一个 ref 来引用 <main> 元素
-  const { setMainDivLoadTime, mainDivLeft, mainDivTop, mode, mainScale, isFullScreenAutoBoolean, getIsTestOrDisplay, showWhenEditing, screenWidth, screenHeight, bgVideo } = useGlobalStore();  // 获取 'screenWidth' 和 'screenHeight' 状态
+  const { setMainDivLoadTime, isMainDragging , mainDivLeft, mainDivTop, mode, mainScale, isFullScreenAutoBoolean, getIsTestOrDisplay, showWhenEditing, screenWidth, screenHeight, bgVideo } = useGlobalStore();  // 获取 'screenWidth' 和 'screenHeight' 状态
 
   const shouldEmpty = false;
 
@@ -161,7 +161,7 @@ export default function Home() {
     <main id={MAIN_ID_TO_RENDER_BOX} ref={mainRef} style={mainStyle} className={styles.main} suppressHydrationWarning>
       <video id="background_video" className={styles.background_video} loop muted style={{ width: '100%', height: '100%', display: `${showVideoBg ? 'block' : 'none'}` }}></video>
       <div id="main-id-to-render-box-arr-container" style={{ width: '100%', height: '100%' }}>
-        {renderBoxArr()}
+        {!isMainDragging && renderBoxArr()}
         {showWhenEditing && <MouseXY />}
       </div>
     </main>

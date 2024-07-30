@@ -36,7 +36,7 @@ export default function useShortcut() {
     debounce((x, y) => {
       setMainDivLeft(x);
       setMainDivTop(y);
-    }, 1000),
+    }, 1000/10),
     [setMainDivLeft, setMainDivTop]
   );
 
@@ -120,11 +120,12 @@ export default function useShortcut() {
         setIsDragging(true);
         isDraggingRef.current = true;
         startPosRef.current = { x: event.clientX, y: event.clientY };
+
       }
     };
 
     const handleMouseMove = (event) => {
-      ppplog('isDragging', isDraggingRef.current, mainRenderEl, mainRenderElFn())
+      // ppplog('isDragging', isDraggingRef.current, mainRenderEl, mainRenderElFn())
       if (isDraggingRef.current) {
 
         let gotMainEl = mainRenderElFn();
@@ -139,11 +140,13 @@ export default function useShortcut() {
 
         // debouncedMouseMove(gotMainEl, deltaX, deltaY);
 
+        const newLeft = `${pxToNumber(gotMainEl.style.left || 0) + deltaX}`;
+        const newTop = `${pxToNumber(gotMainEl.style.top || 0) + deltaY}`;
 
-        gotMainEl.style.left = `${pxToNumber(gotMainEl.style.left || 0) + deltaX}px`;
-        gotMainEl.style.top = `${pxToNumber(gotMainEl.style.top || 0) + deltaY}px`;
+        gotMainEl.style.left = `${newLeft}px`;
+        gotMainEl.style.top = `${newTop}px`;
 
-        debouncedUpdatePosition(pxToNumber(gotMainEl.style.left), pxToNumber(gotMainEl.style.top));
+        debouncedUpdatePosition(newLeft, newTop);
 
         startPosRef.current = { x: event.clientX, y: event.clientY };
       }
@@ -156,8 +159,8 @@ export default function useShortcut() {
 
     frameworkEl.addEventListener('wheel', handleWheel);
     frameworkEl.addEventListener('mousedown', handleMouseDown);
-    frameworkEl.addEventListener('mousemove', handleMouseMove);
     frameworkEl.addEventListener('mouseup', handleMouseUp);
+    frameworkEl.addEventListener('mousemove', handleMouseMove);
 
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('keyup', handleKeyUp);
