@@ -2,7 +2,7 @@ import { useRef, useEffect, useState, useCallback } from 'react';
 import useGlobalStore from '../store/useGlobal';
 import useBoxStore from '../store/useBo';
 import {
-  MAIN_ID_TO_RENDER_BOX_CONTAINER,MAIN_ID_TO_RENDER_BOX_SELECTOR,
+  MAIN_ID_TO_RENDER_BOX_CONTAINER, MAIN_ID_TO_RENDER_BOX_SELECTOR,
   ppplog, pxToNumber, MAIN_ID_TO_RENDER_BOX, MIN_MAIN_SCALE, MAX_MAIN_SCALE, FRAMEWORK_ID_SELECTOR
 } from '../util/util';
 import { debounce } from 'lodash';
@@ -10,6 +10,7 @@ import { useFabricContext } from "../context/FabricContext";
 
 export default function useShortcut() {
   const {
+    mainDivLeft, mainDivTop,
     mainScale, setMainScale, setMainDivLeft, mainDivLoadTime, setMainDivTop, showWhenEditing, mode,
     setIsMainDragging: setIsDraggingGlobal, isMainDragging, setIsSpacePress,
   } = useGlobalStore();
@@ -24,9 +25,9 @@ export default function useShortcut() {
 
   const lastScaleTimeRef = useRef(Date.now());
 
-  useEffect(()=>{
+  useEffect(() => {
     mainScaleRef.current = mainScale
-  },[mainScale])
+  }, [mainScale])
 
   useEffect(() => {
     setIsDraggingGlobal(isDragging);
@@ -36,7 +37,8 @@ export default function useShortcut() {
     debounce((x, y) => {
       setMainDivLeft(x);
       setMainDivTop(y);
-    }, 1000/10),
+      // }, 1000 / 60 / 2),
+    }, 0),
     [setMainDivLeft, setMainDivTop]
   );
 
@@ -56,7 +58,7 @@ export default function useShortcut() {
 
     const frameworkEl = document.querySelector(FRAMEWORK_ID_SELECTOR);
     const mainRenderEl = document.querySelector(MAIN_ID_TO_RENDER_BOX_SELECTOR);
-    const mainRenderElFn = ()=>document.querySelector(`#${MAIN_ID_TO_RENDER_BOX}`);
+    const mainRenderElFn = () => document.querySelector(`#${MAIN_ID_TO_RENDER_BOX}`);
     const mainRenderContainerEl = document.querySelector(`#${MAIN_ID_TO_RENDER_BOX_CONTAINER}`);
     if (!frameworkEl) {
       console.error(`Element with selector ${FRAMEWORK_ID_SELECTOR} not found.`);
@@ -140,13 +142,17 @@ export default function useShortcut() {
 
         // debouncedMouseMove(gotMainEl, deltaX, deltaY);
 
-        const newLeft = `${pxToNumber(gotMainEl.style.left || 0) + deltaX}`;
-        const newTop = `${pxToNumber(gotMainEl.style.top || 0) + deltaY}`;
+        const newLeft = `${pxToNumber(mainDivLeft || 0) + deltaX}`;
+        const newTop = `${pxToNumber(mainDivTop || 0) + deltaY}`;
 
-        gotMainEl.style.left = `${newLeft}px`;
-        gotMainEl.style.top = `${newTop}px`;
+        // gotMainEl.style.left = `${newLeft}px`;
+        // gotMainEl.style.top = `${newTop}px`;
 
-        debouncedUpdatePosition(newLeft, newTop);
+        // debouncedUpdatePosition(newLeft, newTop);
+
+
+        setMainDivLeft(newLeft);
+        setMainDivTop(newTop);
 
         startPosRef.current = { x: event.clientX, y: event.clientY };
       }
@@ -175,7 +181,7 @@ export default function useShortcut() {
       window.removeEventListener('keyup', handleKeyUp);
     };
   }, [
-    fabricCanvas, setMainScale, mode, activeBoxId, mainDivLoadTime
+    fabricCanvas, setMainScale, mainDivLeft, mainDivTop, mode, activeBoxId, mainDivLoadTime
   ]);
 
   return null; // No need to render anything

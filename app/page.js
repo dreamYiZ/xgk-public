@@ -131,9 +131,9 @@ export default function Home() {
           backgroundImage: bg.type === BG_TYPE.IMAGE ? `url(${bg.filename})` : '',
           backgroundSize: '100% 100%',
           backgroundRepeat: 'no-repeat',
-          transform: `scale(${mainScale})`,
-          left: `${mainDivLeft}px`,
-          top: `${mainDivTop}px`,
+          transform: `scale(${mainScale}) translate(${mainDivLeft}px, ${mainDivTop}px)`,
+          // left: `${mainDivLeft}px`,
+          // top: `${mainDivTop}px`,
         }
       )
     }
@@ -161,7 +161,7 @@ export default function Home() {
     <main id={MAIN_ID_TO_RENDER_BOX} ref={mainRef} style={mainStyle} className={styles.main} suppressHydrationWarning>
       <video id="background_video" className={styles.background_video} loop muted style={{ width: '100%', height: '100%', display: `${showVideoBg ? 'block' : 'none'}` }}></video>
       <div id="main-id-to-render-box-arr-container" style={{ width: '100%', height: '100%' }}>
-        {!isMainDragging && renderBoxArr()}
+        { renderBoxArr()}
         {showWhenEditing && <MouseXY />}
       </div>
     </main>
