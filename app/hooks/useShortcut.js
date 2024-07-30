@@ -2,7 +2,7 @@ import { useRef, useEffect, useState, useCallback } from 'react';
 import useGlobalStore from '../store/useGlobal';
 import useBoxStore from '../store/useBo';
 import {
-  MAIN_ID_TO_RENDER_BOX_CONTAINER,
+  MAIN_ID_TO_RENDER_BOX_CONTAINER,MAIN_ID_TO_RENDER_BOX_SELECTOR,
   ppplog, pxToNumber, MAIN_ID_TO_RENDER_BOX, MIN_MAIN_SCALE, MAX_MAIN_SCALE, FRAMEWORK_ID_SELECTOR
 } from '../util/util';
 import { debounce } from 'lodash';
@@ -40,11 +40,22 @@ export default function useShortcut() {
     [setMainDivLeft, setMainDivTop]
   );
 
+  const debouncedMouseMove = useCallback(
+    debounce((gotMainEl, deltaX, deltaY) => {
+      gotMainEl.style.left = `${pxToNumber(gotMainEl.style.left || 0) + deltaX}px`;
+      gotMainEl.style.top = `${pxToNumber(gotMainEl.style.top || 0) + deltaY}px`;
+
+      debouncedUpdatePosition(pxToNumber(gotMainEl.style.left), pxToNumber(gotMainEl.style.top));
+    }, 50), // Adjust the debounce time as needed
+    [debouncedUpdatePosition]
+  );
+
+
   useEffect(() => {
     if (!showWhenEditing()) return;
 
     const frameworkEl = document.querySelector(FRAMEWORK_ID_SELECTOR);
-    const mainRenderEl = document.querySelector(`#${MAIN_ID_TO_RENDER_BOX}`);
+    const mainRenderEl = document.querySelector(MAIN_ID_TO_RENDER_BOX_SELECTOR);
     const mainRenderElFn = ()=>document.querySelector(`#${MAIN_ID_TO_RENDER_BOX}`);
     const mainRenderContainerEl = document.querySelector(`#${MAIN_ID_TO_RENDER_BOX_CONTAINER}`);
     if (!frameworkEl) {
@@ -116,16 +127,23 @@ export default function useShortcut() {
       ppplog('isDragging', isDraggingRef.current, mainRenderEl, mainRenderElFn())
       if (isDraggingRef.current) {
 
-        if (!mainRenderElFn()) return;
+        let gotMainEl = mainRenderElFn();
+
+        if (!gotMainEl) return;
+
 
         const deltaX = event.clientX - startPosRef.current.x;
         const deltaY = event.clientY - startPosRef.current.y;
 
 
-        mainRenderElFn().style.left = `${pxToNumber(mainRenderElFn().style.left || 0) + deltaX}px`;
-        mainRenderElFn().style.top = `${pxToNumber(mainRenderElFn().style.top || 0) + deltaY}px`;
 
-        debouncedUpdatePosition(pxToNumber(mainRenderElFn().style.left), pxToNumber(mainRenderElFn().style.top));
+        // debouncedMouseMove(gotMainEl, deltaX, deltaY);
+
+
+        gotMainEl.style.left = `${pxToNumber(gotMainEl.style.left || 0) + deltaX}px`;
+        gotMainEl.style.top = `${pxToNumber(gotMainEl.style.top || 0) + deltaY}px`;
+
+        debouncedUpdatePosition(pxToNumber(gotMainEl.style.left), pxToNumber(gotMainEl.style.top));
 
         startPosRef.current = { x: event.clientX, y: event.clientY };
       }
@@ -154,7 +172,7 @@ export default function useShortcut() {
       window.removeEventListener('keyup', handleKeyUp);
     };
   }, [
-    fabricCanvas, setMainScale, mode, activeBoxId
+    fabricCanvas, setMainScale, mode, activeBoxId, mainDivLoadTime
   ]);
 
   return null; // No need to render anything

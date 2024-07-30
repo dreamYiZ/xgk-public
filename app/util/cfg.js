@@ -14,3 +14,7 @@ export const FRAMEWORK_ID_SELECTOR = `#${FRAMEWORK_ID}`
 
 export const MAIN_ID_TO_RENDER_BOX = 'main-id-to-render-box-arr';
 export const MAIN_ID_TO_RENDER_BOX_CONTAINER = 'main-id-to-render-box-arr-container';
+
+
+export const MAIN_ID_TO_RENDER_BOX_SELECTOR = `#${MAIN_ID_TO_RENDER_BOX}`;
+export const MAIN_ID_TO_RENDER_BOX_CONTAINER_SELECTOR = `#${MAIN_ID_TO_RENDER_BOX_CONTAINER}`;
