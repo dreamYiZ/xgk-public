@@ -17,10 +17,16 @@ export default function useShortcut() {
   const { activeBoxId, delById } = useBoxStore();
   const [isDragging, setIsDragging] = useState(false);
   const startPosRef = useRef({ x: 0, y: 0 });
+  const isDraggingRef = useRef(false);
+  const mainScaleRef = useRef(null);
 
   const { fabricCanvas } = useFabricContext();
 
   const lastScaleTimeRef = useRef(Date.now());
+
+  useEffect(()=>{
+    mainScaleRef.current = mainScale
+  },[mainScale])
 
   useEffect(() => {
     setIsDraggingGlobal(isDragging);
@@ -30,7 +36,7 @@ export default function useShortcut() {
     debounce((x, y) => {
       setMainDivLeft(x);
       setMainDivTop(y);
-    }, 100),
+    }, 1000),
     [setMainDivLeft, setMainDivTop]
   );
 
@@ -39,6 +45,7 @@ export default function useShortcut() {
 
     const frameworkEl = document.querySelector(FRAMEWORK_ID_SELECTOR);
     const mainRenderEl = document.querySelector(`#${MAIN_ID_TO_RENDER_BOX}`);
+    const mainRenderElFn = ()=>document.querySelector(`#${MAIN_ID_TO_RENDER_BOX}`);
     const mainRenderContainerEl = document.querySelector(`#${MAIN_ID_TO_RENDER_BOX_CONTAINER}`);
     if (!frameworkEl) {
       console.error(`Element with selector ${FRAMEWORK_ID_SELECTOR} not found.`);
@@ -52,7 +59,7 @@ export default function useShortcut() {
         const currentTime = Date.now();
         const timeElapsed = currentTime - lastScaleTimeRef.current;
         if (timeElapsed > 1000) { // 1 second threshold
-          let newScale = mainScale - Math.sign(event.deltaY) * 0.1; // Adjust scale step as needed
+          let newScale = mainScaleRef.current - Math.sign(event.deltaY) * 0.1; // Adjust scale step as needed
           newScale = Math.max(MIN_MAIN_SCALE, Math.min(MAX_MAIN_SCALE, newScale));
           setMainScale(newScale);
           lastScaleTimeRef.current = currentTime;
@@ -93,36 +100,40 @@ export default function useShortcut() {
         mainRenderEl && (mainRenderEl.style.cursor = 'default');
         mainRenderContainerEl && (mainRenderContainerEl.style.cursor = 'default');
       }
-      if (isDragging) setIsDragging(false);
+      if (isDraggingRef.current) setIsDragging(false);
+      if (isDraggingRef.current) isDraggingRef.current = false;
     };
 
     const handleMouseDown = (event) => {
       if (event.button === 0 && frameworkEl.style.cursor === 'grab') {
         setIsDragging(true);
+        isDraggingRef.current = true;
         startPosRef.current = { x: event.clientX, y: event.clientY };
       }
     };
 
     const handleMouseMove = (event) => {
-      if (isDragging) {
+      ppplog('isDragging', isDraggingRef.current, mainRenderEl, mainRenderElFn())
+      if (isDraggingRef.current) {
 
-        if (!mainRenderEl) return;
+        if (!mainRenderElFn()) return;
 
         const deltaX = event.clientX - startPosRef.current.x;
         const deltaY = event.clientY - startPosRef.current.y;
 
 
-        mainRenderEl.style.left = `${pxToNumber(mainRenderEl.style.left || 0) + deltaX}px`;
-        mainRenderEl.style.top = `${pxToNumber(mainRenderEl.style.top || 0) + deltaY}px`;
+        mainRenderElFn().style.left = `${pxToNumber(mainRenderElFn().style.left || 0) + deltaX}px`;
+        mainRenderElFn().style.top = `${pxToNumber(mainRenderElFn().style.top || 0) + deltaY}px`;
 
-        debouncedUpdatePosition(pxToNumber(mainRenderEl.style.left), pxToNumber(mainRenderEl.style.top));
+        debouncedUpdatePosition(pxToNumber(mainRenderElFn().style.left), pxToNumber(mainRenderElFn().style.top));
 
         startPosRef.current = { x: event.clientX, y: event.clientY };
       }
     };
 
     const handleMouseUp = () => {
-      if (isDragging) setIsDragging(false);
+      if (isDraggingRef.current) setIsDragging(false);
+      isDraggingRef.current = false;
     };
 
     frameworkEl.addEventListener('wheel', handleWheel);
@@ -143,9 +154,7 @@ export default function useShortcut() {
       window.removeEventListener('keyup', handleKeyUp);
     };
   }, [
-    fabricCanvas, mainScale, setMainScale, mainDivLoadTime, isDragging,
-    debouncedUpdatePosition, mode, activeBoxId, delById, showWhenEditing,
-    setIsSpacePress, setIsDraggingGlobal
+    fabricCanvas, setMainScale, mode, activeBoxId
   ]);
 
   return null; // No need to render anything
