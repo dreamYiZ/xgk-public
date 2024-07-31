@@ -38,7 +38,7 @@ export default function useShortcut() {
       setMainDivLeft(x);
       setMainDivTop(y);
       // }, 1000 / 60 / 2),
-    }, 0),
+    }, 300),
     [setMainDivLeft, setMainDivTop]
   );
 
@@ -132,6 +132,9 @@ export default function useShortcut() {
 
         let gotMainEl = mainRenderElFn();
 
+
+        ppplog('gotMainEl', gotMainEl)
+
         if (!gotMainEl) return;
 
 
@@ -145,14 +148,30 @@ export default function useShortcut() {
         const newLeft = `${pxToNumber(mainDivLeft || 0) + deltaX}`;
         const newTop = `${pxToNumber(mainDivTop || 0) + deltaY}`;
 
+
+        const matrix = getComputedStyle(gotMainEl).transform
+        const matrixArray = matrix.replace("matrix(", "").split(",");
+        const scaleX = parseFloat(matrixArray[0]);
+        const scaleY = parseFloat(matrixArray[3]);
+
+        const translateX = parseFloat(matrixArray[4]);
+        const translateY = parseFloat(matrixArray[5]); // parseFloat
+
+        const newTranslateX = translateX + deltaX;
+        const newTranslateY = translateY + deltaY;
+        ppplog('getComputedStyle', getComputedStyle(gotMainEl).transform)
+        ppplog('getComputedStyle 123', newTranslateX, newTranslateY, scaleX)
+
+        gotMainEl.style.transform = `scale(${scaleX}) translate(${newTranslateX / scaleX}px, ${newTranslateY / scaleY}px)`
+
         // gotMainEl.style.left = `${newLeft}px`;
         // gotMainEl.style.top = `${newTop}px`;
 
         // debouncedUpdatePosition(newLeft, newTop);
 
-
-        setMainDivLeft(newLeft);
-        setMainDivTop(newTop);
+        debouncedUpdatePosition(newTranslateX / scaleX, newTranslateY/scaleY);
+        // setMainDivLeft(newLeft);
+        // setMainDivTop(newTop);
 
         startPosRef.current = { x: event.clientX, y: event.clientY };
       }
@@ -172,6 +191,7 @@ export default function useShortcut() {
     window.addEventListener('keyup', handleKeyUp);
 
     return () => {
+      ppplog('frameworkEl remove!')
       frameworkEl.removeEventListener('wheel', handleWheel);
       frameworkEl.removeEventListener('mousedown', handleMouseDown);
       frameworkEl.removeEventListener('mousemove', handleMouseMove);
