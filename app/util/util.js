@@ -22,7 +22,6 @@ import { THREE_ANIMATE_TYPE } from "./threeAnimateTyle";
 import { AUTO_NEXT_PAGE } from "./autoType";
 import { ANIMATE_TYPE_MARQUEE_IMAGE_VIDEO } from "./animateTypeMarqueeImageVideo";
 
-
 export * from "./subType";
 export * from "./constant";
 export * from "./cfg";
@@ -879,6 +878,24 @@ export const createBoxTableBindData = () => {
   }
 }
 
+const BASIC_PAYLOAD_SWIPER_VIDEO = {
+  fullscreen: false,
+  videoSrcList: [],
+}
+
+export const createSwiperVideo = () => {
+  return {
+    ...createBoxPayload(),
+    zIndex: 1,
+    width: '520px',
+    height: '460px',
+    sub: {
+      type: SUB_TYPE.SWIPER_VIDEO,
+      ...BASIC_PAYLOAD_SWIPER_VIDEO
+    }
+  }
+}
+
 
 
 export const createMarketTemplates = () => {
@@ -1104,4 +1121,5 @@ export const MAP_TYPE_FACTORY = {
   [SUB_TYPE.FABRIC_CANVAS]: createBoxFabricCanvas,
   [SUB_TYPE.CHARTJS]: createBoxChartjs,
   [SUB_TYPE.TABLE_BIND_DATA]: createBoxTableBindData,
+  [SUB_TYPE.SWIPER_VIDEO]: createSwiperVideo,
 };
