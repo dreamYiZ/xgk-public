@@ -1,3 +1,4 @@
+// videojs wrapper
 import React, { useEffect } from 'react';
 import videojs from 'video.js';
 import 'video.js/dist/video-js.css';
@@ -11,12 +12,13 @@ export const VideoJS = (props) => {
 
   useEffect(() => {
     setVideoStyle({
-      width: '100%',
-      height: '100%',
-    });
+      width: `${width}`,
+      height: `${height}`,
+    })
   }, [width, height]);
 
   React.useEffect(() => {
+
     // Make sure Video.js player is only initialized once
     if (!playerRef.current) {
       // The Video.js player needs to be _inside_ the component el for React 18 Strict Mode.
@@ -53,7 +55,7 @@ export const VideoJS = (props) => {
   }, [playerRef]);
 
   return (
-    <div data-vjs-player style={videoStyle}>
+    <div data-vjs-player {...emptyUndefined(videoStyle)}>
       <div ref={videoRef} />
     </div>
   );

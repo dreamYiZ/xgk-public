@@ -1,45 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Box } from '@mui/material';
-import VideoJS from './videoJsWrap'; // Assuming you have a VideoJS wrapper component
+import RenderVideoList from './RenderVideoList'; // Import the RenderVideoList component
 
 const SubRenderVideo = ({ box, sub }) => {
   const { fullscreen, videoSrcList } = sub;
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const handleVideoEnded = () => {
+  const handleVideoEnded = useCallback(() => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % videoSrcList.length);
-  };
+  }, [videoSrcList.length]);
 
   useEffect(() => {
     setCurrentIndex(0); // Reset index when videoSrcList changes
   }, [videoSrcList]);
 
+  const containerStyle = fullscreen
+    ? { width: '100vw', height: '100vh', position: 'fixed', top: 0, left: 0, bottom: 0, right: 0, padding: 0 }
+    : { width: box.width, height: box.height };
+
   return (
-    <div style={{ width: box.width, height: box.height }}>
-      {videoSrcList.map((src, index) => {
-        if (index === currentIndex) {
-          return (
-            <VideoJS
-              key={index}
-              options={{
-                responsive: true,
-                fluid: true,
-                autoplay: true, // Autoplay only the first video
-                sources: [{
-                  src: src, // Select video source cyclically
-                  type: 'video/mp4',
-                }],
-              }}
-              onReady={(player) => {
-                player.on('ended', handleVideoEnded);
-              }}
-            />
-          );
-        } else {
-          return null;
-        }
-      })}
-    </div>
+    <Box p={3} sx={{ overflow: 'hidden', ...containerStyle }}>
+      <RenderVideoList
+        videoSrcList={videoSrcList}
+        currentIndex={currentIndex}
+        handleVideoEnded={handleVideoEnded}
+        fullscreen={fullscreen}
+      />
+    </Box>
   );
 };
 
