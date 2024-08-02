@@ -114,22 +114,26 @@ export default function EditSwiperVideoSettings() {
           </Button>
           <Box mt={1}></Box>
           {videoSrcList.map((src, index) => (
-            <Box key={index} display="flex" alignItems="center">
-              <TextField
-                value={src}
-                variant="outlined"
-                InputProps={{
-                  readOnly: true,
-                }}
-                sx={{ mr: 1 }}
-              />
-              <IconButton
-                onClick={() => handleDeleteVideoSrc(index)}
-                color="error"
-              >
-                <ClearIcon />
-              </IconButton>
-            </Box>
+            <Box>
+              <Box mt={1}>
+              </Box>
+              <Box key={index} display="flex" alignItems="center">
+                <TextField
+                  value={src}
+                  variant="outlined"
+                  fullWidth
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  sx={{ mr: 1 }}
+                />
+                <IconButton
+                  onClick={() => handleDeleteVideoSrc(index)}
+                  color="error"
+                >
+                  <ClearIcon sx={{cursor: "pointer"}} />
+                </IconButton>
+              </Box></Box>
           ))}
         </Box>
       </DrawerEditLayout>

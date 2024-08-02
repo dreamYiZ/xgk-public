@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import videojs from 'video.js';
 import 'video.js/dist/video-js.css';
+import { emptyUndefined } from '../util/util';
 
 export const VideoJS = (props) => {
   const videoRef = React.useRef(null);
@@ -8,15 +9,14 @@ export const VideoJS = (props) => {
   const [videoStyle, setVideoStyle] = React.useState(null);
   const { options, onReady, width, height } = props;
 
-  useEffect(()=>{
+  useEffect(() => {
     setVideoStyle({
-      width: `${width}px`,
-      height: `${height}px`,
-    })
-  },[width,height]);
+      width: '100%',
+      height: '100%',
+    });
+  }, [width, height]);
 
   React.useEffect(() => {
-
     // Make sure Video.js player is only initialized once
     if (!playerRef.current) {
       // The Video.js player needs to be _inside_ the component el for React 18 Strict Mode.
@@ -53,7 +53,7 @@ export const VideoJS = (props) => {
   }, [playerRef]);
 
   return (
-    <div data-vjs-player {...videoStyle}>
+    <div data-vjs-player style={videoStyle}>
       <div ref={videoRef} />
     </div>
   );

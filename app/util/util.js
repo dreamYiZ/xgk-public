@@ -1091,6 +1091,17 @@ export {
 export { MARQUEE_TYPE, MARQUEE_TYPE_DISPLAY } from "./marqueeType";
 
 
+export const emptyUndefined = (obj) => {
+  if (!obj) { return {} }
+  return Object.keys(obj).reduce((acc, key) => {
+    if (obj[key] !== '' && obj[key] !== undefined) {
+      acc[key] = obj[key];
+    }
+    return acc;
+  }, {});
+};
+
+
 export const MAP_TYPE_FACTORY = {
   [SUB_TYPE.TEXT]: createBoxText,
   [SUB_TYPE.IMAGE]: createBoxImage,
