@@ -16,31 +16,29 @@ const SubRenderVideo = ({ box, sub }) => {
 
   return (
     <div style={{ width: box.width, height: box.height }}>
-      <>
-        {videoSrcList.map((src, index) => {
-          if (index === currentIndex) {
-            return (
-              <VideoJS
-                key={index}
-                options={{
-                  responsive: true,
-                  fluid: true,
-                  autoplay: index === 0, // Autoplay only the first video
-                  sources: [{
-                    src: src, // Select video source cyclically
-                    type: 'video/mp4',
-                  }],
-                }}
-                onReady={(player) => {
-                  player.on('ended', handleVideoEnded);
-                }}
-              />
-            );
-          } else {
-            return null;
-          }
-        })}
-      </>
+      {videoSrcList.map((src, index) => {
+        if (index === currentIndex) {
+          return (
+            <VideoJS
+              key={index}
+              options={{
+                responsive: true,
+                fluid: true,
+                autoplay: true, // Autoplay only the first video
+                sources: [{
+                  src: src, // Select video source cyclically
+                  type: 'video/mp4',
+                }],
+              }}
+              onReady={(player) => {
+                player.on('ended', handleVideoEnded);
+              }}
+            />
+          );
+        } else {
+          return null;
+        }
+      })}
     </div>
   );
 };
