@@ -1,10 +1,13 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Box } from '@mui/material';
 import RenderVideoList from './RenderVideoList'; // Import the RenderVideoList component
+import useGlobalStore from '../store/useGlobal';
 
 const SubRenderVideo = ({ box, sub }) => {
   const { fullscreen, videoSrcList } = sub;
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  const { mainScale, getIsTestOrDisplay, mode } = useGlobalStore();
 
   const handleVideoEnded = useCallback(() => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % videoSrcList.length);
@@ -14,8 +17,19 @@ const SubRenderVideo = ({ box, sub }) => {
     setCurrentIndex(0); // Reset index when videoSrcList changes
   }, [videoSrcList]);
 
+  // Define containerStyle outside of the effect
   const containerStyle = fullscreen
-    ? { width: '100vw', height: '100vh', position: 'fixed', top: 0, left: 0, bottom: 0, right: 0, padding: 0 }
+    ? {
+      width: `${100 / (getIsTestOrDisplay() ? 1 : mainScale)}vw`,
+      height: `${100 / (getIsTestOrDisplay() ? 1 : mainScale)}vh`,
+      backgroundColor: '#000000',
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      bottom: 0,
+      right: 0,
+      padding: 0,
+    }
     : { width: box.width, height: box.height };
 
   return (
