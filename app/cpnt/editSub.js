@@ -1,9 +1,6 @@
+import { useMemo } from 'react';
 import useBoxStore from '../store/useBo';
 import { MAP_SUB_EDIT } from "./EditSubMap";
-
-
-import { useMemo } from 'react';
-
 
 function EditSub() {
   const boxArr = useBoxStore((state) => state.boxArr);  // Access the 'boxArr' state
@@ -13,18 +10,18 @@ function EditSub() {
   const activeBox = useMemo(() => boxArr.find((box) => box.boxid === activeBoxId), [boxArr, activeBoxId]);
   const sub = useMemo(() => activeBox?.sub, [activeBox]);
 
-  const Component = MAP_SUB_EDIT[sub?.type];
-
   if (!activeBoxId) {
     return null;
   }
-  if (Component) {
-    return <Component sub={sub} activeBox={activeBox} />
+
+  if (sub && MAP_SUB_EDIT.hasOwnProperty(sub.type)) {
+    const Component = MAP_SUB_EDIT[sub.type];
+    return <Component sub={sub} activeBox={activeBox} />;
   }
 
   return <div>
     TYPE NOT FOUND!{`[${sub?.type}]`}
-  </div>
+  </div>;
 }
 
 export default EditSub;
