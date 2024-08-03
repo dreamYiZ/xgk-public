@@ -7,7 +7,7 @@ import useGlobalStore from './store/useGlobal';
 import useBoxStore from "./store/useBo";
 import { MODE } from './store/useGlobal';
 import { usePathname } from 'next/navigation';
-import { xgkConsole, FRAMEWORK_ID } from "./util/util";
+import { xgkConsole, FRAMEWORK_ID, emptyUndefined } from "./util/util";
 import ErrorBoundary from './cpnt/errorBoundary';
 import useApiToRefreshData from "./hooks/useApiToRefreshData";
 import { FabricProvider } from './context/FabricContext';
@@ -18,7 +18,6 @@ const ANIMATION_INTERVAL = 100; // Adjust as needed, faster for smoother animati
 
 function Framework({ children }) {
   const [isClient, setIsClient] = useState(false);
-  const [isManagePage, setIsManagePage] = useState(false);
   const { mode, isFullScreenAutoBoolean, showWhenEditing, getIsTestOrDisplay } = useGlobalStore();
   const { clearActiveId } = useBoxStore();
   const [isTestOrDisplay, setIsTestOrDisplay] = useState(true);
@@ -31,33 +30,16 @@ function Framework({ children }) {
 
   useEffect(() => {
     setIsTestOrDisplay(getIsTestOrDisplay());
-  }, [mode]);
-
-  useEffect(() => {
-    let _style = {};
-    if (!isTestOrDisplay) {
-      _style.backgroundColor = '#FFFFFF';
-    }
-    setFrameworkStyle(_style);
-  }, [isTestOrDisplay]);
-
-  useEffect(() => {
     setIsClient(true);
-  }, []);
-
-  useEffect(() => {
-    setIsManagePage(pathname.startsWith('/m'));
-  }, [pathname]);
+    setFrameworkStyle({ backgroundColor: getIsTestOrDisplay() ? undefined : '#FFFFFF' });
+    xgkConsole();
+  }, [mode, getIsTestOrDisplay]);
 
   useEffect(() => {
     if (mode !== MODE.EDIT) {
       clearActiveId();
     }
-  }, [mode]);
-
-  useEffect(() => {
-    xgkConsole();
-  }, []);
+  }, [mode, clearActiveId]);
 
   useEffect(() => {
     const options = {};
@@ -69,6 +51,8 @@ function Framework({ children }) {
       canvas.dispose();
     };
   }, []);
+
+  const isManagePage = useMemo(() => pathname.startsWith('/m'), [pathname]);
 
   const controlPanelClass = `${classes['control-panel']} ${mode === MODE.EDIT ? 'control-panel-editing' : ''}`;
   const pageContentClass = `${classes['page-content']} ${mode === MODE.EDIT ? classes['editing'] : ''}`;
@@ -88,13 +72,13 @@ function Framework({ children }) {
   }
 
   if (!isClient) {
-    return '';
+    return null;
   }
 
   return (
     process.env.NODE_ENV === 'development' ? (
       <FabricProvider>
-        <div className={classes['framework']} style={{ ...frameworkStyle }}>
+        <div className={classes['framework']} style={{ ...emptyUndefined(frameworkStyle) }}>
           <div id={`${FRAMEWORK_ID}`} className={pageContentClass} style={pageContentStyle}>
             {children}
           </div>
@@ -106,7 +90,7 @@ function Framework({ children }) {
     ) : (
       <ErrorBoundary>
         <FabricProvider>
-          <div className={classes['framework']} style={{ ...frameworkStyle }}>
+          <div className={classes['framework']} style={{ ...emptyUndefined(frameworkStyle) }}>
             <div id={`${FRAMEWORK_ID}`} className={pageContentClass} style={pageContentStyle}>
               {children}
             </div>

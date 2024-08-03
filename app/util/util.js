@@ -1094,7 +1094,7 @@ export { MARQUEE_TYPE, MARQUEE_TYPE_DISPLAY } from "./marqueeType";
 export const emptyUndefined = (obj) => {
   if (!obj) { return {} }
   return Object.keys(obj).reduce((acc, key) => {
-    if (obj[key] !== '' && obj[key] !== undefined) {
+    if (obj[key] !== '' && obj[key] !== undefined && obj[key] !== 'undefined') {
       acc[key] = obj[key];
     }
     return acc;

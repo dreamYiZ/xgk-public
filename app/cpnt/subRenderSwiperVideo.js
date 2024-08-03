@@ -7,7 +7,7 @@ const SubRenderVideo = ({ box, sub }) => {
   const { fullscreen, videoSrcList } = sub;
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const { mainScale, getIsTestOrDisplay, mode } = useGlobalStore();
+  const { mainScale, getIsTestOrDisplay, mode, screenWidth, screenHeight } = useGlobalStore();
 
   const handleVideoEnded = useCallback(() => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % videoSrcList.length);
@@ -20,16 +20,16 @@ const SubRenderVideo = ({ box, sub }) => {
   // Define containerStyle outside of the effect
   const containerStyle = fullscreen
     ? {
-      width: `${100 / (getIsTestOrDisplay() ? 1 : mainScale)}vw`,
-      height: `${100 / (getIsTestOrDisplay() ? 1 : mainScale)}vh`,
-      backgroundColor: '#000000',
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      bottom: 0,
-      right: 0,
-      padding: 0,
-    }
+        width: getIsTestOrDisplay() ? `${100 }vw` : `${screenWidth}px`,
+        height: getIsTestOrDisplay() ? `${100 }vh` : `${screenHeight}px`,
+        backgroundColor: '#000000',
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        bottom: 0,
+        right: 0,
+        padding: 0,
+      }
     : { width: box.width, height: box.height };
 
   return (

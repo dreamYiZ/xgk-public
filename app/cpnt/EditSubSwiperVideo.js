@@ -1,11 +1,11 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { Box, Tabs, Tab, Typography, TextField, Button, Checkbox, IconButton } from '@mui/material';
 import AceEditor from 'react-ace';
 import "ace-builds/src-noconflict/mode-json";
 import "ace-builds/src-noconflict/theme-monokai";
 import DrawerEditLayout from "./DrawerEditLayout";
-import ColorField from "./ColorField";
 import ClearIcon from '@mui/icons-material/Clear';
+import SwapVertIcon from '@mui/icons-material/SwapVert';
 import useBoxStore from '../store/useBo';
 import { safeNumberIfString, SUB_TYPE } from "../util/util";
 
@@ -21,6 +21,9 @@ export default function EditSwiperVideoSettings() {
   const [fullscreen, setFullscreen] = useState(false);
   const [videoSrc, setVideoSrc] = useState('');
   const [videoSrcList, setVideoSrcList] = useState([]);
+
+  const dragItem = useRef();
+  const dragOverItem = useRef();
 
   const saveChange = () => {
     if (sub) {
@@ -51,6 +54,15 @@ export default function EditSwiperVideoSettings() {
   const handleDeleteVideoSrc = (index) => {
     const updatedList = videoSrcList.filter((_, i) => i !== index);
     setVideoSrcList(updatedList);
+  };
+
+  const handleSort = () => {
+    const _videoSrcList = [...videoSrcList];
+    const draggedItemContent = _videoSrcList.splice(dragItem.current, 1)[0];
+    _videoSrcList.splice(dragOverItem.current, 0, draggedItemContent);
+    dragItem.current = null;
+    dragOverItem.current = null;
+    setVideoSrcList(_videoSrcList);
   };
 
   return (
@@ -113,11 +125,23 @@ export default function EditSwiperVideoSettings() {
             添加
           </Button>
           <Box mt={1}></Box>
-          {videoSrcList.map((src, index) => (
-            <Box>
-              <Box mt={1}>
-              </Box>
-              <Box key={index} display="flex" alignItems="center">
+          <Box>
+            {videoSrcList.map((src, index) => (
+              <Box
+                key={index}
+                draggable
+                onDragStart={(e) => (dragItem.current = index)}
+                onDragEnter={(e) => (dragOverItem.current = index)}
+                onDragEnd={handleSort}
+                onDragOver={(e) => e.preventDefault()}
+                display="flex"
+                alignItems="center"
+                mt={1}
+                sx={{ border: '1px solid #ccc', borderRadius: '4px', p: 1 }}
+              >
+                <IconButton>
+                  <SwapVertIcon sx={{ cursor: 'pointer' }} />
+                </IconButton>
                 <TextField
                   value={src}
                   variant="outlined"
@@ -131,10 +155,11 @@ export default function EditSwiperVideoSettings() {
                   onClick={() => handleDeleteVideoSrc(index)}
                   color="error"
                 >
-                  <ClearIcon sx={{cursor: "pointer"}} />
+                  <ClearIcon sx={{ cursor: "pointer" }} />
                 </IconButton>
-              </Box></Box>
-          ))}
+              </Box>
+            ))}
+          </Box>
         </Box>
       </DrawerEditLayout>
     </Box>
