@@ -154,12 +154,18 @@ function Box({ boxid, width, height, position, opacity, zIndex, hidden,
     return null;
   }
 
+  const handleDoubleClick = () => {
+    ppplog('handleDoubleClick33')
+    changeBoxById(boxid, { isEditing: true });
+  };
+
   return (
     <div
       id={boxid}
       ref={boxRef}
       style={boxStyle}
       className={`${classes.box} ${classes.disableSelection} ${animateCssClass} animate__animated`}
+      onDoubleClick={handleDoubleClick}
     >
       {children}
       {!isTestOrDisplay && <BoxResize mainRef={mainRef} boxid={boxid} boxStyle={{ outerX: x, outerY: y, width, height }}
