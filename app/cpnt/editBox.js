@@ -132,7 +132,7 @@ function EditBox() {
                 color="primary"
               />
             }
-            label="Disable Move"
+            label="固定位置"
           />
           <br />
           <br />

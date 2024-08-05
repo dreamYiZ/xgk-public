@@ -51,7 +51,8 @@ function Box({ boxid, width, height, position, opacity, zIndex,
 
 
   useEffect(() => {
-    if (mode !== MODE.EDIT || disableMove) {
+    ppplog('disableMove', disableMove)
+    if (mode !== MODE.EDIT) {
       return () => { }
     }
 
@@ -84,6 +85,10 @@ function Box({ boxid, width, height, position, opacity, zIndex,
       }
 
       if (isMainDragging) {
+        return
+      }
+
+      if (disableMove) {
         return
       }
 
