@@ -102,9 +102,9 @@ function Framework({ children }) {
             </div>
             <div className={controlPanelClass}>
               {showWhenEditing && (
-                <Suspense fallback={<div>Loading...</div>}>
+                // <Suspense fallback={<div>Loading...</div>}>
                   <ControlView onLoad={() => setControlViewLoaded(true)} />
-                </Suspense>
+                // </Suspense>
               )}
             </div>
           </div>

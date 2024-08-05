@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { Suspense, useMemo } from 'react';
 import useBoxStore from '../store/useBo';
 import { MAP_SUB_EDIT } from "./EditSubMap";
 
@@ -16,7 +16,9 @@ function EditSub() {
 
   if (sub && MAP_SUB_EDIT.hasOwnProperty(sub.type)) {
     const Component = MAP_SUB_EDIT[sub.type];
-    return <Component sub={sub} activeBox={activeBox} />;
+    return <Suspense fallback={<div>Loading...</div>}>
+      <Component sub={sub} activeBox={activeBox} />
+    </Suspense>
   }
 
   return <div>
