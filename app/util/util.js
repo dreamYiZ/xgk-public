@@ -26,6 +26,7 @@ import {
 import { THREE_ANIMATE_TYPE } from "./threeAnimateTyle";
 import { AUTO_NEXT_PAGE } from "./autoType";
 import { ANIMATE_TYPE_MARQUEE_IMAGE_VIDEO } from "./animateTypeMarqueeImageVideo";
+import { fingerprint } from "./finger";
 
 export * from "./subType";
 export * from "./constant";
@@ -36,6 +37,7 @@ export * from "./autoType";
 export * from "./timeType";
 export * from "./threeAnimateTyle";
 export * from "./apiFetchUtil";
+export * from "./finger";
 
 const DEMO_FACE_URL = '/demo-face.jpeg';
 
