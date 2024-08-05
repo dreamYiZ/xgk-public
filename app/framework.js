@@ -1,8 +1,7 @@
 "use client"
 // src/components/Framework.js
-import React, { useEffect, useRef, useState, useMemo } from 'react';
+import React, { useEffect, useRef, useState, useMemo, lazy, Suspense } from 'react';
 import Box from '@mui/material/Box';
-import ControlView from "./cpnt/controlView.js"
 import useGlobalStore from './store/useGlobal';
 import useBoxStore from "./store/useBo";
 import { MODE } from './store/useGlobal';
@@ -16,6 +15,8 @@ import classes from "./layout.module.sass";
 
 const ANIMATION_INTERVAL = 100; // Adjust as needed, faster for smoother animation
 
+const ControlView = lazy(() => import("./cpnt/controlView.js"));
+
 function Framework({ children }) {
   const [isClient, setIsClient] = useState(false);
   const { mode, isFullScreenAutoBoolean, showWhenEditing, getIsTestOrDisplay } = useGlobalStore();
@@ -25,6 +26,7 @@ function Framework({ children }) {
   const pathname = usePathname();
   const canvasEl = useRef(null);
   const [fabricCanvas, setFabricCanvas] = useState(null);
+  const [controlViewLoaded, setControlViewLoaded] = useState(false);
 
   useApiToRefreshData();
 
@@ -83,7 +85,11 @@ function Framework({ children }) {
             {children}
           </div>
           <div className={controlPanelClass}>
-            {showWhenEditing && <ControlView />}
+            {showWhenEditing && (
+              // <Suspense fallback={<div>Loading...</div>}>
+                <ControlView onLoad={() => setControlViewLoaded(true)} />
+              // </Suspense>
+            )}
           </div>
         </div>
       </FabricProvider>
@@ -95,7 +101,11 @@ function Framework({ children }) {
               {children}
             </div>
             <div className={controlPanelClass}>
-              {showWhenEditing && <ControlView />}
+              {showWhenEditing && (
+                <Suspense fallback={<div>Loading...</div>}>
+                  <ControlView onLoad={() => setControlViewLoaded(true)} />
+                </Suspense>
+              )}
             </div>
           </div>
         </FabricProvider>

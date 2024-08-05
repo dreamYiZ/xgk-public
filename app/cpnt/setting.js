@@ -8,14 +8,14 @@ import TextField from '@mui/material/TextField';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import ppplog from "ppplog";
 import Typography from '@mui/material/Typography';
 import Slider from '@mui/material/Slider';
+import Switch from '@mui/material/Switch'; // Import Switch
 import { MODE, GLOBAL_STORAGE_KEY } from "../store/useGlobal";
 
 export default function Setting() {
   const { isOpenSetting, openSetting, closeSetting, setLicense, license,
-    themePaletteMode, setThemePaletteMode, mainScale, setMainScale } = useGlobalStore();
+    themePaletteMode, setThemePaletteMode, mainScale, setMainScale, hideAllBox, setHideAllBox } = useGlobalStore();
 
   const downloadConfig = () => {
     const config = JSON.stringify(localStorage, null, 2);
@@ -84,6 +84,10 @@ export default function Setting() {
     setMainScale(newValue);
   };
 
+  const handleHideAllBoxChange = (event) => {
+    setHideAllBox(event.target.checked);
+  };
+
   return (
     <div>
       <Drawer
@@ -145,9 +149,25 @@ export default function Setting() {
             fullWidth
             onChange={handleMainScaleChange}
             min={0.05}
-            max={1}
+            max={2}
             step={0.01}
             valueLabelDisplay="auto"
+          />
+        </Box>
+
+        <Divider />
+
+        <Box sx={{ padding: 2 }}>
+          <FormControlLabel
+            control={
+              <Switch
+                checked={hideAllBox}
+                onChange={handleHideAllBoxChange}
+                name="hideAllBox"
+                color="primary"
+              />
+            }
+            label="隐藏所有Box"
           />
         </Box>
       </Drawer>
