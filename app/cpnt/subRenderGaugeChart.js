@@ -7,8 +7,8 @@ export default function SubRenderGaugeChart({ box, sub }) {
   return (
     <ChartMuiTheme>
       <Gauge
-        width={sub?.width || BASIC_PAYLOAD_GAUGE_CHART.width}
-        height={sub?.height || BASIC_PAYLOAD_GAUGE_CHART.height}
+        width={box?.width || BASIC_PAYLOAD_GAUGE_CHART.width}
+        height={box?.height || BASIC_PAYLOAD_GAUGE_CHART.height}
         value={sub?.value || BASIC_PAYLOAD_GAUGE_CHART.value}
         sx={(theme) => ({
           [`& .${gaugeClasses.valueText}`]: {

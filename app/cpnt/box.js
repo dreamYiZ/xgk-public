@@ -65,6 +65,7 @@ function Box({ boxid, width, height, position, opacity, zIndex, hidden,
 
     const onMouseDown = (e) => {
       if (mode !== MODE.EDIT) return;
+
       setActiveBoxId(boxid);  // Set this box as the active box
       offsetX = e.clientX - boxElement.getBoundingClientRect().left;
       offsetY = e.clientY - boxElement.getBoundingClientRect().top;
