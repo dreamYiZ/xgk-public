@@ -1,32 +1,35 @@
 import { SUB_TYPE } from "../util/util";
-import EditSubText from "./editSubText";
-import EditSubImage from "./editSubImage";
-import EditSubMuiChartGauge from "./editSubMuiChartGauge";
-import EditSubMuiChartPie from "./editSubMuiChartPie";
-import EditSubMuiChartBar from "./EditSubMuiChartBar";
-import EditSubMuiChartLine from "./EditSubMuiChartLine";
-import EditSubMuiChartSTACKING from "./EditSubMuiChartSTACKING";
-import EditSubMuiChartSparkLine from "./EditSubMuiChartSparkLine";
-import EditSubEcharts from "./editSubEcharts";
-import EditSubSprite from "./EditSubSprite";
-import EditSubTime from "./EditSubTime";
-import EditSubVideo from "./EditSubVideo";
-import EditSubMarquee from "./EditSubMarquee";
-import EditSubTable from "./EditSubTable";
-import EditSubTableOneRow from "./EditSubTableOneRow";
-import EditSubSwiper from "./EditSubSwiper";
-import EditSubRollOneLine from "./EditSubRollOneLine";
-import EditSubSwiperImageText from "./EditSubSwiperImageText";
-import EditSubSwiperOnePicture from "./EditSubSwiperOnePicture";
-import EditSubButtonActiveOne from "./EditSubButtonActiveOne";
-import EditSubThreeCanvas from "./EditSubThreeCanvas";
-import EditMarqueeImageVideo from "./EditMarqueeImageVideo";
-import EditSlowUpText from "./EditSlowUpText";
-import EditSlowUpTextTwoColumn from "./EditSlowUpTextTwoColumn";
-import EditFabricCanvas from "./EditFabricCanvas";
-import EditSubChartjs from "./EditSubChartjs";
-import EditSubTableBindData from "./EditSubTableBindData";
-import EditSubSwiperVideo from "./EditSubSwiperVideo";
+import { lazy, Suspense, useMemo } from 'react';
+import useBoxStore from '../store/useBo';
+
+const EditSubText = lazy(() => import("./editSubText"));
+const EditSubImage = lazy(() => import("./editSubImage"));
+const EditSubMuiChartGauge = lazy(() => import("./editSubMuiChartGauge"));
+const EditSubMuiChartPie = lazy(() => import("./editSubMuiChartPie"));
+const EditSubMuiChartBar = lazy(() => import("./EditSubMuiChartBar"));
+const EditSubMuiChartLine = lazy(() => import("./EditSubMuiChartLine"));
+const EditSubMuiChartSTACKING = lazy(() => import("./EditSubMuiChartSTACKING"));
+const EditSubMuiChartSparkLine = lazy(() => import("./EditSubMuiChartSparkLine"));
+const EditSubEcharts = lazy(() => import("./editSubEcharts"));
+const EditSubSprite = lazy(() => import("./EditSubSprite"));
+const EditSubTime = lazy(() => import("./EditSubTime"));
+const EditSubVideo = lazy(() => import("./EditSubVideo"));
+const EditSubMarquee = lazy(() => import("./EditSubMarquee"));
+const EditSubTable = lazy(() => import("./EditSubTable"));
+const EditSubTableOneRow = lazy(() => import("./EditSubTableOneRow"));
+const EditSubSwiper = lazy(() => import("./EditSubSwiper"));
+const EditSubRollOneLine = lazy(() => import("./EditSubRollOneLine"));
+const EditSubSwiperImageText = lazy(() => import("./EditSubSwiperImageText"));
+const EditSubSwiperOnePicture = lazy(() => import("./EditSubSwiperOnePicture"));
+const EditSubButtonActiveOne = lazy(() => import("./EditSubButtonActiveOne"));
+const EditSubThreeCanvas = lazy(() => import("./EditSubThreeCanvas"));
+const EditMarqueeImageVideo = lazy(() => import("./EditMarqueeImageVideo"));
+const EditSlowUpText = lazy(() => import("./EditSlowUpText"));
+const EditSlowUpTextTwoColumn = lazy(() => import("./EditSlowUpTextTwoColumn"));
+const EditFabricCanvas = lazy(() => import("./EditFabricCanvas"));
+const EditSubChartjs = lazy(() => import("./EditSubChartjs"));
+const EditSubTableBindData = lazy(() => import("./EditSubTableBindData"));
+const EditSubSwiperVideo = lazy(() => import("./EditSubSwiperVideo"));
 
 export const MAP_SUB_EDIT = {
   [SUB_TYPE.TEXT]: EditSubText,
@@ -59,6 +62,4 @@ export const MAP_SUB_EDIT = {
   [SUB_TYPE.CHARTJS]: EditSubChartjs,
   [SUB_TYPE.TABLE_BIND_DATA]: EditSubTableBindData,
   [SUB_TYPE.SWIPER_VIDEO]: EditSubSwiperVideo,
-}
-
-
+};

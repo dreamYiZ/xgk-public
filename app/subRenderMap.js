@@ -1,33 +1,34 @@
+import { lazy, Suspense } from 'react';
 import { SUB_TYPE } from "./util/util";
-import SubRenderText from "./cpnt/subRenderText";
-import SubRenderImage from "./cpnt/subRenderImage";
-import SubRenderPieChart from "./cpnt/subRenderPieChart";
-import SubRenderBarChart from './cpnt/subRenderBarChart';
-import SubRenderLineChart from './cpnt/subRenderLineChart';
-import SubRenderGaugeChart from './cpnt/subRenderGaugeChart';
-import SubRenderStackingChart from './cpnt/subRenderStackingChart';
-import SubRenderSparklineChart from './cpnt/subRenderSparklineChart';
-import SubRenderEcharts from './cpnt/subRenderEcharts';
-import SubRenderSprite from "./cpnt/SubRenderSprite";
-import SubRenderTime from "./cpnt/SubRenderTime";
-import SubRenderVideo from "./cpnt/SubRenderVideo";
-import SubRenderMarquee from "./cpnt/SubRenderMarquee";
-import SubRenderTable from "./cpnt/SubRenderTable";
-import SubRenderTableOneRow from "./cpnt/SubRenderTableOneRow";
-import SubRenderSwiper from "./cpnt/SubRenderSwiper";
-import SubRenderRollOneLine from "./cpnt/SubRenderRollOneLine";
-import SubRenderSwiperImageText from "./cpnt/SubRenderSwiperImageText";
-import SubRenderSwiperOnePicture from "./cpnt/SubRenderSwiperOnePicture";
-import SubRenderButtonActiveOne from "./cpnt/SubRenderButtonActiveOne";
-import SubRenderThreeCanvas from "./cpnt/SubRenderThreeCanvas";
-import SubRenderMarqueeImageVideo from "./cpnt/SubRenderMarqueeImageVideo";
-import SubRenderSlowUpText from "./cpnt/SubRenderSlowUpText";
-import SubRenderSlowUpTextTwoColumn from "./cpnt/SubRenderSlowUpTextTwoColumn";
-import SubRenderFabricCanvas from "./cpnt/SubRenderFabricCanvas";
-import SubRenderChartjs from "./cpnt/SubRenderChartjs";
-import SubRenderTableBindData from "./cpnt/SubRenderTableBindData";
-import subRenderSwiperVideo from "./cpnt/subRenderSwiperVideo";
 
+const SubRenderText = lazy(() => import("./cpnt/subRenderText"));
+const SubRenderImage = lazy(() => import("./cpnt/subRenderImage"));
+const SubRenderPieChart = lazy(() => import("./cpnt/subRenderPieChart"));
+const SubRenderBarChart = lazy(() => import('./cpnt/subRenderBarChart'));
+const SubRenderLineChart = lazy(() => import('./cpnt/subRenderLineChart'));
+const SubRenderGaugeChart = lazy(() => import('./cpnt/subRenderGaugeChart'));
+const SubRenderStackingChart = lazy(() => import('./cpnt/subRenderStackingChart'));
+const SubRenderSparklineChart = lazy(() => import('./cpnt/subRenderSparklineChart'));
+const SubRenderEcharts = lazy(() => import('./cpnt/subRenderEcharts'));
+const SubRenderSprite = lazy(() => import("./cpnt/SubRenderSprite"));
+const SubRenderTime = lazy(() => import("./cpnt/SubRenderTime"));
+const SubRenderVideo = lazy(() => import("./cpnt/SubRenderVideo"));
+const SubRenderMarquee = lazy(() => import("./cpnt/SubRenderMarquee"));
+const SubRenderTable = lazy(() => import("./cpnt/SubRenderTable"));
+const SubRenderTableOneRow = lazy(() => import("./cpnt/SubRenderTableOneRow"));
+const SubRenderSwiper = lazy(() => import("./cpnt/SubRenderSwiper"));
+const SubRenderRollOneLine = lazy(() => import("./cpnt/SubRenderRollOneLine"));
+const SubRenderSwiperImageText = lazy(() => import("./cpnt/SubRenderSwiperImageText"));
+const SubRenderSwiperOnePicture = lazy(() => import("./cpnt/SubRenderSwiperOnePicture"));
+const SubRenderButtonActiveOne = lazy(() => import("./cpnt/SubRenderButtonActiveOne"));
+const SubRenderThreeCanvas = lazy(() => import("./cpnt/SubRenderThreeCanvas"));
+const SubRenderMarqueeImageVideo = lazy(() => import("./cpnt/SubRenderMarqueeImageVideo"));
+const SubRenderSlowUpText = lazy(() => import("./cpnt/SubRenderSlowUpText"));
+const SubRenderSlowUpTextTwoColumn = lazy(() => import("./cpnt/SubRenderSlowUpTextTwoColumn"));
+const SubRenderFabricCanvas = lazy(() => import("./cpnt/SubRenderFabricCanvas"));
+const SubRenderChartjs = lazy(() => import("./cpnt/SubRenderChartjs"));
+const SubRenderTableBindData = lazy(() => import("./cpnt/SubRenderTableBindData"));
+const SubRenderSwiperVideo = lazy(() => import("./cpnt/subRenderSwiperVideo"));
 
 const MAP_SUB_RENDER = {
   [SUB_TYPE.TEXT]: SubRenderText,
@@ -59,8 +60,7 @@ const MAP_SUB_RENDER = {
   [SUB_TYPE.FABRIC_CANVAS]: SubRenderFabricCanvas,
   [SUB_TYPE.CHARTJS]: SubRenderChartjs,
   [SUB_TYPE.TABLE_BIND_DATA]: SubRenderTableBindData,
-  [SUB_TYPE.SWIPER_VIDEO]: subRenderSwiperVideo,
-}
-
+  [SUB_TYPE.SWIPER_VIDEO]: SubRenderSwiperVideo,
+};
 
 export { MAP_SUB_RENDER }
