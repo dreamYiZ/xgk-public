@@ -61,7 +61,6 @@ export default function FabricCreator({ setOpenImage }) {
   };
 
   const handleOnMouseUp = (event) => {
-    // ppplog('handleOnMouseUp');
     const dropX = event.clientX;
     const dropY = event.clientY;
 
@@ -70,11 +69,13 @@ export default function FabricCreator({ setOpenImage }) {
       const canvasX = (dropX - rect.left) / mainScale;
       const canvasY = (dropY - rect.top) / mainScale;
 
-      // ppplog('imageRef.current', imageRef.current);
+      // Adjust canvasX and canvasY by considering the width and height offsets
+      const adjustedCanvasX = canvasX - (imageRef.current.width / 2);
+      const adjustedCanvasY = canvasY - (imageRef.current.height / 2);
 
       const imgFab = new fabric.Image(imageRef.current, {
-        left: canvasX,
-        top: canvasY,
+        left: adjustedCanvasX,
+        top: adjustedCanvasY,
         selectable: true,
         hasControls: true
       });
@@ -90,6 +91,7 @@ export default function FabricCreator({ setOpenImage }) {
       handleSave();
     }
   };
+
 
   const handleSave = () => {
     const fabricStr = JSON.stringify(fabricCanvas);

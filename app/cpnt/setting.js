@@ -10,13 +10,12 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import ppplog from "ppplog";
 import Typography from '@mui/material/Typography';
+import Slider from '@mui/material/Slider';
 import { MODE, GLOBAL_STORAGE_KEY } from "../store/useGlobal";
 
 export default function Setting() {
   const { isOpenSetting, openSetting, closeSetting, setLicense, license,
-    themePaletteMode, setThemePaletteMode } = useGlobalStore();
-
-
+    themePaletteMode, setThemePaletteMode, mainScale, setMainScale } = useGlobalStore();
 
   const downloadConfig = () => {
     const config = JSON.stringify(localStorage, null, 2);
@@ -26,7 +25,6 @@ export default function Setting() {
     link.download = 'config.txt';
     link.click();
   };
-
 
   const downloadTestConfig = () => {
     const newLocalStorage = localStorage;
@@ -70,7 +68,6 @@ export default function Setting() {
     reader.readAsText(file);
   };
 
-
   const clearLocalStorage = () => {
     localStorage.clear();
   };
@@ -79,13 +76,13 @@ export default function Setting() {
     setLicense(event.target.value);
   };
 
-
-
   const handleThemeChange = (event) => {
-
     setThemePaletteMode(event.target.value);
   };
 
+  const handleMainScaleChange = (event, newValue) => {
+    setMainScale(newValue);
+  };
 
   return (
     <div>
@@ -94,7 +91,7 @@ export default function Setting() {
         open={isOpenSetting}
         onClose={closeSetting}
       >
-        <Box sx={{ width: 350, padding: 2 }}>
+        <Box sx={{ width: 380, padding: 2 }}>
           <Button onClick={downloadConfig}>下载配置</Button>
           <Button onClick={downloadTestConfig}>下载测试配置</Button>
           <Button onClick={downloadDisplayConfig}>下载展示配置</Button>
@@ -109,12 +106,9 @@ export default function Setting() {
 
         <Divider />
 
-
         <Button onClick={clearLocalStorage}>初始化系统</Button>
 
-
         <Divider />
-
 
         <Box sx={{ padding: 2 }}>
           <Typography variant="h6">主题模式</Typography>
@@ -129,9 +123,7 @@ export default function Setting() {
           </RadioGroup>
         </Box>
 
-
         <Divider />
-
 
         <Box sx={{ padding: 2 }}>
           <TextField
@@ -140,6 +132,22 @@ export default function Setting() {
             onChange={handleLicenseChange}
             fullWidth
             multiline
+          />
+        </Box>
+
+        <Divider />
+
+        <Box sx={{ padding: 2 }}>
+          <Typography variant="h6">画布缩放</Typography>
+          <Typography variant="body1">{mainScale}</Typography>
+          <Slider
+            value={mainScale}
+            fullWidth
+            onChange={handleMainScaleChange}
+            min={0.05}
+            max={1}
+            step={0.01}
+            valueLabelDisplay="auto"
           />
         </Box>
       </Drawer>
