@@ -1,12 +1,12 @@
 import { ANIMATE_TYPES, ppplog } from "../util/util";
 import RenderAnimateContainer from './renderAnimateContainer';
 import useAnimateNumber from './../hooks/useAnimateNumber';
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, memo } from "react";
 import useBoxStore from "../store/useBo";
 import useGlobalStore from "../store/useGlobal";
 import TextField from '@mui/material/TextField';
 
-function SubRenderText({ sub, box }) {
+const SubRenderText = ({ sub, box }) => {
   const { changeById } = useBoxStore();
   const { boxid, isEditing } = box;
   const { mode, getIsTestOrDisplay } = useGlobalStore();
@@ -49,32 +49,32 @@ function SubRenderText({ sub, box }) {
     }
   }, [sub]);
 
-  const handleDoubleClick = () => {
+  const handleDoubleClick = useCallback(() => {
     if (!getIsTestOrDisplay()) {
       ppplog('handleDoubleClick');
       changeById(boxid, { isEditing: true });
     }
-  };
+  }, [boxid, changeById, getIsTestOrDisplay]);
 
-  const handleChange = (e) => {
+  const handleChange = useCallback((e) => {
     setEditContent(e.target.value);
-  };
+  }, []);
 
-  const handleBlur = () => {
+  const handleBlur = useCallback(() => {
     changeById(boxid, { isEditing: false, sub: { ...sub, content: editContent } });
-  };
+  }, [boxid, changeById, editContent, sub]);
 
-  const handleKeyDown = (e) => {
+  const handleKeyDown = useCallback((e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       handleBlur();
     }
-  };
+  }, [handleBlur]);
 
-  const handleMouseDown = (e) => {
+  const handleMouseDown = useCallback((e) => {
     e.stopPropagation();
     return false;
-  };
+  }, []);
 
   return (
     <RenderAnimateContainer
@@ -108,4 +108,4 @@ function SubRenderText({ sub, box }) {
   );
 }
 
-export default SubRenderText;
+export default memo(SubRenderText);
