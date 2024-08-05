@@ -902,6 +902,31 @@ export const createSwiperVideo = () => {
   }
 }
 
+const BASIC_PAYLOAD_ONE_LINE_RIGHT_TO_LEFT = {
+  content: `blablablablabla
+  blablablablablablab
+  lblblblblblblblblbl
+  lblblblblblblblblbl`.repeat(10),
+  speed: 3,
+  fontSize: 26,
+  fontWeight: 500,
+  color: '#FFFFFF',
+  endSpace: 20,
+}
+
+export const createBoxOneLineR2L = () => {
+  return {
+    ...createBoxPayload(),
+    zIndex: 1,
+    width: 300,
+    height: 50,
+    sub: {
+      type: SUB_TYPE.ONE_LINE_RIGHT_TO_LEFT,
+      ...BASIC_PAYLOAD_ONE_LINE_RIGHT_TO_LEFT
+    }
+  }
+}
+
 
 
 export const createMarketTemplates = () => {
@@ -1141,4 +1166,5 @@ export const MAP_TYPE_FACTORY = {
   [SUB_TYPE.CHARTJS]: createBoxChartjs,
   [SUB_TYPE.TABLE_BIND_DATA]: createBoxTableBindData,
   [SUB_TYPE.SWIPER_VIDEO]: createSwiperVideo,
+  [SUB_TYPE.ONE_LINE_RIGHT_TO_LEFT]: createBoxOneLineR2L,
 };

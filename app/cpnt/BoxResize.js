@@ -57,6 +57,11 @@ export default function BoxResize({ outerBoxRef, children, boxid, mainRef, boxSt
     const boxElement = boxRef.current;
     const outerBoxElement = outerBoxRef.current;
     const mainElement = mainRef.current;
+
+    if (!mainElement || !startSizeRef.current) {
+      return;
+    }
+
     const mainRect = mainElement.getBoundingClientRect();
     let newWidth = startSizeRef.current.width / mainScale;
     let newHeight = startSizeRef.current.height / mainScale;

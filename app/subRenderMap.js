@@ -29,6 +29,7 @@ const SubRenderFabricCanvas = lazy(() => import("./cpnt/SubRenderFabricCanvas"))
 const SubRenderChartjs = lazy(() => import("./cpnt/SubRenderChartjs"));
 const SubRenderTableBindData = lazy(() => import("./cpnt/SubRenderTableBindData"));
 const SubRenderSwiperVideo = lazy(() => import("./cpnt/subRenderSwiperVideo"));
+const SubRenderOneLineRightToLeft = lazy(() => import("./cpnt/SubRenderOneLineRightToLeft"));
 
 const MAP_SUB_RENDER = {
   [SUB_TYPE.TEXT]: SubRenderText,
@@ -61,6 +62,7 @@ const MAP_SUB_RENDER = {
   [SUB_TYPE.CHARTJS]: SubRenderChartjs,
   [SUB_TYPE.TABLE_BIND_DATA]: SubRenderTableBindData,
   [SUB_TYPE.SWIPER_VIDEO]: SubRenderSwiperVideo,
+  [SUB_TYPE.ONE_LINE_RIGHT_TO_LEFT]: SubRenderOneLineRightToLeft,
 };
 
 export { MAP_SUB_RENDER }
