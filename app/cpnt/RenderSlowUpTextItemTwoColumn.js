@@ -10,7 +10,6 @@ export default function ({ slowRow, sub }) {
     <Box sx={{ width: '100%', display: "flex", alignItems: "center", justifyContent: "space-between" }}>
       <Box sx={{ color: `${sub.color}` }}>{slowRow.text}</Box>
       <Box sx={{ color: `${sub.colorSecond}` }}>{slowRow.secondText}</Box>
-
     </Box>
   </Box>
 }
