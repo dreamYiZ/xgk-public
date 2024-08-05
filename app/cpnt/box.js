@@ -9,7 +9,7 @@ import { pxToNumber, ifNumberToPx, stringToNumber, debounce } from "../util/util
 // import { debounce } from 'lodash';
 import BoxResize from "./BoxResize";
 
-function Box({ boxid, width, height, position, opacity, zIndex,
+function Box({ boxid, width, height, position, opacity, zIndex, hidden,
   children, groupid, x, y, scale, mainRef, disableMove, ...other }) {
   const boxRef = useRef(null);
   const changeBoxById = useBoxStore((state) => state.changeById);
@@ -31,24 +31,17 @@ function Box({ boxid, width, height, position, opacity, zIndex,
     setShowResize(activeBoxId === boxid);
   }, [activeBoxId, boxid])
 
-
   const debounceMove = useCallback(
     debounce(({
       newX, newY
     }) => { changeBoxById(boxid, { x: newX, y: newY }) }, 300)
     , [changeBoxById]);
 
-
   useEffect(() => {
-
     setTestOrDisplay(getIsTestOrDisplay());
 
-    return () => {
-
-    }
+    return () => { }
   }, [mode])
-
-
 
   useEffect(() => {
     ppplog('disableMove', disableMove)
@@ -61,6 +54,11 @@ function Box({ boxid, width, height, position, opacity, zIndex,
     }
 
     const boxElement = boxRef.current;
+
+    if (!boxElement) {
+      return () => { }
+    }
+
     const mainElement = mainRef.current;
     let offsetX = 0;
     let offsetY = 0;
@@ -150,6 +148,10 @@ function Box({ boxid, width, height, position, opacity, zIndex,
   }), [width, height, position, opacity, x, y, scale, zIndex, activeBoxId, boxid]);  // Add
 
   const animateCssClass = useMemo(() => activeBox?.animateCssClass || '', [activeBox]);
+
+  if (hidden) {
+    return null;
+  }
 
   return (
     <div

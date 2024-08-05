@@ -35,9 +35,10 @@ function EditBox() {
     changeById(activeBoxId, { [property]: event.target.value });
   };
 
-  const handleSwitchChange = (event) => {
-    changeById(activeBoxId, { disableMove: event.target.checked });
+  const handleSwitchChange = (event, property) => {
+    changeById(activeBoxId, { [property]: event.target.checked });
   };
+
 
   const handleCenterClick = () => {
     changeById(activeBoxId, { x: screenWidth / 2, y: screenHeight / 2 });
@@ -127,7 +128,7 @@ function EditBox() {
             control={
               <Switch
                 checked={activeBox.disableMove}
-                onChange={handleSwitchChange}
+                onChange={(event) => handleSwitchChange(event, 'disableMove')}
                 name="disableMove"
                 color="primary"
               />
@@ -136,6 +137,22 @@ function EditBox() {
           />
           <br />
           <br />
+
+
+          <FormControlLabel
+            control={
+              <Switch
+                checked={activeBox.hidden}
+                onChange={(event) => handleSwitchChange(event, 'hidden')}
+                name="hidden"
+                color="primary"
+              />
+            }
+            label="隐藏"
+          />
+          <br />
+          <br />
+
 
           <TextField label="Z-层级" value={activeBox.zIndex} onChange={(event) => handleInputChange(event, 'zIndex')} />
           <br />

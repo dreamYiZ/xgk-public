@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, lazy, Suspense } from 'react';
 import { Radio, RadioGroup, FormControlLabel, FormControl, FormLabel, TextField, Tabs, Tab, Box, IconButton } from '@mui/material';
 import classes from "./sidePanel.module.sass"
 import useGlobalStore from '../store/useGlobal';
@@ -7,7 +7,7 @@ import { Snackbar } from '@mui/material';
 import Alert from '@mui/material/Alert';
 import EditPage from "./editPage";
 import EditBox from "./editBox";
-import EditMarket from "./editMarket";
+// import EditMarket from "./editMarket";
 import { Button } from '@mui/material';
 import useBoxStore from '../store/useBo';
 import ppplog from 'ppplog';
@@ -26,6 +26,10 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import FeaturedPlayListIcon from '@mui/icons-material/FeaturedPlayList';
 import PageManage from "./PageManage";
 import FlipCameraAndroidIcon from '@mui/icons-material/FlipCameraAndroid';
+import EditTabContainer from "./editTabContainer";
+
+const EditMarket = lazy(() => import('./editMarket'));
+
 
 
 function SidePanel() {
@@ -219,36 +223,28 @@ function SidePanel() {
       <Box display="flex" justifyContent="space-between" mb={2}>
         {activeBoxId && <Button variant="outlined" color="primary" onClick={handelClearActiveId}>取消</Button>}
 
-
-        {!activeBoxId && <IconButton onClick={clearMainDivState}>  {/* 添加一个 IconButton 来打开设置面板 */}
+        {!activeBoxId && <IconButton onClick={clearMainDivState}>
           <FlipCameraAndroidIcon />
-        </IconButton>
-        }
-        {/* {!activeBoxId && <Button variant="outlined" color="primary" onClick={clearMainDivState}>取消</Button>} */}
-        <IconButton onClick={handleOpenSettings}>  {/* 添加一个 IconButton 来打开设置面板 */}
+        </IconButton>}
+        <IconButton onClick={handleOpenSettings}>
           <SettingsIcon />
         </IconButton>
-
-        <IconButton onClick={handleOpenPageManage}>  {/* 添加一个 IconButton 来打开设置面板 */}
+        <IconButton onClick={handleOpenPageManage}>
           <FeaturedPlayListIcon />
         </IconButton>
-
-        <IconButton onClick={handleOpenDataControlCenter}>  {/* 添加一个 IconButton 来打开数据控制中心 */}
+        <IconButton onClick={handleOpenDataControlCenter}>
           <BarChartIcon />
         </IconButton>
-
         <Button variant="outlined" color="primary" onClick={handleFullscreen}>全屏</Button>
       </Box>
-      <FormControl component="fieldset" className={classes.oneLine} >
+      <FormControl component="fieldset" className={classes.oneLine}>
         <RadioGroup row={true} aria-label="mode" name="mode" value={mode} onChange={handleChange} className={classes['radio-group']}>
           <FormControlLabel value={MODE.EDIT} control={<Radio />} label="编辑" />
           <FormControlLabel value={MODE.TEST} control={<Radio />} label="测试" />
           <FormControlLabel value={MODE.DISPLAY} control={<Radio />} label="展示" />
         </RadioGroup>
-
       </FormControl>
       <br />
-
       <Tabs value={tabValue} onChange={(event, newValue) => setTabValue(newValue)} aria-label="simple tabs example">
         <Tab label="页面" />
         <Tab label="组件" />
@@ -256,103 +252,85 @@ function SidePanel() {
       </Tabs>
 
       <Box style={{ display: tabValue === 0 ? 'block' : 'none' }}>
-        <Accordion>
-          <AccordionSummary
-            expandIcon={<ArrowDownwardIcon />}
-            aria-controls="panel1-content"
-            id="panel1-header"
-          >
-            <Typography>编辑页面</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Box>
-              <br />
-              <TextField label="屏幕宽度" value={screenWidth} onChange={handleWidthChange} />
-              <br />
-              <br />
-              <TextField label="屏幕高度" value={screenHeight} onChange={handleHeightChange} />
-              <br />
-              <br />
-
-              <Button variant="contained" component="label">
-                上传文件
-                <input ref={fileInput} type="file" hidden onChange={handleFileChange} />
-              </Button>
-              <Button color="success" onClick={selectImage}>选择图片</Button>
-              <Button onClick={handleUploadClick}>确定</Button>
-              <br />
-
-
-              <br />
+        <EditTabContainer>
+          <Accordion>
+            <AccordionSummary
+              expandIcon={<ArrowDownwardIcon />}
+              aria-controls="panel1-content"
+              id="panel1-header"
+            >
+              <Typography>编辑页面</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
               <Box>
-                <TextField label="输入图片地址" value={imageUrl} onChange={handleImageUrlChange} />
-                <Button onClick={handleConfirmClick}>确定</Button>
+                <br />
+                <TextField label="屏幕宽度" value={screenWidth} onChange={handleWidthChange} />
+                <br />
+                <br />
+                <TextField label="屏幕高度" value={screenHeight} onChange={handleHeightChange} />
+                <br />
+                <br />
+                <Button variant="contained" component="label">
+                  上传文件
+                  <input ref={fileInput} type="file" hidden onChange={handleFileChange} />
+                </Button>
+                <Button color="success" onClick={selectImage}>选择图片</Button>
+                <Button onClick={handleUploadClick}>确定</Button>
+                <br />
+                <br />
+                <Box>
+                  <TextField label="输入图片地址" value={imageUrl} onChange={handleImageUrlChange} />
+                  <Button onClick={handleConfirmClick}>确定</Button>
+                </Box>
+                {preview && (preview.startsWith('blob:') ? <img style={{ width: "100px", height: "60px" }} src={preview} alt="Preview" /> : <p>{preview}</p>)}
+                <Box mt={2}>
+                  <Button color='warning' variant='outlined' onClick={handleResetBgClick}>重置</Button>
+                </Box>
+                <Box sx={{ paddingTop: 1 }}></Box>
+                <FormControl>
+                  <FormLabel id="demo-controlled-radio-buttons-group">全屏适配</FormLabel>
+                  <RadioGroup
+                    aria-labelledby="demo-controlled-radio-buttons-group"
+                    name="controlled-radio-buttons-group"
+                    value={isFullScreenAuto}
+                    onChange={onChangeFullScreenAuto}
+                    row
+                  >
+                    <FormControlLabel value="yes" control={<Radio />} label="是" />
+                    <FormControlLabel value="no" control={<Radio />} label="否" />
+                  </RadioGroup>
+                </FormControl>
               </Box>
-
-              {preview && (preview.startsWith('blob:') ? <img style={{ width: "100px", height: "60px" }} src={preview} alt="Preview" /> : <p>{preview}</p>)}
-
-
-
-              <Box mt={2}>
-                <Button color='warning' variant='outlined' onClick={handleResetBgClick}>重置</Button>
-              </Box>
-
-              <Box sx={{ paddingTop: 1 }}></Box>
-              <FormControl>
-                <FormLabel id="demo-controlled-radio-buttons-group">全屏适配</FormLabel>
-                <RadioGroup
-                  aria-labelledby="demo-controlled-radio-buttons-group"
-                  name="controlled-radio-buttons-group"
-                  value={isFullScreenAuto}
-                  onChange={onChangeFullScreenAuto}
-                  row
-                >
-                  <FormControlLabel value="yes" control={<Radio />} label="是" />
-                  <FormControlLabel value="no" control={<Radio />} label="否" />
-                </RadioGroup>
-              </FormControl>
-            </Box>
-
-
-
-
-
-          </AccordionDetails>
-        </Accordion>
-
-        <EditPage />
+            </AccordionDetails>
+          </Accordion>
+          <EditPage />
+        </EditTabContainer>
       </Box>
 
       <Box style={{ display: tabValue === 1 ? 'block' : 'none' }}>
-
-
         <EditBox />
       </Box>
 
       <Box style={{ display: tabValue === 2 ? 'block' : 'none' }}>
-        {/* 市场标签页的内容 */}
-
-        <EditMarket />
+        <Suspense fallback={<div>Loading...</div>}>
+          <EditMarket />
+        </Suspense>
       </Box>
-
 
       <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={() => setOpenSnackbar(false)}>
         <Alert onClose={() => setOpenSnackbar(false)} severity="error" sx={{ width: '100%' }}>
           {errorMessage}
         </Alert>
       </Snackbar>
-      <Setting />  {/* 设置面板 */}
-      <ChooseImage handleChoose={handleChoose} show={showSelectImage} handleClose={() => {
-        setShowSelectImage(false);
-      }} />
-
-      <PageManage show={isShowPageManage} handleClose={() => {
-        setIsShowPageManage(false);
-      }} />
-
+      <Setting />
+      <ChooseImage handleChoose={handleChoose} show={showSelectImage} handleClose={() => setShowSelectImage(false)} />
+      <PageManage show={isShowPageManage} handleClose={() => setIsShowPageManage(false)} />
       <DataCenter show={isShowDataCenter} setShow={setIsShowDataCenter} />
     </div>
   );
+
 }
 
 export default SidePanel;
+
+
