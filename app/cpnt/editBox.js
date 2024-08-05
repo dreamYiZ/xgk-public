@@ -2,7 +2,7 @@ import useBoxStore from '../store/useBo';
 import useGlobalStore from '../store/useGlobal';
 import ppplog from "ppplog";
 import EditSub from "./editSub";
-import { TextField, Button, Autocomplete, FormControl } from '@mui/material';
+import { TextField, Button, Autocomplete, FormControl, Switch, FormControlLabel } from '@mui/material';
 import EditTabContainer from "./editTabContainer";
 import Box from '@mui/material/Box';
 import { useState, useEffect, useMemo } from "react";
@@ -33,6 +33,10 @@ function EditBox() {
 
   const handleInputChange = (event, property) => {
     changeById(activeBoxId, { [property]: event.target.value });
+  };
+
+  const handleSwitchChange = (event) => {
+    changeById(activeBoxId, { disableMove: event.target.checked });
   };
 
   const handleCenterClick = () => {
@@ -116,6 +120,20 @@ function EditBox() {
           <br />
 
           <TextField label="box名" value={activeBox.name} onChange={(event) => handleInputChange(event, 'name')} />
+          <br />
+          <br />
+
+          <FormControlLabel
+            control={
+              <Switch
+                checked={activeBox.disableMove}
+                onChange={handleSwitchChange}
+                name="disableMove"
+                color="primary"
+              />
+            }
+            label="Disable Move"
+          />
           <br />
           <br />
 

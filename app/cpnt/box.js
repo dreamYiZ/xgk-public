@@ -10,7 +10,7 @@ import { pxToNumber, ifNumberToPx, stringToNumber, debounce } from "../util/util
 import BoxResize from "./BoxResize";
 
 function Box({ boxid, width, height, position, opacity, zIndex,
-  children, groupid, x, y, scale, mainRef, ...other }) {
+  children, groupid, x, y, scale, mainRef, disableMove, ...other }) {
   const boxRef = useRef(null);
   const changeBoxById = useBoxStore((state) => state.changeById);
   const setActiveBoxId = useBoxStore((state) => state.setActiveBoxId);  // Access the 'setActiveBoxId' function
@@ -51,7 +51,7 @@ function Box({ boxid, width, height, position, opacity, zIndex,
 
 
   useEffect(() => {
-    if (mode !== MODE.EDIT) {
+    if (mode !== MODE.EDIT || disableMove) {
       return () => { }
     }
 
@@ -87,26 +87,11 @@ function Box({ boxid, width, height, position, opacity, zIndex,
         return
       }
 
-      // let newX = e.clientX - mouseOffset.current.offsetX;
-      // let newY = e.clientY - mouseOffset.current.offsetY;
-
-
-      // let newX = e.clientX - offsetX - mainElement.getBoundingClientRect().left;
-      // let newY = e.clientY - offsetY - mainElement.getBoundingClientRect().top;
-
-      // if (scale) {
-      //   newX = e.clientX - offsetX - mainElement.getBoundingClientRect().left + boxElement.getBoundingClientRect().width * (stringToNumber(scale) - 1) / 2 / stringToNumber(scale);
-      //   newY = e.clientY - offsetY - mainElement.getBoundingClientRect().top + boxElement.getBoundingClientRect().height * (stringToNumber(scale) - 1) / 2 / stringToNumber(scale);
-      // }
-
       const deltaX = (e.clientX - startPosRef.current.x) / mainScale;
       const deltaY = (e.clientY - startPosRef.current.y) / mainScale;
 
-
       let newX = pxToNumber(boxElement.style.left || 0) + deltaX;
       let newY = pxToNumber(boxElement.style.top || 0) + deltaY;
-      // ppplog('newX,newY', newX, newY, e.clientX, e.clientY, offsetX, offsetY, mainElement.getBoundingClientRect().left, mainElement.getBoundingClientRect().top,
-      //   boxElement.getBoundingClientRect().width * (stringToNumber(scale) - 1) / 2, boxElement.getBoundingClientRect().height * (stringToNumber(scale) - 1) / 2)
 
       // 边界检查
       if (newX < 0) newX = 0;
@@ -129,8 +114,6 @@ function Box({ boxid, width, height, position, opacity, zIndex,
         x: e.clientX,
         y: e.clientY,
       }
-
-
     };
 
     const onMouseUp = () => {
@@ -147,7 +130,7 @@ function Box({ boxid, width, height, position, opacity, zIndex,
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
     };
-  }, [boxid, changeBoxById, mode, scale, mainScale, isMainDragging, isCanvasEditing]);
+  }, [boxid, changeBoxById, mode, scale, mainScale, isMainDragging, isCanvasEditing, disableMove]);
 
   const boxStyle = useMemo(() => ({
     width: ifNumberToPx(width),
@@ -157,13 +140,11 @@ function Box({ boxid, width, height, position, opacity, zIndex,
     left: ifNumberToPx(x),
     top: ifNumberToPx(y),
     zIndex: zIndex,
-    // cursor: isSpacePress ? "grab" : 'default',
     outline: activeBoxId === boxid ? '2px dashed #7CB9E8' : 'none',  // Changed 'border' to 'outline'
     transform: `scale(${scale})`,
   }), [width, height, position, opacity, x, y, scale, zIndex, activeBoxId, boxid]);  // Add
 
   const animateCssClass = useMemo(() => activeBox?.animateCssClass || '', [activeBox]);
-
 
   return (
     <div

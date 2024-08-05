@@ -21,7 +21,6 @@ export default function SubRenderFabricCanvas({ box, sub }) {
       const options = {};
       const canvas = new fabric.Canvas(canvasEl.current, options);
 
-
       setFabricCanvas(canvas);
 
       return () => {
@@ -33,35 +32,39 @@ export default function SubRenderFabricCanvas({ box, sub }) {
 
   useEffect(() => {
     if (data && fabricCanvas) {
-
       fabricCanvas.loadFromJSON(data).then(function () {
-
         if (_isTestOrDisplay) {
           fabricCanvas.forEachObject(function (o) {
             o.selectable = false;
           });
         }
-
-        fabricCanvas.renderAll()
-      })
+        fabricCanvas.renderAll();
+      });
     }
-
-  }, [fabricCanvas, data, box?.width, box?.height, _isTestOrDisplay])
-
-
+  }, [fabricCanvas, data, box?.width, box?.height, _isTestOrDisplay]);
 
   useEffect(() => {
-
     if (getIsTestOrDisplay()) {
       set_IsTestOrDisplay(true);
     }
-  }, [mode])
+  }, [mode]);
 
-
+  useEffect(() => {
+    if (fabricCanvas) {
+      fabricCanvas.setWidth(box.width);
+      fabricCanvas.setHeight(box.height);
+      fabricCanvas.renderAll();
+    }
+  }, [box.width, box.height, fabricCanvas]);
 
   return (
-    <div style={{ width: box.width, height: box.height, overflow: 'hidden', position: 'relative' }}>
-      <canvas width={box.width} height={box.height} ref={canvasEl}
+    <div
+      style={{ width: box.width, height: box.height, overflow: 'hidden', position: 'relative' }}
+    >
+      <canvas
+        width={box.width}
+        height={box.height}
+        ref={canvasEl}
         style={{ zIndex: 9999 }}
       />
     </div>

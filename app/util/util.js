@@ -796,6 +796,7 @@ export const createBoxFabricCanvas = () => {
     zIndex: 999,
     width: '320px',
     height: '500px',
+    disableMove: true,
     sub: {
       type: SUB_TYPE.FABRIC_CANVAS,
       ...BASIC_PAYLOAD_FABRIC_CANVAS
