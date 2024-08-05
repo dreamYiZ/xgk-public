@@ -9,6 +9,8 @@ import useGlobalStore from '../store/useGlobal';
 import usePageManager from "../hooks/usePageManager";
 import useAutoStore, { AUTO_NEXT_PAGE } from "../store/useAutoStore";
 import { CMD, ppplog } from "../util/util";
+import EditPageAutoNextCustom from "./EditPageAutoNextCustom";
+
 
 export default function PageManage({ show, handleClose }) {
   const {
@@ -105,6 +107,7 @@ export default function PageManage({ show, handleClose }) {
             <Tabs value={tabValue} onChange={(event, newValue) => setTabValue(newValue)} aria-label="simple tabs example">
               <Tab label="页面" />
               <Tab label="自动" />
+              <Tab label="分时换页" />
             </Tabs>
 
             <Box mb={1} />
@@ -123,6 +126,9 @@ export default function PageManage({ show, handleClose }) {
                 )}
               </Box>
               <Box mt={1}>
+                <Box sx={{ width: "100%", textAlign: "right" }}>
+                  <Box sx={{marginRight: "20%"}}>否切换背景</Box>
+                </Box>
                 {pageList.map((page, index) => (
                   <DisplayPageItem
                     key={page.id}
@@ -164,6 +170,11 @@ export default function PageManage({ show, handleClose }) {
                 />
               </Box>
             </Box>
+
+            <Box hidden={tabValue !== 2}>
+              <EditPageAutoNextCustom />
+            </Box>
+
           </Box>
         </Drawer>
       )}

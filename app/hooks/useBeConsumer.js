@@ -1,7 +1,10 @@
 import { useEffect, useCallback, useState } from 'react';
 import useBoxStore from "../store/useBo";
 import useBeStore from "../store/useBe";
-import { ppplog, CMD, SPRINT_STATUS } from "../util/util";
+import {
+  isDev, ppplog, CMD,
+  SPRINT_STATUS
+} from "../util/util";
 import { trimStringToIntOrNull } from "../util/numberUtil";
 import usePageManager from "../hooks/usePageManager";
 import useGlobalStore from "../store/useGlobal";
@@ -29,7 +32,7 @@ export default function useBeCustomer() {
   const { getIsTestOrDisplay, mode } = useGlobalStore();
 
 
-  const { changeCurrentPage, rollNextPage } = usePageManager()
+  const { changeCurrentPage, rollNextPage, rollNextPageWithCustomTime } = usePageManager()
 
   const [canConsume, setCanConsume] = useState(false);
 
@@ -86,11 +89,20 @@ export default function useBeCustomer() {
 
     }
 
+    if (cmd === CMD.NEXT_PAGE_CUSTOM) {
+      rollNextPageWithCustomTime()
+    }
+
     consumeBe(beItem);
   }, [getById, changeById]);
 
 
   const _consumeEvIfGood = useCallback((eventArr) => {
+
+    if (isDev) {
+      window.be = eventArr;
+    }
+
 
     // Take the first event from the array
     const firstEvent = eventArr[0];

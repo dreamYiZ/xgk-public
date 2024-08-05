@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from 'react';
 import useAutoStore from "../store/useAutoStore";
-import { ppplog } from "../util/util";
+import { ppplog, isDev } from "../util/util";
 import useBeStore from "../store/useBe";
 import useGlobalStore from "../store/useGlobal";
 
@@ -13,8 +13,15 @@ export default function useAutoConsumer() {
   const timeoutIdArrayRef = useRef([]);
 
   useEffect(() => {
+
+
     const _enabledAutoList = autoList.filter(e => !e?.disabled);
     setEnabledAutoList(_enabledAutoList);
+
+    if (isDev) {
+      window.autoList = autoList;
+      window.enabledAutoList = _enabledAutoList;
+    }
   }, [autoList]);
 
   useEffect(() => {
@@ -23,6 +30,11 @@ export default function useAutoConsumer() {
     }
 
     enabledAutoList.forEach(enabledAuto => {
+
+      // if (enabledAuto.booster) {
+      // return;
+      // }
+
       const addAutoTimeout = () => {
         let timeoutIdForDoingSomething;
         const timeoutId = setTimeout(() => {
@@ -39,7 +51,9 @@ export default function useAutoConsumer() {
             }, 1000 * enabledAuto.duration);
           }
 
-          addAutoTimeout();
+          if (!enabledAuto.booster) {
+            addAutoTimeout();
+          }
         }, 1000 * enabledAuto.duration);
 
         timeoutIdArrayRef.current.push(timeoutId);
@@ -58,7 +72,8 @@ export default function useAutoConsumer() {
 
       timeoutIdArrayRef.current = [];
     };
-  }, [enabledAutoList, mode, getIsTestOrDisplay, isUserDoingSomething, addEventSortByTime, setIsUserDoingSomething]);
+  }, [enabledAutoList, mode, getIsTestOrDisplay, isUserDoingSomething,
+    addEventSortByTime, setIsUserDoingSomething]);
 
   useEffect(() => {
     if (delayIsUserDoingSomething <= 0) {

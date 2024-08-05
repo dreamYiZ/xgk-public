@@ -106,3 +106,11 @@ NEXT_PUBLIC_INIT=AUTO  //自动装载public文件夹下config.txt配置
 
 ### 素材库地址
 /mimage
+
+
+
+## window查询
+
+be  事件
+autoList 自动脚本
+enabledAutoList 启用的自动脚本

@@ -4,10 +4,10 @@ import usePageStore from "../store/usePage";
 import { ppplog } from "../util/util";
 import { v4 as uuidv4 } from 'uuid';
 import { useCallback, useRef } from 'react';
+import useBeStore from "../store/useBe";
+import { AUTO_NEXT_PAGE_CUSTOM } from "../store/useAutoStore";
 
 export default function () {
-
-
   const {
     pageList,
     currentPage,
@@ -21,14 +21,11 @@ export default function () {
 
   const { boxArr, setBoxArr } = useBoxStore();
   const { bg, bgVideo, setBgVideo, setBg } = useGlobalStore();
+  const { addEventSortByTime } = useBeStore();
 
   const currentPageIndexRef = useRef(0);
 
-  // ppplog('pageList', pageList, currentPageId)
-
   const changeCurrentPage = (id) => {
-    // ppplog('changeCurrentPage', id);
-    // return;
     const { getPageById } = usePageStore.getState();
     const page = getPageById(id);
     usePageStore.setState({ currentPage: page, currentPageId: id });
@@ -43,41 +40,59 @@ export default function () {
         setBg(page.bg);
       }
     }
-
   };
 
   const rollNextPage = () => {
-    // ppplog('rollNextPage',)
     const pageListLength = pageList.length;
 
     if (pageListLength <= 1) {
       return;
     }
 
-    // ppplog('rollNextPage', 1)
     if (currentPage && currentPageId) {
-      // ppplog('rollNextPage', 2, currentPageIndexRef.current)
-
-      // const currentPageIndex = pageList.findIndex(p => p.id === currentPageId);
-      // ppplog('currentPageIndex', currentPageIndex, pageListLength)
       if (currentPageIndexRef.current < pageListLength - 1) {
-        // ppplog('rollNextPage', 3)
-
-        changeCurrentPage(pageList[++currentPageIndexRef.current].id)
+        changeCurrentPage(pageList[++currentPageIndexRef.current].id);
       } else {
-        // ppplog('rollNextPage', 4)
-
-        changeCurrentPage(pageList[0].id)
+        changeCurrentPage(pageList[0].id);
         currentPageIndexRef.current = 0;
       }
     } else {
-      // ppplog('rollNextPage', 5)
+      changeCurrentPage(pageList[0].id);
+    }
+  };
 
-      changeCurrentPage(pageList[0].id)
+  const rollNextPageWithCustomTime = () => {
+    const pageListLength = pageList.length;
+
+    if (pageListLength <= 1) {
+      return;
     }
 
-  }
+    if (currentPage && currentPageId) {
+      if (currentPageIndexRef.current < pageListLength - 1) {
+        changeCurrentPage(pageList[++currentPageIndexRef.current].id);
 
+        setTimeout(() => {
+          addEventSortByTime({
+            ...AUTO_NEXT_PAGE_CUSTOM.be,
+            time: +new Date() + pageList[currentPageIndexRef.current].nextTime * 1000,
+          });
+        }, 50)
+      } else {
+        changeCurrentPage(pageList[0].id);
+        currentPageIndexRef.current = 0;
+
+        setTimeout(() => {
+          addEventSortByTime({
+            ...AUTO_NEXT_PAGE_CUSTOM.be,
+            time: +new Date() + pageList[0].nextTime * 1000,
+          });
+        }, 50)
+      }
+    } else {
+      changeCurrentPage(pageList[0].id);
+    }
+  };
 
   const addCurrentToNewPage = () => {
     addPage({
@@ -93,5 +108,6 @@ export default function () {
     changeCurrentPage,
     addCurrentToNewPage,
     rollNextPage,
-  }
+    rollNextPageWithCustomTime,
+  };
 }

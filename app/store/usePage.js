@@ -3,11 +3,16 @@ import { persist } from 'zustand/middleware';
 import { v4 as uuidv4 } from 'uuid';
 
 
+// export const NEXT_MODE_PAGE = {
+//   AUTO: 'AUTO',
+//   CUSTOM: 'CUSTOM',
+// }
 
 const type_page = {
   bo: [],
   name: '',
   notChangeBg: false,
+  nextTime: 10,
 }
 
 export const PAGE_STORAGE_KEY = 'page-storage';
@@ -19,6 +24,8 @@ const usePageStore = create(persist(
     ],
     currentPage: null,
     currentPageId: null,
+    // nextMode: NEXT_MODE_PAGE.AUTO,
+
 
     setPageList: (newPageList) => set({
       pageList: newPageList,

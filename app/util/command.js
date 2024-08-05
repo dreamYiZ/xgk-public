@@ -3,6 +3,7 @@ export const CMD = {
   HIDE: "HIDE",
   GOTO: "GOTO",
   NEXT_PAGE: "NEXT_PAGE",
+  NEXT_PAGE_CUSTOM: "NEXT_PAGE_CUSTOM",
 }
 
 
@@ -12,14 +13,15 @@ export const CMD_DISPLAY = {
   [CMD.HIDE]: '隐藏',
   [CMD.GOTO]: '切换页面',
   [CMD.NEXT_PAGE]: '下一页面',
+  [CMD.NEXT_PAGE_CUSTOM]: "分时换页",
 }
 
 
-export const CMD_TIME ={
+export const CMD_TIME = {
   NOW: 'NOW',
   AFTER_3S: 'AFTER_3S',
 }
-export const CMD_TIME_DISPLAY ={
+export const CMD_TIME_DISPLAY = {
   [CMD_TIME.NOW]: '立即执行',
   [CMD_TIME.AFTER_3S]: '三秒之后',
 }
