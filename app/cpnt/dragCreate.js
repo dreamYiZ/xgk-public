@@ -18,26 +18,20 @@ import DragCreate from "./dragCreate";
 import OpenWithIcon from '@mui/icons-material/OpenWith';
 import Box from '@mui/material/Box';
 import { SUB_TYPE } from "../util/util";
-
+import useGlobalStore from "../store/useGlobal";
 
 export default function ({ marketItem, setOpen }) {
-
   const [doingCreate, setDoingCreate] = useState(false);
   const [coords, setCoords] = useState({ x: 0, y: 0 });
+  const { mainDivLeft, mainDivTop, mainScale } = useGlobalStore();
 
   const coordsRef = useRef({ x: 0, y: 0 });
-
-
 
   const debounceMove = debounce(({
     newX, newY
   }) => {
-    setCoords({ x: newX, y: newY })
-
-    // changeBoxById(boxid, { x: newX, y: newY })
-  }, 5)
-
-
+    setCoords({ x: newX, y: newY });
+  }, 5);
 
   const addNewBoxDrag = ({ type, x, y }) => {
     if (typeof MAP_TYPE_FACTORY[type] === 'function') {
@@ -48,7 +42,7 @@ export default function ({ marketItem, setOpen }) {
         if (
           useBoxStore.getState().boxArr.find(i => i.sub.type === SUB_TYPE.FABRIC_CANVAS)
         ) {
-          alert("已存在Fabric画布")
+          alert("已存在Fabric画布");
         } else {
           useBoxStore.getState().add(newBox);
         }
@@ -63,45 +57,25 @@ export default function ({ marketItem, setOpen }) {
 
   const onMouseDownHandlerDragCreate = () => {
     setDoingCreate(true);
-    // ppplog('onMouseDownHandlerDragCreate')
-  }
-
-  const handleKeyUp = (event) => {
-    if (event.key === 'v') {
-      clearTimeout(keyPressTimeout);
-      setKeyUpHide(true);
-    }
   };
 
-
   const handleMouseUp = (event) => {
-    const _coords = coordsRef.current
-
-    // ppplog('handleMouseUp', _coords, {
-    //   x: getRelativePosX(_coords.x),
-    //   y: getRelativePosY(_coords.y),
-    // }, event)
+    const _coords = coordsRef.current;
 
     const frameworkEl = document.querySelector(FRAMEWORK_ID_SELECTOR);
     const frameworkElPos = frameworkEl.getBoundingClientRect();
 
-    // ppplog('frameworkElPos', frameworkElPos)
-
-
     if (frameworkElPos.left < event.x && frameworkElPos.right > event.x
       && frameworkElPos.top < event.y && frameworkElPos.bottom > event.y) {
-      addNewBoxDrag(
-        {
-          type: marketItem.type,
-          x: getRelativePosX(_coords.x),
-          y: getRelativePosY(_coords.y),
-        }
-      )
+      addNewBoxDrag({
+        type: marketItem.type,
+        x: (getRelativePosX(_coords.x) - mainDivLeft),
+        y: (getRelativePosY(_coords.y) - mainDivTop),
+      });
     }
 
-
     setDoingCreate(false);
-  }
+  };
 
   const handleMouseMove = (event) => {
     coordsRef.current = { x: event.clientX, y: event.clientY };
@@ -109,37 +83,34 @@ export default function ({ marketItem, setOpen }) {
     debounceMove({
       newX: event.clientX,
       newY: event.clientY,
-    })
-    // setCoords({ x: event.clientX, y: event.clientY })
+    });
   };
-
 
   useEffect(() => {
     if (doingCreate) {
-
       window.addEventListener('mousemove', handleMouseMove);
       window.addEventListener('mouseup', handleMouseUp);
-
-
     }
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, [doingCreate]);
 
-    }
-
-  }, [doingCreate])
-
-  return <div>
-    <IconButton onMouseDown={onMouseDownHandlerDragCreate}>
-      <DifferenceIcon />
-    </IconButton>
-    {doingCreate && <Box style={{
-      position: "fixed",
-      left: `${coords.x}px`,
-      top: `${coords.y}px`,
-    }}>
-      <OpenWithIcon />
-    </Box>}
-  </div>
+  return (
+    <div>
+      <IconButton onMouseDown={onMouseDownHandlerDragCreate}>
+        <DifferenceIcon />
+      </IconButton>
+      {doingCreate && (
+        <Box style={{
+          position: "fixed",
+          left: `${coords.x + 10}px`, // Adjusted position
+          top: `${coords.y + 10}px`,  // Adjusted position
+        }}>
+          <OpenWithIcon />
+        </Box>
+      )}
+    </div>
+  );
 }

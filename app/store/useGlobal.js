@@ -44,6 +44,7 @@ const useGlobalStore = create(persist(
     isSpacePress: false,
     isCanvasEditing: false,
     hideAllBox: false,
+    mouseXYColor: '#FFFFFF',
 
     setMode: (_mode) => set(() => ({ mode: _mode })),
     setScreenWidth: (_width) => set(() => ({ screenWidth: _width })),
@@ -103,6 +104,7 @@ const useGlobalStore = create(persist(
     setIsSpacePress: (isSpacePress) => set(() => ({ isSpacePress: isSpacePress })),
     setIsCanvasEditing: (isCanvasEditing) => set(() => ({ isCanvasEditing: isCanvasEditing })),
     setHideAllBox: (hideAllBox) => set(() => ({ hideAllBox: hideAllBox })),
+    setMouseXYColor: (mouseXYColor) => set(() => ({ mouseXYColor: mouseXYColor })),
   }),
   {
     name: GLOBAL_STORAGE_KEY,

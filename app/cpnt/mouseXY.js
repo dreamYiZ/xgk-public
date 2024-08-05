@@ -8,7 +8,9 @@ export default function () {
   const [keyPressTimeout, setKeyPressTimeout] = useState(null);
   const [keyUpHide, setKeyUpHide] = useState(true);
 
-  const { showWhenEditing } = useGlobal();
+  const { showWhenEditing, mainDivLeft, mainDivTop,
+    mouseXYColor
+  } = useGlobal();
 
   const handleKeyDown = (event) => {
     if (event.key === 'v') {
@@ -51,8 +53,9 @@ export default function () {
       {showWhenEditing() && !keyUpHide && show && (
         <div style={{
           position: 'absolute',
-          left: `${coords.x - 300 + document.querySelector(FRAMEWORK_ID_SELECTOR).scrollLeft}px`,
-          top: `${coords.y + document.querySelector(FRAMEWORK_ID_SELECTOR).scrollTop}px`
+          left: `${coords.x - 300 + document.querySelector(FRAMEWORK_ID_SELECTOR).scrollLeft - mainDivLeft}px`,
+          top: `${coords.y + document.querySelector(FRAMEWORK_ID_SELECTOR).scrollTop - mainDivTop }px`,
+          color: `${mouseXYColor}`
         }}>
           ==: {coords.x - 300 + document.querySelector(FRAMEWORK_ID_SELECTOR).scrollLeft}, {coords.y + document.querySelector(FRAMEWORK_ID_SELECTOR).scrollTop}
         </div>

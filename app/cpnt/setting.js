@@ -12,10 +12,13 @@ import Typography from '@mui/material/Typography';
 import Slider from '@mui/material/Slider';
 import Switch from '@mui/material/Switch'; // Import Switch
 import { MODE, GLOBAL_STORAGE_KEY } from "../store/useGlobal";
+import ColorField from "./ColorField";
 
 export default function Setting() {
   const { isOpenSetting, openSetting, closeSetting, setLicense, license,
-    themePaletteMode, setThemePaletteMode, mainScale, setMainScale, hideAllBox, setHideAllBox } = useGlobalStore();
+    themePaletteMode, setThemePaletteMode, mainScale, setMainScale, hideAllBox, setHideAllBox,
+    setMouseXYColor, mouseXYColor
+  } = useGlobalStore();
 
   const downloadConfig = () => {
     const config = JSON.stringify(localStorage, null, 2);
@@ -86,6 +89,10 @@ export default function Setting() {
 
   const handleHideAllBoxChange = (event) => {
     setHideAllBox(event.target.checked);
+  };
+
+  const handleMouseXYColorChange = (event) => {
+    setMouseXYColor(event);
   };
 
   return (
@@ -168,6 +175,13 @@ export default function Setting() {
               />
             }
             label="隐藏所有Box"
+          />
+        </Box>
+        <Box sx={{ padding: 2 }}>
+          <ColorField
+            label="鼠标V位置颜色"
+            value={mouseXYColor}
+            onChange={handleMouseXYColorChange}
           />
         </Box>
       </Drawer>
