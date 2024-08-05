@@ -1,9 +1,11 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { Box, Tabs, Tab, Typography, TextField, Slider, MenuItem, Select } from '@mui/material';
+import { Box, Tabs, Tab, Typography, TextField, Slider, MenuItem, Select, Button, IconButton } from '@mui/material';
 import DrawerEditLayout from "./DrawerEditLayout";
 import useBoxStore from '../store/useBo';
 import { SUB_TYPE, FONT_WEIGHT } from "../util/util";
 import ColorField from "./ColorField";
+import DeleteIcon from '@mui/icons-material/Delete';
+import AddIcon from '@mui/icons-material/Add';
 
 export default function EditSwiperVideoSettings() {
   const boxArr = useBoxStore((state) => state.boxArr);
@@ -14,7 +16,7 @@ export default function EditSwiperVideoSettings() {
 
   const [isOpen, setIsOpen] = useState(false);
   const [tabIndex, setTabIndex] = useState(0);
-  const [content, setContent] = useState('');
+  const [content, setContent] = useState([]);
   const [speed, setSpeed] = useState(3);
   const [fontSize, setFontSize] = useState(26);
   const [fontWeight, setFontWeight] = useState(500);
@@ -39,7 +41,7 @@ export default function EditSwiperVideoSettings() {
 
   useEffect(() => {
     if (activeBoxId && sub) {
-      setContent(sub.content || '');
+      setContent(sub.content || []);
       setSpeed(sub.speed || 3);
       setFontSize(sub.fontSize || 26);
       setFontWeight(sub.fontWeight || 500);
@@ -47,6 +49,20 @@ export default function EditSwiperVideoSettings() {
       setEndSpace(sub.endSpace || 20);
     }
   }, [sub, activeBoxId]);
+
+  const handleAddContent = () => {
+    setContent([...content, '']);
+  };
+
+  const handleDeleteContent = (index) => {
+    const updatedContent = content.filter((_, i) => i !== index);
+    setContent(updatedContent);
+  };
+
+  const handleContentChange = (index, value) => {
+    const updatedContent = content.map((item, i) => (i === index ? value : item));
+    setContent(updatedContent);
+  };
 
   return (
     <Box my={2}>
@@ -61,18 +77,25 @@ export default function EditSwiperVideoSettings() {
           {tabIndex === 0 && (
             <Box>
               <Typography variant="h6">文本设置</Typography>
-              <TextField
-                label="内容"
-                value={content}
-                onChange={(e) => {
-                  setContent(e.target.value);
-                }}
-                fullWidth
-                multiline
-                rows={4}
-                margin="normal"
-              />
-
+              {content.map((item, index) => (
+                <Box key={index} display="flex" alignItems="center" mb={2}>
+                  <TextField
+                    label={`内容 ${index + 1}`}
+                    value={item}
+                    onChange={(e) => handleContentChange(index, e.target.value)}
+                    fullWidth
+                    multiline
+                    rows={4}
+                    margin="normal"
+                  />
+                  <IconButton onClick={() => handleDeleteContent(index)} color="secondary">
+                    <DeleteIcon />
+                  </IconButton>
+                </Box>
+              ))}
+              <Button onClick={handleAddContent} variant="contained" color="primary" startIcon={<AddIcon />}>
+                添加内容
+              </Button>
               <Typography gutterBottom>速度</Typography>
               <Slider
                 value={speed}

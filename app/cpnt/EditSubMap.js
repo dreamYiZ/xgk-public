@@ -31,6 +31,7 @@ const EditSubChartjs = lazy(() => import("./EditSubChartjs"));
 const EditSubTableBindData = lazy(() => import("./EditSubTableBindData"));
 const EditSubSwiperVideo = lazy(() => import("./EditSubSwiperVideo"));
 const EditSubOneLineRightToLeft = lazy(() => import("./EditSubOneLineRightToLeft"));
+const EditSubOneLineRightToLeftM = lazy(() => import("./EditSubOneLineRightToLeftM"));
 
 export const MAP_SUB_EDIT = {
   [SUB_TYPE.TEXT]: EditSubText,
@@ -64,4 +65,5 @@ export const MAP_SUB_EDIT = {
   [SUB_TYPE.TABLE_BIND_DATA]: EditSubTableBindData,
   [SUB_TYPE.SWIPER_VIDEO]: EditSubSwiperVideo,
   [SUB_TYPE.ONE_LINE_RIGHT_TO_LEFT]: EditSubOneLineRightToLeft,
+  [SUB_TYPE.ONE_LINE_RIGHT_TO_LEFT_MULTIPLE]: EditSubOneLineRightToLeftM,
 };

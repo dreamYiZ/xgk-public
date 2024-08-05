@@ -927,6 +927,41 @@ export const createBoxOneLineR2L = () => {
   }
 }
 
+const BASIC_PAYLOAD_ONE_LINE_RIGHT_TO_LEFT_M = {
+  content: [
+    `blablablablabla
+    blablablablablablab
+    lblblblblblblblblbl
+    lblblblblblblblblbl`.repeat(10),
+    `blablablablabla
+    blablablablablablab
+    lblblblblblblblblbl
+    lblblblblblblblblbl`.repeat(10),
+    `blablablablabla
+    blablablablablablab
+    lblblblblblblblblbl
+    lblblblblblblblblbl`.repeat(10),
+  ],
+  speed: 3,
+  fontSize: 26,
+  fontWeight: 500,
+  color: '#FFFFFF',
+  endSpace: 20,
+}
+
+export const createBoxOneLineR2LM = () => {
+  return {
+    ...createBoxPayload(),
+    zIndex: 1,
+    width: 300,
+    height: 50,
+    sub: {
+      type: SUB_TYPE.ONE_LINE_RIGHT_TO_LEFT_MULTIPLE,
+      ...BASIC_PAYLOAD_ONE_LINE_RIGHT_TO_LEFT_M
+    }
+  }
+}
+
 
 
 export const createMarketTemplates = () => {
@@ -1167,4 +1202,5 @@ export const MAP_TYPE_FACTORY = {
   [SUB_TYPE.TABLE_BIND_DATA]: createBoxTableBindData,
   [SUB_TYPE.SWIPER_VIDEO]: createSwiperVideo,
   [SUB_TYPE.ONE_LINE_RIGHT_TO_LEFT]: createBoxOneLineR2L,
+  [SUB_TYPE.ONE_LINE_RIGHT_TO_LEFT_MULTIPLE]: createBoxOneLineR2LM,
 };

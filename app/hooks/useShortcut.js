@@ -81,7 +81,10 @@ export default function useShortcut() {
     };
 
     const handleKeyDown = (event) => {
-      if (event.code === 'Space') {
+      const activeElement = document.activeElement;
+      const isInputField = activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA';
+
+      if (event.code === 'Space' && !isInputField) {
         frameworkEl.style.cursor = 'grab';
         mainRenderEl && (mainRenderEl.style.cursor = 'grab');
         mainRenderContainerEl && (mainRenderContainerEl.style.cursor = 'grab');
@@ -169,7 +172,7 @@ export default function useShortcut() {
 
         // debouncedUpdatePosition(newLeft, newTop);
 
-        debouncedUpdatePosition(newTranslateX / scaleX, newTranslateY/scaleY);
+        debouncedUpdatePosition(newTranslateX / scaleX, newTranslateY / scaleY);
         // setMainDivLeft(newLeft);
         // setMainDivTop(newTop);
 
