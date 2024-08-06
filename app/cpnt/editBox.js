@@ -1,13 +1,12 @@
 import useBoxStore from '../store/useBo';
 import useGlobalStore from '../store/useGlobal';
-import ppplog from "ppplog";
 import EditSub from "./editSub";
 import { TextField, Button, Autocomplete, FormControl, Switch, FormControlLabel } from '@mui/material';
 import EditTabContainer from "./editTabContainer";
 import Box from '@mui/material/Box';
 import { useState, useEffect, useMemo, lazy } from "react";
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
-import { FRAMEWORK_ID_SELECTOR } from "../util/util";
+import { FRAMEWORK_ID_SELECTOR, ppplog } from "../util/util";
 import { IconButton } from '@mui/material';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
 import Typography from '@mui/material/Typography';
@@ -99,7 +98,8 @@ function EditBox() {
   };
 
   const handleAnimateCssChange = (event, newValue) => {
-    changeById(activeBoxId, { animateCssClass: newValue || '' });
+    ppplog('handleAnimateCssChange', newValue)
+    changeById(activeBoxId, { animateCssClass: newValue  });
   };
 
   return (

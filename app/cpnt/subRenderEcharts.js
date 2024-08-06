@@ -15,6 +15,7 @@ export default function ({ box, sub }) {
       option={sub?.option}
       width={sub?.width}
       height={sub?.height}
+      reInit={sub?.reInit}
     />
   );
 }

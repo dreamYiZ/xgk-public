@@ -67,6 +67,7 @@ const MAP_SUB_RENDER = {
   [SUB_TYPE.ONE_LINE_RIGHT_TO_LEFT]: SubRenderOneLineRightToLeft,
   [SUB_TYPE.ONE_LINE_RIGHT_TO_LEFT_MULTIPLE]: SubRenderOneLineRightToLeftM,
   [SUB_TYPE.RECTANGLE]: SubRenderRectangle,
+  [SUB_TYPE.E_CHART_BAR]: SubRenderEcharts,
 };
 
 export { MAP_SUB_RENDER }

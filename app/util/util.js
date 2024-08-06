@@ -1,4 +1,5 @@
-import { SUB_TYPE, SUB_TYPE_DISPLAY, } from "./subType";
+import { SUB_TYPE } from "./subType";
+import { SUB_TYPE_DISPLAY } from "./subTypeDisplay";
 import { v4 as uuidv4 } from 'uuid';
 import {
   FRAMEWORK_ID_SELECTOR,
@@ -27,6 +28,7 @@ import { THREE_ANIMATE_TYPE } from "./threeAnimateTyle";
 import { AUTO_NEXT_PAGE } from "./autoType";
 import { ANIMATE_TYPE_MARQUEE_IMAGE_VIDEO } from "./animateTypeMarqueeImageVideo";
 import { fingerprint } from "./finger";
+import { createBoxEChartBar } from "./createBox";
 
 export * from "./subType";
 export * from "./constant";
@@ -249,7 +251,7 @@ export const createBoxSparklineChart = () => {
 }
 
 export const BASIC_PAYLOAD_ECHART = {
-
+  reInit: 30,
   option: {
     legend: {
       top: 'bottom'
@@ -1191,7 +1193,7 @@ export {
   ANIMATE_TIME_FUNCTION_TYPES,
   ANIMATE_TIME_FUNCTION_TYPES_DISPLAY
 } from "./animateType";
-export { SUB_TYPE_DISPLAY } from "./subType";
+export { SUB_TYPE_DISPLAY } from "./subTypeDisplay";
 export { SUB_TYPE }
 export { mergeSub } from "./mergeSub";
 export { default as Bideo } from "./bbv";
@@ -1254,4 +1256,5 @@ export const MAP_TYPE_FACTORY = {
   [SUB_TYPE.ONE_LINE_RIGHT_TO_LEFT]: createBoxOneLineR2L,
   [SUB_TYPE.ONE_LINE_RIGHT_TO_LEFT_MULTIPLE]: createBoxOneLineR2LM,
   [SUB_TYPE.RECTANGLE]: createBoxRectangle,
+  [SUB_TYPE.E_CHART_BAR]: createBoxEChartBar,
 };

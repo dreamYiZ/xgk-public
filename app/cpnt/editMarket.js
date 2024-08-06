@@ -18,7 +18,6 @@ function EditMarket() {
   const [filter, setFilter] = React.useState('');
   const [open, setOpen] = useState(false);
 
-
   useEffect(() => {
     setTemplates(createMarketTemplates());
     return () => { }
@@ -30,7 +29,7 @@ function EditMarket() {
 
   const addNewBoxByType = (type) => {
     if (typeof MAP_TYPE_FACTORY[type] === 'function') {
-      const newBox = MAP_TYPE_FACTORY[type]();
+      const newBox = MAP_TYPE_FACTORYtype;
 
       if (newBox.sub.type === SUB_TYPE.FABRIC_CANVAS) {
         if (
@@ -49,36 +48,43 @@ function EditMarket() {
     }
   };
 
-
-
+  const fuzzySearch = (text, search) => {
+    const searchLower = search.toLowerCase();
+    const textLower = text.toLowerCase();
+    let searchIndex = 0;
+    for (let i = 0; i < textLower.length; i++) {
+      if (textLower[i] === searchLower[searchIndex]) {
+        searchIndex++;
+      }
+      if (searchIndex === searchLower.length) {
+        return true;
+      }
+    }
+    return false;
+  };
 
   return (
     <EditTabContainer>
       <Box sx={{
         display: "flex", flexDirection: 'column', maxHeight: "calc(-210px + 100vh)"
-
-
       }}>
-
         <Box>
           <br />
           <TextField label="筛选" value={filter} onChange={(event) => setFilter(event.target.value)} />
         </Box>
         <Box sx={{ paddingTop: 1 }} />
-
-        <Box sx={{ flex: 1, overflow: 'auto' }}>  <List>
-          {marketList.filter(item => item.typeName.includes(filter) || item.type.includes(filter)).map((item) => (
-            <ListItem key={item.type}>
-              <ListItemText primary={`${item.typeName}`} />
-
-              <DragCreate marketItem={item} setOpen={setOpen} />
-
-              <IconButton onClick={() => addNewBoxByType(item.type)}>
-                <AddIcon />
-              </IconButton>
-            </ListItem>
-          ))}
-        </List>
+        <Box sx={{ flex: 1, overflow: 'auto' }}>
+          <List>
+            {marketList.filter(item => fuzzySearch(item.typeName, filter) || fuzzySearch(item.type, filter)).map((item) => (
+              <ListItem key={item.type}>
+                <ListItemText primary={`${item.typeName}`} />
+                <DragCreate marketItem={item} setOpen={setOpen} />
+                <IconButton onClick={() => addNewBoxByType(item.type)}>
+                  <AddIcon />
+                </IconButton>
+              </ListItem>
+            ))}
+          </List>
         </Box>
       </Box>
       <Snackbar open={open} autoHideDuration={6000} onClose={() => setOpen(false)}>

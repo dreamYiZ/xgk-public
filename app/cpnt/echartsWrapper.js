@@ -1,9 +1,11 @@
 import { useRef, useEffect } from "react";
 import * as echarts from "echarts";
 import classes from "./echartsWrapper.module.sass";
-import { pxToNumber } from "../util/util";
+import { pxToNumber, maybeNumberOr } from "../util/util";
 
-export default function ({ option, width = "600px", height = "300px" }) {
+export default function ({ option, width = "600px", height = "300px",
+  reInit,
+}) {
   const pieRef = useRef(null);
   const pieRefInstance = useRef(null);
 
@@ -23,10 +25,13 @@ export default function ({ option, width = "600px", height = "300px" }) {
       pieRefInstance.current = myChart;
       myChart.setOption(option);
 
-      intervalId = setInterval(() => {
-        myChart.clear();
-        myChart.setOption(option);
-      }, 20 * 1000)
+      if (reInit) {
+        intervalId = setInterval(() => {
+          myChart.clear();
+          myChart.setOption(option);
+        }, maybeNumberOr(reInit, 30) * 1000)
+      }
+
     }
     return () => {
       clearInterval(intervalId)

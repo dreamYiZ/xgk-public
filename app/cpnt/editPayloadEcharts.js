@@ -1,6 +1,4 @@
 import React from 'react';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Drawer from '@mui/material/Drawer';
 import useBoxStore from '../store/useBo';
 import { useState, useMemo, useEffect } from 'react';
@@ -10,7 +8,8 @@ import ChartEditorLayout from "./DrawerEditLayout";
 import ChartColorEdit from "./ChartColorEdit";
 import ChartLabelEdit from "./ChartLabelEdit";
 import { BASIC_PAYLOAD_BAR_CHART } from "../util/util";
-import AceEditor from "react-ace";
+import AceEditorWrap from "./AceEditorWrap";
+import { Box, Tabs, Tab, Typography, TextField, Button, Checkbox, IconButton, Switch, FormControlLabel } from '@mui/material';
 
 import "ace-builds/src-noconflict/mode-json";
 import "ace-builds/src-noconflict/theme-monokai";
@@ -25,6 +24,8 @@ export default function EditChartPayload() {
 
   const [isOpen, setIsOpen] = React.useState(false);
   const [_option, setOption] = useState(JSON.stringify(sub.option, null, 2));
+  const [tabIndex, setTabIndex] = useState(0); // Added state for tab index
+  const [reInit, setReInit] = useState(sub?.reInit || 30); // Added state for reInit
 
   const saveChange = () => {
     if (sub) {
@@ -32,6 +33,7 @@ export default function EditChartPayload() {
         sub: {
           ...sub,
           option: JSON.parse(_option),
+          reInit: reInit, // Save reInit value
         },
       });
     }
@@ -39,8 +41,7 @@ export default function EditChartPayload() {
 
   const handleParse = () => {
     try {
-      // Execute the code in the option string\
-
+      // Execute the code in the option string
       let option;
       eval(_option);
       let parseOption = option;
@@ -48,7 +49,6 @@ export default function EditChartPayload() {
       // Assign its value to sub.option
 
       if (sub && typeof parseOption === 'object') {
-
         setOption(JSON.stringify(parseOption, null, 2));
         changeById(activeBox.boxid, {
           sub: {
@@ -62,36 +62,39 @@ export default function EditChartPayload() {
     }
   }
 
-
   return (
     <ChartEditorLayout saveChange={saveChange}
       isOpen={isOpen}
       setIsOpen={setIsOpen}>
 
       <Box>
-        <Box>
-          <AceEditor
-            mode="json"
-            theme="monokai"
-            value={_option}
-            onChange={setOption}
-            name="UNIQUE_ID_OF_DIV"
-            editorProps={{ $blockScrolling: true }}
-            fontSize={14}
-            showPrintMargin={true}
-            showGutter={true}
-            highlightActiveLine={true}
-            width={"100%"}
-            setOptions={{
-              enableBasicAutocompletion: true,
-              enableLiveAutocompletion: true,
-              enableSnippets: true,
-              showLineNumbers: true,
-              tabSize: 2,
-            }}
-          />
+        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+          <Tabs value={tabIndex} onChange={(event, newValue) => setTabIndex(newValue)} aria-label="basic tabs example">
+            <Tab label="数据" />
+            <Tab label="样式" />
+          </Tabs>
+        </Box>
+        <Box sx={{}} hidden={tabIndex !== 0}>
+          <Box>
+            <AceEditorWrap
+              value={_option}
+              onChange={setOption}
+            />
+            <Box my={2}>
+              <Button variant="contained" color="primary" onClick={handleParse}>解析JSON</Button>
+            </Box>
+          </Box>
+        </Box>
+        <Box sx={{}} hidden={tabIndex !== 1}>
+          {/* Add content for the "样式" tab here */}
           <Box my={2}>
-            <Button variant="contained" color="primary" onClick={handleParse}>解析JSON</Button>
+            <TextField
+              label="自动重载时间"
+              type="number"
+              value={reInit}
+              onChange={(e) => setReInit(Number(e.target.value))}
+              fullWidth
+            />
           </Box>
         </Box>
       </Box>
