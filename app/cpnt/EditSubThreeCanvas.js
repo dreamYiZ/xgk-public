@@ -6,9 +6,25 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import { Select, MenuItem, FormControl, InputLabel, Slider, Typography } from '@mui/material';
-import { maybeNumberOr, safeNumberIfString, ppplog, THREE_ANIMATE_TYPE, THREE_ANIMATE_TYPE_DISPLAY } from "../util/util";
+import {
+  maybeNumberOr, safeNumberIfString, ppplog,
+  THREE_ANIMATE_TYPE, THREE_ANIMATE_TYPE_DISPLAY,
+  THREE_AUTO_ANIMATION_DIRECTION, THREE_AUTO_ANIMATION_DIRECTION_DISPLAY
+} from "../util/util";
 import "ace-builds/src-noconflict/mode-json";
 import "ace-builds/src-noconflict/theme-monokai";
+
+const speedScale = (value) => {
+  if (value <= 30) {
+    return 0.01 + (value / 30) * 0.99;
+  } else {
+    return 1 + ((value - 30) / 70) * 4;
+  }
+};
+
+const speedValueLabelFormat = (value) => {
+  return speedScale(value).toFixed(2);
+};
 
 export default function EditModel() {
   const boxArr = useBoxStore((state) => state.boxArr);
@@ -23,12 +39,12 @@ export default function EditModel() {
 
   const [modelUrl, setModelUrl] = useState('');
   const [animateType, setAnimateType] = useState(THREE_ANIMATE_TYPE.NONE);
-  // Commenting out animateSpeed
-  // const [animateSpeed, setAnimateSpeed] = useState(1);
+  const [animateSpeed, setAnimateSpeed] = useState(1);
   const [modelScale, setModelScale] = useState(1);
   const [positionX, setPositionX] = useState(0);
   const [positionY, setPositionY] = useState(0);
   const [positionZ, setPositionZ] = useState(0);
+  const [direction, setDirection] = useState(THREE_AUTO_ANIMATION_DIRECTION.HORIZONTAL_REVERSE_POINTER);
 
   const saveChange = () => {
     if (sub) {
@@ -37,12 +53,12 @@ export default function EditModel() {
           ...sub,
           modelUrl: modelUrl,
           animateType: animateType,
-          // Uncomment if you want to include animateSpeed
-          // animateSpeed: animateSpeed,
+          animateSpeed: speedScale(animateSpeed),
           modelScale: modelScale,
           positionX: positionX,
           positionY: positionY,
           positionZ: positionZ,
+          direction: direction,
         },
       });
     }
@@ -53,12 +69,12 @@ export default function EditModel() {
       setOption(JSON.stringify(sub, null, 2));
       setModelUrl(sub.modelUrl);
       setAnimateType(sub.animateType || THREE_ANIMATE_TYPE.NONE);
-      // Commenting out animateSpeed
-      // setAnimateSpeed(sub.animateSpeed || 1);
+      setAnimateSpeed(sub.animateSpeed ? (sub.animateSpeed <= 1 ? (sub.animateSpeed - 0.01) * 30 / 0.99 : 30 + (sub.animateSpeed - 1) * 70 / 4) : 30);
       setModelScale(maybeNumberOr(sub.modelScale, 0) || 1);
       setPositionX(maybeNumberOr(sub.positionX, 0) || 0);
       setPositionY(maybeNumberOr(sub.positionY, 0) || 0);
       setPositionZ(maybeNumberOr(sub.positionZ, 0) || 0);
+      setDirection(sub.direction || THREE_AUTO_ANIMATION_DIRECTION.HORIZONTAL_REVERSE_POINTER);
     }
   }, [sub, activeBoxId]);
 
@@ -111,19 +127,17 @@ export default function EditModel() {
 
           <Box mt={2}></Box>
 
-          {/* Commenting out animation speed related code */}
-          {/*
           <Typography gutterBottom>动画速度</Typography>
           <Slider
             value={animateSpeed}
             onChange={(event, newValue) => setAnimateSpeed(newValue)}
             aria-labelledby="animate-speed-slider"
-            step={0.1}
-            min={0.1}
-            max={5}
+            step={1}
+            min={0}
+            max={100}
             valueLabelDisplay="auto"
+            valueLabelFormat={speedValueLabelFormat}
           />
-          */}
 
           <Box mt={2}></Box>
 
@@ -165,6 +179,24 @@ export default function EditModel() {
             onChange={(event) => setPositionZ(parseFloat(event.target.value))}
             fullWidth
           />
+
+          <Box mt={2}></Box>
+
+          <FormControl fullWidth>
+            <InputLabel id="direction-label">方向</InputLabel>
+            <Select
+              labelId="direction-label"
+              value={direction}
+              label="方向"
+              onChange={(event) => setDirection(event.target.value)}
+            >
+              {Object.keys(THREE_AUTO_ANIMATION_DIRECTION).map((key) => (
+                <MenuItem key={key} value={THREE_AUTO_ANIMATION_DIRECTION[key]}>
+                  {THREE_AUTO_ANIMATION_DIRECTION_DISPLAY[key]}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
 
           <Box mt={1}></Box>
         </Box>

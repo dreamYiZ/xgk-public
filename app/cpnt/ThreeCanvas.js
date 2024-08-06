@@ -4,7 +4,7 @@
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, useGLTF } from '@react-three/drei';
 import { Suspense, useRef, useEffect } from 'react';
-import { ppplog, THREE_ANIMATE_TYPE } from "../util/util";
+import { ppplog, THREE_ANIMATE_TYPE, THREE_AUTO_ANIMATION_DIRECTION } from "../util/util";
 import ErrorBoundaryThree from "./ErrorBoundaryThree";
 
 export default function BoxWithModel({ box, sub }) {
@@ -45,6 +45,7 @@ export default function BoxWithModel({ box, sub }) {
             url={sub.modelUrl}
             animateType={sub.animateType}
             animateSpeed={sub.animateSpeed}
+            direction={sub.direction}
             modelScale={sub.modelScale}
             positionX={sub.positionX}
             positionY={sub.positionY}
@@ -57,12 +58,12 @@ export default function BoxWithModel({ box, sub }) {
   );
 }
 
-function Model({ url, animateType, animateSpeed, modelScale, positionX, positionY, positionZ }) {
+function Model({ url, animateType, animateSpeed, modelScale, positionX, positionY, positionZ, direction }) {
   const { scene } = useGLTF(url);
   const ref = useRef();
 
   useEffect(() => {
-    scene.position.set(positionX||0, positionY||0, positionZ||0);
+    scene.position.set(positionX || 0, positionY || 0, positionZ || 0);
     scene.scale.set(...new Array(3).fill(modelScale));
     scene.traverse((object) => {
       if (object.isMesh) {
@@ -75,9 +76,14 @@ function Model({ url, animateType, animateSpeed, modelScale, positionX, position
     });
   }, [scene, modelScale, positionX, positionY, positionZ]);
 
+  ppplog('direction', direction, THREE_AUTO_ANIMATION_DIRECTION.HORIZONTAL_FORWARD_POINTER);
+
   useFrame(({ clock }) => {
     if (animateType === THREE_ANIMATE_TYPE.AUTO) {
-      ref.current.rotation.y = clock.getElapsedTime();
+      const elapsedTime = clock.getElapsedTime();
+      const speed = animateSpeed || 1;
+      const directionMultiplier = direction === THREE_AUTO_ANIMATION_DIRECTION.HORIZONTAL_FORWARD_POINTER ? -1 : 1;
+      ref.current.rotation.y = elapsedTime * speed * directionMultiplier;
     }
   });
 
