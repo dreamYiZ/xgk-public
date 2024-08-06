@@ -11,7 +11,7 @@ import {
 import { useCallback, useState, useMemo, useEffect } from 'react';
 import { Box } from '@mui/system';  // 引入 Box 组件
 import { useDropzone } from 'react-dropzone';
-import { Typography } from '@mui/material';
+import { Typography, Switch, FormControlLabel } from '@mui/material';  // Import Switch and FormControlLabel
 import IconButton from '@mui/material/IconButton';
 import ColorLensIcon from '@mui/icons-material/ColorLens';
 import DrawerEditLayout from "./DrawerEditLayout";
@@ -25,6 +25,9 @@ export default function () {
   const [isOpen, setIsOpen] = useState(false);
   const [showSelectImage, setShowSelectImage] = useState(false);  // Add state for showing image selection
   const [videoUrl, setVideoUrl] = useState('');
+  const [controls, setControls] = useState(true);  // Add state for controls
+  const [autoplay, setAutoplay] = useState(true);  // Add state for autoplay
+  const [muted, setMuted] = useState(true);  // Add state for muted
 
   const changeById = useBoxStore(state => state.changeById);
 
@@ -35,6 +38,9 @@ export default function () {
           ...sub,
           videoJsOptions: {
             ...sub.videoJsOptions,
+            controls,
+            autoplay,
+            muted,
             sources: [
               {
                 type: 'video/mp4',
@@ -49,13 +55,15 @@ export default function () {
 
   useEffect(() => {
     if (activeBoxId && sub) {
-
       ppplog('sub?.videoJsOptions', sub?.videoJsOptions)
       if (sub?.videoJsOptions?.sources?.length > 0) {
         setVideoUrl(sub?.videoJsOptions?.sources[0]?.src)
       } else {
         setVideoUrl('')
       }
+      setControls(sub?.videoJsOptions?.controls ?? true);
+      setAutoplay(sub?.videoJsOptions?.autoplay ?? true);
+      setMuted(sub?.videoJsOptions?.muted ?? true);
     }
   }, [sub, activeBoxId]);
 
@@ -96,6 +104,20 @@ export default function () {
             }}
           />
           <Button color="success" onClick={selectImage}>选择视频</Button>
+        </Box>
+        <Box mt={2}>
+          <FormControlLabel
+            control={<Switch checked={controls} onChange={(e) => setControls(e.target.checked)} />}
+            label="Controls"
+          />
+          <FormControlLabel
+            control={<Switch checked={autoplay} onChange={(e) => setAutoplay(e.target.checked)} />}
+            label="Autoplay"
+          />
+          <FormControlLabel
+            control={<Switch checked={muted} onChange={(e) => setMuted(e.target.checked)} />}
+            label="Muted"
+          />
         </Box>
         <Box mt={1}></Box>
         <ChooseImage handleChoose={handleChoose} show={showSelectImage} handleClose={() => setShowSelectImage(false)} />
