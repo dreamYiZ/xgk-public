@@ -5,13 +5,16 @@ import EditSub from "./editSub";
 import { TextField, Button, Autocomplete, FormControl, Switch, FormControlLabel } from '@mui/material';
 import EditTabContainer from "./editTabContainer";
 import Box from '@mui/material/Box';
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, lazy } from "react";
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import { FRAMEWORK_ID_SELECTOR } from "../util/util";
 import { IconButton } from '@mui/material';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
 import Typography from '@mui/material/Typography';
 import { ANIMATE_CSS_CLASS, ANIMATE_CSS_CLASS_DISPLAY } from "../util/animateCssType";
+
+
+const EditSubTypeDisplay = lazy(() => import("./EditSubTypeDisplay"));
 
 function EditBox() {
   const boxArr = useBoxStore((state) => state.boxArr);  // Access the 'boxArr' state
@@ -118,8 +121,8 @@ function EditBox() {
             }}
           />
           <br />
-          <br />
 
+          <EditSubTypeDisplay />
           <TextField label="box名" value={activeBox.name} onChange={(event) => handleInputChange(event, 'name')} />
           <br />
           <br />
