@@ -171,7 +171,8 @@ function EditSubImage() {
       }} />
       <br />
 
-      <EditOnClickEvent setShowEditOnClickEvent={setShowEditOnClickEvent} showEditOnClickEvent={showEditOnClickEvent} />
+      <EditOnClickEvent setShowEditOnClickEvent={setShowEditOnClickEvent}
+        showEditOnClickEvent={showEditOnClickEvent} />
     </div>
   );
 }

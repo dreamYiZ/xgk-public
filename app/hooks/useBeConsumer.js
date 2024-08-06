@@ -8,6 +8,7 @@ import {
 import { trimStringToIntOrNull } from "../util/numberUtil";
 import usePageManager from "../hooks/usePageManager";
 import useGlobalStore from "../store/useGlobal";
+import callApiCommand from "../util/callApiCommand";
 
 // cmd
 // :
@@ -36,7 +37,7 @@ export default function useBeCustomer() {
 
   const [canConsume, setCanConsume] = useState(false);
 
-  const consumeEv = useCallback((beItem) => {
+  const consumeEv = useCallback(async (beItem) => {
     // Implement your event consumption logic here
 
     const {
@@ -91,6 +92,13 @@ export default function useBeCustomer() {
 
     if (cmd === CMD.NEXT_PAGE_CUSTOM) {
       rollNextPageWithCustomTime()
+    }
+
+    if (cmd === CMD.CALL_API) {
+      try {
+        await callApiCommand(code);
+      } catch (e) {
+      }
     }
 
     consumeBe(beItem);

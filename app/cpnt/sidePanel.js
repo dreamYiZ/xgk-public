@@ -42,6 +42,7 @@ function SidePanel() {
     isFullScreenAutoBoolean,
     setIsFullScreenAutoBoolean,
     clearMainDivState,
+    bg
   } = useGlobalStore();
   const { clearActiveId, activeBoxId } = useBoxStore();
   const fileInput = useRef(null);
@@ -218,6 +219,13 @@ function SidePanel() {
   }, [isFullScreenAutoBoolean])
 
 
+  useEffect(() => {
+    if (bg && bg.filename) {
+      setImageUrl(bg.filename);
+    }
+  }, [])
+
+
   return (
     <div className={classes['side-panel-view']}>
       <Box display="flex" justifyContent="space-between" mb={2}>
@@ -279,7 +287,9 @@ function SidePanel() {
                 <br />
                 <br />
                 <Box>
-                  <TextField label="输入图片地址" value={imageUrl} onChange={handleImageUrlChange} />
+                  <TextField
+                    multiline
+                    label="输入图片地址" value={imageUrl} onChange={handleImageUrlChange} />
                   <Button onClick={handleConfirmClick}>确定</Button>
                 </Box>
                 {preview && (preview.startsWith('blob:') ? <img style={{ width: "100px", height: "60px" }} src={preview} alt="Preview" /> : <p>{preview}</p>)}

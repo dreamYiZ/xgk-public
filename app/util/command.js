@@ -4,6 +4,7 @@ export const CMD = {
   GOTO: "GOTO",
   NEXT_PAGE: "NEXT_PAGE",
   NEXT_PAGE_CUSTOM: "NEXT_PAGE_CUSTOM",
+  CALL_API: 'CALL_API'
 }
 
 
@@ -14,6 +15,7 @@ export const CMD_DISPLAY = {
   [CMD.GOTO]: '切换页面',
   [CMD.NEXT_PAGE]: '下一页面',
   [CMD.NEXT_PAGE_CUSTOM]: "分时换页",
+  [CMD.CALL_API]: "调用接口",
 }
 
 
