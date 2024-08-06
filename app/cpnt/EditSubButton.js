@@ -6,6 +6,15 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import EditOnClickEvent from "./EditOnClickEvent";
 import ColorField from "./ColorField";
+import ChooseImage from "./chooseImage";
+import { FONT_WEIGHT, BORDER_STYLE } from "../util/constant";
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import { InputAdornment } from '@mui/material';
+
+const UnitSuffix = ({ unit }) => (
+  <InputAdornment position="end">{unit}</InputAdornment>
+);
 
 export default function EditButtonPayload() {
   const boxArr = useBoxStore((state) => state.boxArr);
@@ -19,17 +28,20 @@ export default function EditButtonPayload() {
   const [backgroundImage, setBackgroundImage] = useState(sub?.backgroundImage || '');
   const [backgroundColor, setBackgroundColor] = useState(sub?.backgroundColor || '');
   const [borderRadius, setBorderRadius] = useState(sub?.borderRadius || '');
+  const [borderRadiusUnit, setBorderRadiusUnit] = useState('px');
   const [borderWidth, setBorderWidth] = useState(sub?.borderWidth || '');
   const [borderStyle, setBorderStyle] = useState(sub?.borderStyle || '');
   const [borderColor, setBorderColor] = useState(sub?.borderColor || '');
   const [fontSize, setFontSize] = useState(sub?.fontSize || '');
+  const [fontSizeUnit, setFontSizeUnit] = useState('px');
   const [fontWeight, setFontWeight] = useState(sub?.fontWeight || '');
   const [textAlign, setTextAlign] = useState(sub?.textAlign || '');
   const [color, setColor] = useState(sub?.color || '');
   const [letterSpacing, setLetterSpacing] = useState(sub?.letterSpacing || '');
+  const [letterSpacingUnit, setLetterSpacingUnit] = useState('px');
 
   const [showEditOnClickEvent, setShowEditOnClickEvent] = useState(false);
-
+  const [showSelectImage, setShowSelectImage] = useState(false);
 
   const saveChange = () => {
     if (sub) {
@@ -39,15 +51,15 @@ export default function EditButtonPayload() {
           buttonText,
           backgroundImage,
           backgroundColor,
-          borderRadius,
+          borderRadius: `${borderRadius}${borderRadiusUnit}`,
           borderWidth,
           borderStyle,
           borderColor,
-          fontSize,
+          fontSize: `${fontSize}${fontSizeUnit}`,
           fontWeight,
           textAlign,
           color,
-          letterSpacing,
+          letterSpacing: `${letterSpacing}${letterSpacingUnit}`,
         },
       });
     }
@@ -69,6 +81,15 @@ export default function EditButtonPayload() {
       setLetterSpacing(sub.letterSpacing || '');
     }
   }, [sub, activeBoxId]);
+
+  const selectImage = () => {
+    setShowSelectImage(true);
+  }
+
+  const handleChoose = ({ image }) => {
+    setBackgroundImage(image);
+    setShowSelectImage(false);
+  }
 
   return (
     <Box my={2}>
@@ -102,12 +123,16 @@ export default function EditButtonPayload() {
               onChange={(event) => setBackgroundImage(event.target.value)}
             />
           </Box>
-          <Box >
 
-            <ColorField label="背景颜色" value={backgroundColor} onChange={(event) => setBackgroundColor(event)} />
+          <Button component="span" onClick={selectImage}>
+            选择图片
+          </Button>
+          <ChooseImage handleChoose={handleChoose} show={showSelectImage} handleClose={() => {
+            setShowSelectImage(false);
+          }} />
 
-          </Box>
           <Box mb={2}>
+            <ColorField label="背景颜色" value={backgroundColor} onChange={(event) => setBackgroundColor(event)} />
           </Box>
           <Box mb={2}>
             <TextField
@@ -116,7 +141,19 @@ export default function EditButtonPayload() {
               value={borderRadius}
               placeholder="请输入边框半径"
               onChange={(event) => setBorderRadius(event.target.value)}
+              InputProps={{
+                endAdornment: <UnitSuffix unit={borderRadiusUnit} />,
+              }}
             />
+            <Select
+              value={borderRadiusUnit}
+              onChange={(event) => setBorderRadiusUnit(event.target.value)}
+            >
+              <MenuItem value="px">px</MenuItem>
+              <MenuItem value="em">em</MenuItem>
+              <MenuItem value="rem">rem</MenuItem>
+              <MenuItem value="%">%</MenuItem>
+            </Select>
           </Box>
           <Box mb={2}>
             <TextField
@@ -128,22 +165,21 @@ export default function EditButtonPayload() {
             />
           </Box>
           <Box mb={2}>
-            <TextField
+            <Select
               fullWidth
               label="边框样式"
               value={borderStyle}
-              placeholder="请输入边框样式"
               onChange={(event) => setBorderStyle(event.target.value)}
-            />
+            >
+              {Object.keys(BORDER_STYLE).map((key) => (
+                <MenuItem key={key} value={BORDER_STYLE[key]}>
+                  {BORDER_STYLE[key]}
+                </MenuItem>
+              ))}
+            </Select>
           </Box>
           <Box mb={2}>
-            <TextField
-              fullWidth
-              label="边框颜色"
-              value={borderColor}
-              placeholder="请输入边框颜色"
-              onChange={(event) => setBorderColor(event.target.value)}
-            />
+            <ColorField label="边框颜色" value={borderColor} onChange={(event) => setBorderColor(event)} />
           </Box>
           <Box mb={2}>
             <TextField
@@ -153,15 +189,28 @@ export default function EditButtonPayload() {
               placeholder="请输入字体大小"
               onChange={(event) => setFontSize(event.target.value)}
             />
+            <Select
+              value={fontSizeUnit}
+              onChange={(event) => setFontSizeUnit(event.target.value)}
+            >
+              <MenuItem value="px">px</MenuItem>
+              <MenuItem value="em">em</MenuItem>
+              <MenuItem value="rem">rem</MenuItem>
+            </Select>
           </Box>
           <Box mb={2}>
-            <TextField
+            <Select
               fullWidth
               label="字体粗细"
               value={fontWeight}
-              placeholder="请输入字体粗细"
               onChange={(event) => setFontWeight(event.target.value)}
-            />
+            >
+              {Object.keys(FONT_WEIGHT).map((key) => (
+                <MenuItem key={key} value={FONT_WEIGHT[key]}>
+                  {FONT_WEIGHT[key]}
+                </MenuItem>
+              ))}
+            </Select>
           </Box>
           <Box mb={2}>
             <TextField
@@ -172,12 +221,8 @@ export default function EditButtonPayload() {
               onChange={(event) => setTextAlign(event.target.value)}
             />
           </Box>
-
           <Box mb={2}>
-
-
             <ColorField label="颜色" value={color} onChange={(event) => setColor(event)} />
-
           </Box>
           <Box mb={2}>
             <TextField
@@ -187,9 +232,19 @@ export default function EditButtonPayload() {
               placeholder="请输入字母间距"
               onChange={(event) => setLetterSpacing(event.target.value)}
             />
+            <Select
+              value={letterSpacingUnit}
+              onChange={(event) => setLetterSpacingUnit(event.target.value)}
+            >
+              <MenuItem value="px">px</MenuItem>
+              <MenuItem value="em">em</MenuItem>
+
+            </Select>
           </Box>
         </Box>
       </DrawerEditLayout>
     </Box>
   );
 }
+
+

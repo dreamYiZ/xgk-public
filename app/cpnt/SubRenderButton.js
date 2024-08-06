@@ -1,6 +1,11 @@
 import * as React from 'react';
+import useBeFactory from "../hooks/useBeFactory";
 
 export default function ({ box, sub }) {
+
+  const { onClickHandler } = useBeFactory({ sub });
+
+
   const buttonStyle = {
     backgroundImage: `url(${sub.backgroundImage})`,
     backgroundPosition: `center center`,
@@ -25,7 +30,9 @@ export default function ({ box, sub }) {
   };
 
   return (
-    <button style={buttonStyle}>
+    <button style={buttonStyle}
+      onClick={onClickHandler}
+    >
       {sub.buttonText}
     </button>
   );
