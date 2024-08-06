@@ -2,29 +2,29 @@ import React, { useEffect, useRef } from 'react';
 import { Box } from '@mui/material';
 import VideoJS from './videoJsWrap'; // Assuming you have a VideoJS wrapper component
 
-const RenderVideoList = React.memo(({ videoSrcList, currentIndex, handleVideoEnded, fullscreen }) => {
+const RenderVideoList = React.memo(({ muted, videoSrcList, currentIndex, handleVideoEnded, fullscreen }) => {
   const videoRef = useRef([]);
 
   useEffect(() => {
     const handleMouseMove = () => {
       const videoElements = document.querySelectorAll('.video-swiper-box video');
       videoElements.forEach((videoElement) => {
-        if (fullscreen && videoElement.paused) {
+        if (videoElement.paused) {
           videoElement.play();
         }
       });
     };
 
-    if (fullscreen) {
-      window.addEventListener('mousemove', handleMouseMove);
-    }
+    // if (fullscreen) {
+    window.addEventListener('mousemove', handleMouseMove);
+    // }
 
     return () => {
-      if (fullscreen) {
-        window.removeEventListener('mousemove', handleMouseMove);
-      }
+      // if (fullscreen) {
+      window.removeEventListener('mousemove', handleMouseMove);
+      // }
     };
-  }, [fullscreen]);
+  }, []);
 
   return (
     <>
@@ -37,6 +37,7 @@ const RenderVideoList = React.memo(({ videoSrcList, currentIndex, handleVideoEnd
                   responsive: true,
                   fluid: true,
                   autoplay: true, // Autoplay only the first video
+                  muted: muted,
                   sources: [{
                     src: src, // Select video source cyclically
                     type: 'video/mp4',

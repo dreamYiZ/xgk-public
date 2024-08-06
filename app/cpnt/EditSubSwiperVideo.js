@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
-import { Box, Tabs, Tab, Typography, TextField, Button, Checkbox, IconButton } from '@mui/material';
+import { Box, Tabs, Tab, Typography, TextField, Button, Checkbox, IconButton, Switch, FormControlLabel } from '@mui/material';
 import AceEditor from 'react-ace';
 import "ace-builds/src-noconflict/mode-json";
 import "ace-builds/src-noconflict/theme-monokai";
@@ -8,6 +8,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import SwapVertIcon from '@mui/icons-material/SwapVert';
 import useBoxStore from '../store/useBo';
 import { safeNumberIfString, SUB_TYPE } from "../util/util";
+import ChooseImage from './ChooseImage';  // Make sure to import ChooseImage
 
 export default function EditSwiperVideoSettings() {
   const boxArr = useBoxStore((state) => state.boxArr);
@@ -21,6 +22,8 @@ export default function EditSwiperVideoSettings() {
   const [fullscreen, setFullscreen] = useState(false);
   const [videoSrc, setVideoSrc] = useState('');
   const [videoSrcList, setVideoSrcList] = useState([]);
+  const [muted, setMuted] = useState(true);  // Add state for muted
+  const [showSelectImage, setShowSelectImage] = useState(false);  // Add state for showing image selection
 
   const dragItem = useRef();
   const dragOverItem = useRef();
@@ -32,6 +35,7 @@ export default function EditSwiperVideoSettings() {
           ...sub,
           fullscreen,
           videoSrcList,
+          muted,
         },
       });
     }
@@ -41,6 +45,7 @@ export default function EditSwiperVideoSettings() {
     if (activeBoxId && sub) {
       setFullscreen(sub.fullscreen || false);
       setVideoSrcList(sub.videoSrcList || []);
+      setMuted(sub.muted);  // Initialize muted state
     }
   }, [sub, activeBoxId]);
 
@@ -64,6 +69,17 @@ export default function EditSwiperVideoSettings() {
     dragOverItem.current = null;
     setVideoSrcList(_videoSrcList);
   };
+
+  const handleChoose = ({ image }) => {
+    if (image.endsWith('.mp4')) {
+      setVideoSrc(image);  // Set the video URL when a video is selected
+    }
+    setShowSelectImage(false);
+  }
+
+  const selectImage = () => {
+    setShowSelectImage(true);
+  }
 
   return (
     <Box my={2}>
@@ -112,6 +128,11 @@ export default function EditSwiperVideoSettings() {
             <Box>是否全屏模式</Box>
           </Box>
           <Box mt={1}></Box>
+          <FormControlLabel
+            control={<Switch checked={muted} onChange={(e) => setMuted(e.target.checked)} />}
+            label="Muted"
+          />
+          <Box mt={1}></Box>
           <TextField
             value={videoSrc}
             onChange={(event) => setVideoSrc(event.target.value)}
@@ -119,6 +140,8 @@ export default function EditSwiperVideoSettings() {
             variant="outlined"
             fullWidth
           />
+          <Button color="success" onClick={selectImage}>选择视频</Button>
+          <ChooseImage handleChoose={handleChoose} show={showSelectImage} handleClose={() => setShowSelectImage(false)} />
 
           <Box mt={1}></Box>
           <Button variant="contained" onClick={handleAddVideoSrc} sx={{ ml: 2 }}>

@@ -9,6 +9,8 @@ const SubRenderVideo = ({ box, sub }) => {
 
   const { mainScale, getIsTestOrDisplay, mode, screenWidth, screenHeight } = useGlobalStore();
 
+  const {muted} = sub;
+
   const handleVideoEnded = useCallback(() => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % videoSrcList.length);
   }, [videoSrcList.length]);
@@ -39,6 +41,7 @@ const SubRenderVideo = ({ box, sub }) => {
         currentIndex={currentIndex}
         handleVideoEnded={handleVideoEnded}
         fullscreen={fullscreen}
+        muted={muted}
       />
     </Box>
   );

@@ -890,6 +890,7 @@ export const createBoxTableBindData = () => {
 const BASIC_PAYLOAD_SWIPER_VIDEO = {
   fullscreen: false,
   videoSrcList: [],
+  muted: true,
 }
 
 export const createSwiperVideo = () => {
