@@ -70,4 +70,17 @@ export const MAP_SUB_EDIT = {
   [SUB_TYPE.ONE_LINE_RIGHT_TO_LEFT_MULTIPLE]: EditSubOneLineRightToLeftM,
   [SUB_TYPE.RECTANGLE]: EditSubRectangle,
   [SUB_TYPE.E_CHART_BAR]: EditSubEChartBar,
+  [SUB_TYPE.E_CHART_RING]: EditSubEChartBar,
+  [SUB_TYPE.E_CHART_RING_2]: EditSubEChartBar,
+  [SUB_TYPE.E_CHART_PIE]: EditSubEChartBar,
+  [SUB_TYPE.E_CHART_STACKED_AREA]: EditSubEChartBar,
+  [SUB_TYPE.E_CHART_STACKED_LINE]: EditSubEChartBar,
+  [SUB_TYPE.E_CHART_LINE]: EditSubEChartBar,
+  [SUB_TYPE.E_CHART_STACK_BAR_V]: EditSubEChartBar,
+  [SUB_TYPE.E_CHART_STACK_BAR_H]: EditSubEChartBar,
+  [SUB_TYPE.E_CHART_RADAR]: EditSubEChartBar,
+  [SUB_TYPE.E_CHART_GAUGE]: EditSubEChartBar,
+  [SUB_TYPE.E_CHART_GAUGE_TEMPERATURE]: EditSubEChartBar,
+  [SUB_TYPE.E_CHART_GAUGE_SPEED]: EditSubEChartBar,
+
 };

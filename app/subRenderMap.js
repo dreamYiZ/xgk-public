@@ -68,6 +68,19 @@ const MAP_SUB_RENDER = {
   [SUB_TYPE.ONE_LINE_RIGHT_TO_LEFT_MULTIPLE]: SubRenderOneLineRightToLeftM,
   [SUB_TYPE.RECTANGLE]: SubRenderRectangle,
   [SUB_TYPE.E_CHART_BAR]: SubRenderEcharts,
+  [SUB_TYPE.E_CHART_RING]: SubRenderEcharts,
+  [SUB_TYPE.E_CHART_RING_2]: SubRenderEcharts,
+  [SUB_TYPE.E_CHART_PIE]: SubRenderEcharts,
+  [SUB_TYPE.E_CHART_STACKED_AREA]: SubRenderEcharts,
+  [SUB_TYPE.E_CHART_STACKED_LINE]: SubRenderEcharts,
+  [SUB_TYPE.E_CHART_LINE]: SubRenderEcharts,
+  [SUB_TYPE.E_CHART_STACK_BAR_V]: SubRenderEcharts,
+  [SUB_TYPE.E_CHART_STACK_BAR_H]: SubRenderEcharts,
+  [SUB_TYPE.E_CHART_RADAR]: SubRenderEcharts,
+  [SUB_TYPE.E_CHART_GAUGE]: SubRenderEcharts,
+  [SUB_TYPE.E_CHART_GAUGE_TEMPERATURE]: SubRenderEcharts,
+  [SUB_TYPE.E_CHART_GAUGE_SPEED]: SubRenderEcharts,
+
 };
 
 export { MAP_SUB_RENDER }

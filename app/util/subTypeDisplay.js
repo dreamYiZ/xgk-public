@@ -35,5 +35,17 @@ export const SUB_TYPE_DISPLAY = {
   [SUB_TYPE.ONE_LINE_RIGHT_TO_LEFT_MULTIPLE]: '单行多文从右到左',
   [SUB_TYPE.RECTANGLE]: '矩形',
   [SUB_TYPE.E_CHART_BAR]: 'ECharts条形图',
+  [SUB_TYPE.E_CHART_RING]: 'ECharts环形图',
+  [SUB_TYPE.E_CHART_RING_2]: 'ECharts环形图间隙',
+  [SUB_TYPE.E_CHART_PIE]: 'ECharts简单饼',
+  [SUB_TYPE.E_CHART_STACKED_AREA]: 'ECharts堆叠面积',
+  [SUB_TYPE.E_CHART_STACKED_LINE]: 'ECharts堆叠线',
+  [SUB_TYPE.E_CHART_LINE]: 'ECharts折线',
+  [SUB_TYPE.E_CHART_STACK_BAR_V]: 'ECharts堆叠柱v',
+  [SUB_TYPE.E_CHART_STACK_BAR_H]: 'ECharts堆叠柱h',
+  [SUB_TYPE.E_CHART_RADAR]: 'ECharts雷达',
+  [SUB_TYPE.E_CHART_GAUGE]: 'ECharts仪表盘',
+  [SUB_TYPE.E_CHART_GAUGE_TEMPERATURE]: 'ECharts仪表温度',
+  [SUB_TYPE.E_CHART_GAUGE_SPEED]: 'ECharts仪表速度',
 }
 

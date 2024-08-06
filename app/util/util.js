@@ -28,7 +28,7 @@ import { THREE_ANIMATE_TYPE } from "./threeAnimateTyle";
 import { AUTO_NEXT_PAGE } from "./autoType";
 import { ANIMATE_TYPE_MARQUEE_IMAGE_VIDEO } from "./animateTypeMarqueeImageVideo";
 import { fingerprint } from "./finger";
-import { createBoxEChartBar } from "./createBox";
+import * as createEChart from "./createBox";
 
 export * from "./subType";
 export * from "./constant";
@@ -1256,5 +1256,18 @@ export const MAP_TYPE_FACTORY = {
   [SUB_TYPE.ONE_LINE_RIGHT_TO_LEFT]: createBoxOneLineR2L,
   [SUB_TYPE.ONE_LINE_RIGHT_TO_LEFT_MULTIPLE]: createBoxOneLineR2LM,
   [SUB_TYPE.RECTANGLE]: createBoxRectangle,
-  [SUB_TYPE.E_CHART_BAR]: createBoxEChartBar,
+  [SUB_TYPE.E_CHART_BAR]: createEChart.createBoxEChartBar,
+  [SUB_TYPE.E_CHART_RING]: createEChart.createBoxEChartRing,
+  [SUB_TYPE.E_CHART_RING_2]: createEChart.createBoxEChartRing2,
+  [SUB_TYPE.E_CHART_PIE]: createEChart.createBoxEChartPie,
+  [SUB_TYPE.E_CHART_STACKED_AREA]: createEChart.createBoxEChartStackedArea,
+  [SUB_TYPE.E_CHART_STACKED_LINE]: createEChart.createBoxEChartStackedLine,
+  [SUB_TYPE.E_CHART_LINE]: createEChart.createBoxEChartLine,
+  [SUB_TYPE.E_CHART_STACK_BAR_V]: createEChart.createBoxEChartStackedBarV,
+  [SUB_TYPE.E_CHART_STACK_BAR_H]: createEChart.createBoxEChartStackedBarH,
+  [SUB_TYPE.E_CHART_RADAR]: createEChart.createBoxEChartRadar,
+  [SUB_TYPE.E_CHART_GAUGE]: createEChart.createBoxEChartGauge,
+  [SUB_TYPE.E_CHART_GAUGE_TEMPERATURE]: createEChart.createBoxEChartGaugeTemperature,
+  [SUB_TYPE.E_CHART_GAUGE_SPEED]: createEChart.createBoxEChartGaugeSpeed,
+
 };

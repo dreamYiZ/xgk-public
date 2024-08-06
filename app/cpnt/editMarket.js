@@ -50,6 +50,10 @@ function EditMarket() {
 
   const fuzzySearch = (text, search) => {
     const searchLower = search.toLowerCase();
+    if(!text){
+      return false;
+    }
+
     const textLower = text.toLowerCase();
     let searchIndex = 0;
     for (let i = 0; i < textLower.length; i++) {
