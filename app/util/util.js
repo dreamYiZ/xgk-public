@@ -917,10 +917,19 @@ export const createSwiperVideo = () => {
 }
 
 const BASIC_PAYLOAD_ONE_LINE_RIGHT_TO_LEFT = {
-  content: `blablablablabla
-  blablablablablablab
-  lblblblblblblblblbl
-  lblblblblblblblblbl`.repeat(10),
+  content: `　责人之心责己，恕己之心恕人。
+　　守口如瓶，防意如城。
+　　宁可人负我，切莫我负人。
+　　再三须慎意，第一莫欺心。
+　　虎生犹可近，人熟不堪亲。
+　　来说是非者，便是是非人。
+　　远水难救近火，远亲不如近邻。
+　　有茶有酒多兄弟，急难何曾见一人？
+　　人情似纸张张薄，世事如棋局局新。
+　　山中也有千年树，世上难逢百岁人。
+　　力微休负重，言轻莫劝人。
+　　无钱休入众，遭难莫寻亲。
+　　平生不做皱眉事，世上应无切齿人。`,
   speed: 3,
   fontSize: 26,
   fontWeight: 500,
@@ -931,7 +940,7 @@ const BASIC_PAYLOAD_ONE_LINE_RIGHT_TO_LEFT = {
 export const createBoxOneLineR2L = () => {
   return {
     ...createBoxPayload(),
-    zIndex: 1,
+    zIndex: 10,
     width: 300,
     height: 50,
     sub: {
@@ -943,18 +952,27 @@ export const createBoxOneLineR2L = () => {
 
 const BASIC_PAYLOAD_ONE_LINE_RIGHT_TO_LEFT_M = {
   content: [
-    `blablablablabla
-    blablablablablablab
-    lblblblblblblblblbl
-    lblblblblblblblblbl`.repeat(10),
-    `blablablablabla
-    blablablablablablab
-    lblblblblblblblblbl
-    lblblblblblblblblbl`.repeat(10),
-    `blablablablabla
-    blablablablablablab
-    lblblblblblblblblbl
-    lblblblblblblblblbl`.repeat(10),
+    `观今宜鉴古，无古不成今。
+　　知己知彼，将心比心。
+　　酒逢知己饮，诗向会人吟。相识满天下，知心能几人？
+　　相逢好似初相识，到老终无怨恨心。
+　　近水知鱼性，近山识鸟音。
+　　易涨易退山溪水，易反易覆小人心。`,
+    `钱财如粪土，仁义值千金。
+　　流水下滩非有意，白云出岫本无心。
+　　当时若不登高望，谁信东流海洋深？
+　　路遥知马力，日久见人心。
+　　两人一般心，无钱堪买金；一人一般心，有钱难买针。
+　　相见易得好，久处难为人。
+　　马行无力皆因瘦，人不风流只为贫。`,
+    `贫居闹市无人问，富在深山有远亲。
+　　谁人背后无人说，哪个人前不说人？
+　　有钱道真语，无钱语不真。
+　　不信但看筵中酒，杯杯先劝有钱人。
+　　闹里有钱，静处安身。
+　　来如风雨，去似微尘。
+　　长江后浪推前浪，世上新人换旧人。
+　　近水楼台先得月，向阳花木早逢春。`,
   ],
   speed: 3,
   fontSize: 26,
