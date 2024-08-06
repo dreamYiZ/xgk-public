@@ -977,6 +977,24 @@ export const createBoxOneLineR2LM = () => {
 }
 
 
+const PAYLOAD_RECTANGLE = {
+  backgroundColor: '#00AA99',
+}
+
+export const createBoxRectangle = () => {
+  return {
+    ...createBoxPayload(),
+    zIndex: 1,
+    width: 300,
+    height: 50,
+    sub: {
+      type: SUB_TYPE.RECTANGLE,
+      ...PAYLOAD_RECTANGLE
+    }
+  }
+}
+
+
 
 export const createMarketTemplates = () => {
   return []
@@ -1217,4 +1235,5 @@ export const MAP_TYPE_FACTORY = {
   [SUB_TYPE.SWIPER_VIDEO]: createSwiperVideo,
   [SUB_TYPE.ONE_LINE_RIGHT_TO_LEFT]: createBoxOneLineR2L,
   [SUB_TYPE.ONE_LINE_RIGHT_TO_LEFT_MULTIPLE]: createBoxOneLineR2LM,
+  [SUB_TYPE.RECTANGLE]: createBoxRectangle,
 };

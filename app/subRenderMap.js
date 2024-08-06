@@ -31,6 +31,7 @@ const SubRenderTableBindData = lazy(() => import("./cpnt/SubRenderTableBindData"
 const SubRenderSwiperVideo = lazy(() => import("./cpnt/subRenderSwiperVideo"));
 const SubRenderOneLineRightToLeft = lazy(() => import("./cpnt/SubRenderOneLineRightToLeft"));
 const SubRenderOneLineRightToLeftM = lazy(() => import("./cpnt/SubRenderOneLineRightToLeftM"));
+const SubRenderRectangle = lazy(() => import("./cpnt/SubRenderRectangle"));
 
 const MAP_SUB_RENDER = {
   [SUB_TYPE.TEXT]: SubRenderText,
@@ -65,6 +66,7 @@ const MAP_SUB_RENDER = {
   [SUB_TYPE.SWIPER_VIDEO]: SubRenderSwiperVideo,
   [SUB_TYPE.ONE_LINE_RIGHT_TO_LEFT]: SubRenderOneLineRightToLeft,
   [SUB_TYPE.ONE_LINE_RIGHT_TO_LEFT_MULTIPLE]: SubRenderOneLineRightToLeftM,
+  [SUB_TYPE.RECTANGLE]: SubRenderRectangle,
 };
 
 export { MAP_SUB_RENDER }
