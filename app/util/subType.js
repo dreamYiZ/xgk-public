@@ -1,6 +1,8 @@
 export const SUB_TYPE = {
   TEXT: 'text',
   IMAGE: 'image',
+  BUTTON: "BUTTON",
+
   PIE_CHART: 'pie_chart',
   BAR_CHART: 'bar_chart',
   LINE_CHART: 'line_chart',
@@ -32,6 +34,7 @@ export const SUB_TYPE = {
   ONE_LINE_RIGHT_TO_LEFT: 'ONE_LINE_RIGHT_TO_LEFT',
   ONE_LINE_RIGHT_TO_LEFT_MULTIPLE: 'ONE_LINE_RIGHT_TO_LEFT_MULTIPLE',
   RECTANGLE: 'RECTANGLE',
+
   E_CHART_BAR: 'E_CHART_BAR',
   E_CHART_RING: 'E_CHART_RING',
   E_CHART_RING_2: 'E_CHART_RING_2',

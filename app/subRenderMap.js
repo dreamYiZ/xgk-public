@@ -33,6 +33,7 @@ const SubRenderOneLineRightToLeft = lazy(() => import("./cpnt/SubRenderOneLineRi
 const SubRenderOneLineRightToLeftM = lazy(() => import("./cpnt/SubRenderOneLineRightToLeftM"));
 const SubRenderRectangle = lazy(() => import("./cpnt/SubRenderRectangle"));
 const SubRenderIframe = lazy(() => import("./cpnt/SubRenderIframe"));
+const SubRenderButton = lazy(() => import("./cpnt/SubRenderButton"));
 
 const MAP_SUB_RENDER = {
   [SUB_TYPE.TEXT]: SubRenderText,
@@ -82,6 +83,7 @@ const MAP_SUB_RENDER = {
   [SUB_TYPE.E_CHART_GAUGE_TEMPERATURE]: SubRenderEcharts,
   [SUB_TYPE.E_CHART_GAUGE_SPEED]: SubRenderEcharts,
   [SUB_TYPE.IFRAME]: SubRenderIframe,
+  [SUB_TYPE.BUTTON]: SubRenderButton,
 
 };
 

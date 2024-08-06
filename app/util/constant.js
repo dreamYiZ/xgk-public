@@ -15,6 +15,26 @@ export const FONT_WEIGHT = {
 };
 
 
+export const TEXT_ALIGN = {
+  left: 'left',
+  right: 'right',
+  center: 'center',
+  justify: 'justify'
+};
+
+export const BORDER_STYLE = {
+  solid: 'solid',
+  dotted: 'dotted',
+  dashed: 'dashed',
+  double: 'double',
+  groove: 'groove',
+  ridge: 'ridge',
+  inset: 'inset',
+  outset: 'outset',
+  none: 'none',
+  hidden: 'hidden'
+};
+
 export const MIN_MAIN_SCALE = 0.1
 export const MAX_MAIN_SCALE = 10
 
