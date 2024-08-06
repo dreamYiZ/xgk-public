@@ -99,7 +99,7 @@ function EditBox() {
 
   const handleAnimateCssChange = (event, newValue) => {
     ppplog('handleAnimateCssChange', newValue)
-    changeById(activeBoxId, { animateCssClass: newValue  });
+    changeById(activeBoxId, { animateCssClass: newValue });
   };
 
   return (
@@ -130,6 +130,7 @@ function EditBox() {
           <FormControlLabel
             control={
               <Switch
+                key={activeBox.boxid}
                 checked={activeBox.disableMove}
                 onChange={(event) => handleSwitchChange(event, 'disableMove')}
                 name="disableMove"
@@ -140,11 +141,25 @@ function EditBox() {
           />
           <br />
           <br />
+          <FormControlLabel
+            control={
+              <Switch
+                key={activeBox.boxid}
+                checked={activeBox.disableResize}
+                onChange={(event) => handleSwitchChange(event, 'disableResize')}
+                name="disableResize"
+                color="primary"
+              />
+            }
+            label="固定尺寸"
+          />
+
 
 
           <FormControlLabel
             control={
               <Switch
+                key={activeBox.boxid}
                 checked={activeBox.hidden}
                 onChange={(event) => handleSwitchChange(event, 'hidden')}
                 name="hidden"

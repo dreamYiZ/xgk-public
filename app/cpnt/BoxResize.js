@@ -5,6 +5,7 @@ import useBoxStore from '../store/useBo';
 import { pxToNumber, ppplog } from "../util/util";
 import { debounce } from "lodash";
 import useGlobalStore, { MODE } from '../store/useGlobal';
+import { useActiveSub } from '../store/useActiveSub';
 
 const RESIZE_HANDLE_SIZE = 10;
 
@@ -15,10 +16,13 @@ export default function BoxResize({ outerBoxRef, children, boxid, mainRef, boxSt
 
   const activeBoxId = useBoxStore((state) => state.activeBoxId);  // Access the 'activeBoxId' state
 
+  const { activeBox } = useActiveSub();
   const resizeDirectionRef = useRef(null);
   const boxRef = useRef(null);
   const startPosRef = useRef({ x: 0, y: 0 });
   const startSizeRef = useRef({ width: 0, height: 0 });
+
+  const { disableResize } = activeBox || {};
 
   const debounceResize = useCallback(
     debounce((width, height, left, top) => {
@@ -106,7 +110,7 @@ export default function BoxResize({ outerBoxRef, children, boxid, mainRef, boxSt
   return (
     <Box ref={boxRef} className={classes.resizableBox} style={boxStyle}>
       {children}
-      {activeBoxId === boxid && (
+      {(activeBoxId === boxid && !disableResize) && (
         <>
           <div className={classes.handle} style={{ top: "-10px", left: '10%', width: '80%', height: '10px', cursor: 'ns-resize' }} onMouseDown={(e) => handleMouseDown('top', e)}></div>
           <div className={classes.handle} style={{ bottom: "-10px", left: '10%', width: '80%', height: '10px', cursor: 'ns-resize' }} onMouseDown={(e) => handleMouseDown('bottom', e)}></div>

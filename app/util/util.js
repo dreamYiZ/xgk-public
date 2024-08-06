@@ -28,7 +28,10 @@ import { THREE_ANIMATE_TYPE } from "./threeAnimateTyle";
 import { AUTO_NEXT_PAGE } from "./autoType";
 import { ANIMATE_TYPE_MARQUEE_IMAGE_VIDEO } from "./animateTypeMarqueeImageVideo";
 import { fingerprint } from "./finger";
-import * as createEChart from "./createBox";
+import * as createEChart from "./createEchart";
+import {
+  createBoxIFrame
+} from "./createBox";
 
 export * from "./subType";
 export * from "./constant";
@@ -64,6 +67,8 @@ export const createBoxPayload = (sub) => ({
   height: '30px',
   x: 0,
   y: 0,
+  disableMove: false, disableResize: false, hidden: false,
+
   opacity: 1,
   sub: sub,
 });
@@ -1269,5 +1274,6 @@ export const MAP_TYPE_FACTORY = {
   [SUB_TYPE.E_CHART_GAUGE]: createEChart.createBoxEChartGauge,
   [SUB_TYPE.E_CHART_GAUGE_TEMPERATURE]: createEChart.createBoxEChartGaugeTemperature,
   [SUB_TYPE.E_CHART_GAUGE_SPEED]: createEChart.createBoxEChartGaugeSpeed,
+  [SUB_TYPE.IFRAME]: createBoxIFrame,
 
 };

@@ -134,7 +134,7 @@ function Box({ boxid, width, height, position, opacity, zIndex, hidden,
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
     };
-  }, [boxid, changeBoxById, mode, scale, mainScale, isMainDragging, isCanvasEditing, disableMove]);
+  }, [boxid, changeBoxById, mode, scale, mainScale, isMainDragging, isCanvasEditing, disableMove, hidden]);
 
   const boxStyle = useMemo(() => ({
     width: ifNumberToPx(width),
@@ -150,14 +150,17 @@ function Box({ boxid, width, height, position, opacity, zIndex, hidden,
 
   const animateCssClass = useMemo(() => activeBox?.animateCssClass || '', [activeBox]);
 
-  if (hidden) {
-    return null;
-  }
+
 
   const handleDoubleClick = () => {
     ppplog('handleDoubleClick33')
     changeBoxById(boxid, { isEditing: true });
   };
+
+
+  if (hidden) {
+    return null;
+  }
 
   return (
     <div
