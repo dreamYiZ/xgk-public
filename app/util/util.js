@@ -394,6 +394,7 @@ export const BASIC_PAYLOAD_VIDEO = {
     responsive: true,
     fluid: true,
     loop: true,
+    muted: true,
     sources: [
       //   {
       //   src: '/path/to/video.mp4',
