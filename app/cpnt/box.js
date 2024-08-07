@@ -54,7 +54,6 @@ function Box({ box, boxid, width, height, position, opacity, zIndex, hidden,
   }, [mode])
 
   useEffect(() => {
-    ppplog('disableMove', disableMove)
     if (mode !== MODE.EDIT) {
       return () => { }
     }
