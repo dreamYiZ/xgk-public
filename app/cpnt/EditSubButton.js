@@ -133,7 +133,7 @@ export default function EditButtonPayload() {
               onChange={(event) => setButtonText(event.target.value)}
             />
           </Box>
-          <Box mb={2}>
+          <Box mb={1}>
             <TextField
               fullWidth
               maxRows={10}
@@ -148,9 +148,15 @@ export default function EditButtonPayload() {
           <Button component="span" onClick={selectImage}>
             选择图片
           </Button>
+
           <ChooseImage handleChoose={handleChoose} show={showSelectImage} handleClose={() => {
             setShowSelectImage(false);
           }} />
+          <Box mt={2}></Box>
+
+          {backgroundImage && <img src={backgroundImage} alt="预览" style={{ maxWidth: '100px' }} />}
+
+          <Box mt={2}></Box>
 
           <Box mb={2}>
             <ColorField label="背景颜色" value={backgroundColor} onChange={(event) => setBackgroundColor(event)} />

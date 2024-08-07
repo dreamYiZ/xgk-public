@@ -7,7 +7,7 @@ import {
   MAIN_ID_TO_RENDER_BOX_CONTAINER_SELECTOR,
   MAIN_ID_TO_RENDER_BOX_SELECTOR
 } from "./cfg";
-import { CMD } from "./command";
+import { CMD, ALL_BOX_HAVE_CMD } from "./command";
 import { ppplog } from "./ppppp";
 import {
   SPRINT_STATUS,
@@ -67,8 +67,10 @@ export const createBoxPayload = (sub) => ({
   height: '30px',
   x: 0,
   y: 0,
-  disableMove: false, disableResize: false, hidden: false,
+  disableMove: false,
+  disableResize: false,
 
+  hidden: false,
   opacity: 1,
   sub: sub,
 });
@@ -92,7 +94,7 @@ export const createBoxText = () => {
 export const createSubImagePayload = () => {
   return {
     type: SUB_TYPE.IMAGE,
-    url: '/next.svg'
+    url: '/static/bg2.jpeg'
   }
 }
 
@@ -1227,7 +1229,7 @@ export const emptyUndefined = (obj) => {
 };
 
 
-export const MAP_TYPE_FACTORY = {
+export const MAP_TYPE_FACTORY_A = {
   [SUB_TYPE.TEXT]: createBoxText,
   [SUB_TYPE.IMAGE]: createBoxImage,
   [SUB_TYPE.PIE_CHART]: createBoxPieChart,
@@ -1278,3 +1280,22 @@ export const MAP_TYPE_FACTORY = {
   [SUB_TYPE.BUTTON]: createBoxButton,
 
 };
+
+
+const addAllBoxHaveCmd = (subTypeCreateMap, allBoxHaveCmd) => {
+  let newMapSubTypeCreateBox = {};
+  Object.keys(subTypeCreateMap).forEach(key => {
+    newMapSubTypeCreateBox[key] = () => {
+      const createdBox = subTypeCreateMap[key]();
+      if (!createdBox.sub.CMD) {
+        createdBox.sub.CMD = [];
+      }
+
+      createdBox.sub.CMD = [...new Set([...createdBox.sub.CMD, ...allBoxHaveCmd])];
+      return createdBox;
+    }
+  });
+  return newMapSubTypeCreateBox;
+};
+
+export const MAP_TYPE_FACTORY = Object.freeze(addAllBoxHaveCmd(MAP_TYPE_FACTORY_A, ALL_BOX_HAVE_CMD));

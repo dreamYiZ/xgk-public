@@ -5,11 +5,15 @@ import useBoxStore from '../store/useBo';
 import ppplog from "ppplog";
 import useGlobalStore, { MODE } from '../store/useGlobal';
 
-import { pxToNumber, ifNumberToPx, stringToNumber, debounce } from "../util/util";
+import {
+  pxToNumber, ifNumberToPx,
+  isDev
+  , stringToNumber, debounce
+} from "../util/util";
 // import { debounce } from 'lodash';
 import BoxResize from "./BoxResize";
 
-function Box({ boxid, width, height, position, opacity, zIndex, hidden,
+function Box({ box, boxid, width, height, position, opacity, zIndex, hidden,
   children, groupid, x, y, scale, mainRef, disableMove, ...other }) {
   const boxRef = useRef(null);
   const changeBoxById = useBoxStore((state) => state.changeById);
@@ -26,6 +30,8 @@ function Box({ boxid, width, height, position, opacity, zIndex, hidden,
 
   const [showResize, setShowResize] = useState(false);
   const [isTestOrDisplay, setTestOrDisplay] = useState(true);
+
+  const [infoForDebugBoxJson, setInfoForDebugBoxJson] = useState('');
 
   useEffect(() => {
     setShowResize(activeBoxId === boxid);
@@ -158,6 +164,18 @@ function Box({ boxid, width, height, position, opacity, zIndex, hidden,
   };
 
 
+  useEffect(() => {
+    if (isDev) {
+      setInfoForDebugBoxJson(JSON.stringify(box));
+    }
+
+    return () => {
+
+    }
+  }, [box])
+
+
+
   if (hidden) {
     return null;
   }
@@ -169,6 +187,7 @@ function Box({ boxid, width, height, position, opacity, zIndex, hidden,
       style={boxStyle}
       className={`${classes.box} ${classes.disableSelection} ${animateCssClass} animate__animated`}
       onDoubleClick={handleDoubleClick}
+      data-box-info={infoForDebugBoxJson}
     >
       {children}
       {!isTestOrDisplay && <BoxResize mainRef={mainRef} boxid={boxid} boxStyle={{ outerX: x, outerY: y, width, height }}

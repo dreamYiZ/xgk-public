@@ -18,3 +18,6 @@ export const MAIN_ID_TO_RENDER_BOX_CONTAINER = 'main-id-to-render-box-arr-contai
 
 export const MAIN_ID_TO_RENDER_BOX_SELECTOR = `#${MAIN_ID_TO_RENDER_BOX}`;
 export const MAIN_ID_TO_RENDER_BOX_CONTAINER_SELECTOR = `#${MAIN_ID_TO_RENDER_BOX_CONTAINER}`;
+
+
+export const CONSUME_BE_TIME_MS =  150;

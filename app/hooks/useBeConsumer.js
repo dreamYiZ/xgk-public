@@ -5,6 +5,7 @@ import {
   isDev, ppplog, CMD,
   SPRINT_STATUS
 } from "../util/util";
+import { CONSUME_BE_TIME_MS } from "../util/cfg";
 import { trimStringToIntOrNull } from "../util/numberUtil";
 import usePageManager from "../hooks/usePageManager";
 import useGlobalStore from "../store/useGlobal";
@@ -112,13 +113,23 @@ export default function useBeCustomer() {
     }
 
 
-    // Take the first event from the array
-    const firstEvent = eventArr[0];
+    // 消费所有过期事件
+    // Iterate through the event array
+    for (let i = 0; i < eventArr.length; i++) {
+      const event = eventArr[i];
 
-    // Check if the first event's time is earlier than the current time
-    if (firstEvent && (firstEvent.time < Date.now() || !firstEvent.time)) {
-      consumeEv(firstEvent);
+      // Check if the event's time is earlier than the current time
+      if (event && (event.time < Date.now() || !event.time)) {
+        consumeEv(event);
+      } else {
+        // Stop the loop if the condition is not met
+        break;
+      }
     }
+
+
+
+
   }, [eventArr, consumeEv]);
 
   useEffect(() => {
@@ -130,7 +141,7 @@ export default function useBeCustomer() {
 
     const consumeEvIfGood = () => {
       _consumeEvIfGood(eventArr)
-      idSetTimeout = setTimeout(consumeEvIfGood, 1000);
+      idSetTimeout = setTimeout(consumeEvIfGood, 150);
     };
 
     consumeEvIfGood();
@@ -140,7 +151,9 @@ export default function useBeCustomer() {
   }, [_consumeEvIfGood, canConsume]);
 
 
+  // 当测试、展示模式下，事件可以消费
   useEffect(() => {
     setCanConsume(getIsTestOrDisplay());
   }, [mode])
+
 }

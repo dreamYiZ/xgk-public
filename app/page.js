@@ -6,7 +6,10 @@ import { createBox } from './store/useBo';
 import useBoxStore from './store/useBo';
 import subRender from "./subRender.js";
 import useGlobalStore, { BG_TYPE } from './store/useGlobal';
-import { loadInitConfig, MAIN_ID_TO_RENDER_BOX, createBoxText, Bideo, ppplog } from "./util/util";
+import {
+  loadInitConfig, MAIN_ID_TO_RENDER_BOX, createBoxText, Bideo, ppplog,
+  isDev
+} from "./util/util";
 import MouseXY from "./cpnt/mouseXY";
 import useBeCustomer from "./hooks/useBeConsumer";
 import useAutoConsumer from "./hooks/useAutoConsumer";
@@ -95,7 +98,7 @@ export default function Home() {
     }
     return <>
       {boxArr.map((box, index) => {
-        return <BoxNoSSR {...box} key={box.boxid} mainRef={mainRef}>
+        return <BoxNoSSR box={box} {...box} key={box.boxid} mainRef={mainRef}>
           {subRender(box.sub, box)}
         </BoxNoSSR>
       })}
@@ -155,6 +158,13 @@ export default function Home() {
   useEffect(() => {
     setMainDivLoadTime(+new Date())
   }, [])
+
+  useEffect(() => {
+    if (isDev) {
+      ppplog('update-boxArr:', boxArr)
+      window.bo = boxArr;
+    }
+  }, [boxArr])
 
   if (!isClient) {
     return '';
