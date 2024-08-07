@@ -62,7 +62,7 @@ export default function ({ sub, box }) {
 
   const commonStyle = {
     backgroundPosition: 'center center',
-    backgroundSize: 'cover',
+    backgroundSize: '100% 100%',
     width: sub.fullscreen ? '100vw' : box.width || '100%',
     height: sub.fullscreen ? '100vh' : box.height || '100%',
     position: sub.fullscreen ? 'fixed' : 'absolute',

@@ -36,6 +36,7 @@ const EditSubRectangle = lazy(() => import("./EditSubRectangle"));
 const EditSubEChartBar = lazy(() => import("./editSubEcharts"));
 const EditSubIFrame = lazy(() => import("./EditSubIFrame"));
 const EditSubButton = lazy(() => import("./EditSubButton"));
+const EditSubImageRoll = lazy(() => import("./EditSubImageRoll"));
 
 export const MAP_SUB_EDIT = {
   [SUB_TYPE.TEXT]: EditSubText,
@@ -86,5 +87,6 @@ export const MAP_SUB_EDIT = {
   [SUB_TYPE.E_CHART_GAUGE_SPEED]: EditSubEChartBar,
   [SUB_TYPE.IFRAME]: EditSubIFrame,
   [SUB_TYPE.BUTTON]: EditSubButton,
+  [SUB_TYPE.IMAGE_ROLL]: EditSubImageRoll,
 
 };

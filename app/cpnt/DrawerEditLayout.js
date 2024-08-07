@@ -10,6 +10,7 @@ export default function ChartEditorLayout({ children, saveChange,
   setIsOpen,
   buttonText = "编辑数据",
   title,
+  width = 650
 }) {
   const toggleDrawer = (open) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -22,7 +23,7 @@ export default function ChartEditorLayout({ children, saveChange,
     <div>
       <Button color="info" variant="outlined" onClick={toggleDrawer(true)}>{buttonText}</Button>
       <Drawer anchor="right" open={isOpen} onClose={toggleDrawer(false)} >
-        <Box sx={{ width: 650, padding: 2 }}>
+        <Box sx={{ width: width, padding: 2 }}>
 
           {title && <Box> <Typography variant="h4" component="h5">
             {title}
