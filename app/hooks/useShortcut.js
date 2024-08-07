@@ -1,4 +1,7 @@
-import { useRef, useEffect, useState, useCallback } from 'react';
+import {
+  useRef, useEffect, useState, useCallback,
+  useTransition, useDeferredValue
+} from 'react';
 import useGlobalStore from '../store/useGlobal';
 import useBoxStore from '../store/useBo';
 import {
@@ -10,7 +13,7 @@ import { useFabricContext } from "../context/FabricContext";
 
 export default function useShortcut() {
   const {
-    mainDivLeft, mainDivTop,
+    mainDivLeft: mainDivLeftG, mainDivTop: mainDivTopG,
     mainScale, setMainScale, setMainDivLeft, mainDivLoadTime, setMainDivTop, showWhenEditing, mode,
     setIsMainDragging: setIsDraggingGlobal, isMainDragging, setIsSpacePress,
   } = useGlobalStore();
@@ -21,13 +24,18 @@ export default function useShortcut() {
   const isDraggingRef = useRef(false);
   const mainScaleRef = useRef(null);
 
+  const mainDivLeft = useDeferredValue(mainDivLeftG);
+  const mainDivTop = useDeferredValue(mainDivTopG);
+
   const { fabricCanvas } = useFabricContext();
+
+  const [isPending, startTransition] = useTransition();
 
   const lastScaleTimeRef = useRef(Date.now());
 
   useEffect(() => {
-    mainScaleRef.current = mainScale
-  }, [mainScale])
+    mainScaleRef.current = mainScale;
+  }, [mainScale]);
 
   useEffect(() => {
     setIsDraggingGlobal(isDragging);
@@ -37,7 +45,6 @@ export default function useShortcut() {
     debounce((x, y) => {
       setMainDivLeft(x);
       setMainDivTop(y);
-      // }, 1000 / 60 / 2),
     }, 300),
     [setMainDivLeft, setMainDivTop]
   );
@@ -48,9 +55,11 @@ export default function useShortcut() {
       gotMainEl.style.top = `${pxToNumber(gotMainEl.style.top || 0) + deltaY}px`;
 
       debouncedUpdatePosition(pxToNumber(gotMainEl.style.left), pxToNumber(gotMainEl.style.top));
-    }, 50), // Adjust the debounce time as needed
+    }, 50),
     [debouncedUpdatePosition]
   );
+
+  const mainRenderElFn = useCallback(() => document.querySelector(`#${MAIN_ID_TO_RENDER_BOX}`), []);
 
 
   useEffect(() => {
@@ -58,7 +67,6 @@ export default function useShortcut() {
 
     const frameworkEl = document.querySelector(FRAMEWORK_ID_SELECTOR);
     const mainRenderEl = document.querySelector(MAIN_ID_TO_RENDER_BOX_SELECTOR);
-    const mainRenderElFn = () => document.querySelector(`#${MAIN_ID_TO_RENDER_BOX}`);
     const mainRenderContainerEl = document.querySelector(`#${MAIN_ID_TO_RENDER_BOX_CONTAINER}`);
     if (!frameworkEl) {
       console.error(`Element with selector ${FRAMEWORK_ID_SELECTOR} not found.`);
@@ -71,8 +79,8 @@ export default function useShortcut() {
 
         const currentTime = Date.now();
         const timeElapsed = currentTime - lastScaleTimeRef.current;
-        if (timeElapsed > 1000) { // 1 second threshold
-          let newScale = mainScaleRef.current - Math.sign(event.deltaY) * 0.1; // Adjust scale step as needed
+        if (timeElapsed > 100) {
+          let newScale = mainScaleRef.current - Math.sign(event.deltaY) * 0.1;
           newScale = Math.max(MIN_MAIN_SCALE, Math.min(MAX_MAIN_SCALE, newScale));
           setMainScale(newScale);
           lastScaleTimeRef.current = currentTime;
@@ -89,7 +97,11 @@ export default function useShortcut() {
         mainRenderEl && (mainRenderEl.style.cursor = 'grab');
         mainRenderContainerEl && (mainRenderContainerEl.style.cursor = 'grab');
         event.preventDefault();
-        setIsSpacePress(true);
+
+        // startTransition(() => {
+        //   setIsSpacePress(true);
+        // });
+        // setIsSpacePress(true);
       }
 
       if (event.code === 'Delete') {
@@ -125,56 +137,37 @@ export default function useShortcut() {
         setIsDragging(true);
         isDraggingRef.current = true;
         startPosRef.current = { x: event.clientX, y: event.clientY };
-
       }
     };
 
     const handleMouseMove = (event) => {
-      // ppplog('isDragging', isDraggingRef.current, mainRenderEl, mainRenderElFn())
+      ppplog('handleMouseMove')
       if (isDraggingRef.current) {
-
         let gotMainEl = mainRenderElFn();
-
-
-        ppplog('gotMainEl', gotMainEl)
-
         if (!gotMainEl) return;
-
 
         const deltaX = event.clientX - startPosRef.current.x;
         const deltaY = event.clientY - startPosRef.current.y;
 
-
-
-        // debouncedMouseMove(gotMainEl, deltaX, deltaY);
-
         const newLeft = `${pxToNumber(mainDivLeft || 0) + deltaX}`;
         const newTop = `${pxToNumber(mainDivTop || 0) + deltaY}`;
 
-
-        const matrix = getComputedStyle(gotMainEl).transform
+        const matrix = getComputedStyle(gotMainEl).transform;
         const matrixArray = matrix.replace("matrix(", "").split(",");
         const scaleX = parseFloat(matrixArray[0]);
         const scaleY = parseFloat(matrixArray[3]);
 
         const translateX = parseFloat(matrixArray[4]);
-        const translateY = parseFloat(matrixArray[5]); // parseFloat
+        const translateY = parseFloat(matrixArray[5]);
 
         const newTranslateX = translateX + deltaX;
         const newTranslateY = translateY + deltaY;
-        ppplog('getComputedStyle', getComputedStyle(gotMainEl).transform)
-        ppplog('getComputedStyle 123', newTranslateX, newTranslateY, scaleX)
 
-        gotMainEl.style.transform = `scale(${scaleX}) translate(${newTranslateX / scaleX}px, ${newTranslateY / scaleY}px)`
+        gotMainEl.style.transform = `scale(${scaleX}) translate(${newTranslateX / scaleX}px, ${newTranslateY / scaleY}px)`;
 
-        // gotMainEl.style.left = `${newLeft}px`;
-        // gotMainEl.style.top = `${newTop}px`;
-
-        // debouncedUpdatePosition(newLeft, newTop);
-
-        debouncedUpdatePosition(newTranslateX / scaleX, newTranslateY / scaleY);
-        // setMainDivLeft(newLeft);
-        // setMainDivTop(newTop);
+        startTransition(() => {
+          debouncedUpdatePosition(newTranslateX / scaleX, newTranslateY / scaleY);
+        });
 
         startPosRef.current = { x: event.clientX, y: event.clientY };
       }
@@ -194,7 +187,7 @@ export default function useShortcut() {
     window.addEventListener('keyup', handleKeyUp);
 
     return () => {
-      ppplog('frameworkEl remove!')
+      ppplog('frameworkEl remove!');
       frameworkEl.removeEventListener('wheel', handleWheel);
       frameworkEl.removeEventListener('mousedown', handleMouseDown);
       frameworkEl.removeEventListener('mousemove', handleMouseMove);
@@ -204,7 +197,8 @@ export default function useShortcut() {
       window.removeEventListener('keyup', handleKeyUp);
     };
   }, [
-    fabricCanvas, setMainScale, mainDivLeft, mainDivTop, mode, activeBoxId, mainDivLoadTime
+    fabricCanvas, setMainScale, mainDivLeft, mainDivTop, mode, activeBoxId, mainDivLoadTime,
+    debouncedUpdatePosition, debouncedMouseMove, setIsSpacePress
   ]);
 
   return null; // No need to render anything
