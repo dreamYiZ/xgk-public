@@ -1,5 +1,8 @@
 "use client"
-import { useState, useRef, useEffect, useMemo, useCallback } from 'react';  // Import useMemo
+import {
+  useState, useRef, useDeferredValue,
+  useEffect, useMemo, useCallback
+} from 'react';  // Import useMemo
 import classes from "./box.module.sass";
 import useBoxStore from '../store/useBo';
 import ppplog from "ppplog";
@@ -32,6 +35,7 @@ function Box({ box, boxid, width, height, position, opacity, zIndex, hidden,
   const [isTestOrDisplay, setTestOrDisplay] = useState(true);
 
   const [infoForDebugBoxJson, setInfoForDebugBoxJson] = useState('');
+  const infoForDebugBoxJsonDeferred  = useDeferredValue(infoForDebugBoxJson);
 
   useEffect(() => {
     setShowResize(activeBoxId === boxid);
@@ -154,6 +158,9 @@ function Box({ box, boxid, width, height, position, opacity, zIndex, hidden,
     transform: `scale(${scale})`,
   }), [width, height, position, opacity, x, y, scale, zIndex, activeBoxId, boxid]);  // Add
 
+
+  const boxStyleDeferred = useDeferredValue(boxStyle);
+
   const animateCssClass = useMemo(() => activeBox?.animateCssClass || '', [activeBox]);
 
 
@@ -184,10 +191,10 @@ function Box({ box, boxid, width, height, position, opacity, zIndex, hidden,
     <div
       id={boxid}
       ref={boxRef}
-      style={boxStyle}
+      style={boxStyleDeferred}
       className={`${classes.box} ${classes.disableSelection} ${animateCssClass} animate__animated`}
       onDoubleClick={handleDoubleClick}
-      data-box-info={infoForDebugBoxJson}
+      data-box-info={infoForDebugBoxJsonDeferred}
     >
       {children}
       {!isTestOrDisplay && <BoxResize mainRef={mainRef} boxid={boxid} boxStyle={{ outerX: x, outerY: y, width, height }}

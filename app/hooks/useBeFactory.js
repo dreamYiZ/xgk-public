@@ -67,7 +67,7 @@ export default function useBeFactory(
     createBeBySubBe(be);
   }
 
-  const addBeToBeStoreThrottle = throttle(addBeToBeStore, 1000)
+  const addBeToBeStoreThrottle = throttle(addBeToBeStore, 100)
 
 
 

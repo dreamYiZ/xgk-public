@@ -25,7 +25,9 @@ import callApiCommand from "../util/callApiCommand";
 // 1720823424462
 
 export default function useBeCustomer() {
-  const { getById, changeById, boxArr, setBoxArr } = useBoxStore();
+  const { getById, changeById,
+    hideBoxById, showBoxById, toggleShowHideBoxById,
+    boxArr, setBoxArr } = useBoxStore();
   const {
     eventArr,
     consumeBe,
@@ -100,6 +102,18 @@ export default function useBeCustomer() {
         await callApiCommand(code);
       } catch (e) {
       }
+    }
+
+    if (cmd === CMD.HIDE) {
+
+      hideBoxById(target);
+    }
+    if (cmd === CMD.SHOW) {
+      showBoxById(target);
+    }
+    if (cmd === CMD.TOGGLE) {
+      ppplog('cmd === CMD.TOGGLE', target);
+      toggleShowHideBoxById(target);
     }
 
     consumeBe(beItem);

@@ -24,9 +24,9 @@ export const CMD_DISPLAY = {
 
 
 export const ALL_BOX_HAVE_CMD = [
-  [CMD.HIDE],
-  [CMD.SHOW],
-  [CMD.TOGGLE],
+  CMD.HIDE,
+  CMD.SHOW,
+  CMD.TOGGLE,
 ]
 
 export const CMD_TIME = {

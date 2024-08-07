@@ -10,9 +10,11 @@ import usePageStorage from "../store/usePage";
 
 export default function EditOnClickEventItem({ beItem, updateBeItem, updateBeList }) {
   const boxArr = useBoxStore((state) => state.boxArr);
-  const activeBoxId = useBoxStore((state) => state.activeBoxId);
-  const activeBox = useMemo(() => boxArr.find((box) => box.boxid === activeBoxId), [boxArr, activeBoxId]);
-  const sub = useMemo(() => activeBox?.sub, [activeBox, activeBoxId]);
+
+  const { getById } = useBoxStore();
+  // const activeBoxId = useBoxStore((state) => state.activeBoxId);
+  // const activeBox = useMemo(() => boxArr.find((box) => box.boxid === activeBoxId), [boxArr, activeBoxId]);
+  // const sub = useMemo(() => activeBox?.sub, [activeBox, activeBoxId]);
 
   const [selectedCmd, setSelectedCmd] = useState(null);
   const [selectedTarget, setSelectedTarget] = useState(null);
@@ -84,19 +86,31 @@ export default function EditOnClickEventItem({ beItem, updateBeItem, updateBeLis
           />
         </FormControl>
         <Box sx={{ height: '16px' }} />
+
         {selectedCmd !== CMD.GOTO && (
           <Box>
             <InputLabel>选择目标</InputLabel>
             <FormControl fullWidth>
               <Autocomplete
                 value={selectedTarget}
-                onChange={(event, newValue) => handleChange('target', newValue)}
-                options={availableTargetList.map((box) => `${box?.name}:${box.boxid}`)}
+                onChange={(event, newValue) => handleChange('target', newValue?.boxid)}
+                options={availableTargetList}
+                getOptionLabel={(option) => `${getById(option)?.name ?? ''}:${getById(option)?.boxid ?? ''}`}
+                renderOption={(props, option) => (
+                  <li {...props} key={option.boxid}>
+                    {/* {JSON.stringify(option)} */}
+                    {`${option?.name ?? ''}:${option.boxid}`}
+                  </li>
+                )}
                 renderInput={(params) => <TextField {...params} InputLabelProps={{ shrink: true }} />}
               />
             </FormControl>
           </Box>
         )}
+
+        {/* 修改这个，只有options展示的时候，才采用`${box?.name??''}:${box.boxid}`，值实际上使用boxid */}
+
+
         {selectedCmd === CMD.GOTO && (
           <Box>
             <InputLabel>选择目标</InputLabel>

@@ -31,6 +31,16 @@ const useBoxStore = create(persist(
     setActiveBoxId: (id) => set(() => ({ activeBoxId: id })),  // Add this line
     clearActiveId: () => set(() => ({ activeBoxId: null })), // Remove this line
 
+    hideBoxById: (id) => set((state) => ({
+      boxArr: state.boxArr.map((box) => box.boxid === id ? { ...box, hidden: true } : box)
+    })),
+    showBoxById: (id) => set((state) => ({
+      boxArr: state.boxArr.map((box) => box.boxid === id ? { ...box, hidden: false } : box)
+    })),
+    toggleShowHideBoxById: (id) => set((state) => ({
+      boxArr: state.boxArr.map((box) => box.boxid === id ? { ...box, hidden: !box.hidden } : box)
+    })),
+
   }),
   {
     name: 'box-storage', // unique name
@@ -40,6 +50,23 @@ const useBoxStore = create(persist(
 
 export default useBoxStore;
 
+// 参考：
+// export const createBoxPayload = (sub) => ({
+//   boxid: uuidv4(),
+//   position: 'absolute',
+//   zIndex: 1,
+//   groupId: 'group1',
+//   width: '100px',
+//   height: '30px',
+//   x: 0,
+//   y: 0,
+//   disableMove: false,
+//   disableResize: false,
+
+//   hidden: false,
+//   opacity: 1,
+//   sub: sub,
+// });
 
 
 

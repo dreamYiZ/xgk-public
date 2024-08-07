@@ -123,7 +123,7 @@ function EditBox() {
           <br />
 
           <EditSubTypeDisplay />
-          <TextField label="box名" value={activeBox.name} onChange={(event) => handleInputChange(event, 'name')} />
+          <TextField key={activeBox.boxid}  label="box名" value={activeBox.name} onChange={(event) => handleInputChange(event, 'name')} />
           <br />
           <br />
 
