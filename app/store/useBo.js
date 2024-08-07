@@ -1,5 +1,7 @@
-import create from 'zustand'
-import { persist } from 'zustand/middleware'
+import create from 'zustand';
+import { persist, createJSONStorage } from 'zustand/middleware';
+
+const BOX_STORAGE_KEY = 'box-storage';
 
 const useBoxStore = create(persist(
   (set, get) => ({
@@ -43,8 +45,8 @@ const useBoxStore = create(persist(
 
   }),
   {
-    name: 'box-storage', // unique name
-    getStorage: () => localStorage, // (optional) by default the 'localStorage' is used
+    name: BOX_STORAGE_KEY, // unique name
+    storage: createJSONStorage(() => localStorage),
   }
 ));
 

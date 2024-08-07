@@ -1,5 +1,5 @@
 import create from 'zustand'
-import { persist } from 'zustand/middleware'
+import { persist, createJSONStorage } from 'zustand/middleware';
 
 export const GLOBAL_STORAGE_KEY = 'global-storage'
 
@@ -108,7 +108,7 @@ const useGlobalStore = create(persist(
   }),
   {
     name: GLOBAL_STORAGE_KEY,
-    getStorage: () => localStorage,
+    storage: createJSONStorage(() => localStorage),
   }
 ));
 

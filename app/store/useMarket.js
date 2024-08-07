@@ -1,5 +1,8 @@
 import create from 'zustand'
-import { persist } from 'zustand/middleware'
+import { persist, createJSONStorage } from 'zustand/middleware';
+
+
+const MARKET_STORAGE_KEY = 'market-storage';
 
 const useMarket = create(persist(
   (set, get) => ({
@@ -28,8 +31,8 @@ const useMarket = create(persist(
     setActiveTemplateId: (id) => set(() => ({ activeTemplateId: id })),
   }),
   {
-    name: 'market-storage', // unique name
-    getStorage: () => localStorage, // (optional) by default the 'localStorage' is used
+    name: MARKET_STORAGE_KEY, // unique name
+    storage: createJSONStorage(() => localStorage),
   }
 ));
 
