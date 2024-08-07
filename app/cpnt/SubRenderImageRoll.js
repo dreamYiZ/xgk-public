@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useEffect, useState, useRef } from "react";
 import Box from '@mui/material/Box';
 import { ppplog } from "../util/util";
+import useGlobalStore from '../store/useGlobal';
 
 export default function ({ sub, box }) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -9,6 +10,8 @@ export default function ({ sub, box }) {
   const [zIndex, setZIndex] = useState([1, 0]);
   const [firstLoad, setFirstLoad] = useState(true);
   const timeoutsRef = useRef([]);
+
+  const { mainScale, mode, screenWidth, screenHeight, getIsTestOrDisplay } = useGlobalStore();
 
   useEffect(() => {
     // ppplog('updateImage useEffect');
@@ -49,7 +52,7 @@ export default function ({ sub, box }) {
     // setImages([img_0, img_1]);
 
     const timeout = setTimeout(() => {
-      const img_0 = sub.images[(currentImageIndex ) % sub.images.length];
+      const img_0 = sub.images[(currentImageIndex) % sub.images.length];
       const img_1 = sub.images[(currentImageIndex + 1) % sub.images.length];
       setImages([img_0, img_1]);
       setZIndex([1, 0]);
@@ -63,8 +66,8 @@ export default function ({ sub, box }) {
   const commonStyle = {
     backgroundPosition: 'center center',
     backgroundSize: '100% 100%',
-    width: sub.fullscreen ? '100vw' : box.width || '100%',
-    height: sub.fullscreen ? '100vh' : box.height || '100%',
+    width: sub.fullscreen ? (getIsTestOrDisplay() ? '100vw' : `${screenWidth}px`) : box.width || '100%',
+    height: sub.fullscreen ? (getIsTestOrDisplay() ? '100vh' : `${screenHeight}px`) : box.height || '100%',
     position: sub.fullscreen ? 'fixed' : 'absolute',
     top: sub.fullscreen ? 0 : 'auto',
     left: sub.fullscreen ? 0 : 'auto',
