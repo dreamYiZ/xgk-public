@@ -99,7 +99,7 @@ export default function EditButtonPayload() {
       setBorderRadiusUnit(getUnitFromSomeSizeValue(borderRadius));
       setTextIndentUnit(getUnitFromSomeSizeValue(textIndent));
     }
-  }, [sub, activeBoxId]);
+  }, [activeBoxId]);
 
   const selectImage = () => {
     setShowSelectImage(true);
