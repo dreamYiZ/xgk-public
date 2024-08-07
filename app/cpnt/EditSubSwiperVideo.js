@@ -141,7 +141,9 @@ export default function EditSwiperVideoSettings() {
             fullWidth
           />
           <Button color="success" onClick={selectImage}>选择视频</Button>
-          <ChooseImage handleChoose={handleChoose} show={showSelectImage} handleClose={() => setShowSelectImage(false)} />
+          <ChooseImage handleChoose={handleChoose} show={showSelectImage} handleClose={() => setShowSelectImage(false)}
+            type="video"
+          />
 
           <Box mt={1}></Box>
           <Button variant="contained" onClick={handleAddVideoSrc} sx={{ ml: 2 }}>

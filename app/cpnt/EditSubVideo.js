@@ -120,7 +120,7 @@ export default function () {
           />
         </Box>
         <Box mt={1}></Box>
-        <ChooseImage handleChoose={handleChoose} show={showSelectImage} handleClose={() => setShowSelectImage(false)} />
+        <ChooseImage type="video" handleChoose={handleChoose} show={showSelectImage} handleClose={() => setShowSelectImage(false)} />
       </DrawerEditLayout>
     </Box>
   );
