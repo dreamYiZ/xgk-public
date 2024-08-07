@@ -3,7 +3,11 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import useBoxStore from '../store/useBo';
 import { useState, useMemo, useEffect } from 'react';
-import { CMD, CMD_DISPLAY, CMD_TIME, CMD_TIME_DISPLAY } from "../util/util";
+import {
+  CMD, CMD_DISPLAY, CMD_TIME, CMD_TIME_DISPLAY
+
+  , ppplog
+} from "../util/util";
 import { Select, MenuItem, FormControl, InputLabel, Autocomplete, TextField, Snackbar } from '@mui/material';
 import MuiAlert from '@mui/material/Alert';
 import usePageStorage from "../store/usePage";
@@ -93,15 +97,37 @@ export default function EditOnClickEventItem({ beItem, updateBeItem, updateBeLis
             <FormControl fullWidth>
               <Autocomplete
                 value={selectedTarget}
-                onChange={(event, newValue) => handleChange('target', newValue?.boxid)}
+                onChange={(event, newValue) => {
+                  ppplog('newValue', newValue);
+                  if (newValue?.boxid !== selectedTarget) {
+                    ppplog('newValue handleChange')
+                    handleChange('target', newValue?.boxid)
+                  }
+                }}
                 options={availableTargetList}
-                getOptionLabel={(option) => `${getById(option)?.name ?? ''}:${getById(option)?.boxid ?? ''}`}
-                renderOption={(props, option) => (
-                  <li {...props} key={option.boxid}>
-                    {/* {JSON.stringify(option)} */}
-                    {`${option?.name ?? ''}:${option.boxid}`}
-                  </li>
-                )}
+                getOptionLabel={(option) => {
+                  if (option && !option?.boxid) {
+                    return `${getById(option)?.name ?? ''}:${getById(option)?.boxid ?? ''}`
+
+                  } else {
+                    return `${option?.name ?? ''}:${option?.boxid ?? ''}`
+
+                  }
+                }}
+                renderOption={(props, option) => {
+                  // if (!option?.id) {
+                  //   if(option){
+                  //     option = getById(option);
+                  //   }
+                  // }
+                  return (
+                    <li {...props} key={option?.boxid}>
+                      {`${option?.name ?? ''}:${option?.boxid}`}
+                    </li>
+                  )
+                }
+                }
+
                 renderInput={(params) => <TextField {...params} InputLabelProps={{ shrink: true }} />}
               />
             </FormControl>
