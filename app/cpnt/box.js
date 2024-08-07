@@ -7,6 +7,8 @@ import classes from "./box.module.sass";
 import useBoxStore from '../store/useBo';
 import ppplog from "ppplog";
 import useGlobalStore, { MODE } from '../store/useGlobal';
+import Box from '@mui/material/Box';
+
 
 import {
   pxToNumber, ifNumberToPx,
@@ -16,7 +18,7 @@ import {
 // import { debounce } from 'lodash';
 import BoxResize from "./BoxResize";
 
-function Box({ box, boxid, width, height, position, opacity, zIndex, hidden,
+export default function RenderBox({ box, boxid, width, height, position, opacity, zIndex, hidden,
   children, groupid, x, y, scale, mainRef, disableMove, ...other }) {
   const boxRef = useRef(null);
   const changeBoxById = useBoxStore((state) => state.changeById);
@@ -35,7 +37,7 @@ function Box({ box, boxid, width, height, position, opacity, zIndex, hidden,
   const [isTestOrDisplay, setTestOrDisplay] = useState(true);
 
   const [infoForDebugBoxJson, setInfoForDebugBoxJson] = useState('');
-  const infoForDebugBoxJsonDeferred  = useDeferredValue(infoForDebugBoxJson);
+  const infoForDebugBoxJsonDeferred = useDeferredValue(infoForDebugBoxJson);
 
   useEffect(() => {
     setShowResize(activeBoxId === boxid);
@@ -195,7 +197,9 @@ function Box({ box, boxid, width, height, position, opacity, zIndex, hidden,
       onDoubleClick={handleDoubleClick}
       data-box-info={infoForDebugBoxJsonDeferred}
     >
-      {children}
+      <Box sx={{ overflow: "hidden", height: '100%', width: '100%' }}>
+        {children}
+      </Box>
       {!isTestOrDisplay && <BoxResize mainRef={mainRef} boxid={boxid} boxStyle={{ outerX: x, outerY: y, width, height }}
         show={showResize}
         isResizingRef={isResizingRef}
@@ -205,4 +209,4 @@ function Box({ box, boxid, width, height, position, opacity, zIndex, hidden,
   );
 }
 
-export default Box;
+

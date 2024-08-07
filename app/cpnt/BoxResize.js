@@ -107,15 +107,18 @@ export default function BoxResize({ outerBoxRef, children, boxid, mainRef, boxSt
     isResizingRef.current = false;
   };
 
+  const RESIZE_TRIGGER_AREA_WIDTH = "16px";
+  const RESIZE_TRIGGER_OFFSET = "2px";
+
   return (
     <Box ref={boxRef} className={classes.resizableBox} style={boxStyle}>
       {children}
       {(activeBoxId === boxid && !disableResize) && (
         <>
-          <div className={classes.handle} style={{ top: "-10px", left: '10%', width: '80%', height: '10px', cursor: 'ns-resize' }} onMouseDown={(e) => handleMouseDown('top', e)}></div>
-          <div className={classes.handle} style={{ bottom: "-10px", left: '10%', width: '80%', height: '10px', cursor: 'ns-resize' }} onMouseDown={(e) => handleMouseDown('bottom', e)}></div>
-          <div className={classes.handle} style={{ top: '10%', left: "-10px", height: '80%', width: '10px', cursor: 'ew-resize' }} onMouseDown={(e) => handleMouseDown('left', e)}></div>
-          <div className={classes.handle} style={{ top: '10%', right: "-10px", height: '80%', width: '10px', cursor: 'ew-resize' }} onMouseDown={(e) => handleMouseDown('right', e)}></div>
+          <div className={classes.handle} style={{ top: `-${RESIZE_TRIGGER_OFFSET}`, left: '10%', width: '80%', height: `${RESIZE_TRIGGER_AREA_WIDTH}`, cursor: 'ns-resize' }} onMouseDown={(e) => handleMouseDown('top', e)}></div>
+          <div className={classes.handle} style={{ bottom: `-${RESIZE_TRIGGER_OFFSET}`, left: '10%', width: '80%', height: `${RESIZE_TRIGGER_AREA_WIDTH}`, cursor: 'ns-resize' }} onMouseDown={(e) => handleMouseDown('bottom', e)}></div>
+          <div className={classes.handle} style={{ top: '10%', left: `-${RESIZE_TRIGGER_OFFSET}`, height: '80%', width: `${RESIZE_TRIGGER_AREA_WIDTH}`, cursor: 'ew-resize' }} onMouseDown={(e) => handleMouseDown('left', e)}></div>
+          <div className={classes.handle} style={{ top: '10%', right: `-${RESIZE_TRIGGER_OFFSET}`, height: '80%', width: `${RESIZE_TRIGGER_AREA_WIDTH}`, cursor: 'ew-resize' }} onMouseDown={(e) => handleMouseDown('right', e)}></div>
         </>
       )}
     </Box>
