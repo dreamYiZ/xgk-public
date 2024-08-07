@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useMemo, useCallback, useTransition } from "react";
 import Box from '@mui/material/Box';
 import { ppplog } from "../util/util";
 import useGlobalStore from '../store/useGlobal';
@@ -10,31 +10,33 @@ export default function ({ sub, box }) {
   const [zIndex, setZIndex] = useState([1, 0]);
   const [firstLoad, setFirstLoad] = useState(true);
   const timeoutsRef = useRef([]);
+  const [isPending, startTransition] = useTransition();
 
-  const { mainScale, mode, screenWidth, screenHeight, getIsTestOrDisplay } = useGlobalStore();
+  const { screenWidth, screenHeight, getIsTestOrDisplay } = useGlobalStore();
+
+  const clearAllTimeouts = useCallback(() => {
+    timeoutsRef.current.forEach(timeout => clearTimeout(timeout));
+    timeoutsRef.current = [];
+  }, []);
+
+  const updateImage = useCallback(() => {
+    setCurrentImageIndex((prevIndex) => {
+      const newIndex = (prevIndex + 1) % sub.images.length;
+      // ppplog('sub.time[newIndex]', sub.time[newIndex]);
+      clearAllTimeouts();
+      timeoutsRef.current.push(setTimeout(() => {
+        startTransition(() => {
+          setCurrentImageIndex(newIndex);
+        });
+      }, sub.time[newIndex] * 1000));
+      return newIndex;
+    });
+  }, [sub.images, sub.time, clearAllTimeouts]);
 
   useEffect(() => {
-    // ppplog('updateImage useEffect');
-    const updateImage = () => {
-      setCurrentImageIndex((prevIndex) => {
-        const newIndex = (prevIndex + 1) % sub.images.length;
-        // ppplog('sub.time[newIndex]', sub.time[newIndex]);
-        timeoutsRef.current.forEach(timeout => clearTimeout(timeout));
-        timeoutsRef.current = [];
-        timeoutsRef.current.push(setTimeout(updateImage, sub.time[newIndex] * 1000));
-
-        return newIndex;
-      });
-    };
-
     timeoutsRef.current.push(setTimeout(updateImage, sub.time[currentImageIndex] * 1000));
-
-    return () => {
-      timeoutsRef.current.forEach(timeout => clearTimeout(timeout));
-      timeoutsRef.current = [];
-    };
-  }, [sub.images, sub.time]);
-
+    return clearAllTimeouts;
+  }, [updateImage, sub.time, currentImageIndex]);
 
   useEffect(() => {
     if (firstLoad) {
@@ -42,37 +44,32 @@ export default function ({ sub, box }) {
       return;
     }
 
-
-    ppplog('currentImageIndex useEffect', currentImageIndex);
-
+    // ppplog('currentImageIndex useEffect', currentImageIndex);
 
     setZIndex([0, 1]);
-    // const img_0 = sub.images[currentImageIndex];
-    // const img_1 = sub.images[(currentImageIndex + 1) % sub.images.length];
-    // setImages([img_0, img_1]);
 
     const timeout = setTimeout(() => {
-      const img_0 = sub.images[(currentImageIndex) % sub.images.length];
+      const img_0 = sub.images[currentImageIndex % sub.images.length];
       const img_1 = sub.images[(currentImageIndex + 1) % sub.images.length];
       setImages([img_0, img_1]);
       setZIndex([1, 0]);
-      // ppplog('currentImageIndex', currentImageIndex, sub.time[currentImageIndex])
-
     }, 500);
+
+    timeoutsRef.current.push(timeout);
 
     return () => clearTimeout(timeout);
   }, [currentImageIndex, sub.images, sub.time]);
 
-  const commonStyle = {
+  const commonStyle = useMemo(() => ({
     backgroundPosition: 'center center',
     backgroundSize: '100% 100%',
-    width: sub.fullscreen ? (getIsTestOrDisplay() ? '100vw' : `${screenWidth}px`) : box.width || '100%',
-    height: sub.fullscreen ? (getIsTestOrDisplay() ? '100vh' : `${screenHeight}px`) : box.height || '100%',
+    width: sub.fullscreen ? (!getIsTestOrDisplay() ? `${screenWidth}px` : '100vw') : box.width || '100%',
+    height: sub.fullscreen ? (!getIsTestOrDisplay() ? `${screenHeight}px` : '100vh') : box.height || '100%',
     position: sub.fullscreen ? 'fixed' : 'absolute',
     top: sub.fullscreen ? 0 : 'auto',
     left: sub.fullscreen ? 0 : 'auto',
     zIndex: sub.fullscreen ? 9999 : 10,
-  };
+  }), [sub.fullscreen, getIsTestOrDisplay, screenWidth, screenHeight, box.width, box.height]);
 
   return (
     <Box sx={{ position: sub.fullscreen ? 'fixed' : 'relative' }}>
