@@ -141,7 +141,7 @@ export default function useShortcut() {
     };
 
     const handleMouseMove = (event) => {
-      ppplog('handleMouseMove')
+      // ppplog('handleMouseMove')
       if (isDraggingRef.current) {
         let gotMainEl = mainRenderElFn();
         if (!gotMainEl) return;
@@ -198,7 +198,7 @@ export default function useShortcut() {
     };
   }, [
     fabricCanvas, setMainScale, mainDivLeft, mainDivTop, mode, activeBoxId, mainDivLoadTime,
-    debouncedUpdatePosition, debouncedMouseMove, setIsSpacePress
+    debouncedUpdatePosition, debouncedMouseMove
   ]);
 
   return null; // No need to render anything
