@@ -49,5 +49,6 @@ export const SUB_TYPE_DISPLAY = {
   [SUB_TYPE.E_CHART_GAUGE_SPEED]: 'ECharts仪表速度',
   [SUB_TYPE.IFRAME]: 'iframe',
   [SUB_TYPE.BUTTON]: '按钮',
+  [SUB_TYPE.IMAGE_ROLL]: '单图轮播',
 }
 

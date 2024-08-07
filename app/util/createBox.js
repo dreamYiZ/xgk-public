@@ -51,3 +51,23 @@ export const createBoxButton = () => {
     }
   }
 }
+
+
+const PAYLOAD_IMAGE_ROLL = {
+  images: ['/static/bg1.jpeg', '/static/bg2.jpeg', '/static/bg3.jpeg'],
+  time: [16, 6, 2],
+  fullscreen: false,
+}
+
+export const createBoxImageRoll = () => {
+  return {
+    ...createBoxPayload(),
+    zIndex: 12,
+    width: 360,
+    height: 250,
+    sub: {
+      type: SUB_TYPE.IMAGE_ROLL,
+      ...PAYLOAD_IMAGE_ROLL
+    }
+  }
+}
