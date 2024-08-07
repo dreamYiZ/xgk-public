@@ -36,6 +36,7 @@ const PAYLOAD_BUTTON = {
   textAlign: TEXT_ALIGN.center,
   color: '#ffffff',
   letterSpacing: '2px',
+  textIndent: '0px',
 }
 
 export const createBoxButton = () => {

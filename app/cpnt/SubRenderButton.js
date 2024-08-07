@@ -21,6 +21,7 @@ export default function ({ box, sub }) {
     fontWeight: sub.fontWeight,
     textAlign: sub.textAlign,
     letterSpacing: sub.letterSpacing,
+    textIndent: sub.textIndent,
     color: sub.color,
     width: sub.width || "100%",
     height: sub.height || "100%",
