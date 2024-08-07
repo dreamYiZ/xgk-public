@@ -6,7 +6,7 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import EditOnClickEvent from "./EditOnClickEvent";
 import ColorField from "./ColorField";
-import ChooseImage from "./ChooseImage";
+import ChooseImage from "./ChooseImage1";
 import { FONT_WEIGHT, BORDER_STYLE, TEXT_ALIGN } from "../util/constant";
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';

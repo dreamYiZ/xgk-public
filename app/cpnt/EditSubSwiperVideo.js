@@ -8,7 +8,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import SwapVertIcon from '@mui/icons-material/SwapVert';
 import useBoxStore from '../store/useBo';
 import { safeNumberIfString, SUB_TYPE } from "../util/util";
-import ChooseImage from './ChooseImage';  // Make sure to import ChooseImage
+import ChooseImage from './ChooseImage1';  // Make sure to import ChooseImage
 
 export default function EditSwiperVideoSettings() {
   const boxArr = useBoxStore((state) => state.boxArr);

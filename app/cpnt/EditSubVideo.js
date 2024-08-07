@@ -15,7 +15,7 @@ import { Typography, Switch, FormControlLabel } from '@mui/material';  // Import
 import IconButton from '@mui/material/IconButton';
 import ColorLensIcon from '@mui/icons-material/ColorLens';
 import DrawerEditLayout from "./DrawerEditLayout";
-import ChooseImage from './ChooseImage';  // Make sure to import ChooseImage
+import ChooseImage from './ChooseImage1';  // Make sure to import ChooseImage
 
 export default function () {
   const boxArr = useBoxStore((state) => state.boxArr);
