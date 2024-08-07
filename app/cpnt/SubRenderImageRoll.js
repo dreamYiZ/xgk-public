@@ -71,6 +71,7 @@ export default function ({ sub, box }) {
     position: sub.fullscreen ? 'fixed' : 'absolute',
     top: sub.fullscreen ? 0 : 'auto',
     left: sub.fullscreen ? 0 : 'auto',
+    zIndex: sub.fullscreen ? 9999 : 10,
   };
 
   return (
