@@ -112,7 +112,6 @@ export default function useBeCustomer() {
       showBoxById(target);
     }
     if (cmd === CMD.TOGGLE) {
-      ppplog('cmd === CMD.TOGGLE', target);
       toggleShowHideBoxById(target);
     }
 
