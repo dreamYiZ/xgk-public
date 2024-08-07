@@ -14,7 +14,7 @@ import ppplog from 'ppplog';
 import { handleFullscreen } from "../util/util";
 import SettingsIcon from '@mui/icons-material/Settings';  // 引入 SettingsIcon 图标
 import Setting from "./setting";
-import ChooseImage from "./chooseImage";
+import ChooseImage from "./ChooseImage";
 import BarChartIcon from '@mui/icons-material/BarChart';  // 引入 BarChartIcon 图标
 import DataCenter from "./dataCenter";
 import Accordion from '@mui/material/Accordion';

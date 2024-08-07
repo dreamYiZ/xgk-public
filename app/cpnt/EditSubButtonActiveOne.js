@@ -7,7 +7,7 @@ import { HexColorPicker } from 'react-colorful';  // 引入颜色选择器
 import { ANIMATE_TIME_FUNCTION_TYPES_DISPLAY, ANIMATE_TIME_FUNCTION_TYPES, ANIMATE_TYPES, ANIMATE_TYPES_DISPLAY } from "../util/util";
 import { useState, useMemo, useEffect } from 'react';
 import { Box } from '@mui/system';  // 引入 Box 组件
-import ChooseImage from "./chooseImage";
+import ChooseImage from "./ChooseImage";
 import useGlobalStore from '../store/useGlobal';
 import EditOnClickEvent from "./EditOnClickEvent";
 import ppplog from "ppplog";

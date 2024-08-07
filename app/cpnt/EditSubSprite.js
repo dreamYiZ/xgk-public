@@ -7,7 +7,7 @@ import { HexColorPicker } from 'react-colorful';  // 引入颜色选择器
 import { canToBeNumber, pxToNumber, SPRINT_STATUS, SUB_TYPE } from "../util/util";
 import { useState, useMemo, useEffect } from 'react';
 import { Box } from '@mui/system';  // 引入 Box 组件
-import ChooseImage from "./chooseImage";
+import ChooseImage from "./ChooseImage";
 import useGlobalStore from '../store/useGlobal';
 import ppplog from "ppplog";
 import EditSubSpriteComplex from "./EditSubSpriteComplex";
