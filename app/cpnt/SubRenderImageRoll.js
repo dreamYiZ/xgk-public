@@ -1,28 +1,37 @@
 import * as React from 'react';
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Box from '@mui/material/Box';
+import { ppplog } from "../util/util";
 
 export default function ({ sub, box }) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [images, setImages] = useState([sub.images[0], sub.images[1]]);
   const [zIndex, setZIndex] = useState([1, 0]);
   const [firstLoad, setFirstLoad] = useState(true);
+  const timeoutsRef = useRef([]);
 
   useEffect(() => {
-    let timeout;
-
+    // ppplog('updateImage useEffect');
     const updateImage = () => {
       setCurrentImageIndex((prevIndex) => {
         const newIndex = (prevIndex + 1) % sub.images.length;
-        timeout = setTimeout(updateImage, sub.time[newIndex] * 1000);
+        // ppplog('sub.time[newIndex]', sub.time[newIndex]);
+        timeoutsRef.current.forEach(timeout => clearTimeout(timeout));
+        timeoutsRef.current = [];
+        timeoutsRef.current.push(setTimeout(updateImage, sub.time[newIndex] * 1000));
+
         return newIndex;
       });
     };
 
-    timeout = setTimeout(updateImage, sub.time[currentImageIndex] * 1000);
+    timeoutsRef.current.push(setTimeout(updateImage, sub.time[currentImageIndex] * 1000));
 
-    return () => clearTimeout(timeout);
-  }, [sub.images, sub.time, currentImageIndex]);
+    return () => {
+      timeoutsRef.current.forEach(timeout => clearTimeout(timeout));
+      timeoutsRef.current = [];
+    };
+  }, [sub.images, sub.time]);
+
 
   useEffect(() => {
     if (firstLoad) {
@@ -30,17 +39,23 @@ export default function ({ sub, box }) {
       return;
     }
 
+
+    ppplog('currentImageIndex useEffect', currentImageIndex);
+
+
     setZIndex([0, 1]);
-    const img_0 = sub.images[currentImageIndex];
-    const img_1 = sub.images[(currentImageIndex + 1) % sub.images.length];
-    setImages([img_0, img_1]);
+    // const img_0 = sub.images[currentImageIndex];
+    // const img_1 = sub.images[(currentImageIndex + 1) % sub.images.length];
+    // setImages([img_0, img_1]);
 
     const timeout = setTimeout(() => {
-      const img_0 = sub.images[(currentImageIndex + 1) % sub.images.length];
-      const img_1 = sub.images[(currentImageIndex + 2) % sub.images.length];
+      const img_0 = sub.images[(currentImageIndex ) % sub.images.length];
+      const img_1 = sub.images[(currentImageIndex + 1) % sub.images.length];
       setImages([img_0, img_1]);
       setZIndex([1, 0]);
-    }, sub.time[currentImageIndex] * 1000 - 300);
+      // ppplog('currentImageIndex', currentImageIndex, sub.time[currentImageIndex])
+
+    }, 500);
 
     return () => clearTimeout(timeout);
   }, [currentImageIndex, sub.images, sub.time]);

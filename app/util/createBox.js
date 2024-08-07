@@ -55,7 +55,7 @@ export const createBoxButton = () => {
 
 const PAYLOAD_IMAGE_ROLL = {
   images: ['/static/bg1.jpeg', '/static/bg2.jpeg', '/static/bg3.jpeg'],
-  time: [16, 6, 2],
+  time: [6, 3, 1],
   fullscreen: false,
 }
 
