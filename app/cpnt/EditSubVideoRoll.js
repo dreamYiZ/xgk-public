@@ -6,6 +6,7 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import ChooseImage from "./ChooseImage";
 import { Switch, FormControlLabel } from '@mui/material';
+import PreviewVideo from "./PreviewVideo";
 
 export default function EditVideoRollPayload() {
   const boxArr = useBoxStore((state) => state.boxArr);
@@ -91,7 +92,8 @@ export default function EditVideoRollPayload() {
               <Button component="span" onClick={() => removeVideo(index)}>
                 删除
               </Button>
-              {video && <video src={video} alt="预览" style={{ maxWidth: '100px', marginLeft: '10px' }} controls />}
+              {video && <PreviewVideo src={video} ml={1} />}
+
             </Box>
           ))}
           <Button component="span" onClick={addVideo}>
