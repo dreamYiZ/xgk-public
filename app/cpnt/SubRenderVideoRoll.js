@@ -1,5 +1,8 @@
 import * as React from 'react';
-import { useEffect, useState, useRef, useMemo, useCallback, useTransition } from "react";
+import {
+  useEffect, memo,
+  useState, useRef, useMemo, useCallback, useTransition
+} from "react";
 import Box from '@mui/material/Box';
 import { ppplog } from "../util/util";
 import useGlobalStore from '../store/useGlobal';
@@ -9,13 +12,24 @@ export default function ({ sub, box }) {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const videoRef = useRef([]);
   const [isPending, startTransition] = useTransition();
-  const [videoTwo, setVideoTwo] = useState(null);
   const [zIndex, setZIndex] = useState([1, 0]);
+  const [videoTwo, setVideoTwo] = useState(null);
 
   const { screenWidth, screenHeight, getIsTestOrDisplay } = useGlobalStore();
   const { videoList } = sub;
   const timeoutArrRef = useRef([]);
   const [firstLoad, setFirstLoad] = useState(true);
+  const [secondAutoPlay, setSecondAutoPlay] = useState(false);
+  const [firstAutoPlay, setFirstAutoPlay] = useState(true);
+  const [isFirstPlaying, setIsFirstPlaying] = useState(true);
+
+  // const videoTwo = useMemo(() => {
+  //   if (videoList.length < 2) return null;
+  //   const newIndex = currentVideoIndex % videoList.length;
+  //   const newIndexSecond = (newIndex + 1) % videoList.length;
+  //   return [videoList[newIndex], videoList[newIndexSecond]];
+  // }, [currentVideoIndex, videoList]);
+
 
   useEffect(() => {
     if (videoList.length < 2) {
@@ -30,49 +44,40 @@ export default function ({ sub, box }) {
   const handleVideoEnded = useCallback(() => {
     ppplog('handleVideoEnded');
     startTransition(() => {
+      // const newIndex = (prevIndex + 1) % videoList.length);
       setCurrentVideoIndex((prevIndex) => {
         const newIndex = (prevIndex + 1) % videoList.length;
-        const newIndexSecond = (newIndex + 1) % videoList.length;
-        setVideoTwo([videoList[newIndex], videoList[newIndexSecond]]);
+        const newIndexSecond = (prevIndex + 2) % videoList.length;
+        if (isFirstPlaying) {
+          setZIndex([0, 1]);
+          videoRef.current[1]?.play();
+          setSecondAutoPlay(true);
+          setFirstAutoPlay(false);
+          setIsFirstPlaying(false);
+          setVideoTwo([videoList[newIndexSecond], videoList[newIndex]]);
+
+        } else {
+          setZIndex([1, 0]);
+          videoRef.current[0]?.play();
+          setSecondAutoPlay(false);
+          setFirstAutoPlay(true);
+          setIsFirstPlaying(false);
+          setVideoTwo([videoList[newIndex], videoList[newIndexSecond]]);
+
+        }
         return newIndex;
       });
 
-      setZIndex([0, 1]);
-      videoRef.current[1]?.play();
+
     });
-  }, [videoList.length]);
+  }, [videoList]);
 
-  useEffect(() => {
-    ppplog('videoTwo', videoTwo);
-  }, [videoTwo]);
-
-  useEffect(() => {
-    if (firstLoad) {
-      setFirstLoad(false);
-      return;
-    }
-
-    const timeoutId = setTimeout(() => {
-      setZIndex([1, 0]);
-      // setVideoTwo([videoList[(currentVideoIndex + 1) % videoList.length], videoList[(currentVideoIndex + 2) % videoList.length]]);
-      setVideoTwo([videoList[currentVideoIndex], videoList[(currentVideoIndex + 1) % videoList.length]]);
-    }, 0);
-
-    timeoutArrRef.current.push(timeoutId);
-
-    return () => {
-      timeoutArrRef.current.forEach(timeout => {
-        clearTimeout(timeout);
-      });
-      timeoutArrRef.current = [];
-    };
-  }, [currentVideoIndex, videoList]);
 
   const commonStyle = useMemo(() => ({
     backgroundPosition: 'center center',
     backgroundSize: '100% 100%',
-    width: sub.fullscreen ? (!getIsTestOrDisplay() ? `${screenWidth}px` : '100vw') : box.width || '100%',
-    height: sub.fullscreen ? (!getIsTestOrDisplay() ? `${screenHeight}px` : '100vh') : box.height || '100%',
+    width: sub.fullscreen ? (getIsTestOrDisplay() ? '100vw' : `${screenWidth}px`) : box.width || '100%',
+    height: sub.fullscreen ? (getIsTestOrDisplay() ? '100vh' : `${screenHeight}px`) : box.height || '100%',
     position: sub.fullscreen ? 'fixed' : 'absolute',
     top: sub.fullscreen ? 0 : 'auto',
     left: sub.fullscreen ? 0 : 'auto',
@@ -84,16 +89,16 @@ export default function ({ sub, box }) {
       {videoTwo &&
         <>
           <RenderVideo index={0} videoRef={videoRef} commonStyle={commonStyle}
-            autoplay src={videoTwo[0]} zIndex={zIndex[0]} handleVideoEnded={handleVideoEnded} />
+            autoplay={firstAutoPlay} src={videoTwo[0]} zIndex={zIndex[0]} handleVideoEnded={handleVideoEnded} />
           <RenderVideo index={1} videoRef={videoRef} commonStyle={commonStyle}
-            src={videoTwo[1]} zIndex={zIndex[1]} handleVideoEnded={handleVideoEnded} />
+            autoplay={secondAutoPlay} src={videoTwo[1]} zIndex={zIndex[1]} handleVideoEnded={handleVideoEnded} />
         </>
       }
     </Box>
   );
 }
 
-const RenderVideo = ({
+const RenderVideo = memo(({
   handleVideoEnded,
   src,
   autoplay,
@@ -102,7 +107,6 @@ const RenderVideo = ({
   videoRef,
   index,
 }) => {
-  // ppplog('autoplay', autoplay);
   return (
     <Box style={{ ...commonStyle, zIndex: zIndex }}>
       <VideoJS
@@ -123,4 +127,4 @@ const RenderVideo = ({
       />
     </Box>
   );
-}
+})
