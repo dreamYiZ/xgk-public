@@ -1,6 +1,6 @@
 import {
   createBoxIFrame, createBoxButton,
-  createBoxImageRoll,
+  createBoxImageRoll, createBoxVideoRoll,
 } from "./createBox";
 import { SUB_TYPE } from "./subType";
 import { SUB_TYPE_DISPLAY } from "./subTypeDisplay";
@@ -1281,6 +1281,7 @@ export const MAP_TYPE_FACTORY_A = {
   [SUB_TYPE.IFRAME]: createBoxIFrame,
   [SUB_TYPE.BUTTON]: createBoxButton,
   [SUB_TYPE.IMAGE_ROLL]: createBoxImageRoll,
+  [SUB_TYPE.VIDEO_ROLL]: createBoxVideoRoll,
 
 };
 

@@ -51,6 +51,7 @@ export const SUB_TYPE = {
   IFRAME: "IFRAME",
 
   IMAGE_ROLL: 'IMAGE_ROLL',
+  VIDEO_ROLL: 'VIDEO_ROLL',
 }
 
 

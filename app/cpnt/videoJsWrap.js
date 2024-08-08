@@ -1,14 +1,32 @@
 // videojs wrapper
-import React, { useEffect } from 'react';
+import React, { useEffect, forwardRef, useImperativeHandle } from 'react';
 import videojs from 'video.js';
 import 'video.js/dist/video-js.css';
-import { emptyUndefined } from '../util/util';
+import { emptyUndefined, ppplog } from '../util/util';
 
-export const VideoJS = (props) => {
+export const VideoJS = forwardRef((props, ref) => {
   const videoRef = React.useRef(null);
   const playerRef = React.useRef(null);
   const [videoStyle, setVideoStyle] = React.useState(null);
   const { options, onReady, width, height } = props;
+
+
+  useImperativeHandle(ref, () => {
+    return {
+      play() {
+        const player = playerRef.current;
+        player.play();
+        // ppplog('player.play', player, player.play);
+      }
+      // focus() {
+      //   inputRef.current.focus();
+      // },
+      // scrollIntoView() {
+      //   inputRef.current.scrollIntoView();
+      // },
+    };
+  }, []);
+
 
   useEffect(() => {
     setVideoStyle({
@@ -59,6 +77,6 @@ export const VideoJS = (props) => {
       <div ref={videoRef} />
     </div>
   );
-}
+})
 
 export default VideoJS;

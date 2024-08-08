@@ -71,3 +71,22 @@ export const createBoxImageRoll = () => {
     }
   }
 }
+
+
+const PAYLOAD_VIDEO_ROLL = {
+  videoList: [],
+  fullscreen: false,
+}
+
+export const createBoxVideoRoll = () => {
+  return {
+    ...createBoxPayload(),
+    zIndex: 12,
+    width: 360,
+    height: 250,
+    sub: {
+      type: SUB_TYPE.VIDEO_ROLL,
+      ...PAYLOAD_VIDEO_ROLL
+    }
+  }
+}
