@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, memo } from 'react';
 import { Box } from '@mui/material';
 
-const SubRenderOneLineRightToLeftMultiple = ({ box, sub }) => {
+const SubRenderOneLineRightToLeftMultiple = memo(({ box, sub }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [animationDuration, setAnimationDuration] = useState(0);
   const [resetAnimation, setResetAnimation] = useState(false);
@@ -67,6 +67,6 @@ const SubRenderOneLineRightToLeftMultiple = ({ box, sub }) => {
       </style>
     </Box>
   );
-};
+});
 
 export default SubRenderOneLineRightToLeftMultiple;

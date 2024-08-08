@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { memo, useState, useEffect, useRef } from 'react';
 import { Box } from '@mui/material';
 
-const SubRenderOneLineRightToLeft = ({ box, sub }) => {
+const SubRenderOneLineRightToLeft = memo(({ box, sub }) => {
   const [animationDuration, setAnimationDuration] = useState(0);
   const textRef = useRef(null);
 
@@ -53,6 +53,6 @@ const SubRenderOneLineRightToLeft = ({ box, sub }) => {
       </style>
     </Box>
   );
-};
+});
 
 export default SubRenderOneLineRightToLeft;
