@@ -8,7 +8,7 @@ import { ppplog } from "../util/util";
 import useGlobalStore from '../store/useGlobal';
 import VideoJS from './videoJsWrap'; // Assuming you have a VideoJS wrapper component
 
-export default function ({ sub, box }) {
+export default memo(function ({ sub, box }) {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const videoRef = useRef([]);
   const [isPending, startTransition] = useTransition();
@@ -19,9 +19,9 @@ export default function ({ sub, box }) {
   const { videoList } = sub;
   const timeoutArrRef = useRef([]);
   const [firstLoad, setFirstLoad] = useState(true);
-  const [secondAutoPlay, setSecondAutoPlay] = useState(false);
+  const [secondAutoPlay, setSecondAutoPlay] = useState(true);
   const [firstAutoPlay, setFirstAutoPlay] = useState(true);
-  const [isFirstPlaying, setIsFirstPlaying] = useState(true);
+  const isFirstPlaying = useRef(true);
 
   // const videoTwo = useMemo(() => {
   //   if (videoList.length < 2) return null;
@@ -41,35 +41,45 @@ export default function ({ sub, box }) {
     setVideoTwo([videoList[newIndex], videoList[newIndexSecond]]);
   }, [videoList]);
 
-  const handleVideoEnded = useCallback(() => {
-    ppplog('handleVideoEnded');
-    startTransition(() => {
-      // const newIndex = (prevIndex + 1) % videoList.length);
-      setCurrentVideoIndex((prevIndex) => {
-        const newIndex = (prevIndex + 1) % videoList.length;
-        const newIndexSecond = (prevIndex + 2) % videoList.length;
-        if (isFirstPlaying) {
-          setZIndex([0, 1]);
-          videoRef.current[1]?.play();
-          setSecondAutoPlay(true);
-          setFirstAutoPlay(false);
-          setIsFirstPlaying(false);
-          setVideoTwo([videoList[newIndexSecond], videoList[newIndex]]);
+  const handleVideoEnded = useCallback((playerIndex) => {
+    if (playerIndex === 0 && isFirstPlaying || (playerIndex === 1 && !isFirstPlaying)) {
 
-        } else {
-          setZIndex([1, 0]);
-          videoRef.current[0]?.play();
-          setSecondAutoPlay(false);
-          setFirstAutoPlay(true);
-          setIsFirstPlaying(false);
-          setVideoTwo([videoList[newIndex], videoList[newIndexSecond]]);
+      ppplog('handleVideoEnded');
+      startTransition(() => {
+        // const newIndex = (prevIndex + 1) % videoList.length);
+        setCurrentVideoIndex((prevIndex) => {
+          const newIndex = (prevIndex + 1) % videoList.length;
+          const newIndexSecond = (prevIndex + 2) % videoList.length;
+          if (isFirstPlaying.current) {
+            setZIndex([0, 1]);
+            // videoRef.current[1]?.play();
+            // ppplog('videoRef.current[1]', videoRef.current[1]);
 
-        }
-        return newIndex;
+            videoRef.current[1]?.currentTime(0);
+            setSecondAutoPlay(true);
+            // setFirstAutoPlay(false);
+            isFirstPlaying.current = false;
+            setVideoTwo([videoList[newIndexSecond], videoList[newIndex]]);
+
+          } else {
+            setZIndex([1, 0]);
+            // videoRef.current[0]?.play();
+            // ppplog('videoRef.current[0]', videoRef.current[0]);
+            videoRef.current[0]?.currentTime(0);
+            setSecondAutoPlay(false);
+            // setFirstAutoPlay(true);
+            isFirstPlaying.current = true;
+            setVideoTwo([videoList[newIndex], videoList[newIndexSecond]]);
+
+          }
+          return newIndex;
+        });
+
+
+
       });
+    }
 
-
-    });
   }, [videoList]);
 
 
@@ -89,14 +99,14 @@ export default function ({ sub, box }) {
       {videoTwo &&
         <>
           <RenderVideo index={0} videoRef={videoRef} commonStyle={commonStyle}
-            autoplay={firstAutoPlay} src={videoTwo[0]} zIndex={zIndex[0]} handleVideoEnded={handleVideoEnded} />
+            autoplay={firstAutoPlay} src={videoTwo[0]} zIndex={zIndex[0]} handleVideoEnded={() => handleVideoEnded(0)} />
           <RenderVideo index={1} videoRef={videoRef} commonStyle={commonStyle}
-            autoplay={secondAutoPlay} src={videoTwo[1]} zIndex={zIndex[1]} handleVideoEnded={handleVideoEnded} />
+            autoplay={secondAutoPlay} src={videoTwo[1]} zIndex={zIndex[1]} handleVideoEnded={() => handleVideoEnded(1)} />
         </>
       }
     </Box>
   );
-}
+})
 
 const RenderVideo = memo(({
   handleVideoEnded,

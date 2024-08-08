@@ -17,6 +17,11 @@ export const VideoJS = forwardRef((props, ref) => {
         const player = playerRef.current;
         player.play();
         // ppplog('player.play', player, player.play);
+      },
+      currentTime(time = 0) {
+        const player = playerRef.current;
+        // ppplog('player.currentTime', player.currentTime)
+        player.currentTime(time);
       }
       // focus() {
       //   inputRef.current.focus();
